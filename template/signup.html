@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Post It|Sign Up</title>
+
+    <link rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+    <link rel="stylesheet" href="main.scss">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" id="my-header">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Post It</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#"></a></li>
+        <li class="dropdown">
+              <li id="user-id" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">login
+              <span class="caret"></span></li>
+              <ul id="login" class="dropdown-menu">
+                <p>
+                <form method="post" action="/" class="" >
+                   <div class="form-group" id="login">
+                    <p id="login-header">Log in here</p>
+                      <input type="text" placeholder = "username" name="username" class="form-control" id="usr" class="form-control" >
+                      <br>
+                      <input type="password" placeholder = "password" name="password" class="form-control" id="pwd">
+                        <br>
+                      <input type="submit" name="Sign In" class="btn btn-primary active" value="Sign In">
+                   </div>  
+                </form>
+                </p>
+              </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    </div> 
+
+  </nav>
+    <div class="container">
+      <div class = "jumbotron" id="signup-body">
+          <form method="post" action="" class="">
+              <div class="form-group" id="">
+              <p  id="signup-header">Sign Up here</p>
+            	<input type = "text" placeholder="firstname" name = "firstname" class="form-control" id="usr"  >
+            	<br>
+            	<input type = "text" placeholder="lastname" name = "lastname" class="form-control" id="usr" class="form-control">
+            	<br>
+            	<input type="text" placeholder = "username" name="username" class="form-control" id="usr" class="form-control">
+            	<br>
+            	<input type="email" placeholder = "email" name="email" class="form-control" id="usr" class="form-control">
+            	<br>
+            	<input type="password" placeholder = "password" name="password" class="form-control" id="pwd">
+                <br>
+            	<input type="submit" name="sign up" value="Sign Up" class="btn btn-primary active">
+               </div>  
+          </form>
+      </div>
+    </div>
+  </body>
+</html>
