@@ -1,21 +1,25 @@
 'use strict';
 
-//require('dotenv').config();
-
-//import * as babel from 'babel-core';
-
-//babel.transform("code();", options);
-
-//import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 import express from 'express';
 
-import Sequelize from 'sequelize';
+import {sequelize} from './db.js';
+
+import {home,signup,allUsers} from './controllers/userController';
+
+import morgan from 'morgan';
+
+import * as bodyParser from 'body-parser';
+
+//import debug from 'debug';
+
+
+dotenv.config();
 
 const app = express();
 
-const sequelize = new Sequelize('postgres://postgres:mike@localhost:5432/post-it');
-
+const port = process.env.PORT  ;
 
 sequelize
   .authenticate()
@@ -26,7 +30,29 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-app.use( (req, res, next) =>  {
+//app.use('/',home);
+
+
+app.use(morgan("dev"));
+
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(bodyParser.json());
+
+
+app.get('/api/users',allUsers);
+
+
+app.post('/api/user/signup',signup);
+
+
+//method to get error
+
+app.use(function(req, res) {
+  res.status(404).send({url: req.originalUrl + ' not found'})
+});
+
+/*app.use( (req, res, next) =>  {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -43,10 +69,10 @@ app.use((err, req, res, next) => {
   // render the error page
 
   res.status(err.status || 500);
-  console.log(err);
-});
+  console.log(err.status);
+  console.log(err.message);
+});*/
 
-const port = process.env.PORT || 3000 ;
 
 app.listen(port, () => {
   console.log('Listening on port 3000...')

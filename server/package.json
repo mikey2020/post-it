@@ -36,8 +36,13 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
+    "debug": "^2.6.8",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "method-override": "^2.3.9",
+    "morgan": "^1.8.2",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.0.0"
