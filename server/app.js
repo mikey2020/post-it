@@ -14,7 +14,7 @@ import Sequelize from 'sequelize';
 
 const app = express();
 
-const sequelize = new Sequelize('postgres://postgres:mike@localhost:5432/postit');
+const sequelize = new Sequelize('postgres://postgres:mike@localhost:5432/post-it');
 
 
 sequelize
