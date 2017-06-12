@@ -10,7 +10,21 @@
 
 import express from 'express';
 
+import Sequelize from 'sequelize';
+
 const app = express();
+
+const sequelize = new Sequelize('postgres://postgres:mike@localhost:5432/postit');
+
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 app.use( (req, res, next) =>  {
   let err = new Error('Not Found');

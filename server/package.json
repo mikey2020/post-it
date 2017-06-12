@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d lib",
+    "build": "babel app.js -d dist --presets es2015,stage-2",
     "start": "babel-node app.js --presets es2015,stage-2",
+    "serve": "node dist/app.js",
     "eslint": "./node_modules/.bin/eslint app.js"
   },
   "repository": {
