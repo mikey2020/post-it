@@ -28,16 +28,19 @@ const User = sequelize.define('user', {
 const hashPassword = (password,salt) => {
 	let hashedPassword = crypto.pbkdf2Sync(password, salt , 1000, 64, 'sha512');
 	hashedPassword = hashedPassword.toString('hex');
-	console.log(hashedPassword.toString('hex')); 
+	//console.log(hashedPassword.toString('hex')); 
 	return hashedPassword;
 }
 
-/*User.beforeCreate((user, options) => {
-  user.salt = new Buffer(crypto.randomBytes(16));
-  return hashPassword(user.password,user.salt).then(hashedPw => {
-    user.password = hashedPw;
-  });
-});*/
+User.beforeCreate((user, options) => {
+    user.salt = crypto.randomBytes(16);
 
+    user.password = hashPassword(user.password,user.salt);
+    //user.salt; 	
+});
 
-export {User};
+User.afterCreate((user,options) => {
+	console.log("user created successfully");
+});
+
+export {User,hashPassword};

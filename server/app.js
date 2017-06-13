@@ -6,7 +6,7 @@ import express from 'express';
 
 import {sequelize} from './db.js';
 
-import {home,signup,allUsers} from './controllers/userController';
+import {home,signup,allUsers,signin} from './controllers/userController';
 
 import morgan from 'morgan';
 
@@ -44,6 +44,8 @@ app.get('/api/users',allUsers);
 
 
 app.post('/api/user/signup',signup);
+
+app.post('/api/user/signin',signin);
 
 
 //method to get error

@@ -1,6 +1,6 @@
 import {sequelize} from '../db.js';
 
-import {User} from '../models/userModel.js'
+import {User,hashPassword} from '../models/userModel.js'
 
 const getErrorMessage = (err) => {  
   let message = '';
@@ -33,7 +33,7 @@ const home = (req,res) => {
 const signup = (req,res) =>{
 	console.log(req.body);
 	// force: true will drop the table if it already exists
-	User.sync({force: true}).then(() => {
+	User.sync({force: false}).then(() => {
 	  // Table created
 	  return User.create({
 	  	userName: req.body.username,
@@ -42,10 +42,10 @@ const signup = (req,res) =>{
 	  })
 	  .catch((err) => {
 		  console.log(err);
-		  res.send(getErrorMessage(err));
+		  res.json({message : "error saving to database"});
 		});
-	 
 	});
+	res.json({ message:  req.body.username + ' successfully added' });
 }
 
 const allUsers = (req,res) => {
@@ -57,4 +57,50 @@ const allUsers = (req,res) => {
 	});
 }
 
-export {home,signup,allUsers} ;
+const signin = (req,res) => {
+	console.log(req.body);
+	User.findAll({
+		where: {
+			userName: req.body.username
+		}
+	})
+	.then((user) => {
+
+	   let data = JSON.stringify(user);
+
+	   data = JSON.parse(data);
+
+	  console.log(data[0].password);
+
+	  let tempPass = hashPassword(req.body.password,data[0].salt);
+	  
+	  console.log(tempPass);
+
+	  if(checkPassword(data[0].password,tempPass) === true){
+
+	  	res.json({message: req.body.username + " is valid"});
+	  }
+
+	  else{
+	  	res.json(data);
+	  	//res.json({message: "user is not valid"});
+	  }
+	  //console.log(tempPass);
+	  //res.json(data);
+	})
+	.catch((err) => {
+	    console.log(err);
+	    res.json({message: "Invalid login parameters"});
+	})
+}
+
+const checkPassword = (password1,password2) => {
+	if(password1 == password2){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+export {home,signup,allUsers,signin} ;
