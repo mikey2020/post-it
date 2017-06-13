@@ -2,23 +2,20 @@ import {sequelize} from '../db.js';
 
 import Sequelize from 'sequelize';
 
+import {User} from './userModel.js'
+
 const Group = sequelize.define('group', {
   name: {
     type: Sequelize.STRING,
     notEmpty: true
   },
-  posts:{
-  	type: Sequelize.STRING,
-  	
-  },
   creator:{
-  	type: Sequelize.STRING,
-  	len: [5,30]
+  	type: Sequelize.STRING
   },
-  members:{
-  	type: Sequelize.ARRAY(Sequelize.STRING)
-  },
-
-  salt: Sequelize.STRING
-
 });
+
+//User.hasMany(Group, {as: 'groups'});
+//User.hasMany(Group,{foreignKey: 'user_name', sourceKey: 'userName'});
+Group.belongsTo(User, {foreignKey: 'user_id', targetKey: 'id'});
+
+export {Group} ;
