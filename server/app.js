@@ -8,11 +8,13 @@ import {sequelize} from './db.js';
 
 import {home,signup,allUsers,signin} from './controllers/userController';
 
-import {createGroup} from './controllers/groupController';
+import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controllers/groupController';
 
 import morgan from 'morgan';
 
 import * as bodyParser from 'body-parser';
+
+import session from 'express-session';
 
 //import debug from 'debug';
 
@@ -41,6 +43,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
 
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true
+
+}));
 
 app.get('/api/users',allUsers);
 
@@ -50,6 +58,12 @@ app.post('/api/user/signup',signup);
 app.post('/api/user/signin',signin);
 
 app.post('/api/group',createGroup);
+
+app.post('/api/group/:groupId/user',addUserToGroup);
+
+app.post('/api/group/:groupId/message',postMessageToGroup);
+
+app.get('/api/group/:groupId/messages',getPosts);
 
 
 //method to get error

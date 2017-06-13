@@ -9,7 +9,8 @@ import Sequelize from 'sequelize';
 const User = sequelize.define('user', {
   userName: {
     type: Sequelize.STRING,
-    notEmpty: true
+    notEmpty: true,
+    unique: true
   },
   email:{
   	type: Sequelize.STRING,
@@ -34,10 +35,28 @@ const Group = sequelize.define('group', {
   },
 });
 
+const UserGroups = sequelize.define('usergroup',{
+	userId: Sequelize.INTEGER,
+	groupId: Sequelize.INTEGER
+});
+
+const Post = sequelize.define('post',{
+	post: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+
+	groupName: Sequelize.STRING
+
+});
+
 //Group.belongsTo(User, {foreignKey: 'user_id', targetKey: 'id'});
 //User.hasMany(Group,{foreignKey: 'user_name', sourceKey: 'userName'});
 //Group.belongsTo(User, {foreignKey: 'user_name', targetKey: 'userName'});
+
 User.hasMany(Group, {as: 'groups'});
+Group.hasMany(Post,{as: 'posts'});
+
 const hashPassword = (password,salt) => {
 	let hashedPassword = crypto.pbkdf2Sync(password, salt , 1000, 64, 'sha512');
 	hashedPassword = hashedPassword.toString('hex');
@@ -56,4 +75,12 @@ User.afterCreate((user,options) => {
 	console.log("user created successfully");
 });
 
-export {User,hashPassword,Group};
+UserGroups.beforeCreate((user,options) => {
+	user.groupId = parseInt(user.groupId);
+})
+
+Post.beforeCreate((user,options) => {
+	user.groupId = parseInt(user.groupId);
+});
+
+export {User,hashPassword,Group,UserGroups,Post};

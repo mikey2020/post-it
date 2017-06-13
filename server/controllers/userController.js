@@ -1,6 +1,6 @@
 import {sequelize} from '../db.js';
 
-import {User,hashPassword} from '../models/userModel.js'
+import {User,hashPassword} from '../models/userModel.js';
 
 const getErrorMessage = (err) => {  
   let message = '';
@@ -42,7 +42,7 @@ const signup = (req,res) =>{
 	  })
 	  .catch((err) => {
 		  console.log(err);
-		  res.json({message : "error saving to database"});
+		  res.json({ message : "error saving to database"});
 		});
 	});
 	res.json({ message:  req.body.username + ' successfully added' });
@@ -57,8 +57,10 @@ const allUsers = (req,res) => {
 	});
 }
 
+//not finished with signin route
 const signin = (req,res) => {
 	console.log(req.body);
+	req.session.username = req.body.username;
 	User.findAll({
 		where: {
 			userName: req.body.username
