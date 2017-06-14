@@ -6,8 +6,13 @@ node_js:
 services:
   - postgresql
 
+postgres:
+  adapter: postgresql
+  database: post-it
+  username: postgres
+
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'create database post-it;' -U postgres
 
 addons:
   postgresql: "9.6"
