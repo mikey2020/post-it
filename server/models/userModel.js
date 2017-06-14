@@ -4,6 +4,8 @@ import {sequelize} from '../db.js';
 
 import Sequelize from 'sequelize';
 
+import bcrypt from 'bcrypt-nodejs';
+
 //import {Group} from './groupModel.js';
 
 const User = sequelize.define('user', {
@@ -58,17 +60,18 @@ User.hasMany(Group, {as: 'groups'});
 Group.hasMany(Post,{as: 'posts'});
 
 const hashPassword = (password,salt) => {
-	let hashedPassword = crypto.pbkdf2Sync(password, salt , 1000, 64, 'sha512');
-	hashedPassword = hashedPassword.toString('hex');
+	let hashedPassword = crypto.pbkdf2Sync(password, salt ,10, 20,'sha512');
+	hashedPassword = hashedPassword.toString('base64');
 	//console.log(hashedPassword.toString('hex')); 
 	return hashedPassword;
 }
 
 User.beforeCreate((user, options) => {
-    user.salt = crypto.randomBytes(16);
 
-    user.password = hashPassword(user.password,user.salt);
-    //user.salt; 	
+    //user.salt = new Buffer(crypto.randomBytes(16).toString('base64'));
+    //user.password = hashPassword(user.password,user.salt);
+    //console.log(user.salt); 
+    user.password = bcrypt.hashSync(user.password);	
 });
 
 User.afterCreate((user,options) => {
@@ -83,4 +86,4 @@ Post.beforeCreate((user,options) => {
 	user.groupId = parseInt(user.groupId);
 });
 
-export {User,hashPassword,Group,UserGroups,Post};
+export {User,hashPassword,Group,UserGroups,Post,bcrypt};

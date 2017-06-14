@@ -1,26 +1,26 @@
 import {sequelize} from '../db.js';
 
-import {User,hashPassword} from '../models/userModel.js';
+import {User,hashPassword,bcrypt} from '../models/userModel.js';
 
 const getErrorMessage = (err) => {  
   let message = '';
   if (err.code) {    
-    switch (err.code) {      
-      case 11000:
-      message = "Email has  been used"   ;
-      break;   
-      case 11001:        
-      message = 'Username already exists';        
-      break;      
-      default:       
-      message = 'Something went wrong';    
-    }  
+	switch (err.code) {      
+	  case 11000:
+	  message = "Email has  been used"   ;
+	  break;   
+	  case 11001:        
+	  message = 'Username already exists';        
+	  break;      
+	  default:       
+	  message = 'Something went wrong';    
+	}  
   } 
   else {    
-    for (let errName in err.errors) {      
-      if (err.errors[errName].message) 
-        message = err.errors[errName]. message;    
-    }  
+	for (let errName in err.errors) {      
+	  if (err.errors[errName].message) 
+		message = err.errors[errName]. message;    
+	}  
   }
   return message; 
 };
@@ -36,9 +36,9 @@ const signup = (req,res) =>{
 	User.sync({force: false}).then(() => {
 	  // Table created
 	  return User.create({
-	  	userName: req.body.username,
-	  	email: req.body.email,
-	  	password: req.body.password
+		userName: req.body.username,
+		email: req.body.email,
+		password: req.body.password
 	  })
 	  .catch((err) => {
 		  console.log(err);
@@ -50,10 +50,10 @@ const signup = (req,res) =>{
 
 const allUsers = (req,res) => {
 	User.findAll({}).then((data) => {
-	    console.log(JSON.stringify(data));
-	    res.json(data);
+		console.log(JSON.stringify(data));
+		res.json(data);
 	}).catch((err) => {
-	    console.log(err);
+		console.log(err);
 	});
 }
 
@@ -74,25 +74,32 @@ const signin = (req,res) => {
 
 	  console.log(data[0].password);
 
-	  let tempPass = hashPassword(req.body.password,data[0].salt);
+	  //const tempPass = hashPassword(req.body.password,data[0].salt);
 	  
-	  console.log(tempPass);
+	  //console.log(tempPass);
 
-	  if(checkPassword(data[0].password,tempPass) === true){
+	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
-	  	res.json({message: req.body.username + " is valid"});
+	  	req.session.name = req.body.username ;
+	  	req.session.id = data[0].id;
+		res.json({message: req.body.username + " is valid"});
 	  }
 
+	  /*if(data[0].password == req.body.password){
+	  	res.json({message: "password is ok"});
+	  }*/
+
 	  else{
-	  	res.json(data);
-	  	//res.json({message: "user is not valid"});
+
+		res.json(data);
+		//res.json({message: "user is not valid"});
 	  }
 	  //console.log(tempPass);
 	  //res.json(data);
 	})
 	.catch((err) => {
-	    console.log(err);
-	    res.json({message: "Invalid login parameters"});
+		console.log(err);
+		res.json({message: "Invalid login parameters"});
 	})
 }
 
