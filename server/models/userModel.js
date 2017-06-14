@@ -21,9 +21,7 @@ const User = sequelize.define('user', {
   password:{
   	type: Sequelize.STRING,
   	len: [5,30]
-  },
-
-  salt: Sequelize.STRING
+  }
 
 });
 

@@ -49,6 +49,8 @@
     "nodemon": "^1.11.0",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.0.0"
+    "sequelize": "^4.0.0",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
   }
 }
