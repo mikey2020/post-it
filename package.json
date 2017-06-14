@@ -1,0 +1,19 @@
+{
+  "name": "post-it",
+  "version": "1.0.0",
+  "description": "Post It app for posting messages to different groups",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikey2020/post-it.git"
+  },
+  "author": "Michael Eboagu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikey2020/post-it/issues"
+  },
+  "homepage": "https://github.com/mikey2020/post-it#readme"
+}
