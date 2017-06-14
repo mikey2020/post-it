@@ -16,6 +16,8 @@ import * as bodyParser from 'body-parser';
 
 import session from 'express-session';
 
+import pg from 'pg';
+
 //import debug from 'debug';
 
 
