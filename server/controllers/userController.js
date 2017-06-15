@@ -1,36 +1,9 @@
 import {sequelize} from '../db.js';
 
-import {User,hashPassword,bcrypt} from '../models/userModel.js';
-
-const getErrorMessage = (err) => {  
-  let message = '';
-  if (err.code) {    
-	switch (err.code) {      
-	  case 11000:
-	  message = "Email has  been used"   ;
-	  break;   
-	  case 11001:        
-	  message = 'Username already exists';        
-	  break;      
-	  default:       
-	  message = 'Something went wrong';    
-	}  
-  } 
-  else {    
-	for (let errName in err.errors) {      
-	  if (err.errors[errName].message) 
-		message = err.errors[errName]. message;    
-	}  
-  }
-  return message; 
-};
-
-
-const home = (req,res) => {
-	res.send("welcome home");
-}
+import {User,hashPassword,bcrypt} from '../models/models.js';
 
 const signup = (req,res) =>{
+
 	console.log(req.body);
 	// force: true will drop the table if it already exists
 	User.sync({force: false}).then(() => {
@@ -57,10 +30,12 @@ const allUsers = (req,res) => {
 	});
 }
 
-//not finished with signin route
+
 const signin = (req,res) => {
 	console.log(req.body);
+	
 	req.session.username = req.body.username;
+
 	User.findAll({
 		where: {
 			userName: req.body.username
@@ -74,10 +49,6 @@ const signin = (req,res) => {
 
 	  console.log(data[0].password);
 
-	  //const tempPass = hashPassword(req.body.password,data[0].salt);
-	  
-	  //console.log(tempPass);
-
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
 	  	req.session.name = req.body.username ;
@@ -85,18 +56,14 @@ const signin = (req,res) => {
 		res.json({message: req.body.username + " is valid"});
 	  }
 
-	  /*if(data[0].password == req.body.password){
-	  	res.json({message: "password is ok"});
-	  }*/
-
 	  else{
 
 		res.json(data);
-		//res.json({message: "user is not valid"});
+
 	  }
-	  //console.log(tempPass);
-	  //res.json(data);
+	 
 	})
+
 	.catch((err) => {
 		console.log(err);
 		res.json({message: "Invalid login parameters"});
@@ -112,4 +79,4 @@ const checkPassword = (password1,password2) => {
 	}
 }
 
-export {home,signup,allUsers,signin} ;
+export {signup,allUsers,signin} ;

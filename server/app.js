@@ -6,7 +6,7 @@ import express from 'express';
 
 import {sequelize} from './db.js';
 
-import {home,signup,allUsers,signin} from './controllers/userController';
+import {signup,allUsers,signin} from './controllers/userController';
 
 import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controllers/groupController';
 
@@ -15,8 +15,6 @@ import morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 
 import session from 'express-session';
-
-import pg from 'pg';
 
 //import debug from 'debug';
 
