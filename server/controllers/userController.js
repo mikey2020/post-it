@@ -79,4 +79,4 @@ const checkPassword = (password1,password2) => {
 	}
 }
 
-export {home,signup,allUsers,signin} ;
+export {signup,allUsers,signin} ;
