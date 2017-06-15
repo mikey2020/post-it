@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=master)](https://travis-ci.org/mikey2020/post-it)
+[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)](https://travis-ci.org/mikey2020/post-it)
 
 # post-it
 PostIt is a simple application that allows friends and colleagues create groups for notifications. 
