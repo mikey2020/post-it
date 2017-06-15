@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {User,Group,Post} from '../models/userModel.js';
+import {User,Group,Post} from '../models/models.js';
 import should from 'should' ;
 import '../app.js';
 
