@@ -53,6 +53,14 @@ describe('Group Model Unit Tests:', () => {
       	done();
 
 	 });
+
+	 beforeEach((done) => {    
+
+	 	User.create({ userName: "test-name", email: "test@gmail.com",password: "test"});
+      	
+      	done();
+
+	 });
  
 
 	describe(' Testing creation of group ',() => {
@@ -82,6 +90,17 @@ describe('Group Model Unit Tests:', () => {
 		done();
 
 	});
+
+	afterEach((done) => {
+		User.destroy({
+			where: {
+				userName: "test-name"
+			}
+		});
+
+		done();
+
+	});
 	
 });
 
@@ -90,7 +109,15 @@ describe('Post Model Unit Tests:', () => {
 
 	 beforeEach((done) => {    
 
-	 	Post.create({ post: "test-post", groupId: 99 , groupName: "test-group"});
+	 	Post.create({ post: "test-post", groupId: 10 , groupName: "test-group"});
+      	
+      	done();
+
+	 });
+
+	 beforeEach((done) => {    
+
+	 	Group.create({ name: "test-group", creator: "test-creator"});
       	
       	done();
 
@@ -102,7 +129,7 @@ describe('Post Model Unit Tests:', () => {
 		it('Post should be successfully created' , () => {
 
 
-			Post.findOne({where: {groupId: 99}}).then(post => {
+			Post.findOne({where: {groupId: 10}}).then(post => {
 			  //console.log(user.get('firstName'));
 
 			 should.exist(post);
@@ -116,7 +143,18 @@ describe('Post Model Unit Tests:', () => {
 	afterEach((done) => {
 		Post.destroy({
 			where: {
-				groupId: 99
+				groupId:  10
+			}
+		});
+
+		done();
+
+	});
+
+	afterEach((done) => {
+		Group.destroy({
+			where: {
+				name: "test-group"
 			}
 		});
 
