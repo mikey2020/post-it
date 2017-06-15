@@ -44,7 +44,7 @@ describe('User Model Unit Tests:', () => {
 });
 
 
-/*describe('Group Model Unit Tests:', () => { 
+describe('Group Model Unit Tests:', () => { 
 
 	 beforeEach((done) => {    
 
@@ -80,7 +80,7 @@ describe('User Model Unit Tests:', () => {
 	
 	});
 
-	afterEach((done) => {
+	/*afterEach((done) => {
 		Group.destroy({
 			where: {
 				name: "test-group"
@@ -100,7 +100,7 @@ describe('User Model Unit Tests:', () => {
 
 		done();
 
-	});
+	});*/
 	
 });
 
@@ -140,7 +140,7 @@ describe('Post Model Unit Tests:', () => {
 	
 	});
 
-	afterEach((done) => {
+	/*afterEach((done) => {
 		Post.destroy({
 			where: {
 				groupId:  10
@@ -160,6 +160,6 @@ describe('Post Model Unit Tests:', () => {
 
 		done();
 
-	});
+	});*/
 	
-});*/
+});
