@@ -1,6 +1,6 @@
 import {sequelize} from '../db.js';
 
-import {Group,UserGroups,Post} from '../models/userModel.js';
+import {Group,UserGroups,Post} from '../models/models.js';
 
 const createGroup = (req,res) => {
 	console.log(req.body);

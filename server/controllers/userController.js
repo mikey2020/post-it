@@ -1,6 +1,6 @@
 import {sequelize} from '../db.js';
 
-import {User,hashPassword,bcrypt} from '../models/userModel.js';
+import {User,hashPassword,bcrypt} from '../models/models.js';
 
 const signup = (req,res) =>{
 
