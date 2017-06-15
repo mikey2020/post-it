@@ -30,7 +30,7 @@ describe('User Model Unit Tests:', () => {
 	
 	});
 
-	afterEach((done) => {
+	/*afterEach((done) => {
 		User.destroy({
 			where: {
 				userName: "test-name"
@@ -39,7 +39,7 @@ describe('User Model Unit Tests:', () => {
 
 		done();
 
-	});
+	});*/
 	
 });
 
