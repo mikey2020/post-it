@@ -16,7 +16,13 @@ import * as bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-//import debug from 'debug';
+import webpack from 'webpack';
+
+import webpackMiddleware from 'webpack-dev-middleware';
+
+import webpackConfig from '../webpack.config.dev';
+
+import path from 'path';
 
 
 dotenv.config();
@@ -50,6 +56,8 @@ app.use(session({
 
 }));
 
+app.use(webpackMiddleware(webpack(webpackConfig)));
+
 app.get('/api/users',allUsers);
 
 
@@ -65,8 +73,9 @@ app.post('/api/group/:groupId/message',postMessageToGroup);
 
 app.get('/api/group/:groupId/messages',getPosts);
 
-
-//method to get error
+app.get('/*',(req,res) => {
+  res.sendFile(path.join(process.cwd() + '/client/index.html'));
+});
 
 app.use(function(req, res) {
   res.status(404).send({url: req.originalUrl + ' not found'})
