@@ -7,7 +7,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create database my_app;' -U postgres
+  - psql -c 'create database my_app;' -U postgres -h localhost
 
 addons:
   postgresql: "9.6"

@@ -27,6 +27,7 @@ const allUsers = (req,res) => {
 		res.json(data);
 	}).catch((err) => {
 		console.log(err);
+		res.json({message : "Error occured please try again"})
 	});
 }
 
