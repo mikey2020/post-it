@@ -3,7 +3,7 @@ import request from 'supertest';
 
 describe('Testing GET routes', () => {
 
-      it('it should GET all users in database', (done) => {
+      /*it('it should GET all users in database', (done) => {
         request(app)
             .get('/api/users')
             .expect(200)
@@ -14,7 +14,7 @@ describe('Testing GET routes', () => {
                 res.body.should.be.a.Array(); 
               done();
             });
-      });
+      });*/
 
       it('it should GET "login message" when trying access message without logging in', (done) => {
         request(app)
