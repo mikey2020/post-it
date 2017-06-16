@@ -4,10 +4,13 @@ import {Route,IndexRoute} from 'react-router';
 
 import App from './components/App.jsx';
 
-import Greetings from './components/Greetings'
+import Greetings from './components/Greetings.jsx';
+
+import SignupPage from './components/signup/SignupPage.jsx';
 
 export default (
 	<Route path ="/" component={App}>
 		<IndexRoute component={Greetings}/>
+		<Route path="signup" component={SignupPage}/>
 	</Route>
 )

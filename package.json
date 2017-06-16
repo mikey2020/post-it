@@ -13,7 +13,9 @@
     "start": "babel-node server/app.js --presets es2015,stage-2",
     "serve": "node dist/app.js",
     "server": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
-    "eslint": "./node_modules/.bin/eslint server/app.js"
+    "eslint": "./node_modules/.bin/eslint server/app.js",
+    "build:dev": "webpack --env=dev --progress --profile --colors",
+    "build:dist": "webpack --env=prod --progress --profile --colors"
   },
   "repository": {
     "type": "git",

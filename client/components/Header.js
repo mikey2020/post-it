@@ -1,15 +1,16 @@
 import React from 'react';
 
+import {Link} from 'react-router';
+
 export default () => {
 	return (
 		<nav className="navbar navbar-inverse" id="my-header">
 	      <div className="container-fluid">
 	        <div className="navbar-header">
-	          <a className="navbar-brand" href="#">Post It</a>
+	          <Link to="/" className="navbar-brand">Post It</Link>
 	        </div>
 	        <ul className="nav navbar-nav">
-	          <li className="active"><a href="#">Home</a></li>
-	          <li><a href="#"> login</a></li>
+	          <li><Link to="/signup">SignUp</Link></li>
 	        </ul>
 	      </div>
 	    </nav>
