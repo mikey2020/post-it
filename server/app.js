@@ -22,7 +22,7 @@ import webpackMiddleware from 'webpack-dev-middleware';
 
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import webpackConfig from '../webpack.config.dev';
+import webpackConfig from '../webpack.config';
 
 import path from 'path';
 
