@@ -11,7 +11,8 @@ class SignupForm extends React.Component{
 			username: '',
 			email: '',
 			password: '',
-			passwordConfirmation: ''
+			passwordConfirmation: '',
+			errors: {}
 		}
 
 		this.onChange = this.onChange.bind(this);
@@ -25,7 +26,12 @@ class SignupForm extends React.Component{
 	onSubmit(e){
 		e.preventDefault();
 
-		this.props.userSignupRequest({"username": this.state.username ,"email":this.state.email ,"password":this.state.password});	
+		this.props.userSignupRequest({"username": this.state.username ,"email":this.state.email ,"password":this.state.password}).then(
+			() => {},
+
+			({data}) => this.setState({errors: data})
+
+		);
 		
 	}
 	render(){

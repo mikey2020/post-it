@@ -2,34 +2,34 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
-import Validator from 'validator' ;
+import validator from 'validator' ;
 
 import isEmpty from 'lodash/isEmpty';
 
 const validateInput = (data) => {
 	let errors = {} ;
 
-	if(Validator.isNull(data.username)){
+	if(data.username === null || data.username == ''){
 		errors.username = "Username is required";
 	}
 
-	if(Validator.isNull(data.email)){
+	if(data.email === null || data.email == '' ){
 		errors.email = "Email is required";
 	}
 
-	if(!Validator.isEmail(data.email)){
+	if(!validator.isEmail(data.email)){
 		errors.email = "Email is invalid";
 	}
 
-	if(Validator.isNull(data.password)){
+	if(data.password === null || data.password == '' ){
 		errors.password = "Password is required";
 	}
 
-	if(Validator.isNull(data.passwordConfirmation)){
+	if(data.passwordConfirmation === null || data.passwordConfirmation == ''){
 		errors.passwordConfirmation = "Password Confirmation is required";
 	}
 
-	if(!Validator.equals(data.password,data.passwordConfirmation)){
+	if(!validator.equals(data.password,data.passwordConfirmation)){
 		errors.passwordConfirmation = "Passwords do not match";
 	}
 
