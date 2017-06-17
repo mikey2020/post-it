@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 
 import {userSignupRequest} from '../../actions/signupActions';
 
+import classnames from 'classnames';
+
+import {validateInput} from '../../../server/middlewares/validations.js'
+
 class SignupForm extends React.Component{
 	constructor(props){
 		super(props);
@@ -12,11 +16,25 @@ class SignupForm extends React.Component{
 			email: '',
 			password: '',
 			passwordConfirmation: '',
-			errors: {}
+			errors: {},
+			isLoading: false
 		}
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+	}
+
+	isValid(){
+
+		const {errors,isValid} = validateInput(this.state);
+
+		if(!isValid){
+			this.setState({errors});
+		}
+
+		console.log(isValid);
+		return isValid;
+
 	}
 
 	onChange(e){
@@ -24,22 +42,28 @@ class SignupForm extends React.Component{
 	}
 
 	onSubmit(e){
-		e.preventDefault();
 
-		this.props.userSignupRequest({"username": this.state.username ,"email":this.state.email ,"password":this.state.password}).then(
-			() => {},
+		//if(this.isValid()){
+			this.setState({errors: {} , isLoading: true});
 
-			({data}) => this.setState({errors: data})
+			e.preventDefault();
 
-		);
+			this.props.userSignupRequest(this.state).then(
+				() => {},
+
+				({data}) => this.setState({errors: data})
+
+			);
+		//}
 		
 	}
-	render(){
 
+	render(){
+		const {errors} = this.state ;
 		return(
 	    	<div className= "jumbotron" id="signup-body">
 	          <form onSubmit={this.onSubmit}>
-	              <div className="form-group" id="">
+	              <div className="form-group">
 	              <p  id="signup-header">Sign Up here</p>
 	            	<br/>
 	            	<input 
@@ -50,7 +74,9 @@ class SignupForm extends React.Component{
 	            		name="username" 
 	            		className="form-control" 
 	            		id="usr" />
-	            		<br/>
+	 
+	            		{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
+	            		
 	            	<input 
 	            		value={this.state.email}
 	            	    onChange={this.onChange}
@@ -59,7 +85,8 @@ class SignupForm extends React.Component{
 	            		name="email" 
 	            		className="form-control" 
 	            		id="usr" />
-	            		<br/>
+	            		
+	            		{errors.email ? <span className="help-block">{errors.email}</span> : <br/>}
 	            		
 	            	<input 
 	            		value={this.state.password}
@@ -69,7 +96,9 @@ class SignupForm extends React.Component{
 	            		name="password" 
 	            		className="form-control" 
 	            		id="pwd"/>
-	            		<br/>
+	            		
+	            		{ errors.password ? <span className="help-block">{errors.password}</span> : <br/>}
+
 	            	<input 
 	            		value={this.state.passwordConfirmation}
 	            	    onChange={this.onChange}
@@ -78,8 +107,11 @@ class SignupForm extends React.Component{
 	            		name="passwordConfirmation" 
 	            		className="form-control" 
 	            		id="pwd"/>
-	            		<br/>
+	            		
+	            		{errors.passwordConfirmation ? <span className="help-block">{errors.passwordConfirmation}</span> : <br/>}
+
 	            	<input 
+	            		disabled={this.state.isLoading}
 	            		type="submit" 
 	            		name="sign up" 
 	            		value="Sign Up" 

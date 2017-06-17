@@ -2,42 +2,8 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
-import validator from 'validator' ;
+import {validateInput} from '../middlewares/validations.js'
 
-import isEmpty from 'lodash/isEmpty';
-
-const validateInput = (data) => {
-	let errors = {} ;
-
-	if(data.username === null || data.username == ''){
-		errors.username = "Username is required";
-	}
-
-	if(data.email === null || data.email == '' ){
-		errors.email = "Email is required";
-	}
-
-	if(!validator.isEmail(data.email)){
-		errors.email = "Email is invalid";
-	}
-
-	if(data.password === null || data.password == '' ){
-		errors.password = "Password is required";
-	}
-
-	if(data.passwordConfirmation === null || data.passwordConfirmation == ''){
-		errors.passwordConfirmation = "Password Confirmation is required";
-	}
-
-	if(!validator.equals(data.password,data.passwordConfirmation)){
-		errors.passwordConfirmation = "Passwords do not match";
-	}
-
-	return {
-		errors,
-		isValid: isEmpty(errors)
-	}
-}
 
 const signup = (req,res) =>{
 
@@ -67,6 +33,7 @@ const signup = (req,res) =>{
 }
 
 const allUsers = (req,res) => {
+
 	User.findAll({}).then((data) => {
 		console.log(JSON.stringify(data));
 		res.json(data);
@@ -78,7 +45,6 @@ const allUsers = (req,res) => {
 
 
 const signin = (req,res) => {
-	console.log(req.body);
 	
 	req.session.username = req.body.username;
 
@@ -93,7 +59,6 @@ const signin = (req,res) => {
 
 	   data = JSON.parse(data);
 
-	  console.log(data[0].password);
 
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
