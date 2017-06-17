@@ -2,23 +2,68 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
+import Validator from 'validator' ;
+
+import isEmpty from 'lodash/isEmpty';
+
+const validateInput = (data) => {
+	let errors = {} ;
+
+	if(Validator.isNull(data.username)){
+		errors.username = "Username is required";
+	}
+
+	if(Validator.isNull(data.email)){
+		errors.email = "Email is required";
+	}
+
+	if(!Validator.isEmail(data.email)){
+		errors.email = "Email is invalid";
+	}
+
+	if(Validator.isNull(data.password)){
+		errors.password = "Password is required";
+	}
+
+	if(Validator.isNull(data.passwordConfirmation)){
+		errors.passwordConfirmation = "Password Confirmation is required";
+	}
+
+	if(!Validator.equals(data.password,data.passwordConfirmation)){
+		errors.passwordConfirmation = "Passwords do not match";
+	}
+
+	return {
+		errors,
+		isValid: isEmpty(errors)
+	}
+}
+
 const signup = (req,res) =>{
 
-	console.log(req.body);
-	// force: true will drop the table if it already exists
-	User.sync({force: false}).then(() => {
-	  // Table created
-	  return User.create({
-		userName: req.body.username,
-		email: req.body.email,
-		password: req.body.password
-	  })
-	  .catch((err) => {
-		  console.log(err);
-		  res.json({ message : "error saving to database"});
+	const {errors,isValid} = validateInput(req.body);
+
+	if(!isValid){
+		res.status(400).json(errors);
+	}
+
+	else{
+		// force: true will drop the table if it already exists
+		User.sync({force: false}).then(() => {
+		  // Table created
+		  return User.create({
+			userName: req.body.username,
+			email: req.body.email,
+			password: req.body.password
+		  })
+		  .catch((err) => {
+			  console.log(err);
+			  res.json({ message : "error saving to database"});
+			});
 		});
-	});
-	res.json({ message:  req.body.username + ' successfully added' });
+		res.json({ message:  req.body.username + ' successfully added' });
+	}
+	
 }
 
 const allUsers = (req,res) => {
