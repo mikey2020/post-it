@@ -6,7 +6,9 @@ import {userSignupRequest} from '../../actions/signupActions';
 
 import classnames from 'classnames';
 
-import {validateInput} from '../../../server/middlewares/validations.js'
+import {validateInput} from '../../../server/middlewares/validations.js';
+
+import addFlashMessage from '../../actions/flashMessage';
 
 class SignupForm extends React.Component{
 	constructor(props){
@@ -32,7 +34,6 @@ class SignupForm extends React.Component{
 			this.setState({errors});
 		}
 
-		console.log(isValid);
 		return isValid;
 
 	}
@@ -49,10 +50,15 @@ class SignupForm extends React.Component{
 			e.preventDefault();
 
 			this.props.userSignupRequest(this.state).then(
-				() => {},
+				() => {
+					this.props.addFlashMessage({
+						type: 'success',
+						text: 'Signed up successfully'
+					})
+					this.context.router.push('/')
+				},
 
 				({data}) => this.setState({errors: data})
-
 			);
 		//}
 		
@@ -127,7 +133,12 @@ class SignupForm extends React.Component{
 
 SignupForm.propTypes ={
 
-	userSignupRequest:  PropTypes.func.isRequired
+	userSignupRequest:  PropTypes.func.isRequired,
+	addFlashMessage:  PropTypes.func.isRequired
+}
+
+SignupForm.contextTypes = {
+	router: PropTypes.object.isRequired
 }
 
 export default SignupForm ;
