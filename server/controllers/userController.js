@@ -15,6 +15,7 @@ const signup = (req,res) =>{
 
 	else{
 		// force: true will drop the table if it already exists
+		
 		User.sync({force: false}).then(() => {
 		  // Table created
 		  return User.create({
@@ -27,6 +28,7 @@ const signup = (req,res) =>{
 			  res.json({ message : "error saving to database"});
 			});
 		});
+
 		res.json({ message:  req.body.username + ' successfully added' });
 	}
 	
