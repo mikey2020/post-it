@@ -1,4 +1,4 @@
-import {ADD_FLASH_MESSAGE} from './types'
+import {ADD_FLASH_MESSAGE , DELETE_FLASH_MESSAGE} from './types'
 
 const addFlashMessage = (message) => {
 	return {
@@ -7,4 +7,11 @@ const addFlashMessage = (message) => {
 	}
 }
 
-export default addFlashMessage;
+const deleteFlashMessage = (id) => {
+	return {
+		type: DELETE_FLASH_MESSAGE,
+		id
+	}
+}
+
+export {addFlashMessage,deleteFlashMessage};

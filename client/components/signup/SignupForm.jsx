@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 import {validateInput} from '../../../server/middlewares/validations.js';
 
-import addFlashMessage from '../../actions/flashMessage';
+import {addFlashMessage} from '../../actions/flashMessage';
 
 class SignupForm extends React.Component{
 	constructor(props){
@@ -51,10 +51,12 @@ class SignupForm extends React.Component{
 
 			this.props.userSignupRequest(this.state).then(
 				() => {
+					
 					this.props.addFlashMessage({
 						type: 'success',
-						text: 'Signed up successfully'
-					})
+						text: 'Signed up successfully thank you'
+					}),
+
 					this.context.router.push('/')
 				},
 
