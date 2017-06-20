@@ -37,4 +37,5 @@ const validateInput = (data) => {
 	}
 }
 
+
 export {validateInput};

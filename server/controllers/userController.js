@@ -2,14 +2,25 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
-import {validateInput} from '../middlewares/validations.js'
+import {validateInput} from '../middlewares/validations.js';
+
+import Unique from '../middlewares/validateUnique';
 
 
 const signup = (req,res) =>{
 
 	const {errors,isValid} = validateInput(req.body);
 
+	const userError = Unique(req.body.username);
+
+	console.log(userError);
+
 	if(!isValid){
+		res.status(400).json(errors);
+	}
+
+	else if(userError){
+		errors.username = userError.username ;
 		res.status(400).json(errors);
 	}
 

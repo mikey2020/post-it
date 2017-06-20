@@ -17,22 +17,61 @@ const User = sequelize.define('user', {
 
     notEmpty: true,
 
-    unique: true
+    allowNull: false,
+
+    unique: true,
+
+    validate:{
+
+      isUnique(username){
+        User.findOne({
+          where: {
+            userName: this.userName
+          }
+        }).then(user => {
+
+          if(user) {
+            throw new Error("user already exists ");
+          }
+
+        });
+      }
+    }
+    
   } ,
 
   email: {
 
   	type: Sequelize.STRING,
 
-  	isEmail: true
+  	isEmail: true,
+
+    allowNull: false,
+
+    unique: true
+
+
   } ,
 
   password: {
 
   	type: Sequelize.STRING,
 
-  	len: [5,30]
+    allowNull: false ,
   
+    validate: {
+      
+        len: {
+           
+           args: 4,
+
+           msg: "Name must be at least 3 characters in length"
+        },
+
+
+    }
+
+   
   }
 
 });
@@ -83,6 +122,8 @@ Group.hasMany(Post,{as: 'posts'});
 User.beforeCreate((user, options) => {
 
     user.password = bcrypt.hashSync(user.password);	
+
+    //user.username = user.username.toLowerCase();
 
 });
 

@@ -4,8 +4,6 @@ import Header from './Header';
 
 import FlashMessagesList from './flash/flashMessagesList.jsx'
 
-
-
 export default class App extends React.Component {
   render() {
     return (
