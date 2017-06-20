@@ -11,6 +11,7 @@ export default () => {
 	        </div>
 	        <ul className="nav navbar-nav">
 	          <li><Link to="/signup">SignUp</Link></li>
+	          <li><Link to="/signin">SignIn</Link></li>
 	        </ul>
 	      </div>
 	    </nav>

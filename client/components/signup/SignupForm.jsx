@@ -76,10 +76,10 @@ class SignupForm extends React.Component{
 					
 					this.props.addFlashMessage({
 						type: 'success',
-						text: 'Signed up successfully thank you'
+						text: 'Sign up successful ,you can now sign in '
 					}),
 
-					this.context.router.push('/')
+					this.context.router.push('/signin')
 				},
 
 				({data}) => this.setState({errors: data})

@@ -66,6 +66,7 @@ const signin = (req,res) => {
 
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
+	  	console.log( data[0].id);
 	  	req.session.name = req.body.username ;
 	  	req.session.id = data[0].id;
 		res.json({message: req.body.username + " is valid"});
@@ -73,7 +74,7 @@ const signin = (req,res) => {
 
 	  else{
 
-		res.json(data);
+		res.status(401).json({errors: { form: "Invalid Signin Parameters"}});
 
 	  }
 	 

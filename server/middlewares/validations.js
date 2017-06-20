@@ -37,5 +37,23 @@ const validateInput = (data) => {
 	}
 }
 
+const validateSignIn = (data) => {
+	let errors = {} ;
 
-export {validateInput};
+	if(data.username === null || data.username == ''){
+		errors.username = "Username is required";
+	}
+
+	if(data.password === null || data.password == '' ){
+		errors.password = "Password is required";
+	}
+
+	return {
+		errors,
+		
+		isValid: isEmpty(errors)
+	}
+}
+
+
+export {validateInput,validateSignIn};
