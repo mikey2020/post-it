@@ -1,4 +1,3 @@
-'use strict';
 
 import * as dotenv from 'dotenv';
 
@@ -6,7 +5,7 @@ import express from 'express';
 
 import {sequelize} from './db.js';
 
-import {signup,allUsers,signin} from './controllers/userController';
+import {signup,allUsers,signin,isUnique} from './controllers/userController';
 
 import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controllers/groupController';
 
@@ -70,6 +69,7 @@ app.use(webpackHotMiddleware(compiler));
 
 app.get('/api/users',allUsers);
 
+app.get('/api/user/:name', isUnique);
 
 app.post('/api/user/signup',signup);
 

@@ -4,23 +4,14 @@ import {User,hashPassword,bcrypt} from '../models/models.js';
 
 import {validateInput} from '../middlewares/validations.js';
 
-import Unique from '../middlewares/validateUnique';
 
 
 const signup = (req,res) =>{
 
 	const {errors,isValid} = validateInput(req.body);
 
-	const userError = Unique(req.body.username);
-
-	console.log(userError);
 
 	if(!isValid){
-		res.status(400).json(errors);
-	}
-
-	else if(userError){
-		errors.username = userError.username ;
 		res.status(400).json(errors);
 	}
 
@@ -103,4 +94,16 @@ const checkPassword = (password1,password2) => {
 	}
 }
 
-export {signup,allUsers,signin} ;
+
+const isUnique = (req,res) => {
+	console.log(req.params.name);
+	User.findOne({
+	  where: {
+	   userName: req.params.name
+	  }
+	}).then((user) => {
+		res.json({user});
+	});
+}
+
+export {signup,allUsers,signin,isUnique} ;

@@ -19,11 +19,13 @@ class SignupForm extends React.Component{
 			password: '',
 			passwordConfirmation: '',
 			errors: {},
-			isLoading: false
+			isLoading: false,
+			invalid: false
 		}
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.checkUserExists = this.checkUserExists.bind(this);
 	}
 
 	isValid(){
@@ -36,6 +38,26 @@ class SignupForm extends React.Component{
 
 		return isValid;
 
+	}
+
+	checkUserExists(e){
+		const field = e.target.name;
+		const value = e.target.value;
+		if(value !== ''){
+			this.props.isUserExists(value).then(res => {
+				let errors = this.state.errors;
+				let invalid;
+				if(res.data.user){
+					errors[field] = 'User already exists';
+					invalid = true;
+				}
+				else{
+					errors[field] = '';
+					invalid = false;
+				}
+				this.setState({errors,invalid});
+			});
+		}
 	}
 
 	onChange(e){
@@ -77,6 +99,7 @@ class SignupForm extends React.Component{
 	            	<input 
 	            	    value={this.state.username}
 	            	    onChange={this.onChange}
+	            	    onBlur={this.checkUserExists}
 	            		type="text" 
 	            		placeholder = "username" 
 	            		name="username" 
@@ -119,7 +142,7 @@ class SignupForm extends React.Component{
 	            		{errors.passwordConfirmation ? <span className="help-block">{errors.passwordConfirmation}</span> : <br/>}
 
 	            	<input 
-	            		disabled={this.state.isLoading}
+	            		disabled={this.state.isLoading || this.state.invalid}
 	            		type="submit" 
 	            		name="sign up" 
 	            		value="Sign Up" 
@@ -136,7 +159,9 @@ class SignupForm extends React.Component{
 SignupForm.propTypes ={
 
 	userSignupRequest:  PropTypes.func.isRequired,
-	addFlashMessage:  PropTypes.func.isRequired
+	addFlashMessage:  PropTypes.func.isRequired,
+	checkUserExists: PropTypes.func,
+	isUserExists: PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {

@@ -19,9 +19,9 @@ const User = sequelize.define('user', {
 
     allowNull: false,
 
-    unique: true,
+    unique: true
 
-    validate:{
+    /*validate:{
 
       isUnique(username){
         User.findOne({
@@ -29,14 +29,14 @@ const User = sequelize.define('user', {
             userName: this.userName
           }
         }).then(user => {
-
           if(user) {
             throw new Error("user already exists ");
+
           }
 
         });
       }
-    }
+    }*/
     
   } ,
 
@@ -123,6 +123,19 @@ User.beforeCreate((user, options) => {
 
     user.password = bcrypt.hashSync(user.password);	
 
+    User.findOne({
+          where: {
+            userName: user.userName
+          }
+        }).then(user => {
+          user.userName = " ";
+          if(user) {
+            throw new Error("user already exists ");
+
+          }
+
+    });
+      
     //user.username = user.username.toLowerCase();
 
 });

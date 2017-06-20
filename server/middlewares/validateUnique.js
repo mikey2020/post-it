@@ -11,15 +11,16 @@ const isUnique = (username) => {
 	}).then(user => {
 
 	  if(user) {
-	  	console.log("user already exists ");
-	  	errors.username = "User already exists";
+	  	//console.log("user already exists ");
+	  	let error = "User already exists";
+	  	console.log(error);
+
+	  	return {error};
 	  }
 
 	});
 
-	if(errors.username){
-		return errors;
-	}
+	
 	
 }
 
