@@ -7,7 +7,7 @@ import {sequelize} from './db.js';
 
 import {signup,allUsers,signin,isUnique} from './controllers/userController';
 
-import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controllers/groupController';
+import {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups} from './controllers/groupController';
 
 import morgan from 'morgan';
 
@@ -67,6 +67,8 @@ app.use(webpackMiddleware(compiler,{
 
 app.use(webpackHotMiddleware(compiler));
 
+//user routes 
+
 app.get('/api/users',allUsers);
 
 app.get('/api/user/:name', isUnique);
@@ -75,7 +77,11 @@ app.post('/api/user/signup',signup);
 
 app.post('/api/user/signin',signin);
 
+//group routes 
+
 app.post('/api/group',createGroup);
+
+app.get('/api/group/:name',checkGroups);
 
 app.post('/api/group/:groupId/user',addUserToGroup);
 

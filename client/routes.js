@@ -10,7 +10,7 @@ import SignupPage from './components/signup/SignupPage.jsx';
 
 import SigninPage from './components/signin/SigninPage.jsx';
 
-import HomePage from './components/homepage/SigninPage.jsx'
+import HomePage from './components/homepage/HomePage.jsx'
 
 export default (
 	<Route path ="/" component={App}>

@@ -23,7 +23,7 @@ const createGroup = (req,res) => {
 	}
 
 	else{
-		res.json({ message : "You are allowed to create a group,please login first"});
+		res.status(401).json({errors: { message: "Please Sign in first"}});
 	}
 	
 	
@@ -49,7 +49,7 @@ const addUserToGroup = (req,res) => {
 	}
 	
 	else{
-		res.json({ message : "please login first"});
+		res.status(401).json({errors: { message: "Please Sign in first"}});
 	}
 		
 	
@@ -106,4 +106,16 @@ const getPosts = (req,res) => {
 	
 }
 
-export {createGroup,addUserToGroup,postMessageToGroup,getPosts} ;
+const checkGroups = (req,res) => {
+	Group.findOne({
+		where: {
+			name: req.params.name
+		}
+	})
+	.then(group => {
+		res.json({group})
+	});
+}
+
+
+export {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups} ;

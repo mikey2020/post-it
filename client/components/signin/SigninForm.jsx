@@ -50,7 +50,7 @@ class SigninForm extends React.Component {
 			this.props.signin(this.state).then(
 
 					(res) => {
-						this.context.router.push('/'),
+						this.context.router.push('/home'),
 						this.props.addFlashMessage({
 							type: 'success',
 							text: 'Sign in successful'
@@ -99,6 +99,7 @@ class SigninForm extends React.Component {
 		            	className="btn btn-primary active" 
 		            	value="Sign In"
 		            	disabled={isLoading}/>
+
 		           </div>  
 		        </form>
 		    </div>
@@ -107,7 +108,7 @@ class SigninForm extends React.Component {
 }
 
 SigninForm.propTypes = {
-	signin:PropTypes.func.isRequired,
+	signin: PropTypes.func.isRequired,
 	addFlashMessage:  PropTypes.func.isRequired
 }
 
