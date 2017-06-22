@@ -12,8 +12,8 @@ export default (state = [], action = {}) => {
 					type: action.message.type,
 					text: action.message.text
 				}
-
-			]
+,
+		]
 
 		case DELETE_FLASH_MESSAGE:
 			const index = findIndex(state,{ id: action.id});

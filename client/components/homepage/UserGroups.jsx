@@ -5,25 +5,42 @@ class UserGroups extends React.Component {
 		
 	render(){
 		return (
-		
+			<Group groupName="Movies Group"/>
 		)
 	}
 }
 
-/*class Group extends React.Component {
+class Group extends React.Component {
+
 	constructor(props){
 		super(props);
+
+		this.state = {
+			username: '',
+			errors: {}
+		}
 	}
+
 	render(){
 		return (
-			<div class="jumbotron">
-		         Movie Group
+			<div className="jumbotron">
+		         <h2>{this.props.groupName}</h2>
 		         <br/>
-		         <span class="btn btn-primary"> Add user </span>
-		         <span class="btn btn-primary">Post Message to group</span>
+		         <div className="form-group">
+		         	<form>
+		         		<input 
+		         		type="text"
+		         		placeholder="Enter Username"
+		         		className="form-control"
+		         		name="username"
+		         		value={this.state.username}/>
+		         		<button className="btn btn-primary"> Add user </button>
+		         	</form>
+		         </div>
+		         <span className="btn btn-primary">Post Message to group</span>
 		    </div>
 		)
 	}
-}*/
+}
 
-export default UserGroup;
+export default UserGroups;

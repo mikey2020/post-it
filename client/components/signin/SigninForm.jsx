@@ -2,13 +2,14 @@ import React from 'react' ;
 
 import {validateSignIn} from '../../../server/middlewares/validations.js';
 
-import {signin} from '../../actions/signinActions.js';
+import {signin,setUser} from '../../actions/signinActions.js';
 
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 
 import {addFlashMessage} from '../../actions/flashMessage';
+
 
 
 
@@ -50,10 +51,11 @@ class SigninForm extends React.Component {
 			this.props.signin(this.state).then(
 
 					(res) => {
+						this.props.setUser(res.data.user),
 						this.context.router.push('/home'),
 						this.props.addFlashMessage({
 							type: 'success',
-							text: 'Sign in successful'
+							text: res.data.user.name + ' Sign in successful'
 						})
 					},
 
@@ -109,6 +111,7 @@ class SigninForm extends React.Component {
 
 SigninForm.propTypes = {
 	signin: PropTypes.func.isRequired,
+	setUser: PropTypes.func.isRequired,
 	addFlashMessage:  PropTypes.func.isRequired
 }
 
@@ -116,6 +119,6 @@ SigninForm.contextTypes = {
 	router: PropTypes.object.isRequired
 }
 
-export default connect(null,{signin,addFlashMessage})(SigninForm);
+export default connect(null,{signin,addFlashMessage,setUser})(SigninForm);
 
 

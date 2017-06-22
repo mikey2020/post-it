@@ -60,7 +60,7 @@ const validateCreateGroupInput = (data) => {
 	let errors = {};
 
 	if(data.input === null || data.input === ''){
-		errors.createGroup = "Group name is required";
+		errors.input = "Group name is required";
 	}
 
 	return {

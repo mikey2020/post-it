@@ -73,7 +73,10 @@ class CreateGroup extends React.Component {
 			this.props.createGroup(this.state).then(
 
 				(res) => {
-				
+					this.props.addFlashMessage({
+							type: 'success',
+							text: this.state.input + ' group created successfully'
+				    })
 				},
 
 				(err) => {
@@ -94,12 +97,13 @@ class CreateGroup extends React.Component {
 		return (
 			<div>
 				{errors.message && <div className="alert alert-danger"> {errors.message} </div>}
-				{errors.createGroup ? <span className="help-block">{errors.createGroup}</span> : <br/>}
+				{errors.input ? <span className="help-block">{errors.input}</span> : <br/>}
 				<form className="form-group" onSubmit={this.onSubmit}>
 					<input 
 					type="text" 
 					placeholder="Create a group"
 					name="input"
+					onBlur={this.checkGroupExists}
 					onChange={this.onChange}
 					className="form-control"
 					value={input}

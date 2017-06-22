@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 class FlashMessage extends React.Component {
+	
 	constructor(props){
 		super(props);
 		this.onClick = this.onClick.bind(this);

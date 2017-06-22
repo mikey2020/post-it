@@ -9,9 +9,9 @@ const createGroup = (req,res) => {
 		Group.sync({force: false}).then(() => {
 	  // Table created
 		  return Group.create({
-		  	name: req.body.name,
+		  	name: req.body.input,
 		  	creator: req.session.name,
-		  	userId: req.session.id
+		  	userId: req.session.userId
 		  })
 		  .catch((err) => {
 			  console.log(err);
@@ -36,7 +36,7 @@ const addUserToGroup = (req,res) => {
 		UserGroups.sync({force: false}).then(() => {
 	  // Table created
 		  return UserGroups.create({
-		  	userId: req.body.user_id,
+		  	userId: req.body.userId,
 		  	groupId: req.params.groupId
 		  })
 		  .catch((err) => {

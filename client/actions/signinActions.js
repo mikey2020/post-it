@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {SET_USER} from './types'
 
 const signin = (userData) => {
 	return dispatch => {
@@ -8,4 +8,13 @@ const signin = (userData) => {
 	}
 }
 
-export {signin};
+const setUser = (user) => {
+	return {
+		type: SET_USER,
+		user
+	}
+}
+
+export {signin,setUser};
+
+

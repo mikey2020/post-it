@@ -31,7 +31,7 @@ const signup = (req,res) =>{
 			});
 		});
 
-		res.json({ message:  req.body.username + ' successfully added' });
+		res.json({  message:  req.body.username + ' successfully added' });
 	}
 	
 }
@@ -66,10 +66,10 @@ const signin = (req,res) => {
 
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
-	  	console.log( data[0].id);
+	  	console.log(data[0].id);
 	  	req.session.name = req.body.username ;
-	  	req.session.id = data[0].id;
-		res.json({message: req.body.username + " is valid"});
+	  	req.session.userId = data[0].id;
+		res.json({ user: { name: req.body.username , message:  req.body.username + ' signed in' } });
 	  }
 
 	  else{
