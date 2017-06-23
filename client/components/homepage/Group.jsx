@@ -46,7 +46,11 @@ class Group extends React.Component {
 		if(this.isValid()){
 			this.props.addUser(this.props.group.id,this.state).then(
 				(res) => {
-					this.setState({errors: res.data.errors})
+					this.setState({errors: res.data})
+				},
+
+				(err) => {
+					this.setState({errors: err.data.errors})
 				}
 			)
 		}

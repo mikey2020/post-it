@@ -36,12 +36,13 @@ const addUserToGroup = (req,res) => {
 	if(req.session.name){
 		UserGroups.findOne({
 			where: {
-				username: req.body.username
+				username: req.body.username,
+				groupId: req.params.groupId
 			}
 		})
 		.then((user) => {
 			if(user){
-				res.json({ errors : { message : req.body.username + " alredy added to group"}});
+				res.status(500).json({ errors : { message : req.body.username + " alredy added to group"}});
 			}
 				
 		})
