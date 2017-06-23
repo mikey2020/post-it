@@ -4,7 +4,6 @@ import {User,hashPassword,bcrypt} from '../models/models.js';
 
 const signup = (req,res) =>{
 
-	console.log(req.body);
 	// force: true will drop the table if it already exists
 	User.sync({force: false}).then(() => {
 	  // Table created
@@ -53,13 +52,13 @@ const signin = (req,res) => {
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
 	  	req.session.name = req.body.username ;
-	  	req.session.id = data[0].id;
+	  	req.session.userId = data[0].id;
 		res.json({message: req.body.username + " is valid"});
 	  }
 
 	  else{
 
-		res.json(data);
+		res.status(404).json({ errors: { message: req.body.username + " is not valid"} });
 
 	  }
 	 
@@ -67,17 +66,8 @@ const signin = (req,res) => {
 
 	.catch((err) => {
 		console.log(err);
-		res.json({message: "Invalid login parameters"});
+		res.status(404).json({ errors: { message: "Invalid login parameters"} });
 	})
-}
-
-const checkPassword = (password1,password2) => {
-	if(password1 == password2){
-		return true;
-	}
-	else{
-		return false;
-	}
 }
 
 export {signup,allUsers,signin} ;

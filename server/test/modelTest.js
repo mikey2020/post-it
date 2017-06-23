@@ -8,7 +8,7 @@ describe('User Model Unit Tests:', () => {
 
 	 beforeEach((done) => {    
 
-	 	User.create({ userName: "test-name", email: "test@gmail.com",password: "test"});
+	 	User.create({ userName: "testname", email: "test@gmail.com",password: "test"});
       	
       	done();
 
@@ -19,7 +19,7 @@ describe('User Model Unit Tests:', () => {
 		
 		it('User should be successfully' , () => {
 
-			User.findOne({where: {userName: "test-name"}}).then(user => {
+			User.findOne({where: {userName: "testname"}}).then(user => {
 			  //console.log(user.get('firstName'));
 
 			 should.exist(user);
@@ -30,16 +30,16 @@ describe('User Model Unit Tests:', () => {
 	
 	});
 
-	/*afterEach((done) => {
+	afterEach((done) => {
 		User.destroy({
 			where: {
-				userName: "test-name"
+				userName: "testname"
 			}
 		});
 
 		done();
 
-	});*/
+	});
 	
 });
 
@@ -54,14 +54,6 @@ describe('Group Model Unit Tests:', () => {
 
 	 });
 
-	 beforeEach((done) => {    
-
-	 	User.create({ userName: "test-name", email: "test@gmail.com",password: "test"});
-      	
-      	done();
-
-	 });
- 
 
 	describe(' Testing creation of group ',() => {
 		
@@ -80,7 +72,7 @@ describe('Group Model Unit Tests:', () => {
 	
 	});
 
-	/*afterEach((done) => {
+	afterEach((done) => {
 		Group.destroy({
 			where: {
 				name: "test-group"
@@ -90,17 +82,6 @@ describe('Group Model Unit Tests:', () => {
 		done();
 
 	});
-
-	afterEach((done) => {
-		User.destroy({
-			where: {
-				userName: "test-name"
-			}
-		});
-
-		done();
-
-	});*/
 	
 });
 
@@ -110,14 +91,6 @@ describe('Post Model Unit Tests:', () => {
 	 beforeEach((done) => {    
 
 	 	Post.create({ post: "test-post", groupId: 10 , groupName: "test-group"});
-      	
-      	done();
-
-	 });
-
-	 beforeEach((done) => {    
-
-	 	Group.create({ name: "test-group", creator: "test-creator"});
       	
       	done();
 
@@ -140,10 +113,10 @@ describe('Post Model Unit Tests:', () => {
 	
 	});
 
-	/*afterEach((done) => {
+	afterEach((done) => {
 		Post.destroy({
 			where: {
-				groupId:  10
+				post: "test-post"
 			}
 		});
 
@@ -151,15 +124,5 @@ describe('Post Model Unit Tests:', () => {
 
 	});
 
-	afterEach((done) => {
-		Group.destroy({
-			where: {
-				name: "test-group"
-			}
-		});
-
-		done();
-
-	});*/
 	
 });

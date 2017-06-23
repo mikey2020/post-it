@@ -16,7 +16,6 @@ import * as bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-//import debug from 'debug';
 
 
 dotenv.config();
@@ -34,7 +33,6 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-//app.use('/',home);
 
 
 app.use(morgan("dev"));
@@ -66,6 +64,7 @@ app.post('/api/group/:groupId/message',postMessageToGroup);
 app.get('/api/group/:groupId/messages',getPosts);
 
 
+
 //method to get error
 
 app.use(function(req, res) {
@@ -77,4 +76,4 @@ app.listen(port, () => {
 });
 
 
-export default app ;
+export default app;

@@ -11,19 +11,19 @@ const createGroup = (req,res) => {
 		  return Group.create({
 		  	name: req.body.name,
 		  	creator: req.session.name,
-		  	userId: req.session.id
+		  	userId: req.session.userId
 		  })
 		  .catch((err) => {
 			  console.log(err);
-			  res.json({ message : "error saving to database"});
+			  res.status(500).json({ message : "error saving to database"});
 			});
 		});
 
-		res.json({ message:  req.body.name + ' successfully added' });
+		res.json({ message:  req.body.name + ' successfully created' });
 	}
 
 	else{
-		res.json({ message : "You are allowed to create a group,please login first"});
+		res.status(401).json({ message : "You are not allowed to create a group , please login first"});
 	}
 	
 	
@@ -41,7 +41,7 @@ const addUserToGroup = (req,res) => {
 		  })
 		  .catch((err) => {
 			  console.log(err);
-			  res.json({ message : "error saving to database"});
+			  res.status(500).json({ message : "error saving to database"});
 			});
 		});
 
@@ -49,7 +49,7 @@ const addUserToGroup = (req,res) => {
 	}
 	
 	else{
-		res.json({ message : "please login first"});
+		res.status(404).json({ error: { message : "please login first"}});
 	}
 		
 	
@@ -68,7 +68,7 @@ const postMessageToGroup = (req,res) => {
 		  })
 		  .catch((err) => {
 			  console.log(err);
-			  res.json({ message : "error saving to database"});
+			  res.status(500).json({ error: { message : "error saving to database"}});
 			});
 		});
 
@@ -76,7 +76,7 @@ const postMessageToGroup = (req,res) => {
 	}
 	
 	else{
-		res.json({ message : "please login first"});
+		res.status(404).json({ error: { message : "please login first"}});
 	}
 	
 }
