@@ -1,46 +1,56 @@
 import React from 'react' ;
 
+import {getUserGroups,setUserGroups} from '../../actions/userGroupsAction.js';
+
+import {connect} from 'react-redux';
+
+import PropTypes from 'prop-types';
+
+import Group from './Group.jsx';
+
 
 class UserGroups extends React.Component {
-		
-	render(){
-		return (
-			<Group groupName="Movies Group"/>
-		)
-	}
-}
-
-class Group extends React.Component {
 
 	constructor(props){
 		super(props);
-
 		this.state = {
-			username: '',
-			errors: {}
+			groups: []
 		}
 	}
 
+    componentDidMount() {
+    	this.props.getUserGroups(this.props.username).then(
+    		(res) => {
+    			this.props.setUserGroups(res.data)
+    		}
+
+    	);
+
+    	
+  	}
+
 	render(){
+
+		const allGroups = this.props.groups.map(group => <Group key={group.id} groupName={group.name}/> );
+
 		return (
-			<div className="jumbotron">
-		         <h2>{this.props.groupName}</h2>
-		         <br/>
-		         <div className="form-group">
-		         	<form>
-		         		<input 
-		         		type="text"
-		         		placeholder="Enter Username"
-		         		className="form-control"
-		         		name="username"
-		         		value={this.state.username}/>
-		         		<button className="btn btn-primary"> Add user </button>
-		         	</form>
-		         </div>
-		         <span className="btn btn-primary">Post Message to group</span>
-		    </div>
+			<div>
+				{allGroups}
+			</div>
 		)
 	}
 }
+
+
+
+UserGroups.propTypes = {
+
+	getUserGroups: PropTypes.func,
+
+	setUserGroups: PropTypes.func.isRequired
+
+}
+
+
 
 export default UserGroups;

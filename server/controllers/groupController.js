@@ -117,5 +117,24 @@ const checkGroups = (req,res) => {
 	});
 }
 
+const getUserGroups = (req,res) => {
+	
+	Group.findAll({
+		where: {
+			creator: req.params.username 
+		}
+	})
+	.then(groups => {
+		let data = JSON.stringify(groups);
+		data = JSON.parse(data);
+		console.log(data);
+		res.json(data);
+	})
+	.catch((err) => {
+		console.log(err);
+	    res.status(500).json({ errors : {message : "error retrieving data from database"}});
+	});
+}
 
-export {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups} ;
+
+export {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups,getUserGroups} ;

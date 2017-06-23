@@ -7,7 +7,7 @@ import {sequelize} from './db.js';
 
 import {signup,allUsers,signin,isUnique} from './controllers/userController';
 
-import {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups} from './controllers/groupController';
+import {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups,getUserGroups} from './controllers/groupController';
 
 import morgan from 'morgan';
 
@@ -82,6 +82,8 @@ app.post('/api/user/signin',signin);
 app.post('/api/group',createGroup);
 
 app.get('/api/group/:name',checkGroups);
+
+app.get('/api/groups/:username',getUserGroups);
 
 app.post('/api/group/:groupId/user',addUserToGroup);
 
