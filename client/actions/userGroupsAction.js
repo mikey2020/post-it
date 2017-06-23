@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {SET_USER_GROUPS} from './types';
+import {SET_USER_GROUPS,GET_GROUP} from './types';
 
 const getUserGroups = (username) => {
 	return dispatch => {
@@ -16,4 +16,13 @@ const setUserGroups = (groups) => {
 	}
 }
 
-export {getUserGroups,setUserGroups};
+const addUser = (groupId,username) => {
+
+	return dispatch => {
+
+		return axios.post(`/api/group/${groupId}/user`,username);
+	}
+	
+}
+
+export {getUserGroups,setUserGroups,addUser};

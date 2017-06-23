@@ -31,7 +31,7 @@ class UserGroups extends React.Component {
 
 	render(){
 
-		const allGroups = this.props.groups.map(group => <Group key={group.id} groupName={group.name}/> );
+		const allGroups = this.props.groups.map(group => <Group key={group.id} group={group}/> );
 
 		return (
 			<div>

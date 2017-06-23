@@ -2,9 +2,11 @@ import React from 'react';
 
 import {validateUsername} from '../../../server/middlewares/validations';
 
-import {isUserExists } from '../../actions/signupActions';
+import {isUserExists} from '../../actions/signupActions';
 
 import PropTypes from 'prop-types';
+
+import {addUser} from '../../actions/userGroupsAction';
 
 import {connect} from 'react-redux';
 
@@ -42,7 +44,11 @@ class Group extends React.Component {
 	onSubmit(e) {
 		e.preventDefault();
 		if(this.isValid()){
-
+			this.props.addUser(this.props.group.id,this.state).then(
+				(res) => {
+					this.setState({errors: res.data.errors})
+				}
+			)
 		}
 	}
 
@@ -69,10 +75,11 @@ class Group extends React.Component {
 	render(){
 		return (
 			<div className="jumbotron">
-		         <h2>{this.props.groupName}</h2>
+		         <h2>{this.props.group.name}</h2>
 		         <br/>
 		         <div className="form-group">
 		         	{this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br/>}
+		         	{this.state.errors.message ? <span className="help-block">{this.state.errors.message}</span> : <br/>}
 		         	<form onSubmit={this.onSubmit}>
 		         		<input 
 		         		type="text"
@@ -85,7 +92,7 @@ class Group extends React.Component {
 		         		<button className="btn btn-primary" disabled={this.state.invalid}> Add user </button>
 		         	</form>
 		         </div>
-		         <span className="btn btn-primary">Post Message to {this.props.groupName}</span>
+		         <span className="btn btn-primary">Post Message to {this.props.group.name}</span>
 		    </div>
 		)
 	}
@@ -93,8 +100,10 @@ class Group extends React.Component {
 
 Group.propTypes = {
 
-	isUserExists: PropTypes.func.isRequired 
+	isUserExists: PropTypes.func.isRequired,
+	group: PropTypes.object.isRequired,
+	addUser: PropTypes.func.isRequired
 }
 
 
-export default connect(null,{isUserExists})(Group);
+export default connect(null,{isUserExists,addUser})(Group);
