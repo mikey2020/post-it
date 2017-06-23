@@ -11,6 +11,7 @@ const getUserGroups = (username) => {
 const setUserGroups = (groups) => {
 	return {
 		type: SET_USER_GROUPS,
+		
 		groups
 	}
 }

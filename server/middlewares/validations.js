@@ -70,5 +70,18 @@ const validateCreateGroupInput = (data) => {
 	}
 }
 
+const validateUsername = (data) => {
+	let errors = {};
 
-export {validateInput,validateSignIn,validateCreateGroupInput};
+	if(data.username === null || data.username === ''){
+		errors.username = "username is required";
+	}
+
+	return {
+		errors,
+
+		isValid: isEmpty(errors)
+	}
+}
+
+export {validateInput,validateSignIn,validateCreateGroupInput,validateUsername};
