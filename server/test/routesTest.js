@@ -18,16 +18,17 @@ describe('Test api routes', () => {
   	  it('should return "test-user successfully added" ', (done) => {
 
   	  	
-	  		request(app).post('/api/user/signup')
-	            .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
-	            .end((err, res) => {
-	            	console.log(res.body);
-	                res.status.should.equal(200);
-	                //should.not.exist(err);
-	                res.body.should.have.property('message', res.body.message);
-	                //res.body.should.equal({ message: 'test-user successfully added' })
+	  	request(app).post('/api/user/signup')
+	        .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
+	        .end((err, res) => {
+	            console.log(res.body);
+	            res.status.should.equal(200);
+	            //should.not.exist(err);
+	            res.body.should.have.property('message', res.body.message);
+	            //res.body.should.equal({ message: 'test-user successfully added' })
 	             
-	             done();
+	        done();
+	        
 	        });
 
      	 
