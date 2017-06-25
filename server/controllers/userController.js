@@ -14,7 +14,7 @@ const signup = (req,res) =>{
 	  })
 	  .catch((err) => {
 		  console.log(err);
-		  res.json({ message : "error saving to database"});
+		  res.status(500).json({ message : "error saving to database"});
 		});
 	});
 	res.json({ message:  req.body.username + ' successfully added' });

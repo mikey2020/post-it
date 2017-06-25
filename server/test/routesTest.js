@@ -8,7 +8,7 @@ import {User,Group,Post} from '../models/models.js';
 import {app} from '../app.js';
 
 
-const user = request.agent();
+const user = request.agent(app);
 
 describe('Test api routes', () => {
 
@@ -18,27 +18,32 @@ describe('Test api routes', () => {
   	  it('should return "test-user added successfully" ', (done) => {
 
   	  
+  	  	//before((done) => {
 
-  		request(app).post('/api/user/signup')
-            .send({username: "test-user", email: "test-email@yahoo.com",password: "password"})
-            .end((err, res) => {
-            	console.log(res.body);
-                res.status.should.equal(200);
-                //should.not.exist(err);
-                res.body.should.have.property('message', res.body.message);
-              done();
-        });
+  	  	
+	  		user.post('/api/user/signup')
+	            .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
+	            .end((err, res) => {
+	            	console.log(res.body);
+	                res.status.should.equal(200);
+	                //should.not.exist(err);
+	                res.body.should.have.property('message', res.body.message);
+	                //res.body.should.equal({ message: 'test-user successfully added' })
+	              done();
+	        });
+
+        //});
 
       
 
   	 });
 
 
-	  it('should return "dafe is valid"', done => {
+	  it('should return "test-user is valid"', done => {
 
 	  
-	    request(app).post('/api/user/signin')
-	        .send({username: "dafe" , password: "dafe"})
+	    user.post('/api/user/signin')
+	        .send({username: "test-user" , password: "pass"})
 	        .end((err, res) => {
 	            console.log(res.body);
 	            res.status.should.equal(200);
@@ -55,7 +60,7 @@ describe('Test api routes', () => {
 
 	  it('should return "test-group  successfully created" ', done => {
 	  	
-	   request(app).post('/api/group')
+	   user.post('/api/group')
 	        .send({name: "test-group"})
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -72,7 +77,7 @@ describe('Test api routes', () => {
 
 	  it('should return "user added to group" ', done => {
 	  	
-	   request(app).post('/api/group/1/user')
+	  user.post('/api/group/1/user')
 	        .send({username: "user2"})
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -89,7 +94,7 @@ describe('Test api routes', () => {
 
 	  it('should return "message posted to group" ', done => {
 	  	
-	    request(app).post('/api/group/1/message')
+	    user.post('/api/group/1/message')
 	        .send({message: "how is everybody doing?" })
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -106,7 +111,7 @@ describe('Test api routes', () => {
 
 	  it('should return messages posted to group ', done => {
 	  	
-	    request(app).get('/api/group/1/messages')
+	    user.get('/api/group/1/messages')
 	        //.expect(200)
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -130,11 +135,11 @@ describe('Test api routes', () => {
         }
       });
 
-      User.destroy({
+      /*User.destroy({
         where: {
           userName: "test-user"
         }
-      });
+      });*/
 
       Post.destroy({
         where: {
