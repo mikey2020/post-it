@@ -43,6 +43,8 @@
     "babel-register": "^6.24.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
     "crypto": "0.0.3",
     "debug": "^2.6.8",
     "dotenv": "^4.0.0",
@@ -55,6 +57,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.0.0",
     "should": "^11.2.1",
+    "superagent": "^3.5.2",
     "supertest": "^3.0.0"
   }
 }

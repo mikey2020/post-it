@@ -1,7 +1,7 @@
 
 import {User,Group,Post} from '../models/models.js';
 import should from 'should' ;
-import '../app.js';
+//import '../app.js';
 
 
 describe('User Model Unit Tests:', () => { 
@@ -17,14 +17,17 @@ describe('User Model Unit Tests:', () => {
 
 	describe(' Testing creation of user ',() => {
 		
-		it('User should be successfully' , () => {
+		it('User should be successfully' , (done) => {
 
 			User.findOne({where: {userName: "testname"}}).then(user => {
 			  //console.log(user.get('firstName'));
 
 			 should.exist(user);
 
+			
 			});
+
+			 done();
 
 		});
 	
@@ -57,7 +60,7 @@ describe('Group Model Unit Tests:', () => {
 
 	describe(' Testing creation of group ',() => {
 		
-		it('Group should be successfully created' , () => {
+		it('Group should be successfully created' , (done) => {
 
 			//User.create({ userName: "barry", email: "barry@gmail.com",password: "iriswest"});
 
@@ -66,7 +69,11 @@ describe('Group Model Unit Tests:', () => {
 
 			 should.exist(group);
 
+			 
 			});
+
+			done();
+
 
 		});
 	
@@ -99,7 +106,7 @@ describe('Post Model Unit Tests:', () => {
 
 	describe(' Testing creation of post ',() => {
 		
-		it('Post should be successfully created' , () => {
+		it('Post should be successfully created' , (done) => {
 
 
 			Post.findOne({where: {groupId: 10}}).then(post => {
@@ -107,7 +114,11 @@ describe('Post Model Unit Tests:', () => {
 
 			 should.exist(post);
 
+		
+
 			});
+
+		    done();
 
 		});
 	

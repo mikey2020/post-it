@@ -55,7 +55,7 @@ const Group = sequelize.define('group', {
 
 const UserGroups = sequelize.define('usergroup',{
 
-	userId: Sequelize.INTEGER,
+	username: Sequelize.STRING,
 
 	groupId: Sequelize.INTEGER
 
@@ -69,9 +69,9 @@ const Post = sequelize.define('post',{
 
 		allowNull: false
 
-	} ,
+	} 
 
-	groupName: Sequelize.STRING
+	//groupName: Sequelize.STRING
 
 });
 

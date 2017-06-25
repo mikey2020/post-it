@@ -12,13 +12,15 @@ import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controll
 
 import morgan from 'morgan';
 
-import * as bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
 
 
 dotenv.config();
+
+
 
 const app = express();
 
@@ -48,6 +50,7 @@ app.use(session({
 
 }));
 
+
 app.get('/api/users',allUsers);
 
 
@@ -71,9 +74,11 @@ app.use(function(req, res) {
   res.status(404).send({url: req.originalUrl + ' not found'})
 });
 
+
 app.listen(port, () => {
   console.log('Listening on port 3000...')
 });
 
 
-export default app;
+
+export {app};

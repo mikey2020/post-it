@@ -1,15 +1,22 @@
-import app from '../app.js';
+//import app from '../app.js';
 
-import request from 'supertest';
+//import request from 'supertest';
 
-import {User,Group,Post} from '../models/models.js';
+//import request from 'superagent';
 
-import should from 'should' ;
+//const user = request.agent();
 
-import '../app.js';
+//import {User,Group,Post} from '../models/models.js';
+
+//import should from 'should' ;
+
+//import '../app.js';
+
+//describe('Testing api routes', () => {
 
 
-describe('Testing GET routes', () => {
+
+/*describe('Testing GET routes', () => {
 
       it('it should GET all users in database', (done) => {
         request(app)
@@ -35,7 +42,7 @@ describe('Testing GET routes', () => {
               done();
             });
       });
-  });
+});
 
 
 describe('Testing POST routes', () => {
@@ -60,10 +67,10 @@ describe('Testing POST routes', () => {
         request(app)
             .post('/api/group/1/message')
             .send({message: "test-name", groupName: "movies group"})
-            .expect(200)
+            .expect(401)
             .end((err, res) => {
-                res.status.should.equal(404);
-                should.exist(err);
+                res.status.should.equal(401);
+                //should.exist(err);
                 res.body.should.have.property('error', res.body.error);
               done();
         });
@@ -74,10 +81,10 @@ describe('Testing POST routes', () => {
         request(app)
             .post('/api/group/1/user')
             .send({userId: 10, groupId: 10})
-            .expect(200)
+            .expect(401)
             .end((err, res) => {
-                res.status.should.equal(404);
-                should.exist(err);
+                res.status.should.equal(401);
+                //should.exist(err);
                 //res.body.error.should.be.a.object();
                 res.body.should.have.property('error', res.body.error);
               done();
@@ -85,58 +92,84 @@ describe('Testing POST routes', () => {
 
       });
 
-    });
+    });*/
 
 
-    describe('All routes should work after login' , () => {
-      
-      beforeEach((done) => {
+      /*beforeEach((done) => {
 
-        it('it should return "dafe is valid"', () => {
+        //it('it should return "dafe is valid"', (done) => {
           request(app)
               .post('/api/user/signin')
               .send({username: "dafe" , password: "dafe"})
               .expect(200)
               .end((err, res) => {
-                console.log(res.body);
+                 console.log(res.body);
                   res.status.should.equal(200);
                   should.not.exist(err);
                   //res.body.error.should.be.a.object();
                   res.body.should.have.property('message', res.body.message);
-          });
+                  done();
 
-        });
+              });//
 
-         done();
-      });
+              /*user
+              .post('http://localhost:3000/api/user/signin')
+              .send({username: "dafe" , password: "dafe"})
+              //.expect(200)
+              .end((err, res) => {
+                 console.log(res.body);
+                  res.status.should.equal(200);
+                  should.not.exist(err);
+                  //res.body.error.should.be.a.object();
+                  res.body.should.have.property('message', res.body.message);
+
+                
+                done();
+              });
+
+         });
+
+          
+     // });
+
+
+
+    describe('All routes should work after login' , () => {
+
       
-      describe('Creating groups',() => {
+      
+    
+         it('it should return "user added successfully" ', (done) => {
 
-        it('it should "test-group successfully created" ', (done) => {
-          request(app)
+               
+        
+              request(app)
               .post('/api/group')
               .send({name: "test-group"})
-              .expect(200)
+              .set('Accept', 'application/json')
+              //.expect(200)
               .end((err, res) => {
                 console.log(res.body);
-                  res.status.should.equal(200);
-                  should.not.exist(err);
-                  //res.body.error.should.be.a.object();
-                  res.body.should.have.property('message', res.body.message);
-                done();
+                res.status.should.equal(200);
+                should.not.exist(err);
+                //res.body.error.should.be.a.object();
+                res.body.message.should.equal("test-group successfully created");
+                res.body.should.have.property('message', res.body.message);
+
+             done();
+                
           });
+
+           
+
 
         });
 
-
-      })
-      
-
-
-    });
+       
+    });*/
     
 
-    after((done) => {
+    /*after((done) => {
       User.destroy({
         where: {
           userName: "test-name"
@@ -147,6 +180,7 @@ describe('Testing POST routes', () => {
 
   });
 
-});
+});*/
 
+//})
   

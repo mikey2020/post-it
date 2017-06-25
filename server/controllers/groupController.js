@@ -23,20 +23,21 @@ const createGroup = (req,res) => {
 	}
 
 	else{
-		res.status(401).json({ message : "You are not allowed to create a group , please login first"});
+		res.status(401).json({ error: { message : "You are not allowed to create a group , please login first" } });
 	}
 	
 	
 }
 
 const addUserToGroup = (req,res) => {
+	console.log(req.session.name);
 	console.log(req.body);
 	console.log(req.params.groupId);
 	if(req.session.name){
 		UserGroups.sync({force: false}).then(() => {
 	  // Table created
 		  return UserGroups.create({
-		  	userId: req.body.user_id,
+		  	username: req.body.username,
 		  	groupId: req.params.groupId
 		  })
 		  .catch((err) => {
@@ -49,7 +50,7 @@ const addUserToGroup = (req,res) => {
 	}
 	
 	else{
-		res.status(404).json({ error: { message : "please login first"}});
+		res.status(401).json({ error: { message : "please login first"}});
 	}
 		
 	
@@ -63,7 +64,6 @@ const postMessageToGroup = (req,res) => {
 	  // Table created
 		  return Post.create({
 		  	post: req.body.message,
-		  	groupName: req.body.groupName,
 		  	groupId: req.params.groupId
 		  })
 		  .catch((err) => {
@@ -76,7 +76,7 @@ const postMessageToGroup = (req,res) => {
 	}
 	
 	else{
-		res.status(404).json({ error: { message : "please login first"}});
+		res.status(401).json({ error: { message : "please login first"}});
 	}
 	
 }
@@ -91,7 +91,7 @@ const getPosts = (req,res) => {
 		.then((posts) =>{
 			let data = JSON.stringify(posts);
 			data = JSON.parse(data);
-			res.json(data);
+			res.json( { posts: data });
 		})
 		.catch((err) => {
 			  console.log(err);
