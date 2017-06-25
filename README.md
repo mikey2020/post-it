@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)](https://travis-ci.org/mikey2020/post-it)
 
+
 [![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg?branch=develop)](https://coveralls.io/github/mikey2020/post-it?branch=develop)
+
 
 # post-it
 PostIt is a simple application that allows friends and colleagues create groups for notifications. 

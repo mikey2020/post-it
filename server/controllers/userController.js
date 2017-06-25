@@ -2,40 +2,42 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
+import {validateInput} from '../middlewares/validations.js';
+
+
+
 const signup = (req,res) =>{
 
-	// force: true will drop the table if it already exists
-	User.sync({force: false}).then(() => {
-	  // Table created
-	   User.create({
-		userName: req.body.username,
-		email: req.body.email,
-		password: req.body.password
-	  })
+	const {errors,isValid} = validateInput(req.body);
 
-	})
-	.catch((err) => {
-		  console.log(err);
-		  res.status(500).json({ message : "error saving to database"});
-	})
 
-	/*User.findOne({
-		where: {
-			userName: req.body.username
-		}
-	})
-	.then(user => {
-		if(user){
-			res.json({ message:  req.body.username + ' successfully added' });
-		}
-	})*/
+	if(!isValid){
+		res.status(400).json(errors);
+	}
 
+	else{
+		// force: true will drop the table if it already exists
 		
-	res.json({ message:  req.body.username + ' successfully added' });
+		User.sync({force: false}).then(() => {
+		  // Table created
+		  return User.create({
+			userName: req.body.username,
+			email: req.body.email,
+			password: req.body.password
+		  })
+		  .catch((err) => {
+			  console.log(err);
+			  res.json({ message : "error saving to database"});
+			});
+		});
+
+		res.json({  message:  req.body.username + ' successfully added' });
+	}
 	
 }
 
 const allUsers = (req,res) => {
+
 	User.findAll({}).then((data) => {
 		console.log(JSON.stringify(data));
 		res.json(data);
@@ -47,7 +49,6 @@ const allUsers = (req,res) => {
 
 
 const signin = (req,res) => {
-	console.log(req.body);
 	
 	req.session.username = req.body.username;
 
@@ -62,18 +63,20 @@ const signin = (req,res) => {
 
 	   data = JSON.parse(data);
 
-	  console.log(data[0].password);
 
 	  if(bcrypt.compareSync(req.body.password, data[0].password) === true){
 
+	  	console.log(data[0].id);
 	  	req.session.name = req.body.username ;
 	  	req.session.userId = data[0].id;
-		res.json({message: req.body.username + " is valid"});
+
+		res.json({ user: { name: req.body.username , message:  req.body.username + ' signed in' } });
+
 	  }
 
 	  else{
 
-		res.status(404).json({ errors: { message: req.body.username + " is not valid"} });
+		res.status(401).json({errors: { form: "Invalid Signin Parameters"}});
 
 	  }
 	 
@@ -85,4 +88,17 @@ const signin = (req,res) => {
 	})
 }
 
-export {signup,allUsers,signin} ;
+
+const isUnique = (req,res) => {
+	console.log(req.params.name);
+	User.findOne({
+	  where: {
+	   userName: req.params.name
+	  }
+	}).then((user) => {
+		res.json({user});
+	});
+}
+
+export {signup,allUsers,signin,isUnique} ;
+

@@ -1,6 +1,6 @@
-import {sequelize} from '../db.js';
+import {sequelize} from '../db';
 
-import {Group,UserGroups,Post} from '../models/models.js';
+import {Group,UserGroups,Post} from '../models/models';
 
 const createGroup = (req,res) => {
 	console.log(req.body);
@@ -9,7 +9,7 @@ const createGroup = (req,res) => {
 		Group.sync({force: false}).then(() => {
 	  // Table created
 		  return Group.create({
-		  	name: req.body.name,
+		  	name: req.body.input,
 		  	creator: req.session.name,
 		  	userId: req.session.userId
 		  })
@@ -23,7 +23,9 @@ const createGroup = (req,res) => {
 	}
 
 	else{
-		res.status(401).json({ error: { message : "You are not allowed to create a group , please login first" } });
+
+		res.status(401).json({errors: { message: "Please Sign in first"}});
+
 	}
 	
 	
@@ -33,24 +35,45 @@ const addUserToGroup = (req,res) => {
 	console.log(req.session.name);
 	console.log(req.body);
 	console.log(req.params.groupId);
-	if(req.session.name){
-		UserGroups.sync({force: false}).then(() => {
-	  // Table created
-		  return UserGroups.create({
-		  	username: req.body.username,
-		  	groupId: req.params.groupId
-		  })
-		  .catch((err) => {
-			  console.log(err);
-			  res.status(500).json({ message : "error saving to database"});
-			});
-		});
 
-		res.json({ message : "user added to group"});
-	}
+	if(req.session.name){
+
+		UserGroups.findOne({
+			where: {
+				username: req.body.username,
+				groupId: req.params.groupId
+			}
+		})
+		.then((user) => {
+			if(user){
+				res.status(500).json({ errors : { message : req.body.username + " alredy added to group"}});
+			}
+				
+		})
+		.catch((err) => {
+			  UserGroups.sync({force: false}).then(() => {
 	
+				  return UserGroups.create({
+				  	username: req.body.username,
+				  	groupId: req.params.groupId
+				  })
+
+				  .catch((err) => {
+					  console.log(err);
+					  res.json({ message : "error saving to database"});
+					});
+
+				});
+
+			   res.json({ message : "user added to group"});
+				
+		});			
+	}
+
 	else{
-		res.status(401).json({ error: { message : "please login first"}});
+
+		res.status(401).json({errors: { message: "Please Sign in first"}});
+
 	}
 		
 	
@@ -61,7 +84,7 @@ const postMessageToGroup = (req,res) => {
 	console.log(req.params.groupId);
 	if(req.session.name){
 		Post.sync({force: false}).then(() => {
-	  // Table created
+	
 		  return Post.create({
 		  	post: req.body.message,
 		  	groupId: req.params.groupId
@@ -106,4 +129,35 @@ const getPosts = (req,res) => {
 	
 }
 
-export {createGroup,addUserToGroup,postMessageToGroup,getPosts} ;
+const checkGroups = (req,res) => {
+	Group.findOne({
+		where: {
+			name: req.params.name
+		}
+	})
+	.then(group => {
+		res.json({group})
+	});
+}
+
+const getUserGroups = (req,res) => {
+
+	Group.findAll({
+		where: {
+			creator: req.params.username 
+		}
+	})
+	.then(groups => {
+		let data = JSON.stringify(groups);
+		data = JSON.parse(data);
+		console.log(data);
+		res.json(data);
+	})
+	.catch((err) => {
+		console.log(err);
+	    res.status(500).json({ errors : {message : "error retrieving data from database"}});
+	});
+}
+
+
+export {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups,getUserGroups} ;
