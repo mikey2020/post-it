@@ -1,7 +1,7 @@
 
 import should from 'should';
 
-import request from 'superagent';
+import request from 'supertest';
 
 import {User,Group,Post} from '../models/models.js';
 
@@ -19,7 +19,7 @@ describe('Test api routes', () => {
 
   	  
 
-  		user.post('http://localhost:3000/api/user/signup')
+  		request(app).post('/api/user/signup')
             .send({username: "test-user", email: "test-email@yahoo.com",password: "password"})
             .end((err, res) => {
             	console.log(res.body);
@@ -37,7 +37,7 @@ describe('Test api routes', () => {
 	  it('should return "dafe is valid"', done => {
 
 	  
-	    user.post('http://localhost:3000/api/user/signin')
+	    request(app).post('/api/user/signin')
 	        .send({username: "dafe" , password: "dafe"})
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -55,7 +55,7 @@ describe('Test api routes', () => {
 
 	  it('should return "test-group  successfully created" ', done => {
 	  	
-	   user.post('http://localhost:3000/api/group')
+	   request(app).post('/api/group')
 	        .send({name: "test-group"})
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -72,7 +72,7 @@ describe('Test api routes', () => {
 
 	  it('should return "user added to group" ', done => {
 	  	
-	   user.post('http://localhost:3000/api/group/1/user')
+	   request(app).post('/api/group/1/user')
 	        .send({username: "user2"})
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -89,7 +89,7 @@ describe('Test api routes', () => {
 
 	  it('should return "message posted to group" ', done => {
 	  	
-	    user.post('http://localhost:3000/api/group/1/message')
+	    request(app).post('/api/group/1/message')
 	        .send({message: "how is everybody doing?" })
 	        .end((err, res) => {
 	            console.log(res.body);
@@ -106,7 +106,7 @@ describe('Test api routes', () => {
 
 	  it('should return messages posted to group ', done => {
 	  	
-	    user.get('http://localhost:3000/api/group/1/messages')
+	    request(app).get('/api/group/1/messages')
 	        //.expect(200)
 	        .end((err, res) => {
 	            console.log(res.body);
