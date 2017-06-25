@@ -5,7 +5,7 @@ import {User,hashPassword,bcrypt} from '../models/models.js';
 const signup = (req,res) =>{
 
 	// force: true will drop the table if it already exists
-	//User.sync({force: false}).then(() => {
+	User.sync({force: false}).then(() => {
 	  // Table created
 	   User.create({
 		userName: req.body.username,
@@ -13,7 +13,7 @@ const signup = (req,res) =>{
 		password: req.body.password
 	  })
 
-	//})
+	})
 	.catch((err) => {
 		  console.log(err);
 		  res.status(500).json({ message : "error saving to database"});

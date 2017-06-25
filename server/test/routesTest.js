@@ -12,10 +12,19 @@ const user = request.agent(app);
 
 describe('Test api routes', () => {
 
+	before((done) => {
+
+		User.sync({force: false}).then(() => {
+
+			User.create({ userName: "test-user", email: "test-email@yahoo.com",password: "pass"});
+
+			done();
+		});
+	});
 
   describe(' All routes should work' , () => {
 
-  	  it('should return "test-user successfully added" ', done => {
+  	 /* it('should return "test-user successfully added" ', done => {
 
   	  	
 	  	request(app).post('/api/user/signup')
@@ -33,7 +42,7 @@ describe('Test api routes', () => {
 
      	 done();
 	        
-  	 });
+  	 });*/
 
 
 	  it('should return "test-user is valid"', done => {
