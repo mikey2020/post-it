@@ -1,14 +1,14 @@
-'use strict';
+
 
 import * as dotenv from 'dotenv';
 
 import express from 'express';
 
-import {sequelize} from './db.js';
+import { sequelize } from './db.js';
 
-import {signup,allUsers,signin} from './controllers/userController';
+import { signup, allUsers, signin } from './controllers/userController';
 
-import {createGroup,addUserToGroup,postMessageToGroup,getPosts} from './controllers/groupController';
+import { createGroup, addUserToGroup, postMessageToGroup, getPosts } from './controllers/groupController';
 
 import morgan from 'morgan';
 
@@ -17,29 +17,26 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 
 
-
 dotenv.config();
-
 
 
 const app = express();
 
-const port = process.env.PORT  ;
+const port = process.env.PORT;
 
 sequelize
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
 
 
+app.use(morgan('dev'));
 
-app.use(morgan("dev"));
-
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
@@ -51,34 +48,32 @@ app.use(session({
 }));
 
 
-app.get('/api/users',allUsers);
+app.get('/api/users', allUsers);
 
 
-app.post('/api/user/signup',signup);
+app.post('/api/user/signup', signup);
 
-app.post('/api/user/signin',signin);
+app.post('/api/user/signin', signin);
 
-app.post('/api/group',createGroup);
+app.post('/api/group', createGroup);
 
-app.post('/api/group/:groupId/user',addUserToGroup);
+app.post('/api/group/:groupId/user', addUserToGroup);
 
-app.post('/api/group/:groupId/message',postMessageToGroup);
+app.post('/api/group/:groupId/message', postMessageToGroup);
 
-app.get('/api/group/:groupId/messages',getPosts);
+app.get('/api/group/:groupId/messages', getPosts);
 
 
+// method to get error
 
-//method to get error
-
-app.use(function(req, res) {
-  res.status(404).send({url: req.originalUrl + ' not found'})
+app.use((req, res) => {
+  res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
 
 app.listen(port, () => {
-  console.log('Listening on port 3000...')
+  console.log('Listening on port 3000...');
 });
 
 
-
-export {app};
+export { app };

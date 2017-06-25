@@ -15,13 +15,19 @@ describe('Test api routes', () => {
 
   describe(' All routes should work' , () => {
 
-  	  it('should return "test-user added successfully" ', (done) => {
+  	  it('should return "test-user successfully added" ', (done) => {
 
   	  
-  	  	//before((done) => {
+  	  	/*before((done) => {
+
+  	  		User.create({ userName: "test-user", email: "test-email@yahoo.com",password: "pass"});
+
+  	  		done();
+
+  	  	 });*/
 
   	  	
-	  		user.post('/api/user/signup')
+	  		request(app).post('/api/user/signup')
 	            .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
 	            .end((err, res) => {
 	            	console.log(res.body);
@@ -29,13 +35,13 @@ describe('Test api routes', () => {
 	                //should.not.exist(err);
 	                res.body.should.have.property('message', res.body.message);
 	                //res.body.should.equal({ message: 'test-user successfully added' })
-	              done();
-	        });
+	                done();
+	            });
+	           
 
-        //});
+	       // });
 
-      
-
+     	
   	 });
 
 
@@ -135,11 +141,11 @@ describe('Test api routes', () => {
         }
       });
 
-      /*User.destroy({
+      User.destroy({
         where: {
           userName: "test-user"
         }
-      });*/
+      });
 
       Post.destroy({
         where: {

@@ -17,7 +17,17 @@ const signup = (req,res) =>{
 		  res.status(500).json({ message : "error saving to database"});
 		});
 	});
-	res.json({ message:  req.body.username + ' successfully added' });
+
+	User.findOne({
+		where: {
+			userName: req.body.username
+		}
+	}).then(user => {
+		if(user){
+			res.json({ message:  req.body.username + ' successfully added' });
+		}
+	})
+	
 }
 
 const allUsers = (req,res) => {
