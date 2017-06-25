@@ -17,15 +17,6 @@ describe('Test api routes', () => {
 
   	  it('should return "test-user successfully added" ', (done) => {
 
-  	  
-  	  	/*before((done) => {
-
-  	  		User.create({ userName: "test-user", email: "test-email@yahoo.com",password: "pass"});
-
-  	  		done();
-
-  	  	 });*/
-
   	  	
 	  		request(app).post('/api/user/signup')
 	            .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
@@ -35,13 +26,12 @@ describe('Test api routes', () => {
 	                //should.not.exist(err);
 	                res.body.should.have.property('message', res.body.message);
 	                //res.body.should.equal({ message: 'test-user successfully added' })
-	                done();
-	            });
-	           
+	             
+	             done();
+	        });
 
-	       // });
-
-     	
+     	 
+	        
   	 });
 
 
