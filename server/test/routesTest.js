@@ -15,7 +15,7 @@ describe('Test api routes', () => {
 
   describe(' All routes should work' , () => {
 
-  	  it('should return "test-user successfully added" ', (done) => {
+  	  it('should return "test-user successfully added" ', done => {
 
   	  	
 	  	request(app).post('/api/user/signup')
@@ -27,11 +27,11 @@ describe('Test api routes', () => {
 	            res.body.should.have.property('message', res.body.message);
 	            //res.body.should.equal({ message: 'test-user successfully added' })
 	             
-	        done();
-	        
+	        //done();
+
 	        });
 
-     	 
+     	 done();
 	        
   	 });
 

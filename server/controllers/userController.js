@@ -5,28 +5,33 @@ import {User,hashPassword,bcrypt} from '../models/models.js';
 const signup = (req,res) =>{
 
 	// force: true will drop the table if it already exists
-	User.sync({force: false}).then(() => {
+	//User.sync({force: false}).then(() => {
 	  // Table created
-	  return User.create({
+	   User.create({
 		userName: req.body.username,
 		email: req.body.email,
 		password: req.body.password
 	  })
-	  .catch((err) => {
+
+	//})
+	.catch((err) => {
 		  console.log(err);
 		  res.status(500).json({ message : "error saving to database"});
-		});
-	});
+	})
 
-	User.findOne({
+	/*User.findOne({
 		where: {
 			userName: req.body.username
 		}
-	}).then(user => {
+	})
+	.then(user => {
 		if(user){
 			res.json({ message:  req.body.username + ' successfully added' });
 		}
-	})
+	})*/
+
+		
+	res.json({ message:  req.body.username + ' successfully added' });
 	
 }
 

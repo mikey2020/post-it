@@ -1,14 +1,18 @@
 
 import {User,Group,Post} from '../models/models.js';
 import should from 'should' ;
-//import '../app.js';
+import '../app.js';
 
 
 describe('User Model Unit Tests:', () => { 
 
-	 beforeEach((done) => {    
+	 before((done) => {    
 
-	 	User.create({ userName: "testname", email: "test@gmail.com",password: "test"});
+	 	//User.sync({force: false}).then(() => {
+
+	 	   User.create({ userName: "testname", email: "test@gmail.com",password: "test"});
+
+	 	//});
       	
       	done();
 
@@ -33,7 +37,7 @@ describe('User Model Unit Tests:', () => {
 	
 	});
 
-	afterEach((done) => {
+	after((done) => {
 		User.destroy({
 			where: {
 				userName: "testname"
@@ -49,13 +53,17 @@ describe('User Model Unit Tests:', () => {
 
 describe('Group Model Unit Tests:', () => { 
 
-	 beforeEach((done) => {    
+	 before((done) => {   
 
-	 	Group.create({ name: "test-group", creator: "test-creator"});
-      	
-      	done();
+		//Group.sync({force: false}).then(() => { 
 
-	 });
+			Group.create({ name: "test-group", creator: "test-creator"});
+	      	
+	      	done();
+
+		//});
+
+	});
 
 
 	describe(' Testing creation of group ',() => {
@@ -69,17 +77,16 @@ describe('Group Model Unit Tests:', () => {
 
 			 should.exist(group);
 
-			 
 			});
 
+			
 			done();
-
 
 		});
 	
 	});
 
-	afterEach((done) => {
+	after((done) => {
 		Group.destroy({
 			where: {
 				name: "test-group"
@@ -95,11 +102,16 @@ describe('Group Model Unit Tests:', () => {
 
 describe('Post Model Unit Tests:', () => { 
 
-	 beforeEach((done) => {    
+	 before((done) => {    
 
-	 	Post.create({ post: "test-post", groupId: 10 , groupName: "test-group"});
+	 	//Post.sync({force: false}).then(() => {
+
+	 	 Post.create({ post: "test-post", groupId: 10 , groupName: "test-group"});
+      	
       	
       	done();
+
+      	//});
 
 	 });
  
@@ -115,7 +127,7 @@ describe('Post Model Unit Tests:', () => {
 			 should.exist(post);
 
 		
-
+			 
 			});
 
 		    done();
@@ -124,7 +136,7 @@ describe('Post Model Unit Tests:', () => {
 	
 	});
 
-	afterEach((done) => {
+	after((done) => {
 		Post.destroy({
 			where: {
 				post: "test-post"
