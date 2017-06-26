@@ -1,5 +1,6 @@
 import React from 'react' ;
-import {validateCreateGroupInput} from '../../../server/middlewares/validations.js';
+
+import Validations from '../../../server/middlewares/validations.js';
 
 import {groupExists,createGroup} from '../../actions/createGroupActions';
 
@@ -26,7 +27,7 @@ class CreateGroup extends React.Component {
 	}
 
 	isValid(){
-		const {errors, isValid} = validateCreateGroupInput(this.state);
+		const {errors, isValid} = validate.createGroupInput(this.state);
 
 		if(!isValid){
 			this.setState({errors, isLoading: true});

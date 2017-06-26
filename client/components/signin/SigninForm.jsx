@@ -1,6 +1,6 @@
 import React from 'react' ;
 
-import {validateSignIn} from '../../../server/middlewares/validations.js';
+import Validations from '../../../server/middlewares/validations.js';
 
 import {signin,setUser} from '../../actions/signinActions.js';
 
@@ -31,7 +31,7 @@ class SigninForm extends React.Component {
 	}
 
 	isValid(){
-		const {errors, isValid} = validateSignIn(this.state);
+		const {errors, isValid} = validate.signin(this.state);
 
 		if(!isValid){
 			this.setState({errors});
@@ -42,6 +42,7 @@ class SigninForm extends React.Component {
 
 	onChange(e){
 		this.setState({[e.target.name]: e.target.value});
+		this.setState({ isLoading: false});
 	}
 
 	onSubmit(e){
@@ -55,7 +56,7 @@ class SigninForm extends React.Component {
 						this.context.router.push('/home'),
 						this.props.addFlashMessage({
 							type: 'success',
-							text: res.data.user.name + ' Sign in successful'
+							text: ' Sign in successful'
 						})
 					},
 

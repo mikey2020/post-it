@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {validateUsername} from '../../../server/middlewares/validations';
+import Validations from '../../../server/middlewares/validations';
 
 import {isUserExists} from '../../actions/signupActions';
 
@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import {addUser} from '../../actions/userGroupsAction';
 
 import {connect} from 'react-redux';
+
+const validate = new Validations();
 
 class Group extends React.Component {
 
@@ -28,7 +30,7 @@ class Group extends React.Component {
 	}
 
 	isValid(){
-		const {errors, isValid} = validateUsername(this.state);
+		const {errors, isValid} = validate.Username(this.state);
 
 		if(!isValid){
 			this.setState({errors});

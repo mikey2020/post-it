@@ -6,7 +6,7 @@ import {userSignupRequest} from '../../actions/signupActions';
 
 import classnames from 'classnames';
 
-import {validateInput} from '../../../server/middlewares/validations.js';
+import Validations from '../../../server/middlewares/validations.js';
 
 import {addFlashMessage} from '../../actions/flashMessage';
 
@@ -30,7 +30,7 @@ class SignupForm extends React.Component{
 
 	isValid(){
 
-		const {errors,isValid} = validateInput(this.state);
+		const {errors,isValid} = validate.signup(this.state);
 
 		if(!isValid){
 			this.setState({errors});
