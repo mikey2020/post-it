@@ -59,13 +59,24 @@ app.use(session({
 
 }));
 
-app.use(webpackMiddleware(compiler, {
+if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
+    app.use(webpackMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+  }));
+
+  app.use(webpackHotMiddleware(compiler));
+
+}
+
+/*app.use(webpackMiddleware(compiler, {
   hot: true,
   publicPath: webpackConfig.output.publicPath,
   noInfo: true
 }));
 
-app.use(webpackHotMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler));*/
 
 // user routes
 

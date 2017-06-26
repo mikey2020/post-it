@@ -5,7 +5,7 @@ import {Group,UserGroups,Post} from '../models/models';
 const createGroup = (req,res) => {
 	
 	if(req.session.name){
-		Group.sync({force: true}).then(() => {
+		Group.sync({force: false}).then(() => {
 	  // Table created
 		  return Group.create({
 		  	name: req.body.input,
@@ -47,7 +47,7 @@ const addUserToGroup = (req,res) => {
 
 			else{
 
-				UserGroups.sync({force: true}).then(() => {
+				UserGroups.sync({force: false}).then(() => {
 	
 				  return UserGroups.create({
 				  	username: req.body.username,
@@ -79,7 +79,7 @@ const addUserToGroup = (req,res) => {
 const postMessageToGroup = (req,res) => {
 	
 	if(req.session.name){
-		Post.sync({force: true}).then(() => {
+		Post.sync({force: false}).then(() => {
 	
 		  return Post.create({
 		  	post: req.body.message,

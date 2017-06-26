@@ -3,7 +3,7 @@ import should from 'should';
 
 import request from 'supertest';
 
-import { User, Group, Post } from '../models/models';
+import { User, Group, Post , UserGroups} from '../models/models';
 
 import app  from '../app';
 
@@ -14,12 +14,12 @@ describe('Test api routes', () => {
 
   before((done) => {
 
-    	//User.sync({ force: false }).then(() => {
+    	User.sync({ force: false }).then(() => {
 
-    	User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
+	    	User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
 
-    	done();
-    	//});
+	    	done();
+    	});
 
   	});
 
@@ -52,7 +52,7 @@ describe('Test api routes', () => {
 			            res.status.should.equal(200);
 			            should.not.exist(err);
 			            // res.body.error.should.be.a.object();
-			            res.body.should.have.property('message', res.body.message);
+			            res.body.should.have.property('user', res.body.user);
 
 			         done();
 			    });
@@ -74,7 +74,7 @@ describe('Test api routes', () => {
 
 	    it('should return "user added to group" ', (done) => {
 		  user.post('/api/group/1/user')
-		        .send({ username: 'user2' })
+		        .send({ username: 'user3' })
 		        .end((err, res) => {
 		            res.status.should.equal(200);
 		            should.not.exist(err);
@@ -134,6 +134,12 @@ describe('Test api routes', () => {
       where: {
         groupId: 1,
         post: 'how is everybody doing?'
+      }
+    });
+
+    UserGroups.destroy({
+      where: {
+       username: 'user3'
       }
     });
 
