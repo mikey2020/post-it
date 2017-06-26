@@ -3,10 +3,9 @@ import {sequelize} from '../db';
 import {Group,UserGroups,Post} from '../models/models';
 
 const createGroup = (req,res) => {
-	console.log(req.body);
-	console.log(req.session.name);
+	
 	if(req.session.name){
-		Group.sync({force: false}).then(() => {
+		Group.sync({force: true}).then(() => {
 	  // Table created
 		  return Group.create({
 		  	name: req.body.input,
@@ -32,10 +31,7 @@ const createGroup = (req,res) => {
 }
 
 const addUserToGroup = (req,res) => {
-	console.log(req.session.name);
-	console.log(req.body);
-	console.log(req.params.groupId);
-
+	
 	if(req.session.name){
 
 		UserGroups.findOne({
@@ -46,12 +42,12 @@ const addUserToGroup = (req,res) => {
 		})
 		.then((user) => {
 			if(user){
-				res.status(500).json({ errors : { message : req.body.username + " alredy added to group"}});
+				res.status(500).json({ errors : { message : req.body.username + " already added to group"}});
 			}
-				
-		})
-		.catch((err) => {
-			  UserGroups.sync({force: false}).then(() => {
+
+			else{
+
+				UserGroups.sync({force: true}).then(() => {
 	
 				  return UserGroups.create({
 				  	username: req.body.username,
@@ -66,8 +62,9 @@ const addUserToGroup = (req,res) => {
 				});
 
 			   res.json({ message : "user added to group"});
+			}
 				
-		});			
+		})		
 	}
 
 	else{
@@ -80,10 +77,9 @@ const addUserToGroup = (req,res) => {
 }
 
 const postMessageToGroup = (req,res) => {
-	console.log(req.body);
-	console.log(req.params.groupId);
+	
 	if(req.session.name){
-		Post.sync({force: false}).then(() => {
+		Post.sync({force: true}).then(() => {
 	
 		  return Post.create({
 		  	post: req.body.message,
@@ -105,6 +101,7 @@ const postMessageToGroup = (req,res) => {
 }
 
 const getPosts = (req,res) => {
+
 	if(req.session.name){
 		Post.findAll({
 		where: {
@@ -130,6 +127,7 @@ const getPosts = (req,res) => {
 }
 
 const checkGroups = (req,res) => {
+
 	Group.findOne({
 		where: {
 			name: req.params.name

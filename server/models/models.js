@@ -112,7 +112,7 @@ User.beforeCreate((user, options) => {
 
     user.password = bcrypt.hashSync(user.password);	
 
-    User.findOne({
+    /*User.findOne({
           where: {
             userName: user.userName
           }
@@ -123,7 +123,7 @@ User.beforeCreate((user, options) => {
 
           }
 
-    });
+    });*/
       
     //user.username = user.username.toLowerCase();
 

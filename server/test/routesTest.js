@@ -5,18 +5,22 @@ import request from 'supertest';
 
 import { User, Group, Post } from '../models/models';
 
-import { app } from '../app';
+import app  from '../app';
 
 
 const user = request.agent(app);
 
 describe('Test api routes', () => {
-  before((done) => {
-    	User.sync({ force: false }).then(() => {
-    		User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
 
-    		done();
-    	});
+  before((done) => {
+
+    	//User.sync({ force: false }).then(() => {
+
+    	User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
+
+    	done();
+    	//});
+
   	});
 
   describe(' All routes should work', () => {
@@ -52,7 +56,7 @@ describe('Test api routes', () => {
 
 			         done();
 			    });
-    });
+    	});
 
 	    it('should return "test-group  successfully created" ', (done) => {
 		  	user.post('/api/group')
