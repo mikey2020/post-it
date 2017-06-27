@@ -10,7 +10,9 @@ import SignupPage from './components/signup/SignupPage.jsx';
 
 import SigninPage from './components/signin/SigninPage.jsx';
 
-import HomePage from './components/homepage/HomePage.jsx'
+import HomePage from './components/homepage/HomePage.jsx';
+
+import PostMessage from './components/PostMessage.jsx';
 
 export default (
 	<Route path ="/" component={App}>
@@ -18,5 +20,6 @@ export default (
 		<Route path="signup" component={SignupPage}/>
 		<Route path="signin" component={SigninPage}/>
 		<Route path="home" component={HomePage}/>
+		<Route path="postmessage" component={PostMessage}/>
 	</Route>
 )

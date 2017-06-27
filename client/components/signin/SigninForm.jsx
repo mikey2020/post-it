@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {addFlashMessage} from '../../actions/flashMessage';
 
 
+const validate = new Validations();
 
 
 class SigninForm extends React.Component {
@@ -35,6 +36,7 @@ class SigninForm extends React.Component {
 
 		if(!isValid){
 			this.setState({errors});
+			this.setState({ isLoading: true});
 		}
 
 		return isValid;
@@ -75,6 +77,7 @@ class SigninForm extends React.Component {
 
 				{errors.form && <div className="alert alert-danger"> {errors.form} </div>}
 
+				{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
 		        <form onSubmit={this.onSubmit}>
 		           <div className="form-group" id="login">
 		            	<input 
@@ -85,8 +88,8 @@ class SigninForm extends React.Component {
 		            	value={username}
 		            	className="form-control"
 		            	onChange={this.onChange} />
-		            	{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
-
+		            	
+		            	{errors.password ? <span className="help-block">{errors.password}</span> : <br/>}
 		            	<input 
 		            	type="password" 
 		            	placeholder = "Password" 
@@ -95,7 +98,8 @@ class SigninForm extends React.Component {
 		            	id="pwd"
 		            	value={password}
 		            	onChange={this.onChange}/>
-		                {errors.password ? <span className="help-block">{errors.password}</span> : <br/>}
+		                <br/>
+
 		            	<input 
 		            	type="submit" 
 		            	name="Sign In" 

@@ -20,10 +20,6 @@ import path from 'path';
 
 import { sequelize } from './db';
 
-//import { signup, allUsers, signin, isUnique } from './controllers/userController';
-
-//import { createGroup, addUserToGroup, postMessageToGroup, getPosts, checkGroups, getUserGroups } from './controllers/groupController';
-
 import UserActions from './controllers/userController';
 
 import GroupActions  from './controllers/groupController';

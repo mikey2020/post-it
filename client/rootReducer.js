@@ -6,8 +6,11 @@ import auth from './reducers/auth';
 
 import groupActions from './reducers/groupActions';
 
+import postMessage from './reducers/postMessage';
+
 export default combineReducers({
 	flashMessages,
 	auth,
-	groupActions
+	groupActions,
+	postMessage
 });

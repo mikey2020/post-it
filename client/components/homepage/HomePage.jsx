@@ -14,18 +14,27 @@ import isEmpty from 'lodash/isEmpty';
 
 class HomePage extends React.Component {
 
+	constructor(props){
+		super(props);
 
-	componentDidMount() {
+		this.state = {
+			groups: []
+		}
+	}
+
+
+	componentDidMount() {  
 		if(this.props.loggedIn === false){
 			this.context.router.push('/signin');
 		}
-		else if(isEmpty(this.props.groups)){
-			this.context.router.push('/home')
-		}
+
 		else{
-			console.log(this.props.groups);
+			//this.setState({groups: this.props.groups}),
+			this.context.router.push('/home')
 		}    	
   	}
+
+  
 
 	render(){
 		
@@ -50,7 +59,7 @@ HomePage.propTypes = {
 
 	username: PropTypes.string,
 	getUserGroups: PropTypes.func.isRequired,
-	groups: PropTypes.array.isRequired
+	groups: PropTypes.array
 }
 
 HomePage.contextTypes = {

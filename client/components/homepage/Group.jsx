@@ -6,7 +6,7 @@ import {isUserExists} from '../../actions/signupActions';
 
 import PropTypes from 'prop-types';
 
-import {addUser} from '../../actions/userGroupsAction';
+import {addUser,getGroupData} from '../../actions/userGroupsAction';
 
 import {connect} from 'react-redux';
 
@@ -25,6 +25,7 @@ class Group extends React.Component {
 
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
+		this.setData = this.setData.bind(this);
 		this.checkUserIsValid = this.checkUserIsValid.bind(this);
 
 	}
@@ -47,6 +48,7 @@ class Group extends React.Component {
 		e.preventDefault();
 		if(this.isValid()){
 			this.props.addUser(this.props.group.id,this.state).then(
+
 				(res) => {
 					this.setState({errors: res.data})
 				},
@@ -56,6 +58,15 @@ class Group extends React.Component {
 				}
 			)
 		}
+	}
+
+	setData(){
+		this.props.getGroupData({
+			groupId: this.props.group.id,
+			groupName: this.props.group.name
+		}),
+
+		this.context.router.push('/postmessage')
 	}
 
 	checkUserIsValid(e){
@@ -86,6 +97,7 @@ class Group extends React.Component {
 		         <div className="form-group">
 		         	{this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br/>}
 		         	{this.state.errors.message ? <span className="help-block">{this.state.errors.message}</span> : <br/>}
+
 		         	<form onSubmit={this.onSubmit}>
 		         		<input 
 		         		type="text"
@@ -98,7 +110,7 @@ class Group extends React.Component {
 		         		<button className="btn btn-primary" disabled={this.state.invalid}> Add user </button>
 		         	</form>
 		         </div>
-		         <span className="btn btn-primary">Post Message to {this.props.group.name}</span>
+		         <span className="btn btn-primary" onClick={this.setData} >Post Message to {this.props.group.name}</span>
 		    </div>
 		)
 	}
@@ -108,8 +120,14 @@ Group.propTypes = {
 
 	isUserExists: PropTypes.func.isRequired,
 	group: PropTypes.object.isRequired,
-	addUser: PropTypes.func.isRequired
+	addUser: PropTypes.func.isRequired,
+	getGroupData: PropTypes.func.isRequired
+}
+
+Group.contextTypes = {
+
+	router: PropTypes.object.isRequired
 }
 
 
-export default connect(null,{isUserExists,addUser})(Group);
+export default connect(null,{isUserExists,addUser,getGroupData})(Group);

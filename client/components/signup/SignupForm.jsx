@@ -10,6 +10,9 @@ import Validations from '../../../server/middlewares/validations.js';
 
 import {addFlashMessage} from '../../actions/flashMessage';
 
+
+const validate = new Validations();
+
 class SignupForm extends React.Component{
 	constructor(props){
 		super(props);

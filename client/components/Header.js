@@ -15,7 +15,7 @@ class Header extends React.Component {
 			<nav className="navbar navbar-inverse" id="my-header">
 		      <div className="container-fluid">
 		        <div className="navbar-header">
-		          <Link to="/" className="navbar-brand">Post It</Link>
+		          <Link to="/home" className="navbar-brand">Post It</Link>
 		        </div>
 		        <ul className="nav navbar-nav">
 		          <li><Link to="/signup">SignUp</Link></li>

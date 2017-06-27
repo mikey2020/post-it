@@ -1,4 +1,4 @@
-import {SET_USER_GROUPS} from  '../actions/types';
+import {SET_USER_GROUPS,GET_GROUP_DATA} from  '../actions/types';
 import shortid from 'shortid';
 import findIndex from 'lodash/findIndex';
 
@@ -8,6 +8,8 @@ export default (state = [], action={}) => {
 	switch(action.type){
 
 		  case SET_USER_GROUPS:
+		  	
+		  	
 		  	
 		    return action.groups.map((group) => {
 
@@ -20,6 +22,7 @@ export default (state = [], action={}) => {
 
 	       })
 
+
 		  
 		
 		default: return state ;
@@ -27,13 +30,3 @@ export default (state = [], action={}) => {
 	}
 }
 
-/*return action.groups.map((group) => {
-
-	          return Object.assign({}, group, {
-	           	id: group.id,
-				name: group.name,
-				creator: group.creator
-	          })
-	        
-
-	       });*/

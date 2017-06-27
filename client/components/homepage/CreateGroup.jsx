@@ -10,6 +10,9 @@ import PropTypes from 'prop-types';
 
 import {addFlashMessage} from '../../actions/flashMessage';
 
+
+const validate = new Validations();
+
 class CreateGroup extends React.Component {
 	constructor(props){
 		super(props);

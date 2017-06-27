@@ -7,3 +7,5 @@ export const SET_USER = 'SET_USER';
 export const SET_USER_GROUPS = 'SET_USER_GROUPS';
 
 export const ADD_USER = 'ADD_USER';
+
+export const GET_GROUP_DATA = 'GET_GROUP_DATA';

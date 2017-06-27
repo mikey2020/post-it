@@ -86,7 +86,7 @@ class GroupActions {
 			Post.sync({force: false}).then(() => {
 		
 			  return Post.create({
-			  	post: req.body.message,
+			  	post: req.body.post,
 			  	groupId: req.params.groupId
 			  })
 			  .catch((err) => {
@@ -115,6 +115,7 @@ class GroupActions {
 			.then((posts) =>{
 				let data = JSON.stringify(posts);
 				data = JSON.parse(data);
+				console.log(data);
 				res.json( { posts: data });
 			})
 			.catch((err) => {
