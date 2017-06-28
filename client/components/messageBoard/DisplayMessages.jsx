@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 
 import {connect} from 'react-redux';
 
@@ -37,4 +37,4 @@ DisplayMessages.propTypes = {
 }
 
 
-export default connect(null,{getGroupMessages})(DisplayMessages) ;
+export default connect(null,{getGroupMessages})(DisplayMessages) ;*/
