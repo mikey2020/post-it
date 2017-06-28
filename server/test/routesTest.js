@@ -94,6 +94,19 @@ describe('Test api routes', () => {
 			         done();
 			    });
 	    });
+
+	    it('should return group created by test-user', (done) => {
+			    user.get('/api/groups/test-user')
+			        .end((err, res) => {
+			            res.status.should.equal(200);
+			            should.not.exist(err);
+			            // res.body.error.should.be.a.object();
+			            //res.body.should.have.property('posts', res.body.posts);
+
+
+			         done();
+			    });
+	    });
   });
 
   describe('All routes should not work without login' ,() => {
