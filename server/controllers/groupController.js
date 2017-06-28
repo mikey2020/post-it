@@ -59,8 +59,8 @@ class GroupActions {
 						  .catch((err) => {
 							  console.log(err);
 							  res.json({ message: 'error saving to database' });
-							  
-						res.json({ message: 'user added to group' });
+
+						res.status(200).json({ message: 'user added to group' });
 	  }));
 
 	  });
