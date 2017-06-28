@@ -83,7 +83,7 @@ class GroupActions {
 
 	      res.json({ message: 'message posted to group' });
 	    }				else {
-	      res.status(401).json({ error: { message: 'please login first' } });
+	      res.status(401).json({ errors: { message: 'please login first' } });
 	    }
 	  }
 
@@ -106,7 +106,7 @@ class GroupActions {
 					  res.json({ message: 'error saving to database' });
 	});
 	    } else {
-	      res.status(401).json({ message: 'please login first' });
+	      res.status(401).json({ errors: { message: 'please login first' } });
 	    }
 	  }
 

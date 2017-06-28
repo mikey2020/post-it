@@ -24,25 +24,6 @@ describe('Test api routes', () => {
   	});
 
   describe(' All routes should work', () => {
-  	 /* it('should return "test-user successfully added" ', done => {
-
-
-	  	request(app).post('/api/user/signup')
-	        .send({username: "test-user", email: "test-email@yahoo.com",password: "pass"})
-	        .end((err, res) => {
-	            console.log(res.body);
-	            res.status.should.equal(200);
-	            //should.not.exist(err);
-	            res.body.should.have.property('message', res.body.message);
-	            //res.body.should.equal({ message: 'test-user successfully added' })
-
-	        //done();
-
-	        });
-
-     	 done();
-
-  	 });*/
 
 
 	    it('should return "test-user is valid"', (done) => {
@@ -90,7 +71,6 @@ describe('Test api routes', () => {
 			    user.post('/api/group/1/message')
 			        .send({ message: 'how is everybody doing?' })
 			        .end((err, res) => {
-			            console.log(res.body);
 			            res.status.should.equal(200);
 			            should.not.exist(err);
 			            // res.body.error.should.be.a.object();
@@ -105,7 +85,6 @@ describe('Test api routes', () => {
 			    user.get('/api/group/1/messages')
 			        // .expect(200)
 			        .end((err, res) => {
-			            console.log(res.body);
 			            res.status.should.equal(200);
 			            should.not.exist(err);
 			            // res.body.error.should.be.a.object();
@@ -116,6 +95,66 @@ describe('Test api routes', () => {
 			    });
 	    });
   });
+
+  describe('All routes should not work without login' ,() => {
+
+  	it('should not return "test-group  successfully created" ', (done) => {
+		  	request(app).post('/api/group')
+		        .send({ name: 'test-group' })
+		        .end((err, res) => {
+		            res.status.should.equal(401);
+		            //should.exist(err);
+		            // res.body.error.should.be.a.object();
+		            res.body.should.have.property('errors', res.body.errors);
+
+
+		         done();
+	   		});
+	    });
+
+	    it('should not return "user added to group" ', (done) => {
+		  request(app).post('/api/group/1/user')
+		        .send({ username: 'user3' })
+		        .end((err, res) => {
+		            res.status.should.equal(401);
+		            //should.exist(err);
+		            // res.body.error.should.be.a.object();
+		            res.body.should.have.property('errors', res.body.errors);
+
+
+		         done();
+		    });
+	    });
+
+	    it('should not return "message posted to group" ', (done) => {
+			    request(app).post('/api/group/1/message')
+			        .send({ message: 'how is everybody doing?' })
+			        .end((err, res) => {
+			            res.status.should.equal(401);
+			            //should.exist(err);
+			            // res.body.error.should.be.a.object();
+			            res.body.should.have.property('errors', res.body.errors);
+
+
+			         done();
+			    });
+	    });
+
+	    it('should not return messages posted to group ', (done) => {
+			    request(app).get('/api/group/1/messages')
+			        // .expect(200)
+			        .end((err, res) => {
+			            res.status.should.equal(401);
+			            //should.exist(err);
+			            // res.body.error.should.be.a.object();
+			            res.body.should.have.property('errors', res.body.errors);
+
+
+			         done();
+			    });
+	    });
+
+  })
 
   after((done) => {
     Group.destroy({
