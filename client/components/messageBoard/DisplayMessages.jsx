@@ -21,6 +21,8 @@ class DisplayMessages extends React.Component {
 
 			
 		    <div className="jumbotron">
+
+		    	<p>working </p>
 		    
 		    </div>
 
