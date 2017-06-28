@@ -22,7 +22,7 @@ export default {
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		
-	    new webpack.optimize.UglifyJsPlugin(),
+	    new webpack.optimize.UglifyJsPlugin({minimize: true}),
 
 	    new webpack.LoaderOptionsPlugin({
 	      minimize: true,
