@@ -24,8 +24,20 @@ export default {
 		new webpack.DefinePlugin({
 	      'process.env.NODE_ENV': JSON.stringify('production')
 	    }),
+	    new webpack.LoaderOptionsPlugin({
+	      minimize: true,
+	      debug: false
+	    }),
 	    new webpack.optimize.UglifyJsPlugin({
-	      sourceMap: options.devtool && (options.devtool.indexOf("sourcemap") >= 0 || options.devtool.indexOf("source-map") >= 0)
+	      beautify: false,
+	      mangle: {
+	        screw_ie8: true,
+	        keep_fnames: true
+	      },
+	      compress: {
+	        screw_ie8: true
+	      },
+	      comments: false
 	    })
 	],
 
