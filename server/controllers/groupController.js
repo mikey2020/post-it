@@ -51,7 +51,7 @@ class GroupActions {
 	  }
 	})
 		.catch((err) => {
-			UserGroups.sync({ force: false }).then(() => UserGroups.create({
+			UserGroups.sync({ force: true }).then(() => UserGroups.create({
 						  	username: req.body.username,
 						  	groupId: req.params.groupId
 						  })
