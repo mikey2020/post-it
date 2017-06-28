@@ -31,7 +31,7 @@ class Group extends React.Component {
 	}
 
 	isValid(){
-		const {errors, isValid} = validate.Username(this.state);
+		const {errors, isValid} = validate.username(this.state);
 
 		if(!isValid){
 			this.setState({errors});

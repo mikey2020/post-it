@@ -164,6 +164,25 @@ class GroupActions {
 
 	}
 
+	getNumberOfGroups(req,res){
+
+		UserGroups.findAll({
+
+			attributes: ['groupId'],
+			
+			where: {
+				username: req.params.username
+			}
+		})
+		.then(results => {
+			let data = JSON.stringify(results);
+			data = JSON.parse(data);
+			console.log(data);
+			res.json(data);
+		})
+
+	}
+
 
 }
 

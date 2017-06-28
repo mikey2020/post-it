@@ -14,6 +14,8 @@ import HomePage from './components/homepage/HomePage.jsx';
 
 import PostMessage from './components/PostMessage.jsx';
 
+import MessageBoard from './components/messageBoard/MessageBoard.jsx';
+
 export default (
 	<Route path ="/" component={App}>
 		<IndexRoute component={Greetings}/>
@@ -21,5 +23,6 @@ export default (
 		<Route path="signin" component={SigninPage}/>
 		<Route path="home" component={HomePage}/>
 		<Route path="postmessage" component={PostMessage}/>
+		<Route path="messageboard" component={MessageBoard}/>
 	</Route>
 )

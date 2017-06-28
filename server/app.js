@@ -105,6 +105,8 @@ app.post('/api/group/:groupId/message', group.postMessageToGroup);
 
 app.get('/api/group/:groupId/messages', group.getPosts);
 
+app.get('/api/group/:username/usergroups',group.getNumberOfGroups);
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(`${process.cwd()}/client/index.html`));
 });

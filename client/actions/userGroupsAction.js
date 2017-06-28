@@ -53,6 +53,12 @@ const getGroupMessages = (groupId) => {
 
 }
 
+const getGroupsUserisPartOf = (username) => {
+	return dispatch => {
+
+		return axios.get(`/api/group/${username}/usergroups`);
+	}
+}
 
 
-export {getUserGroups,setUserGroups,addUser,getGroupData,postMessage,getGroupMessages};
+export {getUserGroups,setUserGroups,addUser,getGroupData,postMessage,getGroupMessages,getGroupsUserisPartOf};

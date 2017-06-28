@@ -20,6 +20,7 @@ class Header extends React.Component {
 		        <ul className="nav navbar-nav">
 		          <li><Link to="/signup">SignUp</Link></li>
 		          <li><Link to="/signin">SignIn</Link></li>
+		          <li><Link to="/messageboard">Message Board</Link></li>
 		        </ul>
 		      </div>
 		    </nav>
