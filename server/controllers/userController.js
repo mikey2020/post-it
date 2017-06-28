@@ -2,14 +2,15 @@ import {sequelize} from '../db.js';
 
 import {User,hashPassword,bcrypt} from '../models/models.js';
 
-import {validateInput} from '../middlewares/validations.js';
+import Validations from '../middlewares/validations.js';
 
+const validate = new Validations();
 
 class UserActions {
 
 	signup(req,res){
 
-		const {errors,isValid} = validateInput(req.body);
+		const {errors,isValid} = validate.signup(req.body);
 
 
 		if(!isValid){
