@@ -8,14 +8,6 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-import webpack from 'webpack';
-
-import webpackMiddleware from 'webpack-dev-middleware';
-
-import webpackHotMiddleware from 'webpack-hot-middleware';
-
-import webpackConfig from '../webpack.config';
-
 import path from 'path';
 
 import { sequelize } from './db';
@@ -29,8 +21,6 @@ dotenv.config();
 const app = express();
 
 const port = process.env.PORT;
-
-const compiler = webpack(webpackConfig);
 
 const group = new GroupActions();
 
@@ -58,28 +48,6 @@ app.use(session({
   saveUninitialized: true
 
 }));
-
-//Webpack should only run when in either development or production environment 
-
-if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
-    app.use(webpackMiddleware(compiler, {
-    hot: true,
-    publicPath: webpackConfig.output.publicPath,
-    noInfo: true
-  }));
-
-  app.use(webpackHotMiddleware(compiler));
-
-}
-
-/*app.use(webpackMiddleware(compiler, {
-  hot: true,
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: true
-}));
-
-app.use(webpackHotMiddleware(compiler));*/
-
 
 // user routes
 
@@ -116,7 +84,7 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Listening on port 3000...');
+  console.log('Listening on port 8080...');
 });
 
 
