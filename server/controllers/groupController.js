@@ -146,7 +146,7 @@ class GroupActions {
 	    UserGroups.findAll({
 
 	      attributes: ['groupId'],
-
+	      
 	      where: {
 	        username: req.params.username
 	      }

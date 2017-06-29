@@ -8,10 +8,10 @@ dotenv.config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 
-if(process.env.NODE_ENV == "production"){
-	pg.defaults.ssl = true;
+if (process.env.NODE_ENV == 'production') {
+  pg.defaults.ssl = true;
 
-	pg.connect(process.env.DATABASE_URL, (err, client)  => {
+  pg.connect(process.env.DATABASE_URL, (err, client) => {
 	  if (err) throw err;
 
 	  console.log('Connected to postgres! Getting schemas...');
@@ -21,9 +21,8 @@ if(process.env.NODE_ENV == "production"){
 	    .on('row', (row) => {
 	      console.log(JSON.stringify(row));
 	    });
-	});
+  });
 }
 
 
-
-export {sequelize};
+export { sequelize };

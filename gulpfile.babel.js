@@ -5,7 +5,7 @@ import mocha from 'gulp-mocha';
 import babel from 'gulp-babel';
 import path from 'path';
 
-/*gulp.task('coveralls', ['test'], function() {
+/* gulp.task('coveralls', ['test'], function() {
     // lcov.info is the file which has the coverage information we wan't to upload
     return gulp.src(__dirname + '/coverage/lcov.info')
       .pipe(coveralls());
@@ -18,21 +18,28 @@ gulp.task('transpile', () =>
 );
 
 gulp.task('pre-test', () =>
-  gulp.src(['server/dist/**/*.js'])
-    .pipe(istanbul())
-    .pipe(istanbul.hookRequire())
-);
+    // This tells gulp which files you want to pipe
+    // In our case we want to pipe every `.js` file inside any folders inside `test`
+     gulp.src('dist/**/*.js')
+      .pipe(istanbul())
+      // This overwrites `require` so it returns covered files
+      .pipe(istanbul.hookRequire()));
 
-gulp.task('test', ['pre-test'], () =>
-  gulp.src([path.join('server', 'dist')])
-    .pipe(mocha())
-    .pipe(istanbul.writeReports())
-);
-
-gulp.task('coverage', ['test'], () => {
-  gulp.src('coverage/**/lcov.info')
-    .pipe(coveralls())
-    .pipe(exit());
+gulp.task('test', ['pre-test'], () => {
+    // Here we're piping our `.js` files inside the `lib` folder
+  gulp.src(path.join('server', 'dist'))
+        // You can change the reporter if you want, try using `nyan`
+        .pipe(mocha({ reporter: 'spec' }))
+        // Here we will create report files using the test's results
+        .pipe(istanbul.writeReports());
 });
 
+gulp.task('coveralls', ['test'], () => {
+    // If not running on a CI environment it won't send lcov.info to coveralls
+  if (!process.env.CI) {
+    return;
+  }
 
+  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+      .pipe(coveralls());
+});

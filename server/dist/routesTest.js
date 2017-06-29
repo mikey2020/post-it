@@ -1,182 +1,177 @@
-'use strict';
 
-var _should = require('should');
 
-var _should2 = _interopRequireDefault(_should);
+const _should = require('should');
 
-var _supertest = require('supertest');
+const _should2 = _interopRequireDefault(_should);
 
-var _supertest2 = _interopRequireDefault(_supertest);
+const _supertest = require('supertest');
 
-var _models = require('../models/models');
+const _supertest2 = _interopRequireDefault(_supertest);
 
-var _app = require('../app');
+const _models = require('../models/models');
 
-var _app2 = _interopRequireDefault(_app);
+const _app = require('../app');
+
+const _app2 = _interopRequireDefault(_app);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var user = _supertest2.default.agent(_app2.default);
+const user = _supertest2.default.agent(_app2.default);
 
-describe('Test api routes', function () {
+describe('Test api routes', () => {
+  before((done) => {
+    _models.User.sync({ force: false }).then(() => {
+      _models.User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
 
-		before(function (done) {
+      done();
+    });
+  });
 
-				_models.User.sync({ force: false }).then(function () {
-
-						_models.User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
-
-						done();
-				});
-		});
-
-		describe(' All routes should work', function () {
-
-				it('should return "test-user is valid"', function (done) {
-						user.post('/api/user/signin').send({ username: 'test-user', password: 'pass' }).end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+  describe(' All routes should work', () => {
+    it('should return "test-user is valid"', (done) => {
+      user.post('/api/user/signin').send({ username: 'test-user', password: 'pass' }).end((err, res) => {
+        res.status.should.equal(200);
+        _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('user', res.body.user);
+        res.body.should.have.property('user', res.body.user);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should return "test-group  successfully created" ', function (done) {
-						user.post('/api/group').send({ name: 'test-group' }).end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+    it('should return "test-group  successfully created" ', (done) => {
+      user.post('/api/group').send({ name: 'test-group' }).end((err, res) => {
+        res.status.should.equal(200);
+        _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('message', res.body.message);
+        res.body.should.have.property('message', res.body.message);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should return "user added to group" ', function (done) {
-						user.post('/api/group/1/user').send({ username: 'user3' }).end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+    it('should return "user added to group" ', (done) => {
+      user.post('/api/group/1/user').send({ username: 'user3' }).end((err, res) => {
+        res.status.should.equal(200);
+        _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('message', res.body.message);
+        res.body.should.have.property('message', res.body.message);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should return "message posted to group" ', function (done) {
-						user.post('/api/group/1/message').send({ message: 'how is everybody doing?' }).end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+    it('should return "message posted to group" ', (done) => {
+      user.post('/api/group/1/message').send({ message: 'how is everybody doing?' }).end((err, res) => {
+        res.status.should.equal(200);
+        _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('message', res.body.message);
+        res.body.should.have.property('message', res.body.message);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should return messages posted to group ', function (done) {
-						user.get('/api/group/1/messages'
+    it('should return messages posted to group ', (done) => {
+      user.get('/api/group/1/messages'
 						// .expect(200)
-						).end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+						).end((err, res) => {
+  res.status.should.equal(200);
+  _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('posts', res.body.posts);
+  res.body.should.have.property('posts', res.body.posts);
 
-								done();
-						});
-				});
+  done();
+});
+    });
 
-				it('should return group created by test-user', function (done) {
-						user.get('/api/groups/test-user').end(function (err, res) {
-								res.status.should.equal(200);
-								_should2.default.not.exist(err);
+    it('should return group created by test-user', (done) => {
+      user.get('/api/groups/test-user').end((err, res) => {
+        res.status.should.equal(200);
+        _should2.default.not.exist(err);
 								// res.body.error.should.be.a.object();
-								//res.body.should.have.property('posts', res.body.posts);
+								// res.body.should.have.property('posts', res.body.posts);
 
 
-								done();
-						});
-				});
-		});
+        done();
+      });
+    });
+  });
 
-		describe('All routes should not work without login', function () {
-
-				it('should not return "test-group  successfully created" ', function (done) {
-						(0, _supertest2.default)(_app2.default).post('/api/group').send({ name: 'test-group' }).end(function (err, res) {
-								res.status.should.equal(401);
-								//should.exist(err);
+  describe('All routes should not work without login', () => {
+    it('should not return "test-group  successfully created" ', (done) => {
+      (0, _supertest2.default)(_app2.default).post('/api/group').send({ name: 'test-group' }).end((err, res) => {
+        res.status.should.equal(401);
+								// should.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('errors', res.body.errors);
+        res.body.should.have.property('errors', res.body.errors);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should not return "user added to group" ', function (done) {
-						(0, _supertest2.default)(_app2.default).post('/api/group/1/user').send({ username: 'user3' }).end(function (err, res) {
-								res.status.should.equal(401);
-								//should.exist(err);
+    it('should not return "user added to group" ', (done) => {
+      (0, _supertest2.default)(_app2.default).post('/api/group/1/user').send({ username: 'user3' }).end((err, res) => {
+        res.status.should.equal(401);
+								// should.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('errors', res.body.errors);
+        res.body.should.have.property('errors', res.body.errors);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should not return "message posted to group" ', function (done) {
-						(0, _supertest2.default)(_app2.default).post('/api/group/1/message').send({ message: 'how is everybody doing?' }).end(function (err, res) {
-								res.status.should.equal(401);
-								//should.exist(err);
+    it('should not return "message posted to group" ', (done) => {
+      (0, _supertest2.default)(_app2.default).post('/api/group/1/message').send({ message: 'how is everybody doing?' }).end((err, res) => {
+        res.status.should.equal(401);
+								// should.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('errors', res.body.errors);
+        res.body.should.have.property('errors', res.body.errors);
 
-								done();
-						});
-				});
+        done();
+      });
+    });
 
-				it('should not return messages posted to group ', function (done) {
-						(0, _supertest2.default)(_app2.default).get('/api/group/1/messages'
+    it('should not return messages posted to group ', (done) => {
+      (0, _supertest2.default)(_app2.default).get('/api/group/1/messages'
 						// .expect(200)
-						).end(function (err, res) {
-								res.status.should.equal(401);
-								//should.exist(err);
+						).end((err, res) => {
+  res.status.should.equal(401);
+								// should.exist(err);
 								// res.body.error.should.be.a.object();
-								res.body.should.have.property('errors', res.body.errors);
+  res.body.should.have.property('errors', res.body.errors);
 
-								done();
-						});
-				});
-		});
+  done();
+});
+    });
+  });
 
-		after(function (done) {
-				_models.Group.destroy({
-						where: {
-								name: 'test-group'
-						}
-				});
+  after((done) => {
+    _models.Group.destroy({
+      where: {
+        name: 'test-group'
+      }
+    });
 
-				_models.User.destroy({
-						where: {
-								userName: 'test-user'
-						}
-				});
+    _models.User.destroy({
+      where: {
+        userName: 'test-user'
+      }
+    });
 
-				_models.Post.destroy({
-						where: {
-								groupId: 1,
-								post: 'how is everybody doing?'
-						}
-				});
+    _models.Post.destroy({
+      where: {
+        groupId: 1,
+        post: 'how is everybody doing?'
+      }
+    });
 
-				_models.UserGroups.destroy({
-						where: {
-								username: 'user3'
-						}
-				});
+    _models.UserGroups.destroy({
+      where: {
+        username: 'user3'
+      }
+    });
 
-				done();
-		});
+    done();
+  });
 });
