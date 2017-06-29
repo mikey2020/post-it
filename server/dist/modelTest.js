@@ -1,115 +1,127 @@
+'use strict';
 
+var _models = require('../models/models.js');
 
-const _models = require('../models/models.js');
+var _should = require('should');
 
-const _should = require('should');
-
-const _should2 = _interopRequireDefault(_should);
+var _should2 = _interopRequireDefault(_should);
 
 require('../app.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-describe('User Model Unit Tests:', () => {
-  before((done) => {
-		// User.sync({force: false}).then(() => {
+describe('User Model Unit Tests:', function () {
 
-    _models.User.create({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
+	before(function (done) {
 
-		// });
+		//User.sync({force: false}).then(() => {
 
-    done();
-  });
+		_models.User.create({ userName: "testname", email: "test@gmail.com", password: "test" });
 
-  describe(' Testing creation of user ', () => {
-    it('User should be successfully', (done) => {
-      _models.User.findOne({ where: { userName: 'testname' } }).then((user) => {
-				// console.log(user.get('firstName'));
+		//});
 
-        _should2.default.exist(user);
-      });
+		done();
+	});
 
-      done();
-    });
-  });
+	describe(' Testing creation of user ', function () {
 
-  after((done) => {
-    _models.User.destroy({
-      where: {
-        userName: 'testname'
-      }
-    });
+		it('User should be successfully', function (done) {
 
-    done();
-  });
+			_models.User.findOne({ where: { userName: "testname" } }).then(function (user) {
+				//console.log(user.get('firstName'));
+
+				_should2.default.exist(user);
+			});
+
+			done();
+		});
+	});
+
+	after(function (done) {
+		_models.User.destroy({
+			where: {
+				userName: "testname"
+			}
+		});
+
+		done();
+	});
 });
 
-describe('Group Model Unit Tests:', () => {
-  before((done) => {
-		// Group.sync({force: false}).then(() => {
+describe('Group Model Unit Tests:', function () {
 
-    _models.Group.create({ name: 'test-group', creator: 'test-creator' });
+	before(function (done) {
 
-    done();
+		//Group.sync({force: false}).then(() => { 
 
-		// });
-  });
+		_models.Group.create({ name: "test-group", creator: "test-creator" });
 
-  describe(' Testing creation of group ', () => {
-    it('Group should be successfully created', (done) => {
-			// User.create({ userName: "barry", email: "barry@gmail.com",password: "iriswest"});
+		done();
 
-      _models.Group.findOne({ where: { name: 'test-group' } }).then((group) => {
-				// console.log(user.get('firstName'));
+		//});
+	});
 
-        _should2.default.exist(group);
-      });
+	describe(' Testing creation of group ', function () {
 
-      done();
-    });
-  });
+		it('Group should be successfully created', function (done) {
 
-  after((done) => {
-    _models.Group.destroy({
-      where: {
-        name: 'test-group'
-      }
-    });
+			//User.create({ userName: "barry", email: "barry@gmail.com",password: "iriswest"});
 
-    done();
-  });
+			_models.Group.findOne({ where: { name: "test-group" } }).then(function (group) {
+				//console.log(user.get('firstName'));
+
+				_should2.default.exist(group);
+			});
+
+			done();
+		});
+	});
+
+	after(function (done) {
+		_models.Group.destroy({
+			where: {
+				name: "test-group"
+			}
+		});
+
+		done();
+	});
 });
 
-describe('Post Model Unit Tests:', () => {
-  before((done) => {
-		// Post.sync({force: false}).then(() => {
+describe('Post Model Unit Tests:', function () {
 
-    _models.Post.create({ post: 'test-post', groupId: 10, groupName: 'test-group' });
+	before(function (done) {
 
-    done();
+		//Post.sync({force: false}).then(() => {
 
-		// });
-  });
+		_models.Post.create({ post: "test-post", groupId: 10, groupName: "test-group" });
 
-  describe(' Testing creation of post ', () => {
-    it('Post should be successfully created', (done) => {
-      _models.Post.findOne({ where: { groupId: 10 } }).then((post) => {
-				// console.log(user.get('firstName'));
+		done();
 
-        _should2.default.exist(post);
-      });
+		//});
+	});
 
-      done();
-    });
-  });
+	describe(' Testing creation of post ', function () {
 
-  after((done) => {
-    _models.Post.destroy({
-      where: {
-        post: 'test-post'
-      }
-    });
+		it('Post should be successfully created', function (done) {
 
-    done();
-  });
+			_models.Post.findOne({ where: { groupId: 10 } }).then(function (post) {
+				//console.log(user.get('firstName'));
+
+				_should2.default.exist(post);
+			});
+
+			done();
+		});
+	});
+
+	after(function (done) {
+		_models.Post.destroy({
+			where: {
+				post: "test-post"
+			}
+		});
+
+		done();
+	});
 });

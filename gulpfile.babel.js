@@ -13,23 +13,27 @@ import path from 'path';
 
 gulp.task('transpile', () =>
   gulp.src(['server/test/**/*.js', '!server/dist/**'])
-    .pipe(babel())
+    .pipe(babel({
+            presets: ['es2015']
+        }))
     .pipe(gulp.dest('server/dist'))
 );
 
-gulp.task('pre-test', () =>
+gulp.task('pre-test', () => {
     // This tells gulp which files you want to pipe
     // In our case we want to pipe every `.js` file inside any folders inside `test`
-     gulp.src('dist/**/*.js')
+     gulp.src('server/dist/**/*.js')
       .pipe(istanbul())
       // This overwrites `require` so it returns covered files
-      .pipe(istanbul.hookRequire()));
+      .pipe(istanbul.hookRequire())
+
+});
 
 gulp.task('test', ['pre-test'], () => {
     // Here we're piping our `.js` files inside the `lib` folder
-  gulp.src(path.join('server', 'dist'))
+  gulp.src(path.join('server', 'test','routesTest.js'))
         // You can change the reporter if you want, try using `nyan`
-        .pipe(mocha({ reporter: 'spec' }))
+        .pipe(mocha())
         // Here we will create report files using the test's results
         .pipe(istanbul.writeReports());
 });
