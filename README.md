@@ -40,12 +40,17 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 
 ### API Documentation
-* /api/user/signup (For registering a new user) The API takes the following parameters sent via a post request. name username email password
-* /api/user/signin (For user authentication) The API takes the following parameters sent via a post request. username password
-* /api/group (For creating a group) The API takes the following parameters sent via a post request. gpname
-* /api/group/:groupid/user (For adding users to a group) The API takes the following parameters sent via a post request. groupid user(id of the User)
-* /api/group/:groupid/message (For posting messages to group) The API takes the following parameters sent via a post request. groupid message priority
-* /api/group/:groupid/messages (For retrieving messages for a particular group) The API takes the following parameters sent via a get request. groupid
+* /api/user/signup - This route takes the following parameters (username: 'yourname'  , email: 'youremail' password: 'yourpassword') sent using a post request, so user can be registered or signup.
+
+* /api/user/signin - This route takes the following parameters (username: 'yourusername' password: 'yourpassword') sent using  a post request ,so user can be authenticated or signin.
+
+* /api/group - This route takes the following parameters (name: 'groupname', creator: 'yourname') sent using a post request 
+
+* /api/group/:groupid/user - This route takes the following parameters (username: 'user's username')sent using a post request. it takes the username of the user you want add to a particular group.
+
+* /api/group/:groupid/message - This route takes the following parameters (post: 'your post/message') sent using a post request. it allows you post a message to a paqrticular group
+.
+* /api/group/:groupid/messages - This route takes the following parameter (groupid) sent using a get request. it allows you get all posts or messages from aparticular group.
 
 
 
@@ -54,4 +59,4 @@ You can use the application by going to https://mike-post-it.herokuapp.com/
 
 
 ### Author
-**Michael Eboagu**
+*Michael Eboagu*
