@@ -8,9 +8,11 @@
     "npm": "3.10.10"
   },
   "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "node start-client.js",
     "test": "mocha  server/test --require babel-polyfill --compilers js:babel-register ",
     "build": "babel server/app.js -d server/dist --presets es2015,stage-2",
-    "start": "babel-node server/app.js --presets es2015,stage-2",
+    "starts": "babel-node server/app.js --presets es2015,stage-2",
     "serve": "node dist/app.js",
     "server": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
     "eslint": "./node_modules/.bin/eslint server/app.js"
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/mikey2020/post-it#readme",
   "devDependencies": {
+    "concurrently": "^3.5.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",

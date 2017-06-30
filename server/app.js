@@ -26,6 +26,7 @@ const group = new GroupActions();
 
 const user = new UserActions();
 
+
 sequelize
   .authenticate()
   .then(() => {
@@ -34,6 +35,10 @@ sequelize
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('../clients/build'));
+}
 
 
 app.use(morgan('dev'));
@@ -75,9 +80,9 @@ app.get('/api/group/:groupId/messages', group.getPosts);
 
 app.get('/api/group/:username/usergroups',group.getNumberOfGroups);
 
-app.get('/*', (req, res) => {
+/*app.get('/*', (req, res) => {
   res.sendFile(path.join(`${process.cwd()}/client/index.html`));
-});
+});*/
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });

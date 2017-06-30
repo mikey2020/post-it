@@ -18,7 +18,7 @@ class GroupActions {
 					  res.status(500).json({ message: 'error saving to database' });
 	  }));
 
-	      res.json({ message: `${req.body.name} successfully created` });
+	      res.json({ message: `${req.body.input} successfully created` });
 	    } else {
 	      res.status(401).json({ errors: { message: 'Please Sign in first' } });
 	    }
