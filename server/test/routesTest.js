@@ -59,7 +59,7 @@ describe('Test api routes', () => {
 
     it('should return "message posted to group" ', (done) => {
       user.post('/api/group/1/message')
-        .send({ message: 'how is everybody doing?' })
+        .send({ post: 'how is everybody doing?' })
         .end((err, res) => {
         res.status.should.equal(200);
         should.not.exist(err);

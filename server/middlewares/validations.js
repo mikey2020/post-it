@@ -16,7 +16,7 @@ class Validations {
       errors.email = 'Email is required';
     }
 
-    if (!validator.isEmail(data.email)) {
+    if(data.email !== null || data.email !== '' && !validator.isEmail(data.email)) {
       errors.email = 'Email is invalid';
     }
 

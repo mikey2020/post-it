@@ -106,9 +106,7 @@ const Post = sequelize.define('post', {
 
   post: {
 
-    type: Sequelize.STRING,
-
-    allowNull: false
+    type: Sequelize.STRING
 
   }
 
