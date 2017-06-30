@@ -14,7 +14,7 @@
     "serve": "node dist/app.js",
     "server": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
     "eslint": "./node_modules/.bin/eslint server/app.js",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha dist/test --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha dist/test --report lcovonly -- -R spec && cat ./coverage/lcov.info | rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
