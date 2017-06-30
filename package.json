@@ -8,13 +8,13 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "test": "mocha  server/test --require babel-polyfill --compilers js:babel-register ",
-    "build": "babel server/app.js -d server/dist --presets es2015,stage-2",
+    "test": "mocha  server/test  --require babel-polyfill --compilers js:babel-register",
+    "build": "babel server -d dist --presets es2015,stage-2",
     "start": "babel-node server/app.js --presets es2015,stage-2",
     "serve": "node dist/app.js",
     "server": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
     "eslint": "./node_modules/.bin/eslint server/app.js",
-    "coverage": "gulp coveralls"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha dist/test --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,10 @@
   },
   "homepage": "https://github.com/mikey2020/post-it#readme",
   "devDependencies": {
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",

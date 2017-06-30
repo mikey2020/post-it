@@ -8,13 +8,13 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-import webpack from 'webpack';
+/*import webpack from 'webpack';
 
 import webpackMiddleware from 'webpack-dev-middleware';
 
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import webpackConfig from '../webpack.config';
+import webpackConfig from '../webpack.config';*/
 
 import path from 'path';
 
@@ -30,7 +30,7 @@ const app = express();
 
 const port = process.env.PORT;
 
-const compiler = webpack(webpackConfig);
+//const compiler = webpack(webpackConfig);
 
 const group = new GroupActions();
 
@@ -61,7 +61,7 @@ app.use(session({
 
 //Webpack should only run when in either development or production environment 
 
-if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
+/*if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
     app.use(webpackMiddleware(compiler, {
     hot: true,
     publicPath: webpackConfig.output.publicPath,
@@ -70,7 +70,7 @@ if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "productio
 
   app.use(webpackHotMiddleware(compiler));
 
-}
+}*/
 
 /*app.use(webpackMiddleware(compiler, {
   hot: true,

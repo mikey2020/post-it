@@ -31,6 +31,14 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 ```
 * After this, you can then start the server with the command: `npm start`.
 
+### Tests 
+
+* You can run tests with 'npm test' but first please make sure your node environment is set as test
+
+* `NODE_ENV = test`
+
+
+
 ### API Documentation
 Users can sign up and if they already have one they can sign in to their account
 
