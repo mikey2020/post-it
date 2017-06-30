@@ -19,7 +19,7 @@ class GroupActions {
 
       res.json({ message: `${req.body.name} successfully created` });
     } else {
-      res.status(401).json({ errors: { message: 'Please Sign in first' } });
+      res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
 
@@ -60,7 +60,7 @@ class GroupActions {
           res.json({ message: 'user added to group' });
         });
     } else {
-      res.status(401).json({ errors: { message: 'Please Sign in first' } });
+      res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
 
@@ -78,7 +78,7 @@ class GroupActions {
 
       res.json({ message: 'message posted to group' });
     } else {
-      res.status(401).json({ errors: { message: 'please login first' } });
+      res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
 
@@ -98,7 +98,7 @@ class GroupActions {
           res.json({ message: 'error saving to database' });
         });
     } else {
-      res.status(401).json({ errors: { message: 'please login first' } });
+      res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
 
