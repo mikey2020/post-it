@@ -75,7 +75,7 @@ class Validations {
     const errors = {};
 
     if (data.username === null || data.username === '') {
-      errors.username = 'username is required';
+      errors.username = 'Username is required';
     }
 
     return {
