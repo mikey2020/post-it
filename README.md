@@ -40,7 +40,14 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 
 ### API Documentation
-Users can sign up and if they already have one they can sign in to their account
+* /api/user/signup (For registering a new user) The API takes the following parameters sent via a post request. name username email password
+* /api/user/signin (For user authentication) The API takes the following parameters sent via a post request. username password
+* /api/group (For creating a group) The API takes the following parameters sent via a post request. gpname
+* /api/group/:groupid/user (For adding users to a group) The API takes the following parameters sent via a post request. groupid user(id of the User)
+* /api/group/:groupid/message (For posting messages to group) The API takes the following parameters sent via a post request. groupid message priority
+* /api/group/:groupid/messages (For retrieving messages for a particular group) The API takes the following parameters sent via a get request. groupid
+
+
 
 You can use the application by going to https://mike-post-it.herokuapp.com/
 

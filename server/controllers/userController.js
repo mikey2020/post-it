@@ -1,6 +1,6 @@
-import { User, hashPassword, bcrypt } from '../models/models.js';
+import { User, bcrypt } from '../models/models';
 
-import Validations from '../middlewares/validations.js';
+import Validations from '../middlewares/validations';
 
 const validate = new Validations();
 
