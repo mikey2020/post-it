@@ -81,7 +81,7 @@ app.get('/api/group/:groupId/messages', group.getPosts);
 app.get('/api/group/:username/usergroups',group.getNumberOfGroups);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(`${process.cwd()}/clients/index.html`));
+  res.sendFile(path.join(`${process.cwd()}/clients/build/index.html`));
 });
 
 app.use((req, res) => {
