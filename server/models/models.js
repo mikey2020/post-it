@@ -1,18 +1,18 @@
-//import Sequelize from sequelize model
+// import Sequelize from sequelize model
 
 import Sequelize from 'sequelize';
 
-//import bcrypt bcrypt-nodejs to encrypt user's password 
+// import bcrypt bcrypt-nodejs to encrypt user's password
 
 import bcrypt from 'bcrypt-nodejs';
 
 
-//import sequelize from database config file
+// import sequelize from database config file
 
-import {sequelize} from '../db';
+import { sequelize } from '../db';
 
 
-//User model 
+// User model
 
 const User = sequelize.define('user', {
 
@@ -25,8 +25,8 @@ const User = sequelize.define('user', {
     allowNull: false,
 
     unique: true
-    
-  } ,
+
+  },
 
   email: {
 
@@ -39,32 +39,32 @@ const User = sequelize.define('user', {
     unique: true
 
 
-  } ,
+  },
 
   password: {
 
   	type: Sequelize.STRING,
 
-    allowNull: false ,
-  
-    validate: {
-      
-        len: {
-           
-           args: 4,
+    allowNull: false,
 
-           msg: "Name must be at least 3 characters in length"
-        },
+    validate: {
+
+      len: {
+
+        args: 4,
+
+        msg: 'Name must be at least 3 characters in length'
+      },
 
 
     }
 
-   
+
   }
 
 });
 
-//Group model 
+// Group model
 
 const Group = sequelize.define('group', {
 
@@ -73,89 +73,81 @@ const Group = sequelize.define('group', {
     type: Sequelize.STRING,
 
     notEmpty: true
-  } ,
+  },
 
   creator: {
   	type: Sequelize.STRING
 
-  } ,
+  },
 
 });
 
 
-//Model to determine how many groups a user is part of 
+// Model to determine how many groups a user is part of
 
-const UserGroups = sequelize.define('usergroup',{
+const UserGroups = sequelize.define('usergroup', {
 
-	username: {
+  username: {
 
-   type: Sequelize.STRING,
+    type: Sequelize.STRING,
 
-   allowNull: false
+    allowNull: false
 
   },
 
-	groupId: Sequelize.INTEGER
+  groupId: Sequelize.INTEGER
 
 });
 
 
-//Model that stores user's posts 
+// Model that stores user's posts
 
-const Post = sequelize.define('post',{
+const Post = sequelize.define('post', {
 
-	post: {
+  post: {
 
-		type: Sequelize.STRING,
+    type: Sequelize.STRING,
 
-		allowNull: false
+    allowNull: false
 
-	} 
+  }
 
-	//groupName: Sequelize.STRING
+	// groupName: Sequelize.STRING
 
 });
 
 
-//Association to determine how many groups a user has created 
+// Association to determine how many groups a user has created
 
-User.hasMany(Group, {as: 'groups'});
-
-
-//Asscoiation to determine how many posts a group has 
-
-Group.hasMany(Post,{as: 'posts'});
+User.hasMany(Group, { as: 'groups' });
 
 
-//Encrypting user password before saving to database 
+// Asscoiation to determine how many posts a group has
+
+Group.hasMany(Post, { as: 'posts' });
+
+
+// Encrypting user password before saving to database
 
 User.beforeCreate((user, options) => {
+  user.password = bcrypt.hashSync(user.password);
 
-    user.password = bcrypt.hashSync(user.password);	
-      
-    //user.username = user.username.toLowerCase();
-
+    // user.username = user.username.toLowerCase();
 });
 
-User.afterCreate((user,options) => {
-
-	console.log("user created successfully");
-
+User.afterCreate((user, options) => {
+  console.log('user created successfully');
 });
 
-UserGroups.beforeCreate((user,options) => {
+UserGroups.beforeCreate((user, options) => {
+  user.groupId = parseInt(user.groupId);
+});
 
-	user.groupId = parseInt(user.groupId);
-
-})
-
-Post.beforeCreate((user,options) => {
-
-	user.groupId = parseInt(user.groupId);
-  
+Post.beforeCreate((user, options) => {
+  user.groupId = parseInt(user.groupId);
 });
 
 
-//Exporting all models for use 
+// Exporting all models for use
 
-export {User,Group,UserGroups,Post,bcrypt};
+export { User, Group, UserGroups, Post, bcrypt };
