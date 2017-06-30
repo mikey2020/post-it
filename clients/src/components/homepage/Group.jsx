@@ -64,9 +64,9 @@ class Group extends React.Component {
 		this.props.getGroupData({
 			groupId: this.props.group.id,
 			groupName: this.props.group.name
-		}),
+		})
 
-		this.context.router.push('/postmessage')
+		this.context.router.push('/postmessage');
 	}
 
 	checkUserIsValid(e){

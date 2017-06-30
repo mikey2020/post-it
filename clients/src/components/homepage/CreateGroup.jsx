@@ -84,11 +84,11 @@ class CreateGroup extends React.Component {
 				},
 
 				(err) => {
-					this.context.router.push('/signin'),
+					this.context.router.push('/signin')
 					this.props.addFlashMessage({
 							type: 'error',
 							text: 'Please Sign in'
-				    })
+				    });
 					//this.setState({errors: err.data.errors});
 				}
 

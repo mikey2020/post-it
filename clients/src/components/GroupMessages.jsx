@@ -4,7 +4,7 @@ class GroupMessages extends React.Component {
 
 	render() {
 
-		const groupMessages = this.props.messages.map(message => <li className="well well-lg" >{message.post}</li> );
+		const groupMessages = this.props.messages.map(message =>   <li className="well well-lg" key={message.id} > {message.post}</li> );
 
 		return (
 

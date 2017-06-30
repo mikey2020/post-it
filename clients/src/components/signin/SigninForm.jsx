@@ -54,12 +54,12 @@ class SigninForm extends React.Component {
 			this.props.signin(this.state).then(
 
 					(res) => {
-						this.props.setUser(res.data.user),
-						this.context.router.push('/home'),
+						this.props.setUser(res.data.user)
+						this.context.router.push('/home')
 						this.props.addFlashMessage({
 							type: 'success',
 							text: ' Sign in successful'
-						})
+						});
 					},
 
 					(err) => this.setState({errors: err.data.errors})

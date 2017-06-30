@@ -80,7 +80,7 @@ class SignupForm extends React.Component{
 					this.props.addFlashMessage({
 						type: 'success',
 						text: 'Sign up successful ,you can now sign in '
-					}),
+					});
 
 					this.context.router.push('/signin')
 				},
