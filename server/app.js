@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-/*import webpack from 'webpack';
+/* import webpack from 'webpack';
 
 import webpackMiddleware from 'webpack-dev-middleware';
 
@@ -16,13 +16,13 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../webpack.config';*/
 
-import path from 'path';
+// import path from 'path';
 
 import { sequelize } from './db';
 
 import UserActions from './controllers/userController';
 
-import GroupActions  from './controllers/groupController';
+import GroupActions from './controllers/groupController';
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ const app = express();
 
 const port = process.env.PORT;
 
-//const compiler = webpack(webpackConfig);
+// const compiler = webpack(webpackConfig);
 
 const group = new GroupActions();
 
@@ -59,9 +59,9 @@ app.use(session({
 
 }));
 
-//Webpack should only run when in either development or production environment 
+// Webpack should only run when in either development or production environment
 
-/*if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
+/* if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
     app.use(webpackMiddleware(compiler, {
     hot: true,
     publicPath: webpackConfig.output.publicPath,
@@ -72,7 +72,7 @@ app.use(session({
 
 }*/
 
-/*app.use(webpackMiddleware(compiler, {
+/* app.use(webpackMiddleware(compiler, {
   hot: true,
   publicPath: webpackConfig.output.publicPath,
   noInfo: true
@@ -105,10 +105,10 @@ app.post('/api/group/:groupId/message', group.postMessageToGroup);
 
 app.get('/api/group/:groupId/messages', group.getPosts);
 
-app.get('/api/group/:username/usergroups',group.getNumberOfGroups);
+app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 
-/*app.get('/*', (req, res) => {
-  res.sendFile(path.join(`${process.cwd()}/client/index.html`));  
+/* app.get('/*', (req, res) => {
+  res.sendFile(path.join(`${process.cwd()}/client/index.html`));
 });*/
 
 app.use((req, res) => {
@@ -120,5 +120,5 @@ app.listen(port, () => {
 });
 
 
-export default app ;
+export default app;
 

@@ -8,11 +8,11 @@ class Validations {
   signup(data) {
     const errors = {};
 
-    if (data.username === null || data.username == '') {
+    if (data.username === null || data.username === '') {
       errors.username = 'Username is required';
     }
 
-    if (data.email === null || data.email == '') {
+    if (data.email === null || data.email === '') {
       errors.email = 'Email is required';
     }
 
@@ -20,11 +20,11 @@ class Validations {
       errors.email = 'Email is invalid';
     }
 
-    if (data.password === null || data.password == '') {
+    if (data.password === null || data.password === '') {
       errors.password = 'Password is required';
     }
 
-    if (data.passwordConfirmation === null || data.passwordConfirmation == '') {
+    if (data.passwordConfirmation === null || data.passwordConfirmation === '') {
       errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
@@ -42,11 +42,11 @@ class Validations {
   signin(data) {
     const errors = {};
 
-    if (data.username === null || data.username == '') {
+    if (data.username === null || data.username === '') {
       errors.username = 'Username is required';
     }
 
-    if (data.password === null || data.password == '') {
+    if (data.password === null || data.password === '') {
       errors.password = 'Password is required';
     }
 
