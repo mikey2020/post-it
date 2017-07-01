@@ -37,11 +37,11 @@ sequelize
   });
 
 if(process.env.NODE_ENV === 'production') {
-  app.use(express.static('C:/Users/MKO/Desktop/post-it' + '/clients/build'));
+  app.use(express.static(process.cwd() + '/clients/build'));
 
   app.get('/', (req, res) => {
     //res.sendFile(path.join('index.html'));
-    res.sendFile('C:/Users/MKO/Desktop/post-it' + '/clients/build/index.html');
+    res.sendFile('/index.html');
   });
 
 }
@@ -50,7 +50,7 @@ if(process.env.NODE_ENV === 'production') {
 
   app.get('/', (req, res) => {
     //res.sendFile(path.join('index.html'));
-    res.sendFile(__filename + '/clients/build/index.html');
+    res.sendFile('/index.html');
   });*/
 
 app.use(morgan('dev'));
