@@ -59,14 +59,14 @@ app.use(session({
 }));
 
 if(process.env.NODE_ENV === 'production') {
-  //app.use(express.static(process.cwd() + '/clients/build'));
+  app.use(express.static(process.cwd() + '/clients/build'));
+}
 
-  app.get('/', (req, res) => {
+app.get('/', (req, res) => {
     //res.sendFile(path.join('index.html'));
     res.sendFile(process.cwd() + '/clients/build/index.html');
-  });
+});
 
-}
 
 // user routes
 
