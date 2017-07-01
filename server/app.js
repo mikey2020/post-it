@@ -36,15 +36,7 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(process.cwd() + '/clients/build'));
 
-  app.get('/', (req, res) => {
-    //res.sendFile(path.join('index.html'));
-    res.sendFile('/index.html');
-  });
-
-}
 
   /*app.use(express.static(process.cwd() + '/clients/build'));
 
@@ -65,6 +57,16 @@ app.use(session({
   saveUninitialized: true
 
 }));
+
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(process.cwd() + '/clients/build'));
+
+  app.get('/', (req, res) => {
+    //res.sendFile(path.join('index.html'));
+    res.sendFile('/index.html');
+  });
+
+}
 
 // user routes
 
