@@ -64,7 +64,7 @@ if(process.env.NODE_ENV === 'production') {
 
 app.get('/', (req, res) => {
     //res.sendFile(path.join('index.html'));
-    res.sendFile(path.join(process.cwd() + '/clients/build/index.html');
+    res.sendFile(path.join(process.cwd() + '/clients/build/index.html'));
 });
 
 
