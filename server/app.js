@@ -36,9 +36,16 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('clients/build'));
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(process.cwd() + '/clients/build'));
+
+  app.get('/', (req, res) => {
+    //res.sendFile(path.join('index.html'));
+    res.sendFile(process.cwd() + '/clients/build/index.html');
+  });
+
 }
+
 
 
 app.use(morgan('dev'));
@@ -80,10 +87,6 @@ app.get('/api/group/:groupId/messages', group.getPosts);
 
 app.get('/api/group/:username/usergroups',group.getNumberOfGroups);
 
-/*app.get('/', (req, res) => {
-  res.sendFile(path.join('index.html'));
-  //res.sendFile('index.html');
-});*/
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
