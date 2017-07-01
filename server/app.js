@@ -37,7 +37,7 @@ sequelize
   });
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../clients/build'));
+  app.use(express.static('clients/build'));
 }
 
 
