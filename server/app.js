@@ -41,11 +41,17 @@ if(process.env.NODE_ENV === 'production') {
 
   app.get('/', (req, res) => {
     //res.sendFile(path.join('index.html'));
-    res.sendFile(process.cwd() + '/clients/build/index.html');
+    res.sendFile(__filename + '/clients/build/index.html');
   });
 
 }
 
+  /*app.use(express.static(process.cwd() + '/clients/build'));
+
+  app.get('/', (req, res) => {
+    //res.sendFile(path.join('index.html'));
+    res.sendFile(__filename + '/clients/build/index.html');
+  });*/
 
 app.use(morgan('dev'));
 
