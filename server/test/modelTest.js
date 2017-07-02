@@ -1,12 +1,11 @@
 import should from 'should';
 
-import { User, Group, Post } from '../models/models.js';
+import { User, Group, Post } from '../models/models';
 
 import '../app';
 
 
 describe('User Model Unit Tests:', () => {
-
   before((done) => {
 	 	 User.sync({ force: false }).then(() => {
 	 	   User.create({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
@@ -20,12 +19,11 @@ describe('User Model Unit Tests:', () => {
     it('User should be successfully', (done) => {
       User.findOne({ where: { userName: 'testname' } }).then((user) => {
 			 should.exist(user);
-       //user.should.equal({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
+       // user.should.equal({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
       });
 
 			 done();
     });
-
   });
 
 
@@ -55,7 +53,7 @@ describe('Group Model Unit Tests:', () => {
     it('Group should be successfully created', (done) => {
       Group.findOne({ where: { name: 'test-group' } }).then((group) => {
 			 should.exist(group);
-       group.should.equal({ name: 'test-group', creator: 'test-creator' });
+        group.should.equal({ name: 'test-group', creator: 'test-creator' });
       });
 
 

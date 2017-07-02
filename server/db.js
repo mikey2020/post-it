@@ -19,8 +19,9 @@ if (process.env.NODE_ENV === 'production') {
     client
 			.query('SELECT table_schema,table_name FROM information_schema.tables;')
 			.on('row', (row) => {
-  console.log(JSON.stringify(row));
-});
+  			console.log(JSON.stringify(row));
+	});
+  
   });
 }
 
