@@ -1,9 +1,9 @@
-#my-header{
-	background-color: #2D3135 ;
-}
-
 body{
 	background-color:    ;
+}
+
+#my-header{
+	background-color: #2D3135 ;
 }
 
 #msg{
@@ -20,25 +20,20 @@ body{
 	left: 600px;
 }
 
-#logout{
-	position: relative;
-	top: 40px;
-	left: 500px;
-}
-
 .my-nav{
 	position: relative;
 	top: 7px;
 }
 
 #signin{
-	width: 500px;
-	height: 100%;
+	width: 600px;
+	height: 150%;
 	position: relative;
 	left: 190px;
-	top: 50px;
-	background-color: #DAE4ED        ;
+	top: 20px;
+	background-color: #C9D7F7        ;
 }
+
 
 #login{
 	position: relative;
@@ -48,14 +43,15 @@ body{
 #login-header{
 	position: relative;
 	top: -20px;
+	color: black;
 }
 
 #signup-body{
-	/*width: 500px;
-	height: 100%;*/
+	width: 720px;
+	height: 150%;
 	position: relative;
 	left: 40px;
-	top: 80px;
+	top: 40px;
 	background-color: #DAE4ED ;
 }
 

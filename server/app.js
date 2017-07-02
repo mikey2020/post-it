@@ -8,16 +8,6 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-/* import webpack from 'webpack';
-
-import webpackMiddleware from 'webpack-dev-middleware';
-
-import webpackHotMiddleware from 'webpack-hot-middleware';
-
-import webpackConfig from '../webpack.config';*/
-
-// import path from 'path';
-
 import { sequelize } from './db';
 
 import UserActions from './controllers/userController';
@@ -29,8 +19,6 @@ dotenv.config();
 const app = express();
 
 const port = process.env.PORT;
-
-// const compiler = webpack(webpackConfig);
 
 const group = new GroupActions();
 
@@ -59,28 +47,6 @@ app.use(session({
 
 }));
 
-// Webpack should only run when in either development or production environment
-
-/* if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production"){
-    app.use(webpackMiddleware(compiler, {
-    hot: true,
-    publicPath: webpackConfig.output.publicPath,
-    noInfo: true
-  }));
-
-  app.use(webpackHotMiddleware(compiler));
-
-}*/
-
-/* app.use(webpackMiddleware(compiler, {
-  hot: true,
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: true
-}));
-
-app.use(webpackHotMiddleware(compiler));*/
-
-
 // user routes
 
 app.get('/api/users', user.allUsers);
@@ -107,9 +73,6 @@ app.get('/api/group/:groupId/messages', group.getPosts);
 
 app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 
-/* app.get('/*', (req, res) => {
-  res.sendFile(path.join(`${process.cwd()}/client/index.html`));
-});*/
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });

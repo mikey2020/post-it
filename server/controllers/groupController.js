@@ -4,7 +4,17 @@ import { Group, UserGroups, Post } from '../models/models';
 
 
 class GroupActions {
-  
+
+  constructor() {
+    this.error = '';
+  }
+
+  sendError(res,error){
+    if(error){
+      res.status(500).json({ message: 'Something went wrong' });
+    }
+  }
+
   createGroup(req, res) {
     if (req.session.name) {
       Group.sync({ force: false }).then(() => Group.create({
@@ -13,7 +23,9 @@ class GroupActions {
         userId: req.session.userId
       })
         .catch((err) => {
-          res.status(500).json({ message: 'error saving to database' });
+          this.error = err;
+          sendError(res,this.error);
+          //res.status(500).json({ message: 'error saving to database' });
         }));
 
       res.json({ message: `${req.body.name} successfully created` });
@@ -40,7 +52,7 @@ class GroupActions {
               groupId: req.params.groupId
             })
             .catch((err) => {
-              console.log(err);
+              this.error = err;
               res.json({ message: 'error saving to database' });
             }));
 
@@ -53,7 +65,7 @@ class GroupActions {
             groupId: req.params.groupId
           })
           .catch((err) => {
-            console.log(err);
+            this.error = err;
             res.json({ message: 'error saving to database' });
           }));
           res.json({ message: 'user added to group' });
@@ -71,7 +83,7 @@ class GroupActions {
         groupId: req.params.groupId
       })
         .catch((err) => {
-          console.log(err);
+          this.error = err;
           res.status(500).json({ error: { message: 'error saving to database' } });
         }));
 
@@ -94,6 +106,7 @@ class GroupActions {
           res.json({ posts: data });
         })
         .catch((err) => {
+          this.error = err;
           res.json({ message: 'error saving to database' });
         });
     } else {
@@ -143,7 +156,6 @@ class GroupActions {
       .then((results) => {
         let data = JSON.stringify(results);
         data = JSON.parse(data);
-        console.log(data);
         res.json(data);
       });
   }
