@@ -19,6 +19,7 @@ class Group extends React.Component {
 
 		this.state = {
 			username: '',
+			groupName: '',
 			errors: {},
 			invalid: false
 		}
@@ -46,7 +47,11 @@ class Group extends React.Component {
 
 	onSubmit(e) {
 		e.preventDefault();
+
+		
+		
 		if(this.isValid()){
+			
 			this.props.addUser(this.props.group.id,this.state).then(
 
 				(res) => {
@@ -57,7 +62,11 @@ class Group extends React.Component {
 					this.setState({errors: err.data.errors})
 				}
 			)
+			this.setState({groupName: this.props.group.name});
 		}
+
+		console.log(this.state.groupName);
+
 	}
 
 	setData(){
@@ -92,7 +101,7 @@ class Group extends React.Component {
 	render(){
 		return (
 			<div className="jumbotron">
-		         <h2>{this.props.group.name}</h2>
+		        <h2>{this.props.group.name}</h2>
 		         <br/>
 		         <div className="form-group">
 		         	{this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br/>}
@@ -121,7 +130,8 @@ Group.propTypes = {
 	isUserExists: PropTypes.func.isRequired,
 	group: PropTypes.object.isRequired,
 	addUser: PropTypes.func.isRequired,
-	getGroupData: PropTypes.func.isRequired
+	getGroupData: PropTypes.func.isRequired,
+	name: PropTypes.string
 }
 
 Group.contextTypes = {

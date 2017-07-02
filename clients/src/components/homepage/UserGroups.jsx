@@ -1,9 +1,5 @@
 import React from 'react' ;
 
-//import {getUserGroups,setUserGroups} from '../../actions/userGroupsAction.js';
-
-//import {connect} from 'react-redux';
-
 import PropTypes from 'prop-types';
 
 import Group from './Group.jsx';
@@ -25,7 +21,7 @@ class UserGroups extends React.Component {
 
 	render(){
 
-		const allGroups = this.props.groups.map(group => <Group key={group.id} group={group}/> );
+		const allGroups = this.props.groups.map(group => <Group key={group.id} group={group} name={""}/> );
 
 		return (
 			<div>

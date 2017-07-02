@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
 
-//import DisplayMessages from './DisplayMessages';
+import DisplayMessages from './DisplayMessages.jsx';
 
 class MessageBoard extends  React.Component {
 
@@ -14,7 +14,7 @@ class MessageBoard extends  React.Component {
 		super(props);
 
 		this.state = {
-			groupIds: []
+			groupData: []
 		}
 
 		
@@ -26,8 +26,14 @@ class MessageBoard extends  React.Component {
 		this.props.getGroupsUserisPartOf(this.props.username).then(
 
 			res => {
-				console.log(res.data)
-				this.setState({groupIds: res.data});
+				/*console.log(res.data);
+				let data = [];
+				for(let count = 0; res.data.length > count ; count++){
+					data.push(res.data[count].groupId);
+				}
+				console.log(data);*/
+				this.setState({groupData: res.data});
+				console.log(this.state.groupData)
 			}
 
 		)
@@ -36,9 +42,18 @@ class MessageBoard extends  React.Component {
 
 	render(){
 
+		const messageBoard = this.state.groupData.map(group => 
+
+			<div key={group.groupId}>
+				<DisplayMessages  groupName={group.groupName} groupId={group.groupId}  />
+			</div>
+		); 
+
 		return (
 
-			<h1> Working </h1>
+			<div>
+				working
+			</div>
 
 		)
 	}

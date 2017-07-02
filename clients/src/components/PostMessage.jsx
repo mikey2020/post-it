@@ -6,13 +6,9 @@ import {connect}  from 'react-redux';
 
 import PropTypes from 'prop-types';
 
-//import Validations from '../validations';
-
 import {postMessage,getGroupMessages} from '../actions/userGroupsAction';
 
 import {addFlashMessage} from '../actions/flashMessage';
-
-//const validate = new Validations();
 
 
 class PostMessage extends React.Component {
@@ -61,6 +57,12 @@ class PostMessage extends React.Component {
 					type: 'success',
 					text: res.data.message
 				})
+
+				/*if(this.state.post){
+					console.log(this.state.post);
+					this.state.posts.push(this.state.post);
+				}*/
+				
 			}
 
 		);
@@ -85,6 +87,9 @@ class PostMessage extends React.Component {
 		         		onChange={this.onChange}/>
 		         		<button className="btn btn-primary" disabled={this.state.invalid}> Post message </button>
 		        </form>
+
+		        
+
 			</div>
 
 		)

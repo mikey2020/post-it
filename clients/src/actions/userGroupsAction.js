@@ -16,11 +16,11 @@ const setUserGroups = (groups) => {
 	}
 }
 
-const addUser = (groupId,username) => {
+const addUser = (groupId,userData) => {
 
 	return dispatch => {
 
-		return axios.post(`/api/group/${groupId}/user`,username);
+		return axios.post(`/api/group/${groupId}/user`,userData);
 	}
 	
 }

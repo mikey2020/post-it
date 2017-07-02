@@ -95,6 +95,8 @@ const UserGroups = sequelize.define('usergroup',{
 
   },
 
+  groupName:  Sequelize.STRING,
+
 	groupId: Sequelize.INTEGER
 
 });

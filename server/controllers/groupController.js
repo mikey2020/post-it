@@ -37,9 +37,11 @@ class GroupActions {
 	  if (user) {
 	    res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
 	  } else {
+	  	console.log(req.body.groupName);
 	    UserGroups.sync({ force: false }).then(() => UserGroups.create({
 						  	username: req.body.username,
-						  	groupId: req.params.groupId
+						  	groupId: req.params.groupId,
+						  	groupName: req.body.groupName
 						  })
 
 						  .catch((err) => {
@@ -51,7 +53,7 @@ class GroupActions {
 	  }
 	})
 		.catch((err) => {
-			UserGroups.sync({ force: true }).then(() => UserGroups.create({
+			UserGroups.sync({ force: false }).then(() => UserGroups.create({
 						  	username: req.body.username,
 						  	groupId: req.params.groupId
 						  })
@@ -72,7 +74,7 @@ class GroupActions {
 
 	  postMessageToGroup(req, res) {
 	    if (req.session.name) {
-	      Post.sync({ force: false }).then(() => Post.create({
+	      Post.sync({ force: false}).then(() => Post.create({
 				  	post: req.body.post,
 				  	groupId: req.params.groupId
 				  })
@@ -145,7 +147,7 @@ class GroupActions {
 	  getNumberOfGroups(req, res) {
 	    UserGroups.findAll({
 
-	      attributes: ['groupId'],
+	      attributes: ['groupId','groupName'],
 
 	      where: {
 	        username: req.params.username

@@ -4,7 +4,15 @@ class GroupMessages extends React.Component {
 
 	render() {
 
-		const groupMessages = this.props.messages.map(message =>   <li className="well well-lg" key={message.id} > {message.post}</li> );
+		const groupMessages = this.props.messages.map(message =>   
+
+			<div>
+
+				<li className="well well-lg" key={message.id} > {message.post}</li> 
+
+			</div>
+
+		);
 
 		return (
 
@@ -12,7 +20,7 @@ class GroupMessages extends React.Component {
 		    <div className="jumbotron">
 		    	<h2>{this.props.name} </h2>
 		    	{groupMessages}
-		    	<li className="well well-lg">{this.props.newPost}</li>
+		    	{this.props.newPost ? <li className="well well-lg">{this.props.newPost}</li> : <br/>}
 		    </div>
 
 		)

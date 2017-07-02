@@ -1,8 +1,4 @@
 import {GET_GROUP_DATA} from  '../actions/types';
-//import shortid from 'shortid';
-//import findIndex from 'lodash/findIndex';
-
-
 
 export default (state = {}, action={}) => {
 	switch(action.type){

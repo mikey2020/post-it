@@ -1,6 +1,6 @@
 import React from 'react' ;
 
-import Validations from '../../validations.js';
+import Validations from '../../validations';
 
 import {groupExists,createGroup} from '../../actions/createGroupActions';
 
@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {addFlashMessage} from '../../actions/flashMessage';
+
+import Group from './Group.jsx';
 
 
 const validate = new Validations();
@@ -21,7 +23,8 @@ class CreateGroup extends React.Component {
 			input: '',
 			errors: {},
 			isLoading: false,
-			invalid: false
+			invalid: false,
+			group: {}
 		}	;
 
 		this.onChange = this.onChange.bind(this);
@@ -77,6 +80,7 @@ class CreateGroup extends React.Component {
 			this.props.createGroup(this.state).then(
 
 				(res) => {
+					this.setState({group: {name: this.state.input}})
 					this.props.addFlashMessage({
 							type: 'success',
 							text: this.state.input + ' group created successfully'
@@ -89,7 +93,7 @@ class CreateGroup extends React.Component {
 							type: 'error',
 							text: 'Please Sign in'
 				    });
-					//this.setState({errors: err.data.errors});
+					
 				}
 
 			);
@@ -97,7 +101,7 @@ class CreateGroup extends React.Component {
 	}
 		
 	render(){
-		const {errors , input ,isLoading , invalid} = this.state;
+		const {errors , input ,isLoading , invalid ,group} = this.state;
 		return (
 			<div>
 				{errors.message && <div className="alert alert-danger"> {errors.message} </div>}
@@ -118,6 +122,8 @@ class CreateGroup extends React.Component {
 
 
 				</form>
+
+				{input ? <Group group={group}/> : <br/>}
 			</div>
 		)
 	}
@@ -127,7 +133,6 @@ CreateGroup.propTypes = {
 	groupExists:  PropTypes.func,
 	createGroup: PropTypes.func.isRequired,
 	addFlashMessage: PropTypes.func.isRequired
-
 }
 
 CreateGroup.contextTypes = {
