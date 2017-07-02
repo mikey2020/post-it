@@ -4,8 +4,7 @@ import { Group, UserGroups, Post } from '../models/models';
 
 
 class GroupActions {
-
-    // Method for creating new group
+  
   createGroup(req, res) {
     if (req.session.name) {
       Group.sync({ force: false }).then(() => Group.create({

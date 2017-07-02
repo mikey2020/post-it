@@ -5,7 +5,6 @@ import should from 'should';
 import Validations from '../middlewares/validations.js';
 
 describe('Test Input Validations Class', () => {
-  
   describe('Sign Up Input validations', () => {
     it('should return `Username is required`', (done) => {
     	const validate = new Validations();
@@ -36,7 +35,7 @@ describe('Test Input Validations Class', () => {
 
     it('should return `Password do not match`', (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: 'pass', email: 'email' ,passwordConfirmation: 'p' };
+      const mockData = { username: 'user', password: 'pass', email: 'email', passwordConfirmation: 'p' };
       const { errors, isValid } = validate.signup(mockData);
       errors.passwordConfirmation.should.equal('Passwords do not match');
 
@@ -45,7 +44,7 @@ describe('Test Input Validations Class', () => {
 
     it('should return `is required for each field`', (done) => {
       const validate = new Validations();
-      const mockData = { username: '', password: '', email: '' ,passwordConfirmation: '' };
+      const mockData = { username: '', password: '', email: '', passwordConfirmation: '' };
       const { errors, isValid } = validate.signup(mockData);
       errors.username.should.equal('Username is required');
       errors.email.should.equal('Email is invalid');
@@ -55,6 +54,5 @@ describe('Test Input Validations Class', () => {
       done();
     });
   });
-
 });
 
