@@ -127,22 +127,22 @@ Group.hasMany(Post, { as: 'posts' });
 
 // Encrypting user password before saving to database
 
-User.beforeCreate((user, options) => {
+User.beforeCreate((user) => {
   user.password = bcrypt.hashSync(user.password);
 
     // user.username = user.username.toLowerCase();
 });
 
-User.afterCreate((user, options) => {
+/* User.afterCreate((user, options) => {
   console.log('user created successfully');
+});*/
+
+UserGroups.beforeCreate((user) => {
+  user.groupId = parseInt(user.groupId, 10);
 });
 
-UserGroups.beforeCreate((user, options) => {
-  user.groupId = parseInt(user.groupId);
-});
-
-Post.beforeCreate((user, options) => {
-  user.groupId = parseInt(user.groupId);
+Post.beforeCreate((user) => {
+  user.groupId = parseInt(user.groupId, 10);
 });
 
 
