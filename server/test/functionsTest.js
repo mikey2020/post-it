@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import should from 'should';
 
 import Validations from '../middlewares/validations.js';

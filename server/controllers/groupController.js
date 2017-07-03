@@ -1,5 +1,3 @@
-// import { sequelize } from '../db';
-
 import { Group, UserGroups, Post } from '../models/models';
 
 
@@ -9,8 +7,8 @@ class GroupActions {
     this.error = '';
   }
 
-  sendError(res,error){
-    if(error){
+  sendError(res) {
+    if (this.error) {
       res.status(500).json({ message: 'Something went wrong' });
     }
   }
@@ -24,8 +22,8 @@ class GroupActions {
       })
         .catch((err) => {
           this.error = err;
-          sendError(res,this.error);
-          //res.status(500).json({ message: 'error saving to database' });
+          this.sendError(res);
+          // res.status(500).json({ message: 'error saving to database' });
         }));
 
       res.json({ message: `${req.body.name} successfully created` });
@@ -53,7 +51,7 @@ class GroupActions {
             })
             .catch((err) => {
               this.error = err;
-              res.json({ message: 'error saving to database' });
+              this.sendError(res);
             }));
 
             res.json({ message: 'user added to group' });
@@ -66,7 +64,7 @@ class GroupActions {
           })
           .catch((err) => {
             this.error = err;
-            res.json({ message: 'error saving to database' });
+            this.sendError(res);
           }));
           res.json({ message: 'user added to group' });
         });
@@ -84,7 +82,8 @@ class GroupActions {
       })
         .catch((err) => {
           this.error = err;
-          res.status(500).json({ error: { message: 'error saving to database' } });
+          this.sendError(res);
+          // res.status(500).json({ error: { message: 'error saving to database' } });
         }));
 
       res.json({ message: 'message posted to group' });
@@ -107,7 +106,7 @@ class GroupActions {
         })
         .catch((err) => {
           this.error = err;
-          res.json({ message: 'error saving to database' });
+          this.sendError(res);
         });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
@@ -122,6 +121,10 @@ class GroupActions {
     })
       .then((group) => {
         res.json({ group });
+      })
+      .catch((err) => {
+        this.error = err;
+        this.sendError(res);
       });
   }
 
@@ -138,7 +141,9 @@ class GroupActions {
         res.json(data);
       })
       .catch((err) => {
-        res.status(500).json({ errors: { message: 'error retrieving data from database' } });
+        this.error = err;
+        this.sendError(res);
+       // res.status(500).json({ errors: { message: 'error retrieving data from database' } });
       });
   }
 
@@ -157,6 +162,12 @@ class GroupActions {
         let data = JSON.stringify(results);
         data = JSON.parse(data);
         res.json(data);
+      })
+
+      .catch((err) => {
+        this.error = err;
+        this.sendError(res);
+          // res.json({ message: 'error saving to database' });
       });
   }
 
@@ -165,4 +176,4 @@ class GroupActions {
 
 
 export default GroupActions;
-// export {createGroup,addUserToGroup,postMessageToGroup,getPosts,checkGroups,getUserGroups} ;
+
