@@ -6,59 +6,45 @@ import '../app';
 
 
 describe('User Model Unit Tests:', () => {
-  before((done) => {
-	 	 User.sync({ force: false }).then(() => {
-	 	   User.create({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
-	 	 });
 
-      	done();
-	 });
-
-
-  describe(' Testing creation of user ', () => {
-    it('User should be successfully', (done) => {
-      User.findOne({ where: { userName: 'testname' } }).then((user) => {
-			 should.exist(user);
-       // user.should.equal({ userName: 'testname', email: 'test@gmail.com', password: 'test' });
-      });
-
-			 done();
+  it('User should be created successfully', (done) => {
+    User.sync({force: true}).then(()=> {
+     User.create({userName: 'user' , password: 'pass' , email: 'user@email.com'});
+     User.findOne({
+       where: {
+         userName: 'user'
+       }
+     }).then((user) => {
+       should.exist(user);
+       user.should.equal({userName: 'user' , password: 'pass' , email: 'user@email.com'});
+     })
     });
-  });
-
-
-  after((done) => {
-    User.destroy({
-      where: {
-        userName: 'testname'
-      }
-    });
-
     done();
   });
+
 });
 
-
 describe('Group Model Unit Tests:', () => {
-	 before((done) => {
-   Group.sync({ force: false }).then(() => {
-     Group.create({ name: 'test-group', creator: 'test-creator' });
 
-	    done();
-   });
- });
+  before((done) => {
+    Group.sync({force: true}).then(() => {
+    return Group.create({name: 'test-group' , creator: 'user' , userId: 1});
+    })
+    done();
+  });
 
-
-  describe(' Testing creation of group ', () => {
-    it('Group should be successfully created', (done) => {
-      Group.findOne({ where: { name: 'test-group' } }).then((group) => {
-			 should.exist(group);
-        //group.should.equal({ name: 'test-group', creator: 'test-creator' });
-      });
-
-
-      done();
-    });
+  it('Group should be created successfully', (done) => {
+    Group.findOne({
+      where: {
+        name: 'test-group'
+      }
+    })
+    .then((group) => {
+      if(group){
+        should.exist(group);
+      }
+    })
+    done();
   });
 
   after((done) => {
@@ -66,30 +52,32 @@ describe('Group Model Unit Tests:', () => {
       where: {
         name: 'test-group'
       }
-    });
-
+    })
     done();
-  });
+  })
 });
 
-
 describe('Post Model Unit Tests:', () => {
-	 before((done) => {
-	 	 Post.sync({ force: false }).then(() => {
-    Post.create({ post: 'test-post', groupId: 10, groupName: 'test-group' });
 
+  before((done) => {
+    Post.sync({force: true}).then(() => {
+    return Post.create({post: 'test-post' , groupId: 1 , groupName: 'test-group'});
+    })
     done();
   });
-	 });
 
-  describe(' Testing creation of post ', () => {
-    it('Post should be successfully created', (done) => {
-      Post.findOne({ where: { post: 'test-post' } }).then((post) => {
-			 should.exist(post);
-      });
-
-		    done();
-    });
+  it('Post should be created successfully', (done) => {
+    Post.findOne({
+      where: {
+        post: 'test-pos'
+      }
+    })
+    .then((post) => {
+      if(post){
+        should.exist(post);
+      }
+    })
+    done();
   });
 
   after((done) => {
@@ -97,8 +85,7 @@ describe('Post Model Unit Tests:', () => {
       where: {
         post: 'test-post'
       }
-    });
-
+    })
     done();
-  });
+  })
 });
