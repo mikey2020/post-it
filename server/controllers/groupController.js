@@ -1,12 +1,9 @@
 import { Group, UserGroups, Post } from '../models/models';
 
-<<<<<<< HEAD
 /**
  *  All group actions
  * @class
  */
-=======
->>>>>>> change-app-to-meet-standards
 class GroupActions {
 
   /**
@@ -14,8 +11,7 @@ class GroupActions {
    */
   constructor() {
     this.error = '';
-    this.userIsUnique=true;
-
+    this.userIsUnique = true;
   }
 
   /**
@@ -28,26 +24,28 @@ class GroupActions {
     }
   }
 
-<<<<<<< HEAD
+  /**
+   * @param {string} name - username
+   * @param {string} id -  group id
+   * @returns {object} - if there is no error, it sends message group created successfully
+   */
+  static checkUserisUnique(name, id) {
+    UserGroups.findOne({
+      where: {
+        username: name,
+        groupId: id
+      }
+    })
+      .then((user) => {
+        this.userUniqueness = false;
+        JSON.stringify(user);
+      });
+  }
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it sends message usernme created successfully
+   * @returns {object} - if there is no error, it sends (username) created successfully
    */
-=======
-  static checkUserisUnique(username,id){
-    UserGroups.findOne({
-        where: {
-          username: username,
-          groupId: id
-        }
-      })
-      .then((user) => {
-        this.userUniqueness = false ;
-      })
-  }
-
->>>>>>> change-app-to-meet-standards
   createGroup(req, res) {
     if (req.session.name) {
       Group.sync({ force: false }).then(() => Group.create({
@@ -69,17 +67,15 @@ class GroupActions {
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it sends message usernme created successfully
+   * @returns {object} - if there is no error, it sends user added successfully
    */
   addUserToGroup(req, res) {
     if (req.session.name) {
+      GroupActions.checkUserisUnique(req.body.username, req.params.groupId);
 
-      GroupActions.checkUserisUnique(req.body.username,req.params.groupId);
-
-      if(GroupActions.userIsUnique == false) {
+      if (GroupActions.userIsUnique === false) {
         res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
-      }
-      else {
+      } else {
         UserGroups.sync({ force: false }).then(() => UserGroups.create({
           username: req.body.username,
           groupId: req.params.groupId
@@ -91,16 +87,16 @@ class GroupActions {
 
         res.json({ message: 'user added to group' });
       }
-    
-    } 
-    
-    else {
+    } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
-
   }
 
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends message posted to group
+   */
   postMessageToGroup(req, res) {
     if (req.session.name) {
       Post.sync({ force: false }).then(() => Post.create({
@@ -118,7 +114,11 @@ class GroupActions {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns an array of messages
+   */
   getPosts(req, res) {
     if (req.session.name) {
       Post.findAll({
@@ -139,7 +139,11 @@ class GroupActions {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {void}
+   */
   checkGroups(req, res) {
     Group.findOne({
       where: {
@@ -155,7 +159,11 @@ class GroupActions {
       });
   }
 
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns an array of groups a user has created 
+   */
   getUserGroups(req, res) {
     Group.findAll({
       where: {
@@ -174,7 +182,11 @@ class GroupActions {
       });
   }
 
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns number of groups a user is part of
+   */
   getNumberOfGroups(req, res) {
     UserGroups.findAll({
       attributes: ['groupId'],
@@ -197,19 +209,6 @@ class GroupActions {
           // res.json({ message: 'error saving to database' });
       });
   }
-
-  checkUserisUnique(username,id){
-    UserGroups.findOne({
-        where: {
-          username: username,
-          groupId: id
-        }
-      })
-      .then((user) => {
-        this.userUniqueness = false ;
-      })
-  }
-
 
 }
 

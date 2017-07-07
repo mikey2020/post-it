@@ -13,9 +13,9 @@ engines:
      import/extensions:
        enabled: false
      no-multiple-empty-lines:
-       enabled: false
+       enabled: true
      linebreak-style:
-       enabled: false
+       enabled: true
 exclude_paths:
 - "templates/"
 - "client/"
