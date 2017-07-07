@@ -50,12 +50,12 @@ class UserActions {
 
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
        } else {
-         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
+         res.status(404).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
 
      .catch((err) => {
-       res.status(404).json({ errors: { message: 'Invalid login parameters' } });
+       res.status(404).json({ errors: { form: 'Invalid Signin Parameters' }  });
      });
   }
 

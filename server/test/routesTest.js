@@ -12,7 +12,7 @@ const user = request.agent(app);
 
 describe('Test api routes', () => {
   before((done) => {
-    User.sync({ force: false }).then(() => {
+    User.sync({ force: true }).then(() => {
       User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
 
       done();
@@ -129,6 +129,32 @@ describe('Test api routes', () => {
           done();
         });
     });
+  });
+
+  describe('Test Edge Cases', () => {
+
+    it('should return "invalid sign in parameters" when there is no username', (done) => {
+      user.post('/api/user/signin')
+      .send({ username: '', password: 'pass' })
+      .end((err, res) => {
+        //res.status.should.equal(401);
+        res.body.should.have.property('errors', res.body.errors);
+        res.body.errors.form.should.equal('Invalid Signin Parameters');
+        done();
+      });
+    });
+
+    it('should return "invalid sign in parameters" when there is no password', (done) => {
+      user.post('/api/user/signin')
+      .send({ username: 'user', password: '' })
+      .end((err, res) => {
+        //res.status.should.equal(401);
+        res.body.should.have.property('errors', res.body.errors);
+        res.body.errors.form.should.equal('Invalid Signin Parameters');
+        done();
+      });
+    });
+
   });
 
   after((done) => {

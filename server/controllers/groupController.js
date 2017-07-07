@@ -1,9 +1,12 @@
 import { Group, UserGroups, Post } from '../models/models';
 
+<<<<<<< HEAD
 /**
  *  All group actions
  * @class
  */
+=======
+>>>>>>> change-app-to-meet-standards
 class GroupActions {
 
   /**
@@ -11,6 +14,8 @@ class GroupActions {
    */
   constructor() {
     this.error = '';
+    this.userIsUnique=true;
+
   }
 
   /**
@@ -23,11 +28,26 @@ class GroupActions {
     }
   }
 
+<<<<<<< HEAD
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends message usernme created successfully
    */
+=======
+  static checkUserisUnique(username,id){
+    UserGroups.findOne({
+        where: {
+          username: username,
+          groupId: id
+        }
+      })
+      .then((user) => {
+        this.userUniqueness = false ;
+      })
+  }
+
+>>>>>>> change-app-to-meet-standards
   createGroup(req, res) {
     if (req.session.name) {
       Group.sync({ force: false }).then(() => Group.create({
@@ -53,43 +73,31 @@ class GroupActions {
    */
   addUserToGroup(req, res) {
     if (req.session.name) {
-      UserGroups.findOne({
-        where: {
+
+      GroupActions.checkUserisUnique(req.body.username,req.params.groupId);
+
+      if(GroupActions.userIsUnique == false) {
+        res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
+      }
+      else {
+        UserGroups.sync({ force: false }).then(() => UserGroups.create({
           username: req.body.username,
           groupId: req.params.groupId
-        }
-      })
-
-        .then((user) => {
-          if (user) {
-            res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
-          } else {
-            UserGroups.sync({ force: false }).then(() => UserGroups.create({
-              username: req.body.username,
-              groupId: req.params.groupId
-            })
-            .catch((err) => {
-              this.error = err;
-              this.sendError(res);
-            }));
-
-            res.json({ message: 'user added to group' });
-          }
         })
         .catch((err) => {
-          UserGroups.sync({ force: true }).then(() => UserGroups.create({
-            username: req.body.username,
-            groupId: req.params.groupId
-          })
-          .catch((err) => {
-            this.error = err;
-            this.sendError(res);
-          }));
-          res.json({ message: 'user added to group' });
-        });
-    } else {
+          this.error = err;
+          this.sendError(res);
+        }));
+
+        res.json({ message: 'user added to group' });
+      }
+    
+    } 
+    
+    else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
+
   }
 
 
@@ -188,6 +196,18 @@ class GroupActions {
         this.sendError(res);
           // res.json({ message: 'error saving to database' });
       });
+  }
+
+  checkUserisUnique(username,id){
+    UserGroups.findOne({
+        where: {
+          username: username,
+          groupId: id
+        }
+      })
+      .then((user) => {
+        this.userUniqueness = false ;
+      })
   }
 
 
