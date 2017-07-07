@@ -2,7 +2,10 @@ import validator from 'validator';
 
 import isEmpty from 'lodash/isEmpty';
 
-
+/**
+ *  All Validations
+ * @class
+ */
 class Validations {
 
   signup(data) {
