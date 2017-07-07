@@ -7,33 +7,38 @@ import isEmpty from 'lodash/isEmpty';
  * @class
  */
 class Validations {
-
+  /**
+   * @param {object} data - signup object
+   * @returns {object} - errors object if there is any
+   */
   signup(data) {
-    const errors = {};
+    this.errors = {};
 
     if (data.username === null || data.username === '') {
-      errors.username = 'Username is required';
+      this.errors.username = 'Username is required';
     }
 
     if (data.email === null || data.email === '') {
-      errors.email = 'Email is required';
+      this.errors.email = 'Email is required';
     }
 
-    if(data.email !== null || data.email !== '' && !validator.isEmail(data.email)) {
-      errors.email = 'Email is invalid';
+    if (data.email !== null || data.email !== '') {
+      this.errors.email = 'Email is invalid';
     }
 
     if (data.password === null || data.password === '') {
-      errors.password = 'Password is required';
+      this.errors.password = 'Password is required';
     }
 
     if (data.passwordConfirmation === null || data.passwordConfirmation === '') {
-      errors.passwordConfirmation = 'Password Confirmation is required';
+      this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
     if (!validator.equals(data.password, data.passwordConfirmation)) {
-      errors.passwordConfirmation = 'Passwords do not match';
+      this.errors.passwordConfirmation = 'Passwords do not match';
     }
+
+    const errors = this.errors;
 
     return {
       errors,
@@ -41,17 +46,22 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-
+  /**
+   * @param {object} data - signin object
+   * @returns {object} - errors object if there is any
+   */
   signin(data) {
-    const errors = {};
+    this.errors = {};
 
     if (data.username === null || data.username === '') {
-      errors.username = 'Username is required';
+      this.errors.username = 'Username is required';
     }
 
     if (data.password === null || data.password === '') {
-      errors.password = 'Password is required';
+      this.errors.password = 'Password is required';
     }
+
+    const errors = this.errors;
 
     return {
       errors,
@@ -59,28 +69,34 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-
+  /**
+   * @param {object} data - user' group name
+   * @returns {object} - errors object if there is any
+   */
   createGroupInput(data) {
-    const errors = {};
+    this.errors = {};
 
     if (data.input === null || data.input === '') {
-      errors.input = 'Group name is required';
+      this.errors.input = 'Group name is required';
     }
-
+    const errors = this.errors;
     return {
       errors,
 
       isValid: isEmpty(errors)
     };
   }
-
+  /**
+   * @param {object} data - username of user you want to add to a group
+   * @returns {object} - errors object if there is any
+   */
   username(data) {
-    const errors = {};
+    this.errors = {};
 
     if (data.username === null || data.username === '') {
-      errors.username = 'Username is required';
+      this.errors.username = 'Username is required';
     }
-
+    const errors = this.errors;
     return {
       errors,
 
