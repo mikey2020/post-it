@@ -162,7 +162,7 @@ class GroupActions {
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it returns an array of groups a user has created 
+   * @returns {object} - if there is no error, it returns an array of groups a user has created
    */
   getUserGroups(req, res) {
     Group.findAll({

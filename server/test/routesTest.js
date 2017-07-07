@@ -132,7 +132,6 @@ describe('Test api routes', () => {
   });
 
   describe('Test Edge Cases', () => {
-
     it('should return "invalid sign in parameters" when there is no username', (done) => {
       user.post('/api/user/signin')
       .send({ username: '', password: 'pass' })

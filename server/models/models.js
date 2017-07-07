@@ -30,9 +30,9 @@ const User = sequelize.define('user', {
 
   email: {
 
-  	type: Sequelize.STRING,
+    type: Sequelize.STRING,
 
-  	isEmail: true,
+    isEmail: true,
 
     allowNull: false,
 
@@ -43,7 +43,7 @@ const User = sequelize.define('user', {
 
   password: {
 
-  	type: Sequelize.STRING,
+    type: Sequelize.STRING,
 
     allowNull: false,
 
@@ -64,7 +64,7 @@ const User = sequelize.define('user', {
 
 });
 
-// Group model 
+// Group model
 
 const Group = sequelize.define('group', {
 
@@ -127,7 +127,7 @@ User.hasMany(Group, { as: 'groups' });
 
 // Asscoiation to determine how many posts a group has
 
-//Group.hasMany(Post, { as: 'posts' });
+// Group.hasMany(Post, { as: 'posts' });
 
 
 // Encrypting user password before saving to database
