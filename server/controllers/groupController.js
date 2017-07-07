@@ -1,18 +1,33 @@
 import { Group, UserGroups, Post } from '../models/models';
 
-
+/**
+ *  All group actions
+ * @class
+ */
 class GroupActions {
 
+  /**
+   * @constructor
+   */
   constructor() {
     this.error = '';
   }
 
+  /**
+   * @param {object} res -  response object from an endpoint
+   * @returns {object} - message to notify user something is wrong
+   */
   sendError(res) {
     if (this.error) {
-      res.status(500).json({ message: 'Something went wrong' });
+      res.status(500).json({ message: this.error });
     }
   }
 
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends message usernme created successfully
+   */
   createGroup(req, res) {
     if (req.session.name) {
       Group.sync({ force: false }).then(() => Group.create({
@@ -31,7 +46,11 @@ class GroupActions {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
   }
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends message usernme created successfully
+   */
   addUserToGroup(req, res) {
     if (req.session.name) {
       UserGroups.findOne({
