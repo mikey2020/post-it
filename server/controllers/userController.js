@@ -3,13 +3,19 @@ import { User, bcrypt } from '../models/models';
 import Validations from '../middlewares/validations';
 
 const validate = new Validations();
-
+/**
+ *  All user actions
+ * @class
+ */
 class UserActions {
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
   signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
-
-
+    // this.errors = errors;
     if (!isValid) {
       res.status(400).json(errors);
     } else {
@@ -23,16 +29,20 @@ class UserActions {
         password: req.body.password
       })
        .catch((err) => {
-         res.json({ message: 'error saving to database' });
+         res.json({ message: err });
        }));
 
       res.json({ message: `${req.body.username} successfully added` });
     }
   }
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
   signin(req, res) {
     req.session.username = req.body.username;
-
+    // this.errors = { form: 'Invalid Signin Parameters' };
     User.findAll({
       where: {
         userName: req.body.username
@@ -55,10 +65,15 @@ class UserActions {
      })
 
      .catch((err) => {
-       res.status(404).json({ errors: { form: 'Invalid Signin Parameters' }  });
+       this.errros = err;
+       res.status(404).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
   isUnique(req, res) {
     User.findOne({
 
@@ -71,12 +86,18 @@ class UserActions {
     });
   }
 
-
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
   allUsers(req, res) {
     User.findAll({}).then((data) => {
       res.json({ data });
     }).catch((err) => {
-      res.json({ message: 'Error occured please try again' });
+      this.errors = err;
+      // res.json({ message: 'Error occured please try again' });
+      res.json({ errors: { err } });
     });
   }
 
@@ -85,5 +106,3 @@ class UserActions {
 
 
 export default UserActions;
-
-

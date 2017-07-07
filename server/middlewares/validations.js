@@ -22,7 +22,7 @@ class Validations {
       this.errors.email = 'Email is required';
     }
 
-    if (data.email !== null || data.email !== '') {
+    if (!validator.isEmail(data.email)) {
       this.errors.email = 'Email is invalid';
     }
 

@@ -1,15 +1,12 @@
-[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)](https://travis-ci.org/mikey2020/post-it)
-
-[![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
-
-[![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg?branch=develop)](https://coveralls.io/github/mikey2020/post-it?branch=develop)
+[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)] [![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
+(https://travis-ci.org/mikey2020/post-it)[![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg?branch=develop)](https://coveralls.io/github/mikey2020/post-it?branch=develop)
 
 
 # post-it
 PostIt is a simple application that allows friends and colleagues create groups for notifications. 
 
 
-###POST IT
+##POST IT
 
 This repository contains a simple application that allows user post messages to different groups.
 
