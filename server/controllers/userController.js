@@ -67,7 +67,8 @@ class UserActions {
        data = JSON.parse(data);
 
 
-       if (bcrypt.compareSync(req.body.password, data[0].password) === true) {
+       if (req.body.username && req.body.password &&
+          bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
@@ -78,7 +79,6 @@ class UserActions {
      })
 
      .catch((err) => {
-       // this.errros = err;
        res.status(401).json({ errors: { form: err.errors[0].message } });
      });
   }
