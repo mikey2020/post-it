@@ -14,7 +14,7 @@ describe('Test api routes', () => {
   before((done) => {
     User.sync({ force: true }).then(() => {
       User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
-
+      User.create({ userName: 'user3', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
       done();
     });
   });
@@ -150,6 +150,17 @@ describe('Test api routes', () => {
         res.status.should.equal(401);
         res.body.should.have.property('errors', res.body.errors);
         res.body.errors.form.should.equal('Invalid Signin Parameters');
+        done();
+      });
+    });
+
+    it('should return "user does not exist" when trying added an unregistered user', (done) => {
+      user.post('/api/group/1/user')
+      .send({ username: 'user20' })
+      .end((err, res) => {
+        res.status.should.equal(500);
+        res.body.should.have.property('errors', res.body.errors);
+        // res.body.errors.form.should.equal('Invalid Signin Parameters');
         done();
       });
     });

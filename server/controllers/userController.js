@@ -13,8 +13,10 @@ class UserActions {
    * @constructor
    */
   constructor() {
-    this.onlineStatus = true;
+    this.onlineStatus = false;
+    this.userValid = true;
   }
+
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
@@ -22,13 +24,14 @@ class UserActions {
    */
   signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
+    req.session.status = false;
+
     if (!isValid) {
       res.status(400).json(errors);
-    } else if (this.onlineStatus === true) {
+    } else if (req.session.status === true) {
       res.status(500).json({ error: 'you already have an account' });
     } else {
      // force: true will drop the table if it already exists
-
       User.sync({ force: false }).then(() =>
        // Table created
       User.create({
@@ -36,11 +39,12 @@ class UserActions {
         email: req.body.email,
         password: req.body.password
       })
-       .catch((err) => {
-         res.json({ message: err });
-       }));
-
-      res.json({ message: `${req.body.username} successfully added` });
+      .catch((err) => {
+        res.json({ message: 'Username already taken' });
+      }))
+      .then(() => {
+        res.json({ message: `${req.body.username} successfully added` });
+      });
     }
   }
   /**

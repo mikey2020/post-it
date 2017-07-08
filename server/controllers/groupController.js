@@ -30,8 +30,9 @@ class GroupActions {
    * @param {string} id -  group id
    * @returns {object} - if there is no error, it sends message group created successfully
    */
-  static checkUserisUnique(name, id) {
-    GroupActions.checkUserIsValid(name);
+  checkUserisUnique(name, id) {
+    this.name = name;
+    // GroupActions.checkUserIsValid(this.name);
     if (this.userValid === false) {
       return 'Invalid user';
     }
@@ -51,7 +52,7 @@ class GroupActions {
    * @param {string} id -  group id
    * @returns {object} - if there is no error, it sends message group created successfully
    */
-  static checkUserIsValid(name) {
+  checkUserIsValid(name) {
     User.findOne({
       where: {
         userName: name
@@ -95,8 +96,6 @@ class GroupActions {
 
       if (GroupActions.userIsUnique === false) {
         res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
-      } else if (GroupActions.userIsUnique === 'Invalid user') {
-        res.status(500).json({ errors: { message: `${req.body.username}  does nort exist` } });
       } else {
         UserGroups.sync({ force: false }).then(() => UserGroups.create({
           username: req.body.username,
