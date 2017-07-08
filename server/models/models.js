@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt-nodejs';
 
 // import sequelize from database config file
 
-import { sequelize } from '../db';
+import sequelize from '../db';
 
 
 // User model
@@ -82,8 +82,6 @@ const Group = sequelize.define('group', {
 
 });
 
-
-// Model to determine how many groups a user is part of
 
 const UserGroups = sequelize.define('usergroup', {
 
