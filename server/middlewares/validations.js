@@ -55,29 +55,6 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-  /**
-   * @param {object} data - signin object
-   * @returns {object} - errors object if there is any
-   */
-  signin(input) {
-    this.errors = {};
-
-    if (input.username === null || input.username === '') {
-      this.errors.username = 'Username is required';
-    }
-
-    if (input.password === null || input.password === '') {
-      this.errors.password = 'Password is required';
-    }
-
-    const errors = this.errors;
-
-    return {
-      errors,
-
-      isValid: isEmpty(errors)
-    };
-  }
 }
 
 

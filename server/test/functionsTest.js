@@ -52,15 +52,5 @@ describe('Test Input Validations Class', () => {
       done();
     });
   });
-
-  describe('Test signin Validations', () => {
-    it('should return `is required for each field`', () => {
-      const validate = new Validations();
-      const mockData = { username: '', password: '' };
-      const { errors } = validate.signup(mockData);
-      errors.username.should.equal('Username is required');
-      errors.password.should.equal('Password is required');
-    });
-  });
 });
 
