@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)] [![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
+[![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)] 
+[![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
 (https://travis-ci.org/mikey2020/post-it)[![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg?branch=develop)](https://coveralls.io/github/mikey2020/post-it?branch=develop)
 
 
@@ -6,8 +7,7 @@
 PostIt is a simple application that allows friends and colleagues create groups for notifications. 
 
 
-##POST IT
-
+## POST IT
 This repository contains a simple application that allows user post messages to different groups.
 
 ### Development
@@ -38,7 +38,7 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 
 ### API Documentation
-* /api/user/signup - This route takes the following parameters (username: 'yourname'  , email: 'youremail' password: 'yourpassword') sent using a post request, so user can be registered or signup.
+* /api/user/signup - This route takes the following parameters (username: 'yourname'  , email: 'youremail' password: 'yourpassword' , passwordConfirmation: 'confirm password' ) sent using a post request, so user can be registered or signup.
 
 * /api/user/signin - This route takes the following parameters (username: 'yourusername' password: 'yourpassword') sent using  a post request ,so user can be authenticated or signin.
 

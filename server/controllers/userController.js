@@ -59,14 +59,16 @@ class UserActions {
          req.session.userId = data[0].id;
 
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
+       } else if (req.body.passwordConfirmation !== req.body.password) {
+         res.status(401).json({ errors: { form: 'passwords do not match' } });
        } else {
-         res.status(404).json({ errors: { form: 'Invalid Signin Parameters' } });
+         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
 
      .catch((err) => {
-       this.errros = err;
-       res.status(404).json({ errors: { form: 'Invalid Signin Parameters' } });
+       //this.errros = err;
+       res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
   /**

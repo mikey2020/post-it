@@ -136,7 +136,7 @@ describe('Test api routes', () => {
       user.post('/api/user/signin')
       .send({ username: '', password: 'pass' })
       .end((err, res) => {
-        // res.status.should.equal(401);
+        res.status.should.equal(401);
         res.body.should.have.property('errors', res.body.errors);
         res.body.errors.form.should.equal('Invalid Signin Parameters');
         done();
@@ -147,7 +147,7 @@ describe('Test api routes', () => {
       user.post('/api/user/signin')
       .send({ username: 'user', password: '' })
       .end((err, res) => {
-        // res.status.should.equal(401);
+        res.status.should.equal(401);
         res.body.should.have.property('errors', res.body.errors);
         res.body.errors.form.should.equal('Invalid Signin Parameters');
         done();
