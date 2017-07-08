@@ -21,7 +21,7 @@ exclude_paths:
 - "client/"
 - "clients/"
 - "server/test/"
-- "server/contollers/"
+- "server/controllers/"
 ratings:
   paths:
   - "server/**/*"
