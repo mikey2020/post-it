@@ -59,14 +59,14 @@ class Validations {
    * @param {object} data - signin object
    * @returns {object} - errors object if there is any
    */
-  signin(data) {
+  signin(input) {
     this.errors = {};
 
-    if (data.username === null || data.username === '') {
+    if (input.username === null || input.username === '') {
       this.errors.username = 'Username is required';
     }
 
-    if (data.password === null || data.password === '') {
+    if (input.password === null || input.password === '') {
       this.errors.password = 'Password is required';
     }
 
@@ -78,24 +78,6 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-  /**
-   * @param {object} data - user' group name
-   * @returns {object} - errors object if there is any
-   */
-  createGroupInput(data) {
-    this.errors = {};
-
-    if (data.input === null || data.input === '') {
-      this.errors.input = 'Group name is required';
-    }
-    const errors = this.errors;
-    return {
-      errors,
-
-      isValid: isEmpty(errors)
-    };
-  }
-
 }
 
 
