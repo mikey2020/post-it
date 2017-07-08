@@ -24,6 +24,7 @@ class UserActions {
    */
   signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
+    console.log(errors);
     req.session.status = false;
 
     if (!isValid) {
@@ -41,7 +42,7 @@ class UserActions {
       })
       .catch((err) => {
         // console.log(err.errors[0].message);
-        res.json({ message: err.errors[0].message });
+        res.status(500).json({ errors: { message: err.errors[0].message } });
       }))
       .then(() => {
         res.json({ message: `${req.body.username} successfully added` });

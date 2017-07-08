@@ -59,7 +59,6 @@ class GroupActions {
       }
 
     }).then((user) => {
-      console.log(user);
       GroupActions.userValid = false;
     });
   }
@@ -102,7 +101,6 @@ class GroupActions {
           groupId: req.params.groupId
         })
         .catch((err) => {
-          console.log(err);
           this.error = err;
           this.sendError(res);
         }));

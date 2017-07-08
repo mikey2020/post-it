@@ -14,7 +14,6 @@ describe('Test api routes', () => {
   before((done) => {
     User.sync({ force: true }).then(() => {
       User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
-      // User.create({ userName: 'user3', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
       done();
     });
   });
@@ -161,6 +160,54 @@ describe('Test api routes', () => {
         res.status.should.equal(500);
         res.body.should.have.property('errors', res.body.errors);
         // res.body.errors.form.should.equal('Invalid Signin Parameters');
+        done();
+      });
+    });
+
+    it('should return "username should be unique" when to use already registered username', (done) => {
+      user.post('/api/user/signup')
+      .send({ username: 'test-user', password: 'password', email: 'test@email.com', passwordConfirmation: 'password' })
+      .end((err, res) => {
+        res.status.should.equal(500);
+        should.not.exist(err);
+        res.body.should.have.property('errors', res.body.errors);
+        res.body.errors.message.should.equal('userName must be unique');
+        done();
+      });
+    });
+
+    it('should return "email should be unique" when to use already registered email', (done) => {
+      user.post('/api/user/signup')
+      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password' })
+      .end((err, res) => {
+        res.status.should.equal(500);
+        should.not.exist(err);
+        res.body.should.have.property('errors', res.body.errors);
+        res.body.errors.message.should.equal('email must be unique');
+        done();
+      });
+    });
+
+    it('should return "password length too short" when password is less than or equal to 4', (done) => {
+      user.post('/api/user/signup')
+      .send({ username: 'test', password: 'pass', email: 'test-email@yahoo.com', passwordConfirmation: 'pass' })
+      .end((err, res) => {
+        res.status.should.equal(400);
+        should.not.exist(err);
+        res.body.should.have.property('password', res.body.password);
+        res.body.password.should.equal('Password length too short');
+        done();
+      });
+    });
+
+    it('should return "password do not match" when password & password confirmation are not equal', (done) => {
+      user.post('/api/user/signup')
+      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1' })
+      .end((err, res) => {
+        res.status.should.equal(400);
+        should.not.exist(err);
+        res.body.should.have.property('passwordConfirmation', res.body.passwordConfirmation);
+        res.body.passwordConfirmation.should.equal('Passwords do not match');
         done();
       });
     });

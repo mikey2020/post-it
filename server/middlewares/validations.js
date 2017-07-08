@@ -2,7 +2,6 @@ import validator from 'validator';
 
 import isEmpty from 'lodash/isEmpty';
 
-import { User } from '../models/models';
 
 /**
  *  All Validations
@@ -10,31 +9,6 @@ import { User } from '../models/models';
  */
 class Validations {
 
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.userValid = '';
-  }
-  /**
-   * @param {object} value - username for validation
-   * @returns {void} - it returns whether a user already exists
-   */
-  checkUserIsValid(value) {
-    User.findAll({
-      where: {
-        email: value
-      }
-    }).then((user) => {
-      console.log(user);
-      if (user === null || user === undefined) {
-        this.userValid = true;
-      } else {
-        this.userValid = false;
-      }
-      // this.userValid = false;
-    });
-  }
   /**
    * @param {object} data - signup object
    * @returns {object} - errors object if there is any
