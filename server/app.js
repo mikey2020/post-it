@@ -27,10 +27,10 @@ const user = new UserActions();
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    // console.log('Connection has been established successfully.');
   })
   .catch((err) => {
-    console.error('Unable to connect to the database:', err);
+    // console.error('Unable to connect to the database:', err);
   });
 
 
@@ -79,7 +79,7 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Listening on port 3000...');
+  // console.log('Listening on port 3000...');
 });
 
 
