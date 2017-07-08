@@ -1,8 +1,5 @@
 [![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)] 
-
 [![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
-(https://travis-ci.org/mikey2020/post-it)
-
 [![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg?branch=develop)](https://coveralls.io/github/mikey2020/post-it?branch=develop)
 
 
