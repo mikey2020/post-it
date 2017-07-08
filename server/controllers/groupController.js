@@ -52,14 +52,15 @@ class GroupActions {
    * @param {string} id -  group id
    * @returns {object} - if there is no error, it sends message group created successfully
    */
-  checkUserIsValid(name) {
+  static checkUserIsValid(name) {
     User.findOne({
       where: {
         userName: name
       }
 
     }).then((user) => {
-      this.userValid = false;
+      console.log(user);
+      GroupActions.userValid = false;
     });
   }
   /**
@@ -92,16 +93,16 @@ class GroupActions {
    */
   addUserToGroup(req, res) {
     if (req.session.name) {
-      GroupActions.checkUserisUnique(req.body.username, req.params.groupId);
-
-      if (GroupActions.userIsUnique === false) {
-        res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
+      GroupActions.checkUserIsValid(req.body.username);
+      if (GroupActions.userValid === false) {
+        res.status(500).json({ errors: { message: 'User does not exist' } });
       } else {
         UserGroups.sync({ force: false }).then(() => UserGroups.create({
           username: req.body.username,
           groupId: req.params.groupId
         })
         .catch((err) => {
+          console.log(err);
           this.error = err;
           this.sendError(res);
         }));

@@ -40,7 +40,8 @@ class UserActions {
         password: req.body.password
       })
       .catch((err) => {
-        res.json({ message: 'Username already taken' });
+        // console.log(err.errors[0].message);
+        res.json({ message: err.errors[0].message });
       }))
       .then(() => {
         res.json({ message: `${req.body.username} successfully added` });
@@ -78,7 +79,7 @@ class UserActions {
 
      .catch((err) => {
        // this.errros = err;
-       res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
+       res.status(401).json({ errors: { form: err.errors[0].message } });
      });
   }
   /**

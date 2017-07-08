@@ -40,10 +40,7 @@ class Validations {
    * @returns {object} - errors object if there is any
    */
   signup(data) {
-    // console.log(this.userValid);
-    //this.userValid = true;
     this.errors = {};
-    this.checkUserIsValid(data.email);
 
     if (!data.email || !data.password || !data.username) {
       this.errors.invalid = 'Invalid paramters';
@@ -75,12 +72,6 @@ class Validations {
     if (data.password && !validator.equals(data.password, data.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
-
-    if (this.userValid === false) {
-      this.errors.invalid = 'User already exists';
-    }
-
-    console.log(this.userValid);
 
     const errors = this.errors;
 

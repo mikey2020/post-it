@@ -91,7 +91,9 @@ const UserGroups = sequelize.define('usergroup', {
 
     type: Sequelize.STRING,
 
-    allowNull: false
+    allowNull: false,
+
+    unique: true
 
   },
 

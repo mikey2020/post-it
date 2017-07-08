@@ -26,7 +26,7 @@ describe('Test Input Validations Class', () => {
     	const validate = new Validations();
 	    const mockData = { username: 'user', password: 'pass', email: '' };
 	    const { errors, isValid } = validate.signup(mockData);
-      errors.email.should.equal('Email is invalid');
+      errors.email.should.equal('Email is required');
 
       done();
     });
@@ -45,7 +45,7 @@ describe('Test Input Validations Class', () => {
       const mockData = { username: '', password: '', email: '', passwordConfirmation: '' };
       const { errors, isValid } = validate.signup(mockData);
       errors.username.should.equal('Username is required');
-      errors.email.should.equal('Email is invalid');
+      errors.email.should.equal('Email is required');
       errors.password.should.equal('Password is required');
       errors.passwordConfirmation.should.equal('Password Confirmation is required');
 
