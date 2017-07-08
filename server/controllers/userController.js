@@ -8,6 +8,13 @@ const validate = new Validations();
  * @class
  */
 class UserActions {
+
+  /**
+   * @constructor
+   */
+  constructor() {
+    this.onlineStatus = true;
+  }
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
@@ -15,9 +22,10 @@ class UserActions {
    */
   signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
-    // this.errors = errors;
     if (!isValid) {
       res.status(400).json(errors);
+    } else if (this.onlineStatus === true) {
+      res.status(500).json({ error: 'you already have an account' });
     } else {
      // force: true will drop the table if it already exists
 
@@ -57,7 +65,7 @@ class UserActions {
        if (bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
-
+         this.onlineStatus = true;
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
        } else if (req.body.passwordConfirmation !== req.body.password) {
          res.status(401).json({ errors: { form: 'passwords do not match' } });
