@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-import { sequelize } from './db';
+import sequelize from './db';
 
 import UserActions from './controllers/userController';
 
