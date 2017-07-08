@@ -13,7 +13,7 @@ const user = request.agent(app);
 describe('Test api routes', () => {
   before((done) => {
     User.sync({ force: true }).then(() => {
-      User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass' });
+      User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
 
       done();
     });

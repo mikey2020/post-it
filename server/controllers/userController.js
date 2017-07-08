@@ -65,17 +65,15 @@ class UserActions {
        if (bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
-         this.onlineStatus = true;
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
-       } else if (req.body.passwordConfirmation !== req.body.password) {
-         res.status(401).json({ errors: { form: 'passwords do not match' } });
+         this.onlineStatus = true;
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
 
      .catch((err) => {
-       //this.errros = err;
+       // this.errros = err;
        res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }

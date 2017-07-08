@@ -1,4 +1,4 @@
-import { Group, UserGroups, Post } from '../models/models';
+import { User, Group, UserGroups, Post } from '../models/models';
 
 /**
  *  All group actions
@@ -12,6 +12,7 @@ class GroupActions {
   constructor() {
     this.error = '';
     this.userIsUnique = true;
+    this.userValid = true;
   }
 
   /**
@@ -30,6 +31,10 @@ class GroupActions {
    * @returns {object} - if there is no error, it sends message group created successfully
    */
   static checkUserisUnique(name, id) {
+    GroupActions.checkUserIsValid(name);
+    if (this.userValid === false) {
+      return 'Invalid user';
+    }
     UserGroups.findOne({
       where: {
         username: name,
@@ -40,6 +45,21 @@ class GroupActions {
         this.userUniqueness = false;
         JSON.stringify(user);
       });
+  }
+  /**
+   * @param {string} name - username
+   * @param {string} id -  group id
+   * @returns {object} - if there is no error, it sends message group created successfully
+   */
+  static checkUserIsValid(name) {
+    User.findOne({
+      where: {
+        userName: name
+      }
+
+    }).then((user) => {
+      this.userValid = false;
+    });
   }
   /**
    * @param {object} req - request object sent to a route
@@ -75,6 +95,8 @@ class GroupActions {
 
       if (GroupActions.userIsUnique === false) {
         res.status(500).json({ errors: { message: `${req.body.username} already added to group` } });
+      } else if (GroupActions.userIsUnique === 'Invalid user') {
+        res.status(500).json({ errors: { message: `${req.body.username}  does nort exist` } });
       } else {
         UserGroups.sync({ force: false }).then(() => UserGroups.create({
           username: req.body.username,
