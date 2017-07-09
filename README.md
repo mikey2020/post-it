@@ -36,19 +36,16 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 * `NODE_ENV = test`
 
 
+## API ENDPOINTS
 
-### API Documentation
-* /api/user/signup - This route takes the following parameters (username: 'yourname'  , email: 'youremail' password: 'yourpassword' , passwordConfirmation: 'confirm password' ) sent using a post request, so user can be registered or signup.
-
-* /api/user/signin - This route takes the following parameters (username: 'yourusername' password: 'yourpassword') sent using  a post request ,so user can be authenticated or signin.
-
-* /api/group - This route takes the following parameters (name: 'groupname', creator: 'yourname') sent using a post request 
-
-* /api/group/:groupid/user - This route takes the following parameters (username: 'user's username')sent using a post request. it takes the username of the user you want add to a particular group.
-
-* /api/group/:groupid/message - This route takes the following parameters (post: 'your post/message') sent using a post request. it allows you post a message to a paqrticular group
-.
-* /api/group/:groupid/messages - This route takes the following parameter (groupid) sent using a get request. it allows you get all posts or messages from aparticular group.
+Request type | Endpoint | Action 
+------------ | ---------| --------
+POST | [/api/user/signup] | Create a new user
+POST | [/api/user/signin]| Authenticate user
+POST | [/api/group]| Create new group
+PUT | [ /api/group/:groupid/user] | Add user to a group
+POST | [/api/group/:groupid/message] | Add message to a group
+POST | [/api/group/:groupid/messages] | To log a user in
 
 
 
