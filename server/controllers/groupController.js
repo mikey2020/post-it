@@ -1,4 +1,13 @@
-import { User, Group, UserGroups, Post } from '../models/models';
+// import { User, Group, UserGroups, Post } from '../models/models';
+import models from '../models';
+
+const Group = models.Group;
+
+const UserGroups = models.UserGroups;
+
+const User = models.User;
+
+const Message = models.Message;
 
 /**
  *  All group actions
@@ -55,7 +64,7 @@ class GroupActions {
   static checkUserIsValid(name) {
     User.findOne({
       where: {
-        userName: name
+        username: name
       }
 
     }).then((user) => {
@@ -69,18 +78,18 @@ class GroupActions {
    */
   createGroup(req, res) {
     if (req.session.name) {
-      Group.sync({ force: false }).then(() => Group.create({
-        name: req.body.name,
-        creator: req.session.name,
+      Group.create({
+        groupname: req.body.name,
+        groupCreator: req.session.name,
         userId: req.session.userId
       })
+        .then(() => {
+          res.json({ message: `${req.body.name} successfully created` });
+        })
         .catch((err) => {
-          this.error = err;
-          this.sendError(res);
-          // res.status(500).json({ message: 'error saving to database' });
-        }));
-
-      res.json({ message: `${req.body.name} successfully created` });
+          console.log(err);
+          res.status(500).json({ message: 'error saving to database' });
+        });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
@@ -96,14 +105,15 @@ class GroupActions {
       if (GroupActions.userValid === false) {
         res.status(500).json({ errors: { message: 'User does not exist' } });
       } else {
-        UserGroups.sync({ force: false }).then(() => UserGroups.create({
+        UserGroups.create({
           username: req.body.username,
-          groupId: req.params.groupId
+          groupId: req.params.groupId,
+          groupname: req.body.groupname
         })
         .catch((err) => {
           this.error = err;
           this.sendError(res);
-        }));
+        });
 
         res.json({ message: 'user added to group' });
       }
@@ -119,17 +129,18 @@ class GroupActions {
    */
   postMessageToGroup(req, res) {
     if (req.session.name) {
-      Post.sync({ force: false }).then(() => Post.create({
-        post: req.body.post,
+      Message.create({
+        content: req.body.message,
+        groupname: req.body.groupname,
         groupId: req.params.groupId
       })
-        .catch((err) => {
-          this.error = err;
-          this.sendError(res);
-          // res.status(500).json({ error: { message: 'error saving to database' } });
-        }));
-
-      res.json({ message: 'message posted to group' });
+      .then(() => {
+        res.json({ message: 'message posted to group' });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ error: { message: 'error saving to database' } });
+      });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
@@ -141,7 +152,7 @@ class GroupActions {
    */
   getPosts(req, res) {
     if (req.session.name) {
-      Post.findAll({
+      Message.findAll({
         where: {
           groupId: req.params.groupId
         }
@@ -152,8 +163,8 @@ class GroupActions {
           res.json({ posts: data });
         })
         .catch((err) => {
-          this.error = err;
-          this.sendError(res);
+          console.log(err);
+          res.status(500).json({ errors: 'Something went wrong' });
         });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
@@ -167,7 +178,7 @@ class GroupActions {
   checkGroups(req, res) {
     Group.findOne({
       where: {
-        name: req.params.name
+        groupname: req.params.name
       }
     })
       .then((group) => {
@@ -187,7 +198,7 @@ class GroupActions {
   getUserGroups(req, res) {
     Group.findAll({
       where: {
-        creator: req.params.username
+        groupCreator: req.params.username
       }
     })
       .then((groups) => {

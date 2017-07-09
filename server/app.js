@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
-import sequelize from './db';
+// import sequelize from './db';
 
 import UserActions from './controllers/userController';
 
@@ -24,7 +24,7 @@ const group = new GroupActions();
 
 const user = new UserActions();
 
-sequelize
+/*sequelize
   .authenticate()
   .then(() => {
     // console.log('Connection has been established successfully.');
@@ -32,7 +32,7 @@ sequelize
   .catch((err) => {
     // console.error('Unable to connect to the database:', err);
   });
-
+*/
 
 app.use(morgan('dev'));
 
