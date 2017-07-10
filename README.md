@@ -31,9 +31,10 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 ### Tests 
 
-* You can run tests with 'npm test' but first please make sure your node environment is set as test
+* set `NODE_ENV = test`
 
-* `NODE_ENV = test`
+* Then you can run tests with '##npm test' but first please make sure your node environment is set as test
+
 
 
 ## API ENDPOINTS
