@@ -73,14 +73,15 @@ class GroupActions {
         name: req.body.name,
         creator: req.session.name,
         userId: req.session.userId
+      }).then((group) => {
+        console.log(group);
+        res.json({ group: { message: `${req.body.name} successfully created`, data: group } });
       })
         .catch((err) => {
           this.error = err;
           this.sendError(res);
           // res.status(500).json({ message: 'error saving to database' });
         }));
-
-      res.json({ message: `${req.body.name} successfully created` });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
