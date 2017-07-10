@@ -38,14 +38,14 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 ## API ENDPOINTS
 
-Request type | Endpoint | Action 
------------- | ---------| --------
-POST | [/api/user/signup] | Create a new user
-POST | [/api/user/signin]| Authenticate user
-POST | [/api/group]| Create new group
-PUT | [ /api/group/:groupid/user] | Add user to a group
-POST | [/api/group/:groupid/message] | Add message to a group
-POST | [/api/group/:groupid/messages] | To log a user in
+Request type | Endpoint | Action | Parameters |
+------------ | ---------| --------| ---------|
+POST | [/api/user/signup] | Create a new user | {username , email , password}
+POST | [/api/user/signin]| Authenticate user  | {username , password}
+POST | [/api/group]| Create new group         | {name}
+PUT | [ /api/group/:groupid/user] | Add user to a group | {username}
+POST | [/api/group/:groupid/message] | Add message to a group | {post}
+POST | [/api/group/:groupid/messages] | Get all posts from a group | 
 
 
 
