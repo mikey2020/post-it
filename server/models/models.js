@@ -72,7 +72,9 @@ const Group = sequelize.define('group', {
 
     type: Sequelize.STRING,
 
-    notEmpty: true
+    unique: true,
+
+    allowNull: false
   },
 
   creator: {

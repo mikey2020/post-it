@@ -66,21 +66,19 @@ class UserActions {
        let data = JSON.stringify(user);
 
        data = JSON.parse(data);
-
-
        if (req.body.username && req.body.password &&
           bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
-         this.onlineStatus = true;
-       } else {
+         // this.onlineStatus = true;
+          } /*else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
-       }
+       }*/
      })
-
      .catch((err) => {
-       res.status(401).json({ errors: { form: err.errors[0].message } });
+        console.log(err);
+        res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
   /**
