@@ -100,7 +100,7 @@ class GroupActions {
    */
   createGroup(req, res) {
     if (req.session.name) {
-      Group.sync({ force: true }).then(() => Group.create({
+      Group.sync({ force: false }).then(() => Group.create({
         name: req.body.name,
         creator: req.session.name,
         userId: req.session.userId
