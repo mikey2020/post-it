@@ -100,7 +100,7 @@ class GroupActions {
    */
   createGroup(req, res) {
     if (req.session.name) {
-      Group.sync({ force: false }).then(() => Group.create({
+      Group.sync({ force: true }).then(() => Group.create({
         name: req.body.name,
         creator: req.session.name,
         userId: req.session.userId
@@ -126,7 +126,6 @@ class GroupActions {
         where: {
           userName: req.body.username
         }
-
       }).then((user) => {
         // console.log(GroupActions.userValid);
         if (isEmpty(user)) {
@@ -139,14 +138,12 @@ class GroupActions {
               groupId: req.params.groupId
             }
           }).then((user) => {
-            console.log(user);
             if (isEmpty(user) || user === null) {
               UserGroups.sync({ force: false }).then(() => UserGroups.create({
                 username: req.body.username,
                 groupId: req.params.groupId
               })
               .then((results) => {
-                console.log(results);
                 if (results) {
                   res.json({ message: 'user added to group' });
                 } else {
@@ -180,14 +177,16 @@ class GroupActions {
       Post.sync({ force: true }).then(() => Post.create({
         post: req.body.post,
         groupId: req.params.groupId
+      }).then((result) => {
+        if (result) {
+          res.json({ message: 'message posted to group' });
+        }
       })
         .catch((err) => {
-          this.error = err;
-          this.sendError(res);
-          // res.status(500).json({ error: { message: 'error saving to database' } });
+          res.status(500).json({ error: { message: 'Something went wrong' } });
         }));
 
-      res.json({ message: 'message posted to group' });
+      // res.json({ message: 'message posted to group' });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
     }
@@ -210,8 +209,7 @@ class GroupActions {
           res.json({ posts: data });
         })
         .catch((err) => {
-          this.error = err;
-          this.sendError(res);
+          res.status(500).json({ error: { message: 'Something went wrong' } });
         });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });

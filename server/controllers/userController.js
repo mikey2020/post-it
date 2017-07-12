@@ -72,9 +72,9 @@ class UserActions {
          req.session.userId = data[0].id;
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
          // this.onlineStatus = true;
-          } /*else {
+       } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
-       }*/
+       }
      })
      .catch((err) => {
         console.log(err);
