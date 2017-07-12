@@ -174,7 +174,7 @@ class GroupActions {
    */
   postMessageToGroup(req, res) {
     if (req.session.name) {
-      Post.sync({ force: true }).then(() => Post.create({
+      Post.sync({ force: false }).then(() => Post.create({
         post: req.body.post,
         groupId: req.params.groupId
       }).then((result) => {
