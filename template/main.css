@@ -86,5 +86,60 @@
 #dropdown{
 	position: fixed;
 	top: 57px;
-	left: 680px;
+	left: 500px;
+}
+
+.vertical-menu {
+    width: 100%; /* Set a width if you like */
+	position: relative;
+	left: -13px;
+    background-color: #201E1D ;
+	height: 700px;
+    overflow-y: auto;
+}
+
+.vertical-menu a {
+    /*background-color: #eee; /* Grey background color */
+    color: black; 
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+    background-color: #b71c1c  ;
+}
+
+.vertical-menu a.active {
+    background-color:   ; /* Add a green color to the "active/current" link */
+    color: white;
+}
+
+.link{
+	text-align: left;
+	/*position: relative;
+	left: 10px;*/
+	color: white;
+}
+
+.right-column-header{
+	width: 1000px;
+	position: relative;
+	left: 200px;
+}
+
+.message-input{
+	position: fixed;
+}
+
+.add_icon{
+	color: white;
+	position: relative;
+	left: 600px;
+	top: 10px;
+}
+
+#group-name{
+   font-size: 30px;
+   color: #b71c1c ;
 }

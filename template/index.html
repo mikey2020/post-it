@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Post It</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+         <link rel="stylesheet" href="main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    </head>
+
+    <body> 
+			<div class="row">
+					<nav>
+					<div class="nav-wrapper red darken-4">
+						<a href="#!" class="brand-logo">  <i class="material-icons">message</i>POST IT</a>
+						<ul class="right hide-on-med-and-down">
+							<li><a href=""><i class="material-icons">view_module</i></a></li>
+							<li><a href=""><i class="material-icons">refresh</i></a></li>
+							<li><a href=""><i class="material-icons">more_vert</i></a></li>
+						</ul>
+					</div>
+				</nav>
+           
+				<div class="col s4 m4 l3"> 
+					<div class="vertical-menu">
+					<div class="row">
+					<ul class="collapsible" data-collapsible="accordion">
+						<li>
+						<div class="collapsible-header link red darken-4 "><i class="material-icons">dashboard</i>Home</div>
+						</li>
+						<li>
+							<div class="collapsible-header link red darken-4"><i class="material-icons red darken-4">add</i>Create a group</div>
+							<div class="collapsible-body">
+								<span>
+							     <div class="row">
+									<form class="col s12">
+									<div class="row">
+										<div class="input-field">
+										<i class="material-icons prefix white">group_work</i>
+										<input type="text" class="validate white" width=300px placeholder="Enter group name">
+										<input type="submit" class="waves-effect waves-light btn" value="create">
+										</div>
+									</div>
+									</form>
+								 </div>
+								
+						       </span>
+								
+							</div>
+						</li>
+						<li>
+							<div class="collapsible-header link red darken-4"><i class="material-icons">group_work</i>Groups</div>
+							<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+					   </li>
+					</ul>
+					</div>
+					</div>
+				</div> 
+
+				<div class ="row">
+					<div class="col s8 m8 l9"> 
+						<nav class="col s12 m12 l12 right-column-header grey lighten-5">
+						<div class="nav-wrapper">
+							<div class="row">
+								<a href="#!" class="col s7 m7 l7" id="group-name">Group Name</a>
+								<span class=" col s3 m3 l3 waves-effect waves-light btn add_icon red darken-4">Add User</span>
+							</div>
+						</div>
+					</nav>
+					</div>
+
+					<div class="col s8 m8 l9">
+                <ul class="collection">
+									<li class="collection-item avatar">
+										 <img src="user.png" alt="" class="circle">
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle">folder</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle green">insert_chart</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle red">play_arrow</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+								</ul>						
+					</div>
+
+					<div class="row">
+						<form class="col s8 m8 l8 ">
+							<div class="row">
+								<div class="input-field col s12">
+									<i class="material-icons prefix">mode_edit</i>
+									<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+									<label for="icon_prefix2"></label>
+								</div>
+
+								<div class="col s5 m4 l3">
+									 <button class="btn waves-effect waves-light red darken-4" type="submit" name="action">Post
+										<i class="material-icons right">send</i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+          
+	    </div>
+       <script src="main.js" </script>
+    </body>
+</html>
