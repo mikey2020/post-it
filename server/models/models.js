@@ -91,10 +91,7 @@ const UserGroups = sequelize.define('usergroup', {
 
     type: Sequelize.STRING,
 
-    allowNull: false,
-
-    unique: true
-
+    allowNull: false
   },
 
   groupId: Sequelize.INTEGER
@@ -108,16 +105,16 @@ const Post = sequelize.define('post', {
 
   post: {
 
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+
+    allowNull: false
 
   },
 
   groupId: {
     type: Sequelize.STRING,
     allowNull: false
-  },
-
-  groupName: Sequelize.STRING
+  }
 
 });
 
