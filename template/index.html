@@ -1,38 +1,108 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" 
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+         <link rel="stylesheet" href="main.css">
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Post It</title>
     </head>
 
     <body> 
-        <div>
-			<nav class="navbar navbar-inverse" id="my-header">
-		      <div class="container-fluid">
-		        <div class="navbar-header">
-		          <Link to="/home" class="navbar-brand">Post It</Link>
-		        </div>
-		        <ul class="nav navbar-nav">
-		          <li><Link to="/signup">SignUp</Link></li>
-		          <li><Link to="/signin">SignIn</Link></li>
-		          <li><Link to="/messageboard">Message Board</Link></li>
-		        </ul>
-		      </div>
-		    </nav>
+			<div class="row">
+					<nav>
+					<div class="nav-wrapper orange accent-3">
+						<a href="#!" class="brand-logo"><i class="material-icons">mode_edit</i>POST IT</a>
+						<ul class="right hide-on-med-and-down">
+							<li><a href=""><i class="material-icons">view_module</i></a></li>
+							<li><a href=""><i class="material-icons">refresh</i></a></li>
+							<li><a href=""><i class="material-icons">more_vert</i></a></li>
+						</ul>
+					</div>
+				</nav>
+		
+
+
+				<div class="col s4 m4 l3"> 
+					<div class="vertical-menu">
+						<a href="#" class="active"><span class="link">Home</span></a>
+						<a href="#"><span class="link">Create a group 
+							 <span class="btn-floating waves-effect waves-light red">
+								 <i class="material-icons">add</i></span> </span></a>
+						<a href="#" ><span class="link"> <i class="material-icons">group_work</i> Groups</span></a>
+						<a href="#"><span class="link">first group</span></a>
+						<a href="#"><span class="link">second group</span></a>
+					</div>
+				</div> 
+				<div class ="row">
+					<div class="col s8 m8 l9"> 
+						<nav class="col s12 m12 l12 right-column-header light-blue accent-3">
+						<div class="nav-wrapper">
+							<div class="">
+								<a href="#!" class=""><i class="material-icons">message</i></a>
+							</div>
+						</div>
+					</nav>
+					</div>
+
+					<div class="col s8 m8 l9">
+                <ul class="collection">
+									<li class="collection-item avatar">
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle">folder</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle green">insert_chart</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+									<li class="collection-item avatar">
+										<i class="material-icons circle red">play_arrow</i>
+										<span class="title">Title</span>
+										<p>First Line <br>
+											Second Line
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+									</li>
+								</ul>						
+					</div>
+
+					<div class="row">
+						<form class="col s8 m8 l8 ">
+							<div class="row">
+								<div class="input-field col s12">
+									<i class="material-icons prefix">mode_edit</i>
+									<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+									<label for="icon_prefix2">Message</label>
+								</div>
+
+								<div class="col s5 m4 l3">
+									 <button class="btn waves-effect waves-light" type="submit" name="action">Post
+										<i class="material-icons right">send</i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+          
 	    </div>
        
-       <div>
-		
-        <h1> Welcomes to Post It  </h1>
-
-		<p class=""><Link to="/signup">Join Post It</Link></p>
-
-		</div>
-
     </body>
 </html>

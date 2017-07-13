@@ -90,5 +90,49 @@ body{
 #dropdown{
 	position: fixed;
 	top: 57px;
-	left: 680px;
+	left: 500px;
+}
+
+.vertical-menu {
+    width: 100%; /* Set a width if you like */
+	position: relative;
+	left: -13px;
+    background-color: #00b0ff   ;
+	height: 700px;
+    overflow-y: auto;
+}
+
+.vertical-menu a {
+    /*background-color: #eee; /* Grey background color */
+    color: white; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+    background-color: #01579b   ;
+}
+
+.vertical-menu a.active {
+    background-color: #b71c1c  ; /* Add a green color to the "active/current" link */
+    color: white;
+}
+
+.link{
+	text-align: left;
+	position: relative;
+	left: 10px;
+}
+
+.right-column-header{
+	width: 1000px;
+	position: relative;
+	left: 200px;
+}
+
+.message-input{
+	position: relative;
+    right: 200px;
+    top: 470px;
 }
