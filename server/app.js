@@ -71,6 +71,8 @@ app.post('/api/group/:groupId/message', group.postMessageToGroup);
 
 app.get('/api/group/:groupId/messages', group.getPosts);
 
+app.get('/api/group/:groupId/users', group.getGroupMembers);
+
 app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 
 
