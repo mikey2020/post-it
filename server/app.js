@@ -63,7 +63,7 @@ app.post('/api/group', group.createGroup);
 
 app.get('/api/group/:name', group.checkGroups);
 
-app.get('/api/groups/:username', group.getUserGroups);
+app.get('/api/groups/user', group.getUserGroups);
 
 app.post('/api/group/:groupId/user', group.addUserToGroup);
 

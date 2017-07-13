@@ -138,7 +138,7 @@ class GroupActions {
             }
           }).then((user) => {
             if (isEmpty(user) || user === null) {
-              UserGroups.sync({ force: true }).then(() => UserGroups.create({
+              UserGroups.sync({ force: false }).then(() => UserGroups.create({
                 username: req.body.username,
                 groupId: req.params.groupId
               })
@@ -247,7 +247,7 @@ class GroupActions {
   getUserGroups(req, res) {
     Group.findAll({
       where: {
-        creator: req.params.username
+        creator: req.body.username
       }
     })
       .then((groups) => {
