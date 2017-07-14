@@ -42,7 +42,7 @@ class UserActions {
       })
       .catch((err) => {
         // console.log(err.errors[0].message);
-        res.status(500).json({ errors: { message: err.errors[0].message } });
+        res.status(400).json({ errors: { message: err.errors[0].message } });
       }))
       .then(() => {
         res.json({ message: `${req.body.username} successfully added` });

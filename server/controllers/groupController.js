@@ -100,7 +100,7 @@ class GroupActions {
    */
   createGroup(req, res) {
     if (req.session.name) {
-      Group.sync({ force: false }).then(() => Group.create({
+      Group.sync({ force: true }).then(() => Group.create({
         name: req.body.name,
         creator: req.session.name,
         userId: req.session.userId
@@ -108,7 +108,7 @@ class GroupActions {
         res.json({ group: { message: `${req.body.name} created successfully` , data: group} });
       })
         .catch((err) => {
-          res.status(500).json({ errors: { message: err.errors[0].message } });
+          res.status(400).json({ errors: { message: err.errors[0].message } });
         }));
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
@@ -128,7 +128,7 @@ class GroupActions {
       }).then((user) => {
         // console.log(GroupActions.userValid);
         if (isEmpty(user)) {
-          res.status(500).json({ errors: { message: 'User does not exist' } });
+          res.status(400).json({ errors: { message: 'User does not exist' } });
         } else {
           // this.checkUserisUnique(req.body.username);
           UserGroups.findOne({
@@ -138,7 +138,7 @@ class GroupActions {
             }
           }).then((user) => {
             if (isEmpty(user) || user === null) {
-              UserGroups.sync({ force: false }).then(() => UserGroups.create({
+              UserGroups.sync({ force: true }).then(() => UserGroups.create({
                 username: req.body.username,
                 groupId: req.params.groupId
               })
@@ -146,7 +146,7 @@ class GroupActions {
                 if (results) {
                   res.json({ message: 'user added to group' });
                 } else {
-                  res.status(500).json({ message: 'user already added to group' });
+                  res.status(400).json({ message: 'user already added to group' });
                 }
               })
               .catch((err) => {
@@ -154,13 +154,14 @@ class GroupActions {
                 // res.status(500).json({ errors: { message: 'user already added to group' } });
               }));
             } else if (user) {
-              res.status(500).json({ message: 'user already added to group' });
+              res.status(400).json({ message: 'user already added to group' });
             }
           });
         }
       })
       .catch((err) => {
-        res.status(500).json({ errors: { message: 'User does not exist' } });
+        console.log(err);
+        res.status(400).json({ errors: { message: 'User does not exist' } });
       });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
@@ -213,7 +214,7 @@ class GroupActions {
           res.json({ posts: data });
         })
         .catch((err) => {
-          res.status(500).json({ error: { message: 'Something went wrong' } });
+          res.status(400).json({ error: { message: 'Something went wrong' } });
         });
     } else {
       res.status(401).json({ errors: { message: 'Please Sign in' } });
@@ -292,7 +293,7 @@ class GroupActions {
    /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it returns number of groups a user is part of
+   * @returns {object} - if there is no error, it returns array of users in a group
    */
   getGroupMembers(req, res) {
     UserGroups.findAll({
@@ -300,7 +301,6 @@ class GroupActions {
         groupId: req.params.groupId
       }
     }).then((groups) => {
-      console.log(groups);
       res.json({ data: groups });
     });
   }
