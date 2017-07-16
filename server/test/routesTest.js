@@ -140,6 +140,7 @@ describe('Test api routes', () => {
     it('should return "please sign in" ', (done) => {
       request(app).get('/api/group/1/messages')
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(401);
           res.body.should.have.property('errors', res.body.errors);
           res.body.errors.message.should.equal('Please Sign in');

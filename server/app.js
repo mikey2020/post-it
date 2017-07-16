@@ -8,6 +8,16 @@ import bodyParser from 'body-parser';
 
 import session from 'express-session';
 
+import webpack from 'webpack';
+
+import webpackMiddleware from 'webpack-dev-middleware';
+
+import webpackHotMiddleware from 'webpack-hot-middleware';
+
+import webpackConfig from '../webpack.config.dev';
+
+import path from 'path';
+
 import sequelize from './db';
 
 import UserActions from './controllers/userController';
@@ -23,6 +33,9 @@ const port = process.env.PORT;
 const group = new GroupActions();
 
 const user = new UserActions();
+
+const compiler = webpack(webpackConfig);
+
 
 sequelize
   .authenticate()
@@ -46,6 +59,20 @@ app.use(session({
   saveUninitialized: true
 
 }));
+
+app.use(webpackMiddleware(compiler,{
+  hot: true,
+  publicPath: webpackConfig.output.publicPath,
+  noInfo: true
+}));
+
+app.use(webpackHotMiddleware(compiler));
+
+
+app.get('/*',(req,res) => {
+  res.sendFile(path.join(process.cwd() + '/client/index.html'));
+});
+
 
 // user routes
 
