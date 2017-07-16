@@ -203,7 +203,6 @@ class GroupActions {
    */
   getPosts(req, res) {
     if (req.session.name) {
-      console.log(req.session.name);
       Post.findAll({
         where: {
           groupId: req.params.groupId

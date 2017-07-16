@@ -2,50 +2,41 @@ import path from 'path';
 import webpack from 'webpack';
 
 export default {
-	devtool: 'eval-source-map',
+  devtool: 'eval-source-map',
 
-	entry: [
+  entry: [
+    'webpack-hot-middleware/client',
+    path.join(__dirname, '/client/index.js')
+  ],
 
-		'webpack-hot-middleware/client',
-		path.join(__dirname,'/client/index.js')
-	],
+  output: {
+    path: '/',
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
 
-	output: {
-		path: '/',
-		publicPath: '/',
-		filename: "bundle.js"
-	},
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ],
 
-	plugins: [
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
 
-		new webpack.NoEmitOnErrorsPlugin(),
-		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
-		/*new webpack.DefinePlugin({
-	      'process.env.NODE_ENV': JSON.stringify('production')
-	    }),
-	    new webpack.optimize.UglifyJsPlugin()*/
-	],
+        include: path.join(__dirname, 'client'),
 
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
+        loaders: ['react-hot-loader','babel-loader'],
 
-				include: path.join(__dirname,'client'),
+        exclude: /node_modules/
+      },
 
-				loaders: ['react-hot-loader','babel-loader'],
-
-				exclude: /node_modules/
-			},
-
-			{ test: /\.jsx$/, loaders: ['react-hot-loader','babel-loader'], exclude: /node_modules/ }
+      { test: /\.jsx$/, loaders: ['react-hot-loader','babel-loader'], exclude: /node_modules/ }
 
 
-		]
-	},
+    ]
+  },
 
-	/*resolve: {
-		extensions: ['.js','.jsx']
-	}*/
-}
+};

@@ -6,9 +6,11 @@ import PropTypes from 'prop-types';
 
 // import classnames from 'classnames';
 
-// import {validateInput} from '../../../server/middlewares/validations.js';
+import Validations from '../../../../server/middlewares/validations.js';
 
 // import {addFlashMessage} from '../../actions/flashMessage';
+
+const validate = new Validations();
 
 class SignupForm extends React.Component{
 	constructor(props){
@@ -28,7 +30,7 @@ class SignupForm extends React.Component{
 
 	isValid(){
 
-		const {errors,isValid} = validateInput(this.state);
+		const {errors,isValid} = validate.signup(this.state);
 
 		if(!isValid){
 			this.setState({errors});
@@ -134,14 +136,12 @@ class SignupForm extends React.Component{
 	}
 }
 
-SignupForm.propTypes ={
+SignupForm.propTypes = {
 
-	userSignupRequest:  PropTypes.func.isRequired,
-	addFlashMessage:  PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {
-	router: PropTypes.object.isRequired
+	
 }
 
 export default SignupForm ;
