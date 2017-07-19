@@ -10,11 +10,11 @@ import {Provider} from 'react-redux';
 
 import thunk from  'redux-thunk';
 
-import {createStore} from 'redux';
+import {createStore,applyMiddleware,compose} from 'redux';
 
 const store = createStore(
 	
-	rootReducer,
+	// rootReducer,
 
 	compose(
 		applyMiddleware(thunk),

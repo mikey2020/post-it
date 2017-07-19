@@ -70,7 +70,7 @@ app.use(webpackHotMiddleware(compiler));
 
 
 app.get('/*',(req,res) => {
-  res.sendFile(path.join(process.cwd() + '/client/index.html'));
+  res.sendFile(path.join(process.cwd(), '/client/index.html'));
 });
 
 
