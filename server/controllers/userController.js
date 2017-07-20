@@ -40,13 +40,13 @@ class UserActions {
         email: req.body.email,
         password: req.body.password
       })
+      .then(() => {
+        res.json({ message: `${req.body.username} successfully added` });
+      })
       .catch((err) => {
         // console.log(err.errors[0].message);
         res.status(400).json({ errors: { message: err.errors[0].message } });
-      }))
-      .then(() => {
-        res.json({ message: `${req.body.username} successfully added` });
-      });
+      }));
     }
   }
   /**

@@ -12,9 +12,13 @@ import thunk from  'redux-thunk';
 
 import {createStore,applyMiddleware,compose} from 'redux';
 
+import rootReducer from './src/rootReducer';
+
+import js from './html-actions.js';
+
 const store = createStore(
 	
-	// rootReducer,
+	rootReducer,
 
 	compose(
 		applyMiddleware(thunk),

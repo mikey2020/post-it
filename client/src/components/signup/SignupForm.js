@@ -2,15 +2,18 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-// import {userSignupRequest} from '../../actions/signupActions';
+import {addUser} from '../../actions/signupActions';
 
-// import classnames from 'classnames';
+import classnames from 'classnames';
 
 import Validations from '../../../../server/middlewares/validations.js';
 
-// import {addFlashMessage} from '../../actions/flashMessage';
+import {connect} from 'react-redux';
+
+import {addFlashMessage} from '../../actions/flashMessageActions';
 
 const validate = new Validations();
+
 
 class SignupForm extends React.Component{
 	constructor(props){
@@ -46,25 +49,34 @@ class SignupForm extends React.Component{
 
 	onSubmit(e){
 
-		//if(this.isValid()){
-			this.setState({errors: {} , isLoading: true});
-
 			e.preventDefault();
 
-			this.props.userSignupRequest(this.state).then(
-				() => {
-					
-					this.props.addFlashMessage({
+			this.props.addUser(this.state).then(
+				(res) => {
+					if(res.data.message){
+                       this.props.addFlashMessage({
 						type: 'success',
-						text: 'Signed up successfully thank you'
-					}),
+						text: res.data.message
+					   })
+					}
+
+					else{
+						console.log("bad request");
+                        this.props.addFlashMessage({
+						type: 'error',
+						text: res.data.errors.message
+					   })
+					   //this.setState({errors: {} , isLoading: true});
+					}
+					
 
 					this.context.router.push('/')
 				},
+                
 
 				({data}) => this.setState({errors: data})
 			);
-		//}
+		
 		
 	}
 
@@ -73,9 +85,9 @@ class SignupForm extends React.Component{
 		return(
 	    	<div className= "" id="signup-body">
 	          <form onSubmit={this.onSubmit}>
-	              <div className="">
-	              <p  id="signup-header">Sign Up here</p>
-	            	<br/>
+	              <div className="jumbotron  black signup-form">
+	              <p  id="signup-header" className="flow-text">Sign Up here</p>
+	            	{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
 	            	<input 
 	            	    value={this.state.username}
 	            	    onChange={this.onChange}
@@ -85,8 +97,7 @@ class SignupForm extends React.Component{
 	            		className="" 
 	            		/>
                 
-	 
-	            		{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
+				    {errors.email ? <span className="help-block">{errors.email}</span> : <br/>}  
 	            		
 	            	<input 
 	            		value={this.state.email}
@@ -97,7 +108,7 @@ class SignupForm extends React.Component{
 	            		className="" 
 	            		id="usr" />
 	            		
-	            		{errors.email ? <span className="help-block">{errors.email}</span> : <br/>}
+	            	{ errors.password ? <span className="help-block">{errors.password}</span> : <br/>}	
 	            		
 	            	<input 
 	            		value={this.state.password}
@@ -108,7 +119,7 @@ class SignupForm extends React.Component{
 	            		className="" 
 	            		id="pwd"/>
 	            		
-	            		{ errors.password ? <span className="help-block">{errors.password}</span> : <br/>}
+	            	{errors.passwordConfirmation ? <span className="help-block">{errors.passwordConfirmation}</span> : <br/>}
 
 	            	<input 
 	            		value={this.state.passwordConfirmation}
@@ -119,7 +130,7 @@ class SignupForm extends React.Component{
 	            		className="" 
 	            		id="pwd"/>
 	            		
-	            		{errors.passwordConfirmation ? <span className="help-block">{errors.passwordConfirmation}</span> : <br/>}
+	            		
 
 	            	<input 
 	            		disabled={this.state.isLoading}
@@ -137,11 +148,12 @@ class SignupForm extends React.Component{
 }
 
 SignupForm.propTypes = {
-
+   addFlashMessage: PropTypes.func.isRequired,
+   addUser: PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {
-	
+	router: PropTypes.object.isRequired
 }
 
-export default SignupForm ;
+export default connect(null,{addUser,addFlashMessage})(SignupForm) ;

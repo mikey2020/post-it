@@ -3,8 +3,8 @@ import React from 'react';
 class Welcome extends React.Component{
 	render(){
 		return(
-            <div>
-			  <h1> Welcomes to Post It  </h1>
+            <div id="landing-page">
+			  <h2 className="well well-sm"> Welcome to Post It  </h2>
 			</div>
 		);
 	}
