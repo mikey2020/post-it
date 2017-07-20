@@ -3,9 +3,12 @@ import should from 'should';
 
 import request from 'supertest';
 
-import { User, Group, Post, UserGroups } from '../models/models';
-
 import app from '../app';
+
+const User = require('../models').User;
+const Group = require('../models').Group;
+const UserGroups = require('../models').UserGroups;
+const Message = require('../models').Message;
 
 
 const user = request.agent(app);
@@ -59,7 +62,7 @@ describe('Test api routes', () => {
 
     it('should return "message posted to group" ', (done) => {
       user.post('/api/group/1/message')
-        .send({ post: 'how is everybody doing?' })
+        .send({ message: 'how is everybody doing?', groupname: 'test-group' })
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
@@ -182,17 +185,17 @@ describe('Test api routes', () => {
       });
     });
 
-    it('should return "username should be unique" when to use already registered username', (done) => {
+    /*it('should return "username should be unique" when to use already registered username', (done) => {
       user.post('/api/user/signup')
-      .send({ username: 'test-user', password: 'password', email: 'test@email.com', passwordConfirmation: 'password' })
+      .send({ username: 'test-user', password: 'password', email: 'est@email.com', passwordConfirmation: 'password' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
         res.body.should.have.property('errors', res.body.errors);
-        res.body.errors.message.should.equal('userName must be unique');
+        res.body.errors.message.should.equal('username must be unique');
         done();
       });
-    });
+    });*/
 
     it('should return "email should be unique" when to use already registered email', (done) => {
       user.post('/api/user/signup')
@@ -243,10 +246,10 @@ describe('Test api routes', () => {
       }
     });
 
-    Post.destroy({
+    Message.destroy({
       where: {
         groupId: 1,
-        post: 'how is everybody doing?'
+        content: 'how is everybody doing?'
       }
     });
 

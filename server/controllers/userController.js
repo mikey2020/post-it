@@ -1,6 +1,10 @@
-import { User, bcrypt } from '../models/models';
+import bcrypt from 'bcrypt-nodejs';
 
 import Validations from '../middlewares/validations';
+
+import models from '../models';
+
+const User = models.User;
 
 const validate = new Validations();
 /**
@@ -32,20 +36,17 @@ class UserActions {
     } else if (req.session.status === true) {
       res.status(500).json({ error: 'you already have an account' });
     } else {
-     // force: true will drop the table if it already exists
-      User.sync({ force: false }).then(() =>
-       // Table created
-      User.create({
+      return User.create({
         userName: req.body.username,
         email: req.body.email,
         password: req.body.password
       })
-      .catch((err) => {
-        // console.log(err.errors[0].message);
-        res.status(400).json({ errors: { message: err.errors[0].message } });
-      }))
       .then(() => {
         res.json({ message: `${req.body.username} successfully added` });
+      })
+      .catch((err) => {
+        // console.log(err.errors[0].message);
+        res.status(500).json({ errors: { message: err.errors[0].message } });
       });
     }
   }
@@ -59,26 +60,25 @@ class UserActions {
     // this.errors = { form: 'Invalid Signin Parameters' };
     User.findAll({
       where: {
-        userName: req.body.username
+        username: req.body.username
       }
     })
      .then((user) => {
        let data = JSON.stringify(user);
 
        data = JSON.parse(data);
+       
+        console.log(data);
+
        if (req.body.username && req.body.password &&
-          bcrypt.compareSync(req.body.password, data[0].password) === true) {
+         bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
+         console.log(req.session.userId);
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
-         // this.onlineStatus = true;
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
-     })
-     .catch((err) => {
-        console.log(err);
-        res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
   /**
