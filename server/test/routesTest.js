@@ -13,7 +13,7 @@ const user = request.agent(app);
 
 describe('User routes', () => {
   before((done) => {
-    models.sequelize.sync();
+    models.sequelize.sync({ force: false });
     done();
   });
 
@@ -47,7 +47,6 @@ describe('User routes', () => {
       user.post('/api/group')
         .send({ name: 'test-group' })
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           done();

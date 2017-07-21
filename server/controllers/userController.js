@@ -74,7 +74,6 @@ class UserActions {
        }
      })
      .catch((err) => {
-       console.log(err);
        res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
@@ -105,7 +104,6 @@ class UserActions {
       res.json({ data });
     }).catch((err) => {
       this.errors = err;
-      // res.json({ message: 'Error occured please try again' });
       res.json({ errors: { err } });
     });
   }
