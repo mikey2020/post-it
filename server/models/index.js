@@ -4,6 +4,8 @@ import path from 'path';
 
 dotenv.config();
 
+console.log(process.env.DATABASE_URL);
+
 const fs = require('fs');
 
 const Sequelize = require('sequelize');

@@ -43,7 +43,7 @@ class UserActions {
         res.json({ message: `${req.body.username} successfully added` });
       })
       .catch((err) => {
-        res.status(400).json({ errors: { message: err.errors[0].message } });
+        res.status(400).json({ errors: { message: 'user already exists' } });
       });
     }
   }
