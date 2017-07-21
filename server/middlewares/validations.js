@@ -72,7 +72,6 @@ class Validations {
         id: req.body.userId
       }
     }).then((validUser) => {
-      console.log(validUser);
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }
@@ -127,7 +126,6 @@ class Validations {
         id: req.params.groupId
       }
     }).then((validGroup) => {
-      console.log(validGroup);
       if (validGroup === null) {
         return res.status(400).json({ errors: { message: 'group does not exist' } });
       }
