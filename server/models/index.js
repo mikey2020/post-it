@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
 import path from 'path';
 
@@ -12,7 +12,7 @@ const basename = path.basename(module.filename);
 
 const env = process.env.NODE_ENV || 'development';
 
-const config = require('../config/config')[env];
+const config = require('../config/config.json')[env];
 
 const db = {};
 

@@ -1,8 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
-    content: DataTypes.TEXT,
-    groupname: DataTypes.STRING,
-    groupId: DataTypes.INTEGER
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    groupId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   });
   Message.associate = (models) => {
     Message.belongsTo(models.Group, {

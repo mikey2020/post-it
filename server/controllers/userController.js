@@ -28,16 +28,14 @@ class UserActions {
    */
   signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
-    console.log(errors);
     req.session.status = false;
-
     if (!isValid) {
       res.status(400).json(errors);
     } else if (req.session.status === true) {
       res.status(500).json({ error: 'you already have an account' });
     } else {
       return User.create({
-        userName: req.body.username,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password
       })
@@ -45,7 +43,7 @@ class UserActions {
         res.json({ message: `${req.body.username} successfully added` });
       })
       .catch((err) => {
-        res.status(500).json({ errors: { message: err.errors[0].message } });
+        res.status(400).json({ errors: { message: err.errors[0].message } });
       });
     }
   }
@@ -70,11 +68,14 @@ class UserActions {
          bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
-         console.log(req.session.userId);
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
+     })
+     .catch((err) => {
+       console.log(err);
+       res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
   /**

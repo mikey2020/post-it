@@ -5,34 +5,41 @@ import request from 'supertest';
 
 import app from '../app';
 
-const User = require('../models').User;
-const Group = require('../models').Group;
-const UserGroups = require('../models').UserGroups;
-const Message = require('../models').Message;
+import models from '../models';
 
-process.env.NODE_ENV = 'test';
-
+import { validUserSignup, validUserSignin } from '../seeders/user-seeders';
 
 const user = request.agent(app);
 
-describe('Test api routes', () => {
+describe('User routes', () => {
   before((done) => {
-    User.sync({ force: false }).then(() => {
-      User.create({ userName: 'test-user', email: 'test-email@yahoo.com', password: 'pass', passwordConfirmation: 'pass' });
-      done();
-    });
+    models.sequelize.sync();
+    done();
   });
 
-  describe(' All routes should work after signing in', () => {
-    it('should return "test-user signed in" ', (done) => {
-      user.post('/api/user/signin')
-      .send({ username: 'test-user', password: 'pass' })
-      .end((err, res) => {
-        res.status.should.equal(200);
-        should.not.exist(err);
-        res.body.should.have.property('user', res.body.user);
-        res.body.user.message.should.equal('test-user signed in');
-        done();
+  describe('should work', () => {
+    it('should add user to database', (done) => {
+      request(app).post('/api/user/signup')
+        .send(validUserSignup)
+        .end((err, res) => {
+          res.status.should.equal(200);
+          should.not.exist(err);
+          res.body.should.have.property('message', res.body.message);
+          res.body.message.should.equal('john successfully added');
+          done();
+        });
+    });
+    it('it should return "john signed in" ', (done) => {
+      models.User.create(validUserSignin).then(() => {
+        user.post('/api/user/signin')
+        .send(validUserSignin)
+        .end((err, res) => {
+          res.status.should.equal(200);
+          should.not.exist(err);
+          res.body.should.have.property('user', res.body.user);
+          res.body.user.message.should.equal('johnny signed in');
+          done();
+        });
       });
     });
 
@@ -40,26 +47,25 @@ describe('Test api routes', () => {
       user.post('/api/group')
         .send({ name: 'test-group' })
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
-          // res.body.should.have.property('message', res.body.message);
-          // res.body.message.should.equal('test-group successfully created');
           done();
         });
     });
 
     it('should return "user added to group" ', (done) => {
-      User.create({ userName: 'batman', email: 'batman@email.com', password: 'pass', passwordConfirmation: 'pass' });
+      models.User.create({ username: 'bat', email: 'batman@email.com', password: 'pass', passwordConfirmation: 'pass' }).then((newUser) => {
       user.post('/api/group/1/user')
-        .send({ username: 'batman' })
+        .send({ userId: newUser.id })
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
-          res.body.message.should.equal('user added to group');
+          res.body.message.should.equal('user added successfully');
           done();
         });
+      });
     });
 
     it('should return "message posted to group" ', (done) => {
@@ -93,61 +99,45 @@ describe('Test api routes', () => {
           done();
         });
     });
-
-    after((done) => {
-      User.destroy({
-        where: {
-          userName: 'batman'
-        }
-      });
-
-      UserGroups.destroy({
-        where: {
-          username: 'batman',
-          groupId: 1
-        }
-      });
-      done();
-    });
   });
 
   describe('Routes should not work without signing in', () => {
-    it('should return "please sign in" ', (done) => {
+    it('should return "please sign in" when trying to create group', (done) => {
       request(app).post('/api/group')
         .end((err, res) => {
-          res.status.should.equal(401);
+          res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
           res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
 
-    it('should return "please sign in" ', (done) => {
+    it('should return "please sign in" when trying to add user ', (done) => {
       request(app).post('/api/group/1/user')
         .end((err, res) => {
-          res.status.should.equal(401);
+          res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.errors.message.should.equal('You are not a part of this group');
           done();
         });
     });
 
-    it('should return "please sign in" ', (done) => {
+    it('should return "please sign in" when trying to post message', (done) => {
       request(app).post('/api/group/1/message')
         .end((err, res) => {
-          res.status.should.equal(401);
+          res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.errors.message.should.equal('You are not a part of this group');
           done();
         });
     });
 
-    it('should return "please sign in" ', (done) => {
+    it('should return "You are not a part of this group" when trying to get messages ', (done) => {
       request(app).get('/api/group/1/messages')
         .end((err, res) => {
-          res.status.should.equal(401);
+          res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.errors.message.should.equal('You are not a part of this group');
           done();
         });
     });
@@ -201,7 +191,7 @@ describe('Test api routes', () => {
 
     it('should return "email should be unique" when to use already registered email', (done) => {
       user.post('/api/user/signup')
-      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password' })
+      .send({ username: 'test', password: 'password', email: 'johnson@gmail.com', passwordConfirmation: 'password' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
@@ -234,34 +224,5 @@ describe('Test api routes', () => {
         done();
       });
     });
-  });
-
-  after((done) => {
-    User.destroy({
-      where: {
-        userName: 'batman'
-      }
-    });
-    Group.destroy({
-      where: {
-        name: 'test-group'
-      }
-    });
-
-    Message.destroy({
-      where: {
-        groupId: 1,
-        content: 'how is everybody doing?'
-      }
-    });
-
-    UserGroups.destroy({
-      where: {
-        username: 'batman'
-      }
-    });
-
-
-    done();
   });
 });

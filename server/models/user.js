@@ -2,8 +2,14 @@ import bcrypt from 'bcrypt-nodejs';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true
+    },
     password: DataTypes.STRING
   });
 
@@ -13,12 +19,13 @@ module.exports = (sequelize, DataTypes) => {
       through: 'UserGroups',
     });
     User.hasMany(models.Message, {
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
   };
 
   User.beforeCreate((user) => {
     user.password = bcrypt.hashSync(user.password);
   });
+
   return User;
 };

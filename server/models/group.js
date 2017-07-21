@@ -1,8 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
-    groupname: DataTypes.STRING,
-    groupCreator: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    groupname: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    groupCreator: DataTypes.STRING
   });
   Group.associate = (models) => {
     Group.hasMany(models.Message, {
