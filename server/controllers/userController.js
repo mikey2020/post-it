@@ -45,7 +45,6 @@ class UserActions {
         res.json({ message: `${req.body.username} successfully added` });
       })
       .catch((err) => {
-        // console.log(err.errors[0].message);
         res.status(500).json({ errors: { message: err.errors[0].message } });
       });
     }
@@ -57,7 +56,6 @@ class UserActions {
    */
   signin(req, res) {
     req.session.username = req.body.username;
-    // this.errors = { form: 'Invalid Signin Parameters' };
     User.findAll({
       where: {
         username: req.body.username
@@ -67,8 +65,6 @@ class UserActions {
        let data = JSON.stringify(user);
 
        data = JSON.parse(data);
-       
-        console.log(data);
 
        if (req.body.username && req.body.password &&
          bcrypt.compareSync(req.body.password, data[0].password) === true) {

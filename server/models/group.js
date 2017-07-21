@@ -3,18 +3,16 @@ module.exports = (sequelize, DataTypes) => {
     groupname: DataTypes.STRING,
     groupCreator: DataTypes.STRING,
     userId: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        /*Group.belongsTo(models.User, {
-          as: 'user'
-        });
-        Group.hasMany(models.Message, {
-          foreignKey: 'groupId'
-        });*/
-      }
-    }
   });
+  Group.associate = (models) => {
+    Group.hasMany(models.Message, {
+      foreignKey: 'groupId'
+    });
+    Group.belongsToMany(models.User, {
+      foreignKey: 'groupId',
+      through: 'UserGroups',
+    });
+  };
   return Group;
 };
+

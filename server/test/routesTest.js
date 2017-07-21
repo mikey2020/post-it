@@ -10,6 +10,8 @@ const Group = require('../models').Group;
 const UserGroups = require('../models').UserGroups;
 const Message = require('../models').Message;
 
+process.env.NODE_ENV = 'test';
+
 
 const user = request.agent(app);
 

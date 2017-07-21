@@ -22,16 +22,6 @@ const group = new GroupActions();
 
 const user = new UserActions();
 
-/*sequelize
-  .authenticate()
-  .then(() => {
-    // console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    // console.error('Unable to connect to the database:', err);
-  });
-*/
-
 app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({ extended: true }));

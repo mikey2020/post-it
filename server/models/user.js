@@ -5,19 +5,17 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        /*User.hasMany(models.Group, {
-          foreignKey: {
-            name: 'userId',
-            allowNull: false
-          }
-        });*/
-      }
-    }
   });
+
+  User.associate = (models) => {
+    User.belongsToMany(models.Group, {
+      foreignKey: 'userId',
+      through: 'UserGroups',
+    });
+    User.hasMany(models.Message, {
+      foreignKey: 'userId',
+    });
+  };
 
   User.beforeCreate((user) => {
     user.password = bcrypt.hashSync(user.password);
