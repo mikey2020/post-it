@@ -1,17 +1,10 @@
 import models from '../models';
 
-import Validations from '../middlewares/validations';
-
-
 const Group = models.Group;
 
 const UserGroups = models.UserGroups;
 
-const User = models.User;
-
 const Message = models.Message;
-
-const validate = new Validations();
 
 /**
  *  All group actions
@@ -70,11 +63,9 @@ class GroupActions {
       }).then((group) => {
         return group.addUser(req.body.userId)
         .then((user) => {
-          console.log(user);
           res.json({ message: 'user added successfully' });
         });
       }).catch((err) => {
-        console.log(err);
         res.status(400).json({ error: { message: 'Group does not exist' } });
       });
   }
@@ -91,11 +82,9 @@ class GroupActions {
         userId: req.session.userId
       })
       .then((message) => {
-        console.log(message);
         res.json({ message: 'message posted to group' });
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -111,13 +100,11 @@ class GroupActions {
         }
       })
         .then((posts) => {
-          console.log(posts);
           let data = JSON.stringify(posts);
           data = JSON.parse(data);
           res.json({ posts: data });
         })
         .catch((err) => {
-          console.log(err);
           res.status(500).json({ errors: 'Something went wrong' });
         });
     } 
