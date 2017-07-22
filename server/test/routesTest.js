@@ -188,18 +188,6 @@ describe('User routes', () => {
       });
     });*/
 
-    it('should return "email should be unique" when to use already registered email', (done) => {
-      user.post('/api/user/signup')
-      .send({ username: 'test', password: 'password', email: 'johnson@gmail.com', passwordConfirmation: 'password' })
-      .end((err, res) => {
-        res.status.should.equal(400);
-        should.not.exist(err);
-        res.body.should.have.property('errors', res.body.errors);
-        res.body.errors.message.should.equal('email must be unique');
-        done();
-      });
-    });
-
     it('should return "password length too short" when password is less than or equal to 4', (done) => {
       user.post('/api/user/signup')
       .send({ username: 'test', password: 'pass', email: 'test-email@yahoo.com', passwordConfirmation: 'pass' })
