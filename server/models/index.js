@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 import path from 'path';
 
-dotenv.config();
+dotenv.load();
 
 console.log(process.env.DATABASE_URL);
 
@@ -22,7 +22,7 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.url);
 }
 
 fs
