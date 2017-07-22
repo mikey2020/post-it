@@ -1,7 +1,7 @@
 language: node_js
 
 env:
-- NODE_ENV="development"
+- NODE_ENV="test"
 
 node_js:
   - "stable"
