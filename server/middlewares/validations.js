@@ -17,6 +17,9 @@ class Validations {
   signup(data) {
     this.errors = {};
 
+    if (data.password) {
+      data.password = data.password.trim();
+    }
     if (!data.email || !data.password || !data.username) {
       this.errors.invalid = 'Invalid paramters';
     }
@@ -39,10 +42,6 @@ class Validations {
     if (data.password && data.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (data.password.trim() === '') {
-      this.errors.password = 'Password is required';
-    }
-
     if (data.passwordConfirmation === null || data.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }

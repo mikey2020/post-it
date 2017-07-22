@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "dafe",
-    "database": "DATABASE_URL",
+    "database": "post-it-development",
     "host": "localhost",
     "dialect": "postgres"
   },
