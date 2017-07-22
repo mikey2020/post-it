@@ -134,7 +134,12 @@ describe('User routes', () => {
     it('should return "You are not a part of this group" when trying to get messages ', (done) => {
       request(app).get('/api/group/1/messages')
         .end((err, res) => {
+<<<<<<< HEAD
           res.status.should.equal(400);
+=======
+          console.log(res.body);
+          res.status.should.equal(401);
+>>>>>>> feat/setup-scss-transpiling
           res.body.should.have.property('errors', res.body.errors);
           res.body.errors.message.should.equal('You are not a part of this group');
           done();

@@ -1,3 +1,5 @@
+import path from 'path';
+
 import dotenv from 'dotenv';
 
 import express from 'express';
@@ -7,6 +9,14 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 
 import session from 'express-session';
+
+import webpack from 'webpack';
+
+import webpackMiddleware from 'webpack-dev-middleware';
+
+import webpackHotMiddleware from 'webpack-hot-middleware';
+
+import webpackConfig from '../webpack.config.dev';
 
 import UserActions from './controllers/userController';
 
@@ -28,6 +38,8 @@ const user = new UserActions();
 
 const checkUnique = new Unique();
 
+const compiler = webpack(webpackConfig);
+
 const validate = new Validations();
 
 app.use(morgan('dev'));
@@ -42,6 +54,20 @@ app.use(session({
   saveUninitialized: true
 
 }));
+
+app.use(webpackMiddleware(compiler, {
+  hot: true,
+  publicPath: webpackConfig.output.publicPath,
+  noInfo: true
+}));
+
+app.use(webpackHotMiddleware(compiler));
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(process.cwd(), '/client/index.html'));
+});
+
 
 // user routes
 
