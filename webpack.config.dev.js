@@ -38,9 +38,7 @@ export default {
                     loader: "css-loader"
                 }, {
                     loader: "sass-loader"
-                }],
-                // use style-loader in development
-                fallback: "style-loader"
+                }]
             })
         }
 		]

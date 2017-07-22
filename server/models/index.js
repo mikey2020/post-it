@@ -2,11 +2,9 @@ import dotenv from 'dotenv';
 
 import path from 'path';
 
+import fs from 'fs';
+
 dotenv.config();
-
-console.log(process.env.DATABASE_URL);
-
-const fs = require('fs');
 
 const Sequelize = require('sequelize');
 
