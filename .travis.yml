@@ -15,6 +15,5 @@ before_script:
   - npm run db:migrate
 
 after_success:
-  - npm run build
   - npm run coveralls
   - npm run delete-dist
