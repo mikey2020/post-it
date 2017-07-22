@@ -4,9 +4,11 @@
 
  import PropTypes from 'prop-types';
 
- import {validateUser} from '../../actions/signinActions';
+ import {validateUser,setUser} from '../../actions/signinActions';
 
 import Validations from '../../../../server/middlewares/validations.js';
+
+import {addFlashMessage} from '../../actions/flashMessageActions';
 
 const validate = new Validations();
  
@@ -32,7 +34,6 @@ const validate = new Validations();
 			this.setState({errors});
             
 		}
-        console.log(isValid);
 
 		return isValid;
 
@@ -49,8 +50,9 @@ const validate = new Validations();
 			this.props.validateUser(this.state).then(
 
 					(res) => {
-                        this.setUser(res.data.user)
-						this.context.router.push('/')
+						console.log(res.data.user)
+                        this.props.setUser(res.data.user),
+						this.context.router.push('/'),
 						this.props.addFlashMessage({
 							type: 'success',
 							text: res.data.user.message
@@ -58,12 +60,8 @@ const validate = new Validations();
 					},
 
 					(err) => this.setState({errors: err.data.errors})
-			);
-			console.log("submitted");	
+			);	
 		}
-        else{
-            console.log(" did not submit");
-        }
         
 	}
 
@@ -115,9 +113,15 @@ const validate = new Validations();
  }
 
  SigninForm.propTypes = {
-     validateUser: PropTypes.func.isRequired
+     validateUser: PropTypes.func.isRequired,
+	 setUser: PropTypes.func.isRequired,
+	 addFlashMessage: PropTypes.func.isRequired
  }
 
+ SigninForm.contextTypes = {
+	router: PropTypes.object.isRequired
+}
 
- export default connect(null,{validateUser})(SigninForm);
+
+ export default connect(null,{validateUser,setUser,addFlashMessage})(SigninForm);
  

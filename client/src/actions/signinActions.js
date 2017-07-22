@@ -16,4 +16,4 @@ import {SET_USER} from './types';
 }
 
 
-export {validateUser};
+export {validateUser,setUser};
