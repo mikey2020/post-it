@@ -1,6 +1,5 @@
-require('dotenv').load();
+require('dotenv').config();
 
-console.log(process.env.DATABASE_URL);
 module.exports = {
   development: {
     use_env_variable: process.env.DATABASE_URL,
