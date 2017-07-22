@@ -13,7 +13,7 @@ const user = request.agent(app);
 
 describe('User routes', () => {
   before((done) => {
-    models.sequelize.sync({ force: true });
+    models.sequelize.sync();
     done();
   });
 
