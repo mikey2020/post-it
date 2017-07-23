@@ -58,6 +58,38 @@ class Validations {
     };
   }
 
+  /**
+   * @param {object} data - signup object
+   * @returns {object} - errors object if there is any
+   */
+  signin(data) {
+    this.errors = {};
+
+    if (data.password) {
+      data.password = data.password.trim();
+    }
+    if (!data.password || !data.username) {
+      this.errors.invalid = 'Invalid paramters';
+    }
+
+    if (data.username === null || data.username === '') {
+      this.errors.username = 'Username is required';
+    }
+
+    if (data.password === null || data.password === '') {
+      this.errors.password = 'Password is required';
+    }
+
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
+
+
 }
 
 

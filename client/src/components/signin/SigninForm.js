@@ -48,8 +48,8 @@ const validate = new Validations();
 		if(this.isValid()){
 			this.setState({errors: {} , isLoading: true});
 			this.props.validateUser(this.state).then(
-
 					(res) => {
+                       
 						console.log(res.data.user)
                         this.props.setUser(res.data.user),
 						this.context.router.push('/'),
@@ -61,6 +61,9 @@ const validate = new Validations();
 
 					(err) => this.setState({errors: err.data.errors})
 			);	
+		}
+		else{
+			console.log('am sorry sir the input sre not valid');
 		}
         
 	}
@@ -90,7 +93,7 @@ const validate = new Validations();
 
                   {this.state.errors.password ? <span className="help-block">{this.state.errors.password}</span> : <br/>}
                   <input 
-	            		type="text" 
+	            		type="password" 
                         value={this.state.password}
                         onChange={this.onChange}
 	            		placeholder = "password" 
