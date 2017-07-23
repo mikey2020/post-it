@@ -4,7 +4,7 @@
 
  import PropTypes from 'prop-types';
 
- import {validateUser,setUser} from '../../actions/signinActions';
+ import {validateUser} from '../../actions/signinActions';
 
 import Validations from '../../../../server/middlewares/validations.js';
 
@@ -48,19 +48,8 @@ const validate = new Validations();
 		if(this.isValid()){
 			this.setState({errors: {} , isLoading: true});
 			this.props.validateUser(this.state).then(
-					(res) => {
-                       
-						console.log(res.data.user)
-                        this.props.setUser(res.data.user),
-						this.context.router.push('/'),
-						this.props.addFlashMessage({
-							type: 'success',
-							text: res.data.user.message
-						});
-					},
-
-					(err) => this.setState({errors: err.data.errors})
-			);	
+				//(err) => this.setState({errors: err.data.errors})
+			);
 		}
 		else{
 			console.log('am sorry sir the input sre not valid');
@@ -116,9 +105,7 @@ const validate = new Validations();
  }
 
  SigninForm.propTypes = {
-     validateUser: PropTypes.func.isRequired,
-	 setUser: PropTypes.func.isRequired,
-	 addFlashMessage: PropTypes.func.isRequired
+     validateUser: PropTypes.func.isRequired
  }
 
  SigninForm.contextTypes = {
@@ -126,5 +113,5 @@ const validate = new Validations();
 }
 
 
- export default connect(null,{validateUser,setUser,addFlashMessage})(SigninForm);
+ export default connect(null,{validateUser,addFlashMessage})(SigninForm);
  

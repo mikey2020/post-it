@@ -1,5 +1,12 @@
 import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from './types';
 
+const createMessage = (typeName, message) => {
+  return {
+    type: typeName,
+    text: message
+  };
+};
+
 const addFlashMessage = (message) => {
   return {
     type: ADD_FLASH_MESSAGE,
@@ -14,4 +21,4 @@ const deleteFlashMessage = (id) => {
   };
 };
 
-export { addFlashMessage, deleteFlashMessage };
+export { addFlashMessage, deleteFlashMessage, createMessage };

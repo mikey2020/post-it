@@ -86,7 +86,7 @@ class UserActions {
     User.findOne({
 
       where: {
-        userName: req.params.name
+        username: req.params.name
       }
 
     }).then((user) => {
