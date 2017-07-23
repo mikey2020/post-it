@@ -89,7 +89,7 @@ app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroup
 
 app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.postMessageToGroup);
 
-app.get('/api/group/:groupId/messages', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.getPosts);
+app.get('/api/group/:groupId/messages', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, group.getPosts);
 
 app.get('/api/group/:groupId/users', validate.checkGroupExists, group.getGroupMembers);
 
