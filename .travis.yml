@@ -11,7 +11,7 @@ services:
 
 before_script:
   - psql -c 'create database travis;' -U postgres
-  - npm run undo:tests
+  - npm run undo:db:migrate
   - npm run db:migrate
 
 after_success:
