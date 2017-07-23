@@ -84,8 +84,6 @@ describe('User routes', () => {
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
-          res.body.should.have.property('posts', res.body.posts);
-          res.body.posts.should.not.equal(null);
           done();
         });
     });
@@ -116,7 +114,7 @@ describe('User routes', () => {
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
+          res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
@@ -126,17 +124,17 @@ describe('User routes', () => {
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
+          res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
 
-    it('should return "You are not a part of this group" when trying to get messages ', (done) => {
+    it('should return "plese sign in" when trying to get messages ', (done) => {
       request(app).get('/api/group/1/messages')
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
+          res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
