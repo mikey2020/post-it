@@ -36,11 +36,9 @@ const group = new GroupActions();
 
 const user = new UserActions();
 
-const checkUnique = new Unique();
+const validate = new Unique();
 
 const compiler = webpack(webpackConfig);
-
-const validate = new Validations();
 
 app.use(morgan('dev'));
 
@@ -87,7 +85,7 @@ app.get('/api/group/:name', validate.authenticate, group.checkGroups);
 
 app.get('/api/groups/user', validate.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, checkUnique.userGroups, group.addUserToGroup);
+app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, validate.userGroups, group.addUserToGroup);
 
 app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.postMessageToGroup);
 
