@@ -24,7 +24,6 @@ import GroupActions from './controllers/groupController';
 
 import Unique from './middlewares/unique';
 
-import Validations from './middlewares/validations';
 
 dotenv.config();
 
@@ -85,13 +84,13 @@ app.get('/api/group/:name', validate.authenticate, group.checkGroups);
 
 app.get('/api/groups/user', validate.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, validate.userGroups, group.addUserToGroup);
+app.post('/api/group/:groupId/user', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, validate.checkUserIsValid, validate.userGroups, group.addUserToGroup);
 
-app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.postMessageToGroup);
+app.post('/api/group/:groupId/message', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, group.postMessageToGroup);
 
-app.get('/api/group/:groupId/messages', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.getPosts);
+app.get('/api/group/:groupId/messages', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, group.getPosts);
 
-app.get('/api/group/:groupId/users', validate.checkGroupExists, group.getGroupMembers);
+app.get('/api/group/:groupId/users', validate.authenticate, validate.checkGroupExists, group.getGroupMembers);
 
 app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 

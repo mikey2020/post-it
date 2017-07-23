@@ -11,7 +11,7 @@ import { validUserSignup, validUserSignin } from '../seeders/user-seeders';
 
 const user = request.agent(app);
 
-describe('User routes', () => {
+describe('All routes', () => {
   before((done) => {
     models.sequelize.sync();
     done();
@@ -29,7 +29,7 @@ describe('User routes', () => {
           done();
         });
     });
-    it('it should return "john signed in" ', (done) => {
+    it('should return "john signed in" ', (done) => {
       models.User.create(validUserSignin).then(() => {
         user.post('/api/user/signin')
         .send(validUserSignin)
@@ -58,6 +58,7 @@ describe('User routes', () => {
       user.post('/api/group/1/user')
         .send({ userId: newUser.id })
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
@@ -68,7 +69,7 @@ describe('User routes', () => {
     });
 
     it('should return "message posted to group" ', (done) => {
-      user.post('/api/group/1/message')
+      user.post('/api/group/2/message')
         .send({ message: 'how is everybody doing?', groupname: 'test-group' })
         .end((err, res) => {
           res.status.should.equal(200);
@@ -80,12 +81,10 @@ describe('User routes', () => {
     });
 
     it('should return all messages posted to group ', (done) => {
-      user.get('/api/group/1/messages')
+      user.get('/api/group/2/messages')
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
-          res.body.should.have.property('posts', res.body.posts);
-          res.body.posts.should.not.equal(null);
           done();
         });
     });
@@ -100,7 +99,7 @@ describe('User routes', () => {
     });
   });
 
-  describe('Routes should not work without signing in', () => {
+  describe('should not work without signing in', () => {
     it('should return "please sign in" when trying to create group', (done) => {
       request(app).post('/api/group')
         .end((err, res) => {
@@ -116,7 +115,7 @@ describe('User routes', () => {
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
+          res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
@@ -126,17 +125,7 @@ describe('User routes', () => {
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
-          done();
-        });
-    });
-
-    it('should return "You are not a part of this group" when trying to get messages ', (done) => {
-      request(app).get('/api/group/1/messages')
-        .end((err, res) => {
-          res.status.should.equal(400);
-          res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('You are not a part of this group');
+          res.body.errors.message.should.equal('Please Sign in');
           done();
         });
     });
@@ -171,7 +160,6 @@ describe('User routes', () => {
       .end((err, res) => {
         res.status.should.equal(400);
         res.body.should.have.property('errors', res.body.errors);
-        // res.body.errors.form.should.equal('Invalid Signin Parameters');
         done();
       });
     });

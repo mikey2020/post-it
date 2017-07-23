@@ -1,25 +1,24 @@
-/* import should from 'should';
+import should from 'should';
 
-import { User, Group, Post } from '../models/models';
+import models from '../models';
 
 import '../app';
 
 
-describe('User Model Unit Tests:', () => {
-  it('User should be created successfully', (done) => {
-    User.sync({ force: true }).then(() => {
-      User.create({ userName: 'user', password: 'pass', email: 'user@email.com' })
+describe('User Model:', () => {
+  it('should be created successfully', (done) => {
+    models.User.create({ username: 'user', password: 'pass', email: 'user@email.com' })
       .then((user) => {
         should.exist(user);
       });
-      done();
-    });
+    done();
   });
 });
 
-describe('Group Model Unit Tests:', () => {
-  it('Group should be created successfully', (done) => {
-    Group.create({ name: 'test-group', creator: 'user', userId: '1' })
+
+describe('Group Model:', () => {
+  it('should be created successfully', (done) => {
+    models.Group.create({ groupname: 'group', groupCreator: 'user', userId: 1 })
     .then((group) => {
       should.exist(group);
       done();
@@ -27,16 +26,12 @@ describe('Group Model Unit Tests:', () => {
   });
 });
 
-describe('Post Model Unit Tests:', () => {
-  it('Post should be created successfully', (done) => {
-    Post.sync({ force: true }).then(() => {
-      Post.create({ post: 'test-post', groupId: 1, groupName: 'test-group' })
+describe('Message Model:', () => {
+  it('should be created successfully', (done) => {
+    models.Message.create({ content: 'test-post', groupId: 1, userId: 1 })
     .then((post) => {
       should.exist(post);
       done();
     });
-    });
   });
 });
-
-*/

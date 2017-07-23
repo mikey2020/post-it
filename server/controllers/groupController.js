@@ -94,20 +94,22 @@ class GroupActions {
    * @returns {object} - if there is no error, it returns an array of messages
    */
   getPosts(req, res) {
-      Message.findAll({
-        where: {
-          groupId: req.params.groupId
-        }
-      })
-        .then((posts) => {
-          let data = JSON.stringify(posts);
-          data = JSON.parse(data);
-          res.json({ posts: data });
-        })
-        .catch((err) => {
-          res.status(500).json({ errors: 'Something went wrong' });
-        });
-    } 
+    Message.findAll({
+      where: {
+        groupId: req.params.groupId
+      }
+    })
+    .then((posts) => {
+      if (posts !== null) {
+        let data = JSON.stringify(posts);
+        data = JSON.parse(data);
+        res.json({ posts: data });
+      }
+    })
+     .catch((err) => {
+       res.status(500).json({ errors: 'Something went wrong' });
+     });
+  }
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route

@@ -4,6 +4,14 @@ import models from '../models';
  * @class
  */
 class Unique {
+
+  /**
+   * @constructor
+   */
+  constructor() {
+    Unique.isAuthenticated = false;
+  }
+
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
@@ -51,6 +59,7 @@ class Unique {
    * @returns {object} -returns error if there is any
    */
   authenticate(req, res, next) {
+    Unique.isAuthenticated = true;
     if (req.session.name) {
       next();
     } else {
@@ -65,18 +74,21 @@ class Unique {
    * @returns {object} -returns error if there is any
    */
   isGroupMember(req, res, next) {
-    models.UserGroups.findOne({
-      where: {
-        userId: req.session.userId,
-        groupId: req.params.groupId
-      }
-    }).then((user) => {
-      if (user) {
-        next();
-      } else {
-        res.status(400).json({ errors: { message: 'You are not a part of this group' } });
-      }
-    });
+    console.log(req.session.userId);
+    if (Unique.isAuthenticated === true) {
+      models.UserGroups.findOne({
+        where: {
+          userId: req.session.userId,
+          groupId: req.params.groupId
+        }
+      }).then((user) => {
+        if (user !== null) {
+          next();
+        } else {
+          res.status(400).json({ errors: { message: 'You are not a part of this group' } });
+        }
+      });
+    }
   }
 
   /**
@@ -86,18 +98,19 @@ class Unique {
    * @returns {object} - errors object if there is any
    */
   checkGroupExists(req, res, next) {
-    models.Group.findOne({
-      where: {
-        id: req.params.groupId
-      }
-    }).then((validGroup) => {
-      if (validGroup === null) {
-        return res.status(400).json({ errors: { message: 'group does not exist' } });
-      }
-      next();
-    });
+    if (Unique.isAuthenticated === true) {
+      models.Group.findOne({
+        where: {
+          id: req.params.groupId
+        }
+      }).then((validGroup) => {
+        if (validGroup === null) {
+          return res.status(400).json({ errors: { message: 'group does not exist' } });
+        }
+        next();
+      });
+    }
   }
-
 }
 
 
