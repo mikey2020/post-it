@@ -16,7 +16,6 @@ const validateUser = (userData) => {
     return axios.post('/api/user/signin', userData)
            .then((res) => {
              if (res.data.user) {
-                console.log(res.data.user);
                 dispatch(setUser(res.data.user));
                 dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
              } else {
@@ -27,10 +26,9 @@ const validateUser = (userData) => {
              
            })
            .catch((error) => {
-             console.log(error);
-             dispatch(addFlashMessage(createMessage('error', 'Something went wrong')));
+             dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
   };
 };
 
-export { validateUser, setUser };
+export { validateUser };
