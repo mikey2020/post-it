@@ -11,6 +11,7 @@ export default () => {
 					<div className="nav-wrapper red darken-4">
 						<Link to="/" className="flow-text">postIT</Link>
 						<ul className="right">
+							<Link to="/home" className="waves-effect waves-light">Home</Link>
 							<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Sign In</a>
 							<li className="flow-text"><Link to="/signup">Sign Up</Link></li>
 						</ul>

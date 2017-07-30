@@ -113,5 +113,6 @@ const validate = new Validations();
 }
 
 
+
  export default connect(null,{validateUser,addFlashMessage})(SigninForm);
  

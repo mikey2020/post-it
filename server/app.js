@@ -60,12 +60,6 @@ app.use(webpackMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 
-
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), '/client/index.html'));
-});
-
-
 // user routes
 
 app.get('/api/users', user.allUsers);
@@ -75,6 +69,10 @@ app.get('/api/user/:name', user.isUnique);
 app.post('/api/user/signup', user.signup);
 
 app.post('/api/user/signin', user.signin);
+
+app.post('/api/usergroups', validate.authenticate, group.getGroupsUserIsMember);
+
+app.post('/api/user', user.getUsers);
 
 // group routes
 
@@ -92,8 +90,11 @@ app.get('/api/group/:groupId/messages', validate.authenticate, validate.checkGro
 
 app.get('/api/group/:groupId/users', validate.authenticate, validate.checkGroupExists, group.getGroupMembers);
 
-app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
+// app.get('/api/group/usergroups', validate.authenticate, group.getNumberOfGroups);
 
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(process.cwd(), '/client/index.html'));
+});
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });

@@ -24,3 +24,113 @@
         border-radius: 2px;
     }
 }
+
+.vertical-menu {
+    color: white;
+    width: 100%; /* Set a width if you like */
+	position: relative;
+	left: -13px;
+    top: -20px;
+    background-color: #201E1D ;
+	height: 700px;
+    overflow-y: auto;
+    p{
+        color: white; 
+        display: block; /* Make the links appear below each other */
+        padding: 3px; /* Add some padding */
+        margin: 20px;
+        text-decoration: none; /* Remove underline from links */
+    }
+}
+
+.vertical-menu a {
+    /*background-color: #eee; /* Grey background color */
+    color: white; 
+    display: block; /* Make the links appear below each other */
+    padding: 3px; /* Add some padding */
+    margin: 20px;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+    background-color: #b71c1c  ;
+}
+
+.vertical-menu a.active {
+    color: white;
+}
+
+.link{
+	text-align: left;
+	/*position: relative;
+	left: 10px;*/
+	color: white;
+}
+
+.right-column-header{
+	width: 1000px;
+	position: relative;
+	left: 200px;
+}
+
+.message-input{
+	position: fixed;
+}
+
+.add_icon{
+	position: relative;
+    right: -80px;
+    font-size: 43px; 
+    top: 8px;
+    :hover{
+      background-color: #b71c1c  ;
+    }
+}
+.add-user-icon{
+    position: relative;
+    right: -80px; 
+    top: 8px;
+}
+
+#group-name{
+   font-size: 30px;
+   color: #b71c1c ;
+}
+
+.sidebar-header{
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.adduserpage{
+    height: 3000px;
+    width: 40%;
+    input{
+        position: relative;
+        right:  -2px;
+    }
+}
+
+.input-field {
+    input[type=text]:focus {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+    }
+}
+
+.user-btn {
+    position: relative ;
+    left: 10px;
+    margin: 10px;
+    width: 90%;
+    height: 60px;
+    color: white
+}
+
+.add-user-btn {
+    position: relative;
+    left: 300px;
+}

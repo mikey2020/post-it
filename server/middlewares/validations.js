@@ -88,7 +88,26 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
+  
+  /**
+   * @param {object} data - signup object
+   * @returns {object} - errors object if there is any
+   */
+  input(data) {
+    this.errors = {};
 
+    if (data.input === null || data.input === '') {
+      this.errors.username = 'This field is required';
+    }
+
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
 
 }
 

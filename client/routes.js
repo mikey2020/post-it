@@ -10,10 +10,13 @@ import SignupPage from './src/components/signup/SignupPage.js';
 
 import SigninForm from './src/components/signin/SigninForm.js';
 
+import HomePage from './src/components/home/HomePage.js';
+
 export default (
 	<Route path ="/" component={App}>
 		<IndexRoute component={Welcome}/>
         <Route path="signup" component={SignupPage}/>
 		<Route path="signin" component={SigninForm}/>
+		<Route path="home" component={HomePage}/>
 	</Route>
 )

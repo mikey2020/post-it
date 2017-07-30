@@ -1,0 +1,92 @@
+import React from 'react';
+
+import { connect } from 'react-redux';
+
+import PropTypes from 'prop-types';
+
+import Validations from '../../../../server/middlewares/validations';
+
+import { createGroup } from '../../actions/groupActions';
+
+const validate = new Validations();
+
+class CreateGroupForm extends React.Component {
+	constructor(props){
+		super(props);
+
+		this.state = {
+			name: '',
+			errors: {},
+			isLoading: false,
+			invalid: false,
+			group: {}
+		};
+
+		this.onChange = this.onChange.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
+
+	isValid(){
+		const {errors, isValid} = validate.input(this.state);
+
+		if(!isValid){
+			this.setState({errors, isLoading: true});
+		}
+
+		return isValid;
+	}
+
+	onChange(e){
+		this.setState({[e.target.name]: e.target.value});
+
+		if(this.isValid()){
+			this.setState({errors: {}, isLoading: false});
+		}
+	}
+
+	onSubmit(e){
+		e.preventDefault();
+
+		if(this.isValid()){
+			this.setState({errors: {}, isLoading: false});
+
+			this.props.createGroup(this.state);
+		}
+	}
+
+		
+	render(){
+		const {errors , name ,isLoading , invalid ,group} = this.state;
+		return (
+			  <div id="modal2" className="modal">
+				{errors.message && <div className="alert alert-danger"> {errors.message} </div>}
+
+				{errors.input ? <span className="help-block">{errors.input}</span> : <br/>}
+
+				<form className="form-group" onSubmit={this.onSubmit}>
+					<input 
+					type="text" 
+					placeholder="Enter group name"
+					name="name"
+					onChange={this.onChange}
+					className="form-control"
+					value={name}
+					id="usr"
+					/>
+
+					<input type="submit" className="btn btn-primary active" value="Create Group" disabled={isLoading || invalid}/>
+
+
+				</form>
+
+			</div>
+		)
+	}
+}
+
+CreateGroupForm.propTypes = {
+	createGroup: PropTypes.func.isRequired,
+}
+
+
+export default connect(null,{createGroup})(CreateGroupForm);

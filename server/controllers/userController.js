@@ -68,7 +68,7 @@ class UserActions {
          bcrypt.compareSync(req.body.password, data[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = data[0].id;
-         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
+         res.json({ user: { name: req.body.username, id: data[0].id, message: `${req.body.username} signed in` } });
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
@@ -105,6 +105,24 @@ class UserActions {
     }).catch((err) => {
       this.errors = err;
       res.json({ errors: { err } });
+    });
+  }
+
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
+  getUsers(req, res) {
+    User.findAll({ where: {
+      username: {
+        $iLike: '%' + req.body.username + '%'
+      }
+    } }).then((data) => {
+      res.json({ users: { data } });
+    }).catch((err) => {
+      console.log(err);
+      res.json({ errors: { message: 'something went wrong' } });
     });
   }
 

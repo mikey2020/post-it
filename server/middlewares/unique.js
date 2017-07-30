@@ -45,9 +45,11 @@ class Unique {
         id: req.body.userId
       }
     }).then((validUser) => {
+      console.log(validUser);
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }
+      req.validUserId = validUser.id;
       next();
     });
   }

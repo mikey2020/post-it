@@ -47,7 +47,7 @@ class GroupActions {
         });
       })
       .catch((err) => {
-        res.status(400).json({ error: { message: 'group already exists' } });
+        res.status(400).json({ errors: { message: 'group already exists' } });
       });
   }
   /**
@@ -66,7 +66,7 @@ class GroupActions {
           res.json({ message: 'user added successfully' });
         });
       }).catch((err) => {
-        res.status(400).json({ error: { message: 'Group does not exist' } });
+        res.status(400).json({ errors: { message: 'Group does not exist' } });
       });
   }
 
@@ -82,9 +82,10 @@ class GroupActions {
         userId: req.session.userId
       })
       .then((message) => {
-        res.json({ message: 'message posted to group' });
+        res.json({ message: { info: 'message posted to group', messageData: message } });
       })
       .catch((err) => {
+        console.log(err);
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -94,6 +95,7 @@ class GroupActions {
    * @returns {object} - if there is no error, it returns an array of messages
    */
   getPosts(req, res) {
+    console.log(req.params.groupId);
     Message.findAll({
       where: {
         groupId: req.params.groupId
@@ -161,13 +163,10 @@ class GroupActions {
   getNumberOfGroups(req, res) {
     UserGroups.findAll({
       attributes: ['groupId'],
-
       where: {
-        username: req.params.username
+        userId: req.body.userId
       }
-
     })
-
       .then((results) => {
         let data = JSON.stringify(results);
         data = JSON.parse(data);
@@ -191,6 +190,24 @@ class GroupActions {
       }
     }).then((groups) => {
       res.json({ data: groups });
+    });
+  }
+/**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
+  getGroupsUserIsMember(req, res) {
+    models.User.findOne({
+      where: {
+        id: req.body.userId
+      }
+    }).then((user) => {
+      return user.getGroups().then((groups) => {
+        let userGroups = JSON.stringify(groups);
+        userGroups = JSON.parse(userGroups);
+        res.json({ usergroups: userGroups });
+      });
     });
   }
 
