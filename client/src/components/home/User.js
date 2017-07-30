@@ -2,6 +2,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 import { addUserToGroup } from '../../actions/groupActions';
 
 class User extends React.Component {
@@ -34,4 +36,4 @@ User.propTypes = {
   groupId: PropTypes.number.isRequired
 };
 
-export default User;
+export default connect(null, { addUserToGroup })(User);
