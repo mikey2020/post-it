@@ -84,4 +84,4 @@ const addUserToGroup = (user,groupId) => {
     };
 }
 
-export { createGroup, getUserGroups, setCurrentGroup };
+export { createGroup, getUserGroups, setCurrentGroup, addUserToGroup };
