@@ -9,11 +9,16 @@ const GLOBALS = {
 export default {
   devtool: 'source-map',
 
+  noInfo: false,
+
+  debug: true,
+
   target: 'web',
 
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, '/client/index.js')
+    path.join(__dirname, '/client/index.js'),
+    path.join(__dirname, '/client/styles.scss')
   ],
 
   devServer: {
@@ -27,10 +32,15 @@ export default {
   },
 
   plugins: [
-    new webpack.DefinePlugin(GLOBALS),
-    new webpack.HotModuleReplacementPlugin(),
+
     new webpack.optimize.UglifyJsPlugin(),
-    new ExtractTextPlugin({ filename: 'styles.css' })
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('styles.css'),
   ],
 
   module: {
@@ -40,23 +50,14 @@ export default {
 
         include: path.join(__dirname, 'client'),
 
-        loaders: ['react-hot-loader', 'babel-loader'],
+        loaders: ['babel-loader'],
 
         exclude: /node_modules/
       },
 
-      { test: /\.jsx$/, loaders: ['react-hot-loader', 'babel-loader'], exclude: /node_modules/ },
+      { test: /\.jsx$/, loaders: ['babel-loader'], exclude: /node_modules/ },
 
-      {
-            test: /\.scss$/,
-            use: ExtractTextPlugin.extract({
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }]
-            })
-        }
+      {test: /(\.css)$/, loader: ExtractTextPlugin.extract('css?sourceMap')},
 
 
     ]
