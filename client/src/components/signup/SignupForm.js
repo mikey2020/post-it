@@ -6,7 +6,7 @@ import {addUser} from '../../actions/signupActions';
 
 import classnames from 'classnames';
 
-import Validations from '../../../../server/middlewares/validations.js';
+import Validations from '../../../validations';
 
 import {connect} from 'react-redux';
 

@@ -6,9 +6,9 @@
 
  import {validateUser} from '../../actions/signinActions';
 
-import Validations from '../../../../server/middlewares/validations.js';
+ import Validations from '../../../validations';
 
-import {addFlashMessage} from '../../actions/flashMessageActions';
+ import { addFlashMessage } from '../../actions/flashMessageActions';
 
 const validate = new Validations();
  
