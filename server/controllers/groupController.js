@@ -61,12 +61,12 @@ class GroupActions {
           id: req.params.groupId
         }
       }).then((group) => {
-        return group.addUser(req.body.userId)
+        return group.addUser(req.validUserId)
         .then((user) => {
           res.json({ message: 'user added successfully' });
         });
       }).catch((err) => {
-        res.status(400).json({ errors: { message: 'Group does not exist' } });
+        res.status(400).json({ errors: { message: 'User cannot be added' } });
       });
   }
 

@@ -21,7 +21,7 @@ class Unique {
   userGroups(req, res, next) {
     models.UserGroups.findOne({
       where: {
-        userId: req.body.userId,
+        userId: req.validUserId,
         groupId: req.params.groupId
       }
     })
@@ -42,7 +42,7 @@ class Unique {
   checkUserIsValid(req, res, next) {
     models.User.findOne({
       where: {
-        id: req.body.userId
+        username: req.body.username
       }
     }).then((validUser) => {
       console.log(validUser);

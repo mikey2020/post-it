@@ -121,7 +121,6 @@ class UserActions {
     } }).then((data) => {
       res.json({ users: { data } });
     }).catch((err) => {
-      console.log(err);
       res.json({ errors: { message: 'something went wrong' } });
     });
   }

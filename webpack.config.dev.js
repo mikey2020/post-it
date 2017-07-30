@@ -12,7 +12,7 @@ export default {
   ],
 
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, 'client/dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -39,7 +39,8 @@ export default {
                 }, {
                     loader: "sass-loader"
                 }]
-            })
+            }),
+            exclude: /node_modules/
         }
 		]
 
@@ -49,7 +50,7 @@ export default {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin({ filename: 'styles.css', disable: process.env.NODE_ENV === 'development' })
+    new ExtractTextPlugin({ filename: 'styles.css' })
   ],
 
 };

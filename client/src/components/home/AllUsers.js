@@ -2,31 +2,42 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
+import { addUserToGroup } from '../../actions/groupActions';
+
 import User from './User';
 
+
+/**
+ *  AllUsers component
+ * @class
+ */
 class AllUsers extends React.Component {
-  
-	render(){
-      
+    /**
+   *
+   * @returns {void} - react render method
+   */
+  render() {
     const allResults = this.props.users.map(user =>
-        < User key={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup}/>
+        < User key={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
     );
-        
-       
-		return (
-            <div>
 
-                <ul>{allResults}</ul>
+    return (
+      <div>
 
-			</div>
-		)
-	}
+        <ul>{allResults}</ul>
+
+      </div>
+    );
+  }
 }
 
 AllUsers.propTypes = {
-    users: PropTypes.array.isRequired,
-    addUserToGroup: PropTypes.func.isRequired
+   users: PropTypes.array.isRequired,
+   addUserToGroup: PropTypes.func.isRequired,
+   groupId: PropTypes.number.isRequired
 }
 
 
-export default AllUsers;
+export default connect(null, { addUserToGroup })(AllUsers);

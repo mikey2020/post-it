@@ -83,7 +83,7 @@ class AddUserPage extends React.Component {
 
 				</form>
 
-                <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} />
+                <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId}/>
 
 			</div>
 		)
@@ -98,9 +98,11 @@ AddUserPage.propTypes = {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state.currentGroup.id);
     return{
         
-      users: state.users
+      users: state.users,
+	  groupId: state.currentGroup.id
     }
 }
 

@@ -76,7 +76,7 @@ const addUserToGroup = (user,groupId) => {
             .then((res) => {
                 if (res.data.message) {
                     // dispatch(joinUserToGroup(res.data.group));
-                    dispatch(addFlashMessage(createMessage('success', res.data.group.message)));
+                    dispatch(addFlashMessage(createMessage('success', res.data.message)));
                 } else {
                     dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
                 }
@@ -84,4 +84,4 @@ const addUserToGroup = (user,groupId) => {
     };
 }
 
-export { createGroup, getUserGroups, setCurrentGroup };
+export { createGroup, getUserGroups, setCurrentGroup , addUserToGroup };
