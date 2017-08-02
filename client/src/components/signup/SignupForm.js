@@ -2,20 +2,23 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import {addUser} from '../../actions/signupActions';
+import { addUser } from '../../actions/signupActions';
 
 import classnames from 'classnames';
 
 import Validations from '../../../../server/middlewares/validations.js';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {addFlashMessage} from '../../actions/flashMessageActions';
+import { addFlashMessage } from '../../actions/flashMessageActions';
 
 const validate = new Validations();
 
-
-class SignupForm extends React.Component{
+/**
+ *  SignupForm class component
+ * @class
+ */
+class SignupForm extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {

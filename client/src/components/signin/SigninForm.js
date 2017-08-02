@@ -16,7 +16,7 @@
  *  SigninForm class component
  * @class
  */
- class SigninForm extends React.Component {
+ export class SigninForm extends React.Component {
    /**
    * @constructor
    * @param {object} props -  inherit props from react class

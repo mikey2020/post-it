@@ -13,7 +13,7 @@ import User from './User';
  *  AllUsers component
  * @class
  */
-class AllUsers extends React.Component {
+export class AllUsers extends React.Component {
     /**
    *
    * @returns {void} - react render method

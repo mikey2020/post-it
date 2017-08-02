@@ -4,27 +4,28 @@ import expect from 'expect';
 
 import { shallow } from 'enzyme';
 
-import { SigninForm } from '../../src/components/signin/SigninForm';
+import { AllUsers } from '../../src/components/home/AllUsers';
 
 
 const setup = () => {
   const props = {
-    validateUser: (() => {})
+    users: [],
+    groupId: ''
   };
 
-  return shallow(<SigninForm {...props} />);
+  return shallow(<AllUsers {...props} />);
 };
 
 const wrapper = setup();
 
 
 describe('Component', () => {
-  describe('<SigninForm/>', () => {
+  describe('<AllUsers/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
       expect(wrapper.find('nav').exists()).toBe(false);
       expect(wrapper.find('Link').exists()).toBe(false);
-      expect(wrapper.find('form').exists()).toBe(true);
+      expect(wrapper.find('ul').exists()).toBe(true);
     });
   });
 });
