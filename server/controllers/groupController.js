@@ -95,7 +95,6 @@ class GroupActions {
    * @returns {object} - if there is no error, it returns an array of messages
    */
   getPosts(req, res) {
-    console.log(req.params.groupId);
     Message.findAll({
       where: {
         groupId: req.params.groupId
@@ -203,7 +202,7 @@ class GroupActions {
         id: req.body.userId
       }
     }).then((user) => {
-      return user.getGroups().then((groups) => {
+      return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
         let userGroups = JSON.stringify(groups);
         userGroups = JSON.parse(userGroups);
         res.json({ usergroups: userGroups });

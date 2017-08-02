@@ -30,7 +30,7 @@ export default {
       },
 
       { test: /\.jsx$/, loaders: ['react-hot-loader','babel-loader'], exclude: /node_modules/ },
-
+      
       {
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({
@@ -39,15 +39,13 @@ export default {
                 }, {
                     loader: "sass-loader"
                 }]
-            }),
-            exclude: /node_modules/
+            })
         }
 		]
 
 	},
 
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({ filename: 'styles.css' })

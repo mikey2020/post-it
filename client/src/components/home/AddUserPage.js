@@ -41,7 +41,6 @@ class AddUserPage extends React.Component {
 
     searchUsers(e){
         this.setState({ [e.target.name]: e.target.value });
-        // const field = e.target.name;
         const value = e.target.value;
         if(value != ''){
             this.props.getUsers({ username: value });
@@ -91,19 +90,17 @@ class AddUserPage extends React.Component {
 }
 
 AddUserPage.propTypes = {
-    addUserToGroup: PropTypes.func.isRequired,
-    groupId: PropTypes.number.isRequired,
-    getUsers: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired
-}
+  addUserToGroup: PropTypes.func.isRequired,
+  groupId: PropTypes.number.isRequired,
+  getUsers: PropTypes.func.isRequired,
+  users: PropTypes.array.isRequired
+};
 
 const mapStateToProps = (state) => {
-	console.log(state.currentGroup.id);
     return{
-        
       users: state.users,
-	  groupId: state.currentGroup.id
-    }
-}
+      groupId: state.currentGroup.id
+    };
+};
 
 export default connect(mapStateToProps, { addUserToGroup, getUsers })(AddUserPage);

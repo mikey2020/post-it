@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
@@ -24,7 +24,6 @@ class Sidebar extends React.Component {
 	}
 
 	setGroup(){
-	   console.log(this.state.group, ' Set Group');
        this.props.setCurrentGroup(this.state.group);
 	}
 

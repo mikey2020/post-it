@@ -114,10 +114,11 @@ class UserActions {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   getUsers(req, res) {
-    User.findAll({ where: {
-      username: {
-        $iLike: '%' + req.body.username + '%'
-      }
+    User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      where: {
+        username: {
+          $iLike: '%' + req.body.username + '%'
+        }
     } }).then((data) => {
       res.json({ users: { data } });
     }).catch((err) => {

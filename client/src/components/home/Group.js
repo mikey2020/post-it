@@ -23,6 +23,7 @@ class Group extends React.Component {
         return(
             <div>
               <p onClick={this.onClick} className="waves-effect waves-light btn group-btn red darken-4"> {this.props.groupname} </p>
+              <br />
             </div>
         )
     }
@@ -35,4 +36,4 @@ Group.propTypes = {
   group: PropTypes.object.isRequired
 };
 
-export default connect(null,{setCurrentGroup})(Group);
+export default connect(null, { setCurrentGroup })(Group);

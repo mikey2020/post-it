@@ -4,6 +4,7 @@
 }
 
 .signup-form{
+    background-color: #566573  ;
     input{
         color: white;
     }
@@ -11,8 +12,8 @@
 
 .signin-form{
     position: relative;
-    border: 10px solid black;
-    border-radius: 2px;
+    border: 10px solid;
+    border-radius: 4px;
     height: 100%
 }
 
@@ -88,13 +89,14 @@
 }
 .add-user-icon{
     position: relative;
-    right: -80px; 
+    left: 700px;
     top: 8px;
 }
 
 #group-name{
    font-size: 30px;
    color: #b71c1c ;
+   text-transform: uppercase;
 }
 
 .sidebar-header{
@@ -106,8 +108,8 @@
 }
 
 .adduserpage{
-    height: 3000px;
-    width: 40%;
+    width: 50%;
+    height: 100%;
     input{
         position: relative;
         right:  -2px;

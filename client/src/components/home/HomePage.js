@@ -4,10 +4,6 @@ import Sidebar from './Sidebar';
 
 import Messages from './Messages';
 
-// import CreateGroupForm from './CreateGroupForm';
-
-
-// import {connect} from 'react-redux';
 
 class HomePage extends React.Component {
   render(){

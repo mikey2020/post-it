@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_USER } from './types';
+import { SET_USER, UNSET_USER } from './types';
 
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
@@ -8,6 +8,19 @@ const setUser = (user) => {
   return {
     type: SET_USER,
     user
+  };
+};
+
+const unsetUser = () => {
+  return {
+    type: UNSET_USER
+  };
+};
+
+const signout = () => {
+  return (dispatch) => {
+    dispatch(unsetUser());
+    dispatch(addFlashMessage(createMessage('success', 'signout successful')));
   };
 };
 
@@ -19,7 +32,6 @@ const validateUser = (userData) => {
                 dispatch(setUser(res.data.user));
                 dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
              } else {
-              console.log(res.data.errors);
               dispatch(setUser(res.data.errors));
               dispatch(addFlashMessage(createMessage('success', res.data.errors.form)));
              }
@@ -31,4 +43,4 @@ const validateUser = (userData) => {
   };
 };
 
-export { validateUser };
+export { validateUser, signout };

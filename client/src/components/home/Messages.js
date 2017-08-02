@@ -28,7 +28,6 @@ class Messages extends React.Component {
 
 	componentDidMount() {
 		const { group } = this.props;
-		console.log('grou[p id ', group.id);
 		this.props.getGroupMessages(group.id);
 	}
 
@@ -82,7 +81,7 @@ class Messages extends React.Component {
 						<nav className="col s12 m12 l12 right-column-header grey lighten-5">
 						<div className="nav-wrapper">
 							<div className="row">
-								<a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name}</a>
+								<a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name ? this.props.group.name : this.props.username }</a>
 								<a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn add-user-icon red darken-4">Add User</a>
 							</div>
 						</div>
@@ -112,15 +111,17 @@ Messages.propTypes = {
 	messages: PropTypes.array.isRequired,
 	group: PropTypes.object.isRequired,
 	postMessage: PropTypes.func.isRequired,
-	getGroupMessages: PropTypes.func.isRequired
+	getGroupMessages: PropTypes.func.isRequired,
+	username: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
    return {
-	   messages: state.Messages,
-	   group: state.currentGroup
-   }
-}
+     messages: state.Messages,
+     group: state.currentGroup,
+	 username: state.user.user.name
+   };
+};
 
 
 export default connect(mapStateToProps, { postMessage, getGroupMessages })(Messages);

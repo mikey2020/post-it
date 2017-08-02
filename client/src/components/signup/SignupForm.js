@@ -58,10 +58,7 @@ class SignupForm extends React.Component{
 						type: 'success',
 						text: res.data.message
 					   })
-					}
-
-					else{
-						console.log("bad request");
+					} else {
                         this.props.addFlashMessage({
 						type: 'error',
 						text: res.data.errors.message
@@ -85,7 +82,7 @@ class SignupForm extends React.Component{
 		return(
 	    	<div className= "" id="signup-body">
 	          <form onSubmit={this.onSubmit}>
-	              <div className="jumbotron  black signup-form">
+	              <div className="jumbotron signup-form">
 	              <p  id="signup-header" className="flow-text">Sign Up here</p>
 	            	{errors.username ? <span className="help-block">{errors.username}</span> : <br/>}
 	            	<input 

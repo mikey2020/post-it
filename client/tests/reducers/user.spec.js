@@ -1,5 +1,7 @@
 import expect from 'expect';
+
 import reducer from '../../src/reducers/user';
+
 import * as types from '../../src/actions/types';
 
 

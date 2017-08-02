@@ -19,8 +19,8 @@ export default (state = [], action = {}) => {
         ...state,
         {
           id: action.group.id,
-          groupname: action.group.groupname,
-          groupCreator: action.group.groupCreator
+          name: action.group.groupname,
+          creator: action.group.groupCreator
         }
       ];
     default: return state;

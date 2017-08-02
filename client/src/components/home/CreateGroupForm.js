@@ -89,4 +89,4 @@ CreateGroupForm.propTypes = {
 }
 
 
-export default connect(null,{createGroup})(CreateGroupForm);
+export default connect(null, { createGroup })(CreateGroupForm);
