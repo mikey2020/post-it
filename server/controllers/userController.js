@@ -1,12 +1,19 @@
 import bcrypt from 'bcrypt-nodejs';
 
+import jwt from 'jsonwebtoken';
+
+import dotenv from 'dotenv';
+
 import Validations from '../middlewares/validations';
 
 import models from '../models';
 
+dotenv.config();
+
 const User = models.User;
 
 const validate = new Validations();
+
 /**
  *  All user actions
  * @class
@@ -53,22 +60,23 @@ class UserActions {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   signin(req, res) {
-    req.session.username = req.body.username;
     User.findAll({
       where: {
         username: req.body.username
       }
     })
      .then((user) => {
-       let data = JSON.stringify(user);
+       let userData = JSON.stringify(user);
 
-       data = JSON.parse(data);
+       userData = JSON.parse(userData);
+
+       const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
        if (req.body.username && req.body.password &&
-         bcrypt.compareSync(req.body.password, data[0].password) === true) {
+         bcrypt.compareSync(req.body.password, userData[0].password) === true) {
          req.session.name = req.body.username;
-         req.session.userId = data[0].id;
-         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
+         req.session.userId = userData[0].id;
+         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, Token: token } });
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }

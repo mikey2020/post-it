@@ -1,9 +1,14 @@
 import validator from 'validator';
 
+import dotenv from 'dotenv';
+
+import jwt from 'jsonwebtoken';
+
 import isEmpty from 'lodash/isEmpty';
 
 import models from '../models';
 
+dotenv.config();
 /**
  *  All Validations
  * @class
@@ -85,10 +90,31 @@ class Validations {
    * @returns {object} -returns error if there is any
    */
   authenticate(req, res, next) {
-    if (req.session.name) {
-      next();
+    const authorizationHeader = req.headers["authorization"];
+    let token;
+    
+    if (authorizationHeader) {
+      token = authorizationHeader;
+      console.log(token);
+    }
+    // const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        req.decoded = decoded;   
+        next();
+      }
+    });
+
     } else {
-      res.status(400).json({ errors: { message: 'Please Sign in' } });
+
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+
     }
   }
 
