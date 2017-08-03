@@ -1,5 +1,8 @@
 language: node_js
 
+env:
+- NODE_ENV="test"
+
 node_js:
   - "stable"
 
@@ -7,9 +10,10 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'create database travis;' -U postgres
+  - npm run undo:tests
+  - npm run db:migrate
 
 after_success:
-  - npm run build
   - npm run coveralls
   - npm run delete-dist

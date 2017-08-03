@@ -1,4 +1,4 @@
-import should from 'should';
+/* import should from 'should';
 
 import { User, Group, Post } from '../models/models';
 
@@ -39,3 +39,4 @@ describe('Post Model Unit Tests:', () => {
   });
 });
 
+*/

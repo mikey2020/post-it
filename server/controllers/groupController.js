@@ -1,7 +1,10 @@
-import isEmpty from 'lodash/isEmpty';
+import models from '../models';
 
-import { User, Group, UserGroups, Post } from '../models/models';
+const Group = models.Group;
 
+const UserGroups = models.UserGroups;
+
+const Message = models.Message;
 
 /**
  *  All group actions
@@ -16,8 +19,6 @@ class GroupActions {
     this.error = '';
     this.userIsUnique = true;
     this.userValid = true;
-    GroupActions.groupUnique = true;
-    // GroupActions.userValid = true;
   }
 
   /**
@@ -31,88 +32,23 @@ class GroupActions {
   }
 
   /**
-   * @param {string} name - username
-   * @param {string} id -  group id
-   * @returns {object} - if there is no error, it sends message group created successfully
-   */
-  checkUserisUnique(name, id) {
-    this.name = name;
-    // GroupActions.checkUserIsValid(this.name);
-    if (this.userValid === false) {
-      return 'Invalid user';
-    }
-    UserGroups.findOne({
-      where: {
-        username: name,
-        groupId: id
-      }
-    })
-      .then((user) => {
-        this.userUniqueness = false;
-        JSON.stringify(user);
-      });
-  }
-  /**
-   * @param {string} name - username
-   * @param {string} id -  group id
-   * @returns {object} - if there is no error, it sends message group created successfully
-   */
-  static checkUserIsValid(name) {
-    User.findAll({
-      where: {
-        userName: name
-      }
-
-    }).then((user) => {
-      console.log(user);
-      if (isEmpty(user)) {
-        GroupActions.userValid = false;
-        console.log(GroupActions.userValid);
-      } else {
-        GroupActions.userValid = true;
-      }
-    });
-  }
-  /**
-   * @param {string} groupname - name of the group
-   * @param {string} id -  group id
-   * @returns {object} - if there is no error, it sends message group created successfully
-   */
-  static checkGroupIsUnique(groupname) {
-    Group.findOne({
-      where: {
-        name: groupname
-      }
-
-    }).catch((err) => {
-      console.log(err);
-      GroupActions.groupUnique = true;
-    })
-    .then((group) => {
-      GroupActions.groupUnique = false;
-    });
-  }
-
-  /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   createGroup(req, res) {
-    if (req.session.name) {
-      Group.sync({ force: true }).then(() => Group.create({
-        name: req.body.name,
-        creator: req.session.name,
+      Group.create({
+        groupname: req.body.name,
+        groupCreator: req.session.name,
         userId: req.session.userId
       }).then((group) => {
-        res.json({ group: { message: `${req.body.name} created successfully` , data: group} });
+        group.addUser(req.session.userId).then(() => {
+          res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
+        });
       })
-        .catch((err) => {
-          res.status(400).json({ errors: { message: err.errors[0].message } });
-        }));
-    } else {
-      res.status(401).json({ errors: { message: 'Please Sign in' } });
-    }
+      .catch((err) => {
+        res.status(400).json({ error: { message: 'group already exists' } });
+      });
   }
   /**
    * @param {object} req - request object sent to a route
@@ -120,52 +56,18 @@ class GroupActions {
    * @returns {object} - if there is no error, it sends user added successfully
    */
   addUserToGroup(req, res) {
-    if (req.session.name) {
-      User.findAll({
+      models.Group.findOne({
         where: {
-          userName: req.body.username
+          id: req.params.groupId
         }
-      }).then((user) => {
-        // console.log(GroupActions.userValid);
-        if (isEmpty(user)) {
-          res.status(400).json({ errors: { message: 'User does not exist' } });
-        } else {
-          // this.checkUserisUnique(req.body.username);
-          UserGroups.findOne({
-            where: {
-              username: req.body.username,
-              groupId: req.params.groupId
-            }
-          }).then((user) => {
-            if (isEmpty(user) || user === null) {
-              UserGroups.sync({ force: true }).then(() => UserGroups.create({
-                username: req.body.username,
-                groupId: req.params.groupId
-              })
-              .then((results) => {
-                if (results) {
-                  res.json({ message: 'user added to group' });
-                } else {
-                  res.status(400).json({ message: 'user already added to group' });
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-                // res.status(500).json({ errors: { message: 'user already added to group' } });
-              }));
-            } else if (user) {
-              res.status(400).json({ message: 'user already added to group' });
-            }
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ errors: { message: 'User does not exist' } });
+      }).then((group) => {
+        return group.addUser(req.body.userId)
+        .then((user) => {
+          res.json({ message: 'user added successfully' });
+        });
+      }).catch((err) => {
+        res.status(400).json({ error: { message: 'Group does not exist' } });
       });
-    } else {
-      res.status(401).json({ errors: { message: 'Please Sign in' } });
-    }
   }
 
   /**
@@ -174,27 +76,17 @@ class GroupActions {
    * @returns {object} - if there is no error, it sends message posted to group
    */
   postMessageToGroup(req, res) {
-    if (req.session.name) {
-      if (!isEmpty(req.body.post)) {
-         Post.sync({ force: false }).then(() => Post.create({
-           post: req.body.post,
-           groupId: req.params.groupId
-         }).then((result) => {
-           if (result) {
-             res.json({ message: 'message posted to group' });
-           }
-         })
-        .catch((err) => {
-          res.status(500).json({ error: { message: 'Something went wrong' } });
-        }));
-
-      // res.json({ message: 'message posted to group' });
-      } else {
-        res.status(400).json({ errors: { message: 'message cannot be empty' } });
-      }
-  } else {
-        res.status(401).json({ errors: { message: 'Please Sign in' } });
-  }
+      Message.create({
+        content: req.body.message,
+        groupId: req.params.groupId,
+        userId: req.session.userId
+      })
+      .then((message) => {
+        res.json({ message: 'message posted to group' });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: { message: 'error saving to database' } });
+      });
   }
   /**
    * @param {object} req - request object sent to a route
@@ -202,8 +94,7 @@ class GroupActions {
    * @returns {object} - if there is no error, it returns an array of messages
    */
   getPosts(req, res) {
-    if (req.session.name) {
-      Post.findAll({
+      Message.findAll({
         where: {
           groupId: req.params.groupId
         }
@@ -214,12 +105,9 @@ class GroupActions {
           res.json({ posts: data });
         })
         .catch((err) => {
-          res.status(400).json({ error: { message: 'Something went wrong' } });
+          res.status(500).json({ errors: 'Something went wrong' });
         });
-    } else {
-      res.status(401).json({ errors: { message: 'Please Sign in' } });
-    }
-  }
+    } 
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
@@ -228,7 +116,7 @@ class GroupActions {
   checkGroups(req, res) {
     Group.findOne({
       where: {
-        name: req.params.name
+        groupname: req.params.name
       }
     })
       .then((group) => {
@@ -248,7 +136,7 @@ class GroupActions {
   getUserGroups(req, res) {
     Group.findAll({
       where: {
-        creator: req.body.username
+        groupCreator: req.params.username
       }
     })
       .then((groups) => {
@@ -287,7 +175,6 @@ class GroupActions {
       .catch((err) => {
         this.error = err;
         this.sendError(res);
-          // res.json({ message: 'error saving to database' });
       });
   }
    /**
