@@ -2,31 +2,41 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { setCurrentGroup } from '../../actions/groupActions';
-
 import { connect } from 'react-redux';
 
-class Group extends React.Component {
-    constructor(props){
-        super(props);
+import { setCurrentGroup } from '../../actions/groupActions';
 
-        this.onClick = this.onClick.bind(this);
-    }
+/**
+ * Group component
+ * @class
+ */
+export class Group extends React.Component {
+   /**
+   * @constructor
+   * @param {object} props -  inherit props from react class
+   */
+  constructor(props) {
+    super(props);
 
-    onClick(e){
-        e.preventDefault();
-        this.props.setCurrentGroup(this.props.group);
-    }
+    this.onClick = this.onClick.bind(this);
+  }
 
-    render() {
-
-        return(
-            <div>
-              <p onClick={this.onClick} className="waves-effect waves-light btn group-btn red darken-4"> {this.props.groupname} </p>
-              <br />
-            </div>
-        )
-    }
+  onClick(e) {
+    e.preventDefault();
+    this.props.setCurrentGroup(this.props.group);
+  }
+   /**
+   *
+   * @returns {component} - renders a React component
+   */
+  render() {
+    return (
+      <div>
+        <p onClick={this.onClick} className="waves-effect waves-light btn group-btn red darken-4"> {this.props.groupname} </p>
+        <br />
+      </div>
+    );
+  }
 
 }
 

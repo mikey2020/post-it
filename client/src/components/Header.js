@@ -44,16 +44,16 @@ export class Header extends React.Component {
 
     const userLinks = (
       <div>
-        <li><Link to="/home" className="waves-effect waves-light">Home</Link></li>
-        <li><a onClick={this.logout} className="waves-effect waves-light btn black">Logout</a></li>
+        <li><a className="flow-text waves-effect waves-light btn black" ><Link to="/home">Home</Link></a></li>
+        <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn black">Logout</a></li>
       </div>
     );
 
 
     const guestLinks = (
       <div>
-        <a className="waves-effect waves-light btn modal-trigger black" href="#modal1">Sign In</a>
-        <li className="flow-text"><Link to="/signup">Sign Up</Link></li>
+        <a className="flow-text waves-effect waves-light btn modal-trigger black" href="#modal1">Sign In</a>
+        <a className="flow-text waves-effect waves-light btn black"><Link to="/signup">Sign Up</Link></a>
       </div>
    );
 
@@ -61,7 +61,7 @@ export class Header extends React.Component {
       <div className="row">
         <nav>
           <div className="nav-wrapper red darken-4">
-            <Link to="/" className="flow-text">postIT</Link>
+            <Link to="/" className="flow-text">PostIT</Link>
             <ul className="right">
               <div>
                 {isAuthenticated ? userLinks : guestLinks}

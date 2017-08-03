@@ -72,9 +72,9 @@
    */
    render() {
      return (
-       <div id="modal1" className="modal">
-         <div className="jumbotron container-fluid signin-form">
-           <div className="signin-form1">
+       <div id="modal1" className="modal signin-container">
+         <div className="">
+         <div className="signin-form">
              <h3> Sign In </h3>
              {this.state.errors.form && <div className="alert alert-danger"> {this.state.errors.form} </div>}
              <form onSubmit={this.onSubmit}>
@@ -106,7 +106,7 @@
              </form>
            </div>
          </div>
-       </div>
+         </div>
      );
    }
  }

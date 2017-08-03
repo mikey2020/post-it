@@ -9,84 +9,94 @@ import Validations from '../../../../server/middlewares/validations';
 import { createGroup } from '../../actions/groupActions';
 
 const validate = new Validations();
+/**
+ * Create group form component
+ * @class
+ */
+export class CreateGroupForm extends React.Component {
+  /**
+   * @constructor
+   * @param {object} props -  inherit props from react class
+   */
+  constructor(props) {
+    super(props);
 
-class CreateGroupForm extends React.Component {
-	constructor(props){
-		super(props);
+    this.state = {
+      name: '',
+      errors: {},
+      isLoading: false,
+      invalid: false,
+      group: {}
+    };
 
-		this.state = {
-			name: '',
-			errors: {},
-			isLoading: false,
-			invalid: false,
-			group: {}
-		};
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-	}
+  isValid() {
+    const { errors, isValid } = validate.input(this.state);
 
-	isValid(){
-		const {errors, isValid} = validate.input(this.state);
+    if (!isValid) {
+      this.setState({ errors, isLoading: true });
+    }
 
-		if(!isValid){
-			this.setState({errors, isLoading: true});
-		}
+    return isValid;
+  }
 
-		return isValid;
-	}
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
 
-	onChange(e){
-		this.setState({[e.target.name]: e.target.value});
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: false });
+    }
+  }
 
-		if(this.isValid()){
-			this.setState({errors: {}, isLoading: false});
-		}
-	}
+  onSubmit(e) {
+    e.preventDefault();
 
-	onSubmit(e){
-		e.preventDefault();
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: false });
 
-		if(this.isValid()){
-			this.setState({errors: {}, isLoading: false});
+      this.props.createGroup(this.state);
+    }
+  }
 
-			this.props.createGroup(this.state);
-		}
-	}
+   /**
+   *
+   * @returns {component} - renders a React component
+   */
+  render() {
+    const { errors, name, isLoading, invalid } = this.state;
+    return (
+      <div id="modal2" className="modal">
+        {errors.message && <div className="alert alert-danger"> {errors.message} </div>}
 
-		
-	render(){
-		const {errors , name ,isLoading , invalid ,group} = this.state;
-		return (
-			  <div id="modal2" className="modal">
-				{errors.message && <div className="alert alert-danger"> {errors.message} </div>}
+        {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
 
-				{errors.input ? <span className="help-block">{errors.input}</span> : <br/>}
+        <form className="form-group" onSubmit={this.onSubmit}>
+          <input
+            type="text"
+            placeholder="Enter group name"
+            name="name"
+            onChange={this.onChange}
+            className="form-control"
+            value={name}
+            id="usr"
+          />
 
-				<form className="form-group" onSubmit={this.onSubmit}>
-					<input 
-					type="text" 
-					placeholder="Enter group name"
-					name="name"
-					onChange={this.onChange}
-					className="form-control"
-					value={name}
-					id="usr"
-					/>
-
-					<input type="submit" className="btn btn-primary active" value="Create Group" disabled={isLoading || invalid}/>
+          <input type="submit" className="btn btn-primary active" value="Create Group" disabled={isLoading || invalid} />
 
 
-				</form>
+        </form>
 
-			</div>
-		)
-	}
+      </div>
+    );
+  }
 }
 
 CreateGroupForm.propTypes = {
-	createGroup: PropTypes.func.isRequired,
-}
+  createGroup: PropTypes.func.isRequired,
+};
 
 
 export default connect(null, { createGroup })(CreateGroupForm);

@@ -1,28 +1,47 @@
 #signup-header{
 
-    color: white;
+    color: black;
+}
+
+body{
+    background-color: black;
 }
 
 .signup-form{
-    background-color: #566573  ;
+    background-color: white  ;
     input{
-        color: white;
+        color: black;
     }
 }
 
 .signin-form{
+    input{
+        border: 10px solid #b71c1c ;
+        border-radius: 4px;
+        width: 50%;
+        height: 50%;
+    }
+}
+
+.signin-container{
+    height: 100%;
+    max-width: 90%;
+    width: 70%;
+    padding: 20px 20px;
     position: relative;
-    border: 10px solid;
-    border-radius: 4px;
-    height: 100%
+    border: 3px solid black;
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+    height: 100%;
 }
 
 .signin-form1{
     position: relative;
     top: 30px;
     input{
-        border: 10px solid black;
-        border-radius: 2px;
+        border: 10px solid #b71c1c ;
+        border-radius: 4px;
     }
 }
 
