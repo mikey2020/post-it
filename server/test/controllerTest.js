@@ -6,8 +6,8 @@ import models from '../models';
 import { validUserSignup, validUserSignin } from '../seeders/user-seeders';
 
 const user = request.agent(app);
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo2LCJ1c2VybmFtZSI6ImZsYXNoIiwiZW1haWwiOiJmbGFzaEBzbm93LmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJE05R3MxZkV0SXUwRGZpcDRoYzQ1UnU1elV6RG1hajNUeDJWSUNzeTEyT2NzOW56T1NlTmhtIiwidXBkYXRlZEF0IjoiMjAxNy0wOC0wNFQwMDo1Mjo1NS44MjBaIiwiY3JlYXRlZEF0IjoiMjAxNy0wOC0wNFQwMDo1Mjo1NS44MjBaIn0sImlhdCI6MTUwMTgwNzk3NiwiZXhwIjoxNTAxODE1MTc2fQ.mIS8cNWFLbXZljUOsrPne-kVM96-XJLWx1v8CmYn8tw';
-
+let token;
+let groupId;
 describe('All routes', () => {
   before((done) => {
     models.sequelize.sync();
@@ -23,6 +23,7 @@ describe('All routes', () => {
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('john successfully added');
+          token = res.body.userToken;
           done();
         });
     });
@@ -42,20 +43,23 @@ describe('All routes', () => {
 
     it('should create `test-group successfully` ', (done) => {
       user.post('/api/group')
+        .set('authorization', token)
         .send({ name: 'test-group' })
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
+          groupId = res.body.group.data.id;
           done();
         });
     });
 
     it('should return "user added to group" ', (done) => {
       models.User.create({ username: 'bat', email: 'batman@email.com', password: 'pass', passwordConfirmation: 'pass' }).then((newUser) => {
-      user.post('/api/group/1/user')
+        user.post('/api/group/1/user')
+        .set('authorization', token)
         .send({ userId: newUser.id })
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
@@ -66,9 +70,11 @@ describe('All routes', () => {
     });
 
     it('should return "message posted to group" ', (done) => {
-      user.post('/api/group/2/message')
-        .send({ message: 'how is everybody doing?', groupname: 'test-group' })
+      user.post(`/api/group/${groupId}/message`)
+        .set('authorization', token)
+        .send({ message: 'This functions is working well' })
         .end((err, res) => {
+          console.log(res.body);         
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
@@ -78,8 +84,10 @@ describe('All routes', () => {
     });
 
     it('should return all messages posted to group ', (done) => {
-      user.get('/api/group/2/messages')
+      user.get(`/api/group/${groupId}/messages`)
+        .set('authorization', token)
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           done();
@@ -88,6 +96,7 @@ describe('All routes', () => {
 
     it('should return groups created by test-user', (done) => {
       user.get('/api/groups/user')
+        .set('authorization', token)
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
@@ -101,8 +110,8 @@ describe('All routes', () => {
       request(app).post('/api/group')
         .end((err, res) => {
           res.status.should.equal(400);
-          res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.should.have.property('message', res.body.message);
+          res.body.message.should.equal('No token provided');
           done();
         });
     });
@@ -111,8 +120,8 @@ describe('All routes', () => {
       request(app).post('/api/group/1/user')
         .end((err, res) => {
           res.status.should.equal(400);
-          res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.should.have.property('message', res.body.message);
+          res.body.message.should.equal('No token provided');
           done();
         });
     });
@@ -121,8 +130,8 @@ describe('All routes', () => {
       request(app).post('/api/group/1/message')
         .end((err, res) => {
           res.status.should.equal(400);
-          res.body.should.have.property('errors', res.body.errors);
-          res.body.errors.message.should.equal('Please Sign in');
+          res.body.should.have.property('message', res.body.message);
+          res.body.message.should.equal('No token provided');
           done();
         });
     });
@@ -131,6 +140,7 @@ describe('All routes', () => {
   describe('Test Edge Cases', () => {
     it('should return "invalid sign in parameters" when there is no username', (done) => {
       user.post('/api/user/signin')
+      .set('authorization', token)
       .send({ username: '', password: 'pass' })
       .end((err, res) => {
         res.status.should.equal(401);
@@ -142,6 +152,7 @@ describe('All routes', () => {
 
     it('should return "invalid sign in parameters" when there is no password', (done) => {
       user.post('/api/user/signin')
+      .set('authorization', token)
       .send({ username: 'user', password: '' })
       .end((err, res) => {
         res.status.should.equal(401);
@@ -153,6 +164,7 @@ describe('All routes', () => {
 
     it('should return "user does not exist" when trying added an unregistered user', (done) => {
       user.post('/api/group/1/user')
+      .set('authorization', token)
       .send({ username: 'user20' })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -160,18 +172,6 @@ describe('All routes', () => {
         done();
       });
     });
-
-    /*it('should return "username should be unique" when to use already registered username', (done) => {
-      user.post('/api/user/signup')
-      .send({ username: 'test-user', password: 'password', email: 'est@email.com', passwordConfirmation: 'password' })
-      .end((err, res) => {
-        res.status.should.equal(400);
-        should.not.exist(err);
-        res.body.should.have.property('errors', res.body.errors);
-        res.body.errors.message.should.equal('username must be unique');
-        done();
-      });
-    });*/
 
     it('should return "password length too short" when password is less than or equal to 4', (done) => {
       user.post('/api/user/signup')

@@ -70,7 +70,7 @@ class Validations {
    * @param {object} next - returns data to the next middleware
    * @returns {object} - errors object if there is any
    */
-  checkUserIsValid(req, res, next) {
+  static checkUserIsValid(req, res, next) {
     models.User.findOne({
       where: {
         id: req.body.userId
@@ -89,26 +89,25 @@ class Validations {
    * @param {object} next - returns data to next middleware
    * @returns {object} -returns error if there is any
    */
-  authenticate(req, res, next) {
+  static authenticate(req, res, next) {
     const authorizationHeader = req.headers.authorization;
     let token;
     if (authorizationHeader) {
       token = authorizationHeader;
-      console.log(token);
     }
     // const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return res.json({ success: false, message: 'Failed to authenticate token.' });
+          return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });
         }
         req.decoded = decoded;
         next();
       });
     } else {
-      return res.status(403).send({
+      return res.status(400).send({
         success: false,
-        message: 'No token provided.'
+        message: 'No token provided'
       });
     }
   }
@@ -119,10 +118,10 @@ class Validations {
    * @param {object} next - returns data to next middleware
    * @returns {object} -returns error if there is any
    */
-  isGroupMember(req, res, next) {
+  static isGroupMember(req, res, next) {
     models.UserGroups.findOne({
       where: {
-        userId: req.session.userId,
+        userId: req.decoded.data.id,
         groupId: req.params.groupId
       }
     }).then((user) => {
@@ -140,7 +139,7 @@ class Validations {
    * @param {object} next - returns data to the next middleware
    * @returns {object} - errors object if there is any
    */
-  checkGroupExists(req, res, next) {
+  static checkGroupExists(req, res, next) {
     models.Group.findOne({
       where: {
         id: req.params.groupId

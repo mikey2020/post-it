@@ -11,6 +11,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
+      priority: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       groupId: {
         type: Sequelize.INTEGER
       },

@@ -68,6 +68,7 @@ class UserActions {
      .then((user) => {
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
+       console.log(userData);
        if (req.body.username && req.body.password &&
          bcrypt.compareSync(req.body.password, userData[0].password) === true) {
          req.session.name = req.body.username;

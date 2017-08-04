@@ -8,7 +8,7 @@ import UserActions from './controllers/userController';
 import GroupActions from './controllers/groupController';
 import Unique from './middlewares/unique';
 import Validations from './middlewares/validations';
-import userRoutes from './routes/userRoutes';
+
 
 dotenv.config();
 
@@ -50,19 +50,19 @@ app.post('/api/user/signin', UserActions.signin);
 
 // group routes
 
-app.post('/api/group', validate.authenticate, GroupActions.createGroup);
+app.post('/api/group', Validations.authenticate, GroupActions.createGroup);
 
-app.get('/api/group/:name', validate.authenticate, group.checkGroups);
+app.get('/api/group/:name', Validations.authenticate, group.checkGroups);
 
-app.get('/api/groups/user', validate.authenticate, group.getUserGroups);
+app.get('/api/groups/user', Validations.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, checkUnique.userGroups, GroupActions.addUserToGroup);
+app.post('/api/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, checkUnique.userGroups, GroupActions.addUserToGroup);
 
-app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, GroupActions.postMessageToGroup);
+app.post('/api/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.postMessageToGroup);
 
-app.get('/api/group/:groupId/messages', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, GroupActions.getPosts);
+app.get('/api/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.getPosts);
 
-app.get('/api/group/:groupId/users', validate.checkGroupExists, GroupActions.getGroupMembers);
+app.get('/api/group/:groupId/users', Validations.checkGroupExists, GroupActions.getGroupMembers);
 
 app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 
