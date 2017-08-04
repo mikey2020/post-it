@@ -82,7 +82,7 @@ export class Messages extends React.Component {
             <div className="nav-wrapper">
               <div className="row">
                 <a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name ? this.props.group.name : this.props.username }</a>
-                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn add-user-icon red darken-4">Add User</a>
+                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn add-user-icon red darken-3">Add User</a>
               </div>
             </div>
           </nav>
@@ -95,7 +95,7 @@ export class Messages extends React.Component {
             <textarea name="message" onChange={this.onChange} className="form-control" rows="5" id="comment" value={this.state.message} />
             <br />
             <div className="col s5 m4 l3">
-              <button className="btn waves-effect waves-light red darken-4" type="submit" name="action">Post
+              <button className="btn waves-effect waves-light red darken-3" type="submit" name="action">Post
 										<i className="material-icons right">send</i>
               </button>
             </div>

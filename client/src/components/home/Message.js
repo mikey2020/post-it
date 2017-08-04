@@ -16,7 +16,7 @@ export class Message extends React.Component {
         <div className="col s12 m12 l12">
           <ul className="collection">
             <li className="collection-item avatar">
-              <p> {this.props.content}</p>
+              <p className="message"> {this.props.content}</p>
               <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
             </li>
           </ul>

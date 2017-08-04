@@ -43,32 +43,38 @@ export class Header extends React.Component {
     const { isAuthenticated } = this.props.user;
 
     const userLinks = (
-      <div>
-        <li><a className="flow-text waves-effect waves-light btn black" ><Link to="/home">Home</Link></a></li>
-        <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn black">Logout</a></li>
-      </div>
-    );
-
-
-    const guestLinks = (
-      <div>
-        <a className="flow-text waves-effect waves-light btn modal-trigger black" href="#modal1">Sign In</a>
-        <a className="flow-text waves-effect waves-light btn black"><Link to="/signup">Sign Up</Link></a>
-      </div>
-   );
-
-    return (
-      <div className="row">
-        <nav>
-          <div className="nav-wrapper red darken-4">
-            <Link to="/" className="flow-text">PostIT</Link>
+      <nav>
+          <div className="nav-wrapper red darken-3">
+            <Link to="/home" className="logo">PostIT</Link>
             <ul className="right">
-              <div>
-                {isAuthenticated ? userLinks : guestLinks}
+               <div>
+                <li><a className="flow-text waves-effect waves-light btn grey darken-3 links" ><Link to="/home">Home</Link></a></li>
+                <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-3 links">Logout</a></li>
               </div>
             </ul>
           </div>
         </nav>
+    );
+
+
+    const guestLinks = (
+       <nav>
+          <div className="nav-wrapper red darken-3">
+            <Link to="/signup" className="logo">PostIT</Link>
+            <ul className="right">
+              <div>
+              <a className="flow-text waves-effect waves-light btn grey darken-3 modal-trigger links" href="#modal1">Sign In</a>
+              <a className="flow-text waves-effect waves-light btn grey darken-3 links"><Link to="/signup">Sign Up</Link></a>
+            </div>
+            </ul>
+          </div>
+        </nav>
+      
+   );  
+
+    return (
+      <div className="row">   
+        {isAuthenticated ? userLinks : guestLinks}
         <SigninForm />
       </div>
     );

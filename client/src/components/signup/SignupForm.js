@@ -78,7 +78,7 @@ export class SignupForm extends React.Component {
       <div className="" id="signup-body">
         <form onSubmit={this.onSubmit}>
           <div className="jumbotron signup-form">
-            <p id="signup-header" className="flow-text">Sign Up here</p>
+            <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
             {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
             <input
               value={this.state.username}
@@ -131,7 +131,7 @@ export class SignupForm extends React.Component {
               type="submit"
               name="sign up"
               value="Sign Up"
-              className="btn waves-effect waves-light red darken-4"
+              className="btn waves-effect waves-light red darken-3 signup-button"
             />
 
           </div>

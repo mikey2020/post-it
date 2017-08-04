@@ -1,17 +1,45 @@
 #signup-header{
 
-    color: black;
+    color: white;
 }
 
-body{
+body {
+    background-image: url("");
+}
+
+.welcome-text {
+    color: white;
+    position: relative;
+    top: 30px;
+    text-align: center;
+}
+
+#landing-page{
+
+    background-color: black;
+}
+
+#landing-page1{
+
     background-color: black;
 }
 
 .signup-form{
-    background-color: white  ;
+    background-color: #5F5F5F    ;
+    border-radius: 10px;
     input{
-        color: black;
+        color: white;
+        border: 10px solid;
     }
+    form{
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+}
+
+.signup-button{
+    position: relative;
+    top: 10px;
 }
 
 .signin-form{
@@ -26,14 +54,19 @@ body{
 .signin-container{
     height: 100%;
     max-width: 90%;
+    max-height: 100%;
     width: 70%;
     padding: 20px 20px;
     position: relative;
+    top: 70px;
     border: 3px solid black;
     color: black;
     background-color: white;
     border-radius: 10px;
     height: 100%;
+    input[type=submit]{
+      text-align: left;
+    }
 }
 
 .signin-form1{
@@ -51,7 +84,7 @@ body{
 	position: relative;
 	left: -13px;
     top: -20px;
-    background-color: #201E1D ;
+    background-color: #5F5F5F ;
 	height: 700px;
     overflow-y: auto;
     p{
@@ -155,3 +188,18 @@ body{
     position: relative;
     left: 300px;
 }
+
+.message{
+   font-size: 30px;
+   position: relative;
+   top: 20px;
+}
+
+.logo{
+    font-size: 30px;
+}
+
+.links{
+    background-color: #5F5F5F;
+}
+

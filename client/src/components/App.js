@@ -8,6 +8,8 @@ import CreateGroupForm from './home/CreateGroupForm';
 
 import AddUserPage from './home/AddUserPage';
 
+import Footer from './Footer';
+
 /**
  *  Main App component
  * @class
@@ -25,6 +27,7 @@ export default class App extends React.Component {
         <CreateGroupForm />
         <AddUserPage />
         { this.props.children }
+        <Footer />
       </div>
     );
   }
