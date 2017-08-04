@@ -1,25 +1,22 @@
+'use strict';
+
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    queryInterface.createTable('Messages', {
+  up: function up(queryInterface, Sequelize) {
+    queryInterface.createTable('Groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      content: {
-        type: Sequelize.TEXT,
+      groupname: {
+        type: Sequelize.STRING,
+        unique: true,
         allowNull: false
       },
-      priority: {
+      groupCreator: {
         type: Sequelize.STRING,
-        allowNull: true
-      },
-      groupId: {
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        type: Sequelize.INTEGER
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -31,7 +28,8 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface) => {
-    queryInterface.dropTable('Messages');
+
+  down: function down(queryInterface) {
+    queryInterface.dropTable('Groups');
   }
 };

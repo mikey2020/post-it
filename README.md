@@ -19,7 +19,7 @@ and [React with Redux](http://redux.js.org/docs) for client side.
 * Ensure that you've `node` installed on your PC.
 * Clone the repository by entering the command `git clone https://github.com/mikey2020/post-it` in the terminal.
 * Navigate to the project folder using `cd post-it` on your terminal (or command prompt)
-* After cloning, install the application's dependencies with the command `npm install`.
+* Please install this packages `babel`, `sequelize`, `mocha` globally 
 * Then cd into server directory and run command `npm install`
 * Create a `.env` file in your root directory. 
 Variables such as DATABASE_URL (which must be a postgreSQL URL) and PORT are defined in the .env file and it is essential you create this file before running the application.
@@ -37,7 +37,7 @@ DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
 
 
 
-## API ENDPOINTS
+## Api Endpoints
 
 Request type | Endpoint | Action | Parameters |
 ------------ | ---------| --------| ---------|

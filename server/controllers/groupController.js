@@ -36,18 +36,18 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  createGroup(req, res) {
-      Group.create({
-        groupname: req.body.name,
-        groupCreator: req.session.name,
-        userId: req.session.userId
-      }).then((group) => {
-        group.addUser(req.session.userId).then(() => {
-          res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({ errors: { message: 'group already exists' } });
+  static createGroup(req, res) {
+    Group.create({
+      groupname: req.body.name,
+      groupCreator: req.decoded.data.username,
+      userId: req.decoded.data.id
+    }).then((group) => {
+      group.addUser(req.decoded.data.id).then(() => {
+        res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
+      });
+    })
+      .catch(() => {
+        res.status(400).json({ error: { message: 'group already exists' } });
       });
   }
   /**
@@ -55,19 +55,19 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends user added successfully
    */
-  addUserToGroup(req, res) {
-      models.Group.findOne({
-        where: {
-          id: req.params.groupId
-        }
-      }).then((group) => {
-        return group.addUser(req.validUserId)
-        .then((user) => {
+  static addUserToGroup(req, res) {
+    models.Group.findOne({
+      where: {
+        id: req.params.groupId
+      }
+    }).then((group) => {
+      return group.addUser(req.body.userId)
+        .then(() => {
           res.json({ message: 'user added successfully' });
         });
-      }).catch((err) => {
-        res.status(400).json({ errors: { message: 'User cannot be added' } });
-      });
+    }).catch(() => {
+      res.status(400).json({ error: { message: 'Group does not exist' } });
+    });
   }
 
   /**
@@ -75,17 +75,16 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends message posted to group
    */
-  postMessageToGroup(req, res) {
-      Message.create({
-        content: req.body.message,
-        groupId: req.params.groupId,
-        userId: req.session.userId
+  static postMessageToGroup(req, res) {
+    Message.create({
+      content: req.body.message,
+      groupId: req.params.groupId,
+      userId: req.decoded.data.id
+    })
+      .then(() => {
+        res.json({ message: 'message posted to group' });
       })
-      .then((message) => {
-        res.json({ message: { info: 'message posted to group', messageData: message } });
-      })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -94,22 +93,20 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns an array of messages
    */
-  getPosts(req, res) {
+  static getPosts(req, res) {
     Message.findAll({
       where: {
         groupId: req.params.groupId
       }
     })
-    .then((posts) => {
-      if (posts !== null) {
-        let data = JSON.stringify(posts);
-        data = JSON.parse(data);
-        res.json({ posts: data });
-      }
-    })
-     .catch((err) => {
-       res.status(500).json({ errors: 'Something went wrong' });
-     });
+        .then((posts) => {
+          let data = JSON.stringify(posts);
+          data = JSON.parse(data);
+          res.json({ posts: data });
+        })
+        .catch(() => {
+          res.status(500).json({ errors: 'Something went wrong' });
+        });
   }
   /**
    * @param {object} req - request object sent to a route
@@ -182,7 +179,7 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns array of users in a group
    */
-  getGroupMembers(req, res) {
+  static getGroupMembers(req, res) {
     UserGroups.findAll({
       where: {
         groupId: req.params.groupId
@@ -196,7 +193,7 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns array of users in a group
    */
-  getGroupsUserIsMember(req, res) {
+  static getGroupsUserIsMember(req, res) {
     models.User.findOne({
       where: {
         id: req.body.userId

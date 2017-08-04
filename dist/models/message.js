@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => {
-  const Message = sequelize.define('Message', {
+'use strict';
+
+module.exports = function (sequelize, DataTypes) {
+  var Message = sequelize.define('Message', {
     content: {
       type: DataTypes.TEXT,
       allowNull: false
@@ -11,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   });
-  Message.associate = (models) => {
+  Message.associate = function (models) {
     Message.belongsTo(models.Group, {
       foreignKey: 'groupId',
       onDelete: 'CASACADE'

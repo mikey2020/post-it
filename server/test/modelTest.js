@@ -1,7 +1,6 @@
 import should from 'should';
 
 import models from '../models';
-
 import '../app';
 
 

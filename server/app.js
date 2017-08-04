@@ -1,28 +1,18 @@
 import path from 'path';
-
 import dotenv from 'dotenv';
-
 import express from 'express';
-
 import morgan from 'morgan';
-
 import bodyParser from 'body-parser';
-
 import session from 'express-session';
-
 import webpack from 'webpack';
-
 import webpackMiddleware from 'webpack-dev-middleware';
-
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../webpack.config.dev';
-
 import UserActions from './controllers/userController';
-
 import GroupActions from './controllers/groupController';
-
 import Unique from './middlewares/unique';
+import Validations from './middlewares/validations';
 
 
 dotenv.config();
@@ -34,8 +24,6 @@ const port = process.env.PORT;
 const group = new GroupActions();
 
 const user = new UserActions();
-
-const validate = new Unique();
 
 const compiler = webpack(webpackConfig);
 
@@ -66,29 +54,31 @@ app.get('/api/users', user.allUsers);
 
 app.get('/api/user/:name', user.isUnique);
 
-app.post('/api/user/signup', user.signup);
+app.post('/api/user/signup', UserActions.signup);
 
-app.post('/api/user/signin', user.signin);
+app.post('/api/user/signin', UserActions.signin);
 
-app.post('/api/usergroups', validate.authenticate, group.getGroupsUserIsMember);
+// app.use('/api/user', userRoutes)(app);
+
+app.post('/api/usergroups', Validations.authenticate, GroupActions.getGroupsUserIsMember);
 
 app.post('/api/user', user.getUsers);
 
 // group routes
 
-app.post('/api/group', validate.authenticate, group.createGroup);
+app.post('/api/group', Validations.authenticate, GroupActions.createGroup);
 
-app.get('/api/group/:name', validate.authenticate, group.checkGroups);
+app.get('/api/group/:name', Validations.authenticate, group.checkGroups);
 
-app.get('/api/groups/user', validate.authenticate, group.getUserGroups);
+app.get('/api/groups/user', Validations.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, validate.checkUserIsValid, validate.userGroups, group.addUserToGroup);
+app.post('/api/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.userGroups, GroupActions.addUserToGroup);
 
-app.post('/api/group/:groupId/message', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, group.postMessageToGroup);
+app.post('/api/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.postMessageToGroup);
 
-app.get('/api/group/:groupId/messages', validate.authenticate, validate.checkGroupExists, validate.isGroupMember, group.getPosts);
+app.get('/api/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.getPosts);
 
-app.get('/api/group/:groupId/users', validate.authenticate, validate.checkGroupExists, group.getGroupMembers);
+app.get('/api/group/:groupId/users', Validations.checkGroupExists, GroupActions.getGroupMembers);
 
 // app.get('/api/group/usergroups', validate.authenticate, group.getNumberOfGroups);
 
