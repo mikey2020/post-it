@@ -33,23 +33,23 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  signup(req, res) {
+  static signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
-    req.session.status = false;
     if (!isValid) {
       res.status(400).json(errors);
-    } else if (req.session.status === true) {
-      res.status(500).json({ error: 'you already have an account' });
     } else {
       return User.create({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
       })
-      .then(() => {
-        res.json({ message: `${req.body.username} successfully added` });
+      .then((user) => {
+        let userData = JSON.stringify(user);
+        userData = JSON.parse(userData);
+        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
-      .catch((err) => {
+      .catch(() => {
         res.status(400).json({ errors: { message: 'user already exists' } });
       });
     }
@@ -59,7 +59,7 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  signin(req, res) {
+  static signin(req, res) {
     User.findAll({
       where: {
         username: req.body.username
@@ -67,21 +67,17 @@ class UserActions {
     })
      .then((user) => {
        let userData = JSON.stringify(user);
-
        userData = JSON.parse(userData);
-
-       const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
-
        if (req.body.username && req.body.password &&
          bcrypt.compareSync(req.body.password, userData[0].password) === true) {
          req.session.name = req.body.username;
          req.session.userId = userData[0].id;
-         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, Token: token } });
+         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in` } });
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
-     .catch((err) => {
+     .catch(() => {
        res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }

@@ -1,20 +1,14 @@
 import dotenv from 'dotenv';
-
 import express from 'express';
-
 import morgan from 'morgan';
-
 import bodyParser from 'body-parser';
-
 import session from 'express-session';
 
 import UserActions from './controllers/userController';
-
 import GroupActions from './controllers/groupController';
-
 import Unique from './middlewares/unique';
-
 import Validations from './middlewares/validations';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -44,30 +38,31 @@ app.use(session({
 }));
 
 // user routes
-
 app.get('/api/users', user.allUsers);
 
 app.get('/api/user/:name', user.isUnique);
 
-app.post('/api/user/signup', user.signup);
+app.post('/api/user/signup', UserActions.signup);
 
-app.post('/api/user/signin', user.signin);
+app.post('/api/user/signin', UserActions.signin);
+
+// app.use('/api/user', userRoutes)(app);
 
 // group routes
 
-app.post('/api/group', validate.authenticate, group.createGroup);
+app.post('/api/group', validate.authenticate, GroupActions.createGroup);
 
 app.get('/api/group/:name', validate.authenticate, group.checkGroups);
 
 app.get('/api/groups/user', validate.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, checkUnique.userGroups, group.addUserToGroup);
+app.post('/api/group/:groupId/user', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, validate.checkUserIsValid, checkUnique.userGroups, GroupActions.addUserToGroup);
 
-app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.postMessageToGroup);
+app.post('/api/group/:groupId/message', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, GroupActions.postMessageToGroup);
 
-app.get('/api/group/:groupId/messages', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, group.getPosts);
+app.get('/api/group/:groupId/messages', validate.checkGroupExists, validate.isGroupMember, validate.authenticate, GroupActions.getPosts);
 
-app.get('/api/group/:groupId/users', validate.checkGroupExists, group.getGroupMembers);
+app.get('/api/group/:groupId/users', validate.checkGroupExists, GroupActions.getGroupMembers);
 
 app.get('/api/group/:username/usergroups', group.getNumberOfGroups);
 
