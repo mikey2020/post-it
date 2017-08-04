@@ -20,10 +20,6 @@ const group = new GroupActions();
 
 const user = new UserActions();
 
-const checkUnique = new Unique();
-
-const validate = new Validations();
-
 app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +34,7 @@ app.use(session({
 }));
 
 // user routes
+
 app.get('/api/users', user.allUsers);
 
 app.get('/api/user/:name', user.isUnique);
@@ -56,7 +53,7 @@ app.get('/api/group/:name', Validations.authenticate, group.checkGroups);
 
 app.get('/api/groups/user', Validations.authenticate, group.getUserGroups);
 
-app.post('/api/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, checkUnique.userGroups, GroupActions.addUserToGroup);
+app.post('/api/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.userGroups, GroupActions.addUserToGroup);
 
 app.post('/api/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.postMessageToGroup);
 
