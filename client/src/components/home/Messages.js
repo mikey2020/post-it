@@ -82,7 +82,7 @@ export class Messages extends React.Component {
             <div className="nav-wrapper">
               <div className="row">
                 <a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name ? this.props.group.name : this.props.username }</a>
-                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn add-user-icon red darken-3">Add User</a>
+                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn adduser-icon red darken-3">Add User</a>
               </div>
             </div>
           </nav>

@@ -93,6 +93,7 @@
     "style-loader": "^0.18.2",
     "superagent": "^3.5.2",
     "supertest": "^3.0.0",
+    "sweetalert-react": "^0.4.10",
     "validator": "^7.0.0",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.11.0",

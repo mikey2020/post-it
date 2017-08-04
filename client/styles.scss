@@ -139,9 +139,10 @@ body {
       background-color: #b71c1c  ;
     }
 }
-.add-user-icon{
+.adduser-icon{
     position: relative;
-    left: 700px;
+    border-radius: 5px;
+    left: 110px !important;
     top: 8px;
 }
 
@@ -203,3 +204,6 @@ body {
     background-color: #5F5F5F;
 }
 
+.message-box{
+    
+}

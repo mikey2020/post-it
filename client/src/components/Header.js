@@ -32,7 +32,7 @@ export class Header extends React.Component {
   logout(e) {
     e.preventDefault();
     this.props.signout();
-    this.context.router.push('/');
+    this.context.router.push('/signup');
   }
 
   /**
