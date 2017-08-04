@@ -1,13 +1,12 @@
 import validator from 'validator';
 
+import isEmpty from 'lodash/isEmpty';
+
 import dotenv from 'dotenv';
 
 import jwt from 'jsonwebtoken';
 
 import models from '../models';
-
-import isEmpty from 'lodash/isEmpty';
-
 
 dotenv.config();
 /**
@@ -116,7 +115,7 @@ class Validations {
    * @param {object} next - returns data to next middleware
    * @returns {object} -returns error if there is any
    */
-  isGroupMember(req, res, next) {
+  static isGroupMember(req, res, next) {
     models.UserGroups.findOne({
       where: {
         userId: req.decoded.data.id,
@@ -130,7 +129,7 @@ class Validations {
       }
     });
   }
-  
+
   /**
    * @param {Object} req - request object
    * @param {Object} res - response object

@@ -24,24 +24,24 @@ export default {
 
         include: path.join(__dirname, 'client'),
 
-        loaders: ['react-hot-loader','babel-loader'],
+        loaders: ['react-hot-loader', 'babel-loader'],
 
         exclude: /node_modules/
       },
 
-      { test: /\.jsx$/, loaders: ['react-hot-loader','babel-loader'], exclude: /node_modules/ },
-      
+      { test: /\.jsx$/, loaders: ['react-hot-loader', 'babel-loader'], exclude: /node_modules/ },
+
       {
-            test: /\.scss$/,
-            use: ExtractTextPlugin.extract({
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }]
-            })
-        },
-       {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [{
+            loader: 'css-loader'
+          }, {
+            loader: 'sass-loader'
+          }]
+        })
+      },
+      {
         test: /\.(png|jpg|gif)$/,
         use: [
           {
@@ -50,10 +50,10 @@ export default {
               limit: 8192
             }
           }]
-       }
-		]
+      }
+    ]
 
-	},
+  },
 
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),

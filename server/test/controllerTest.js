@@ -59,7 +59,6 @@ describe('All routes', () => {
         .set('authorization', token)
         .send({ userId: newUser.id })
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
