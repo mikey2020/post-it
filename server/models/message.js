@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    priority: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   });
