@@ -22,7 +22,7 @@ export class User extends React.Component {
     return (
       <div>
         <li className="well well-sm user-btn red darken-1"> {this.props.username}
-          <a onClick={this.onClick} className="waves-effect waves-light btn add-user-btn">Add</a></li>
+          <a onClick={this.onClick} className="waves-effect waves-light btn add-user-btn grey darken-4">Add</a></li>
       </div>
     );
   }

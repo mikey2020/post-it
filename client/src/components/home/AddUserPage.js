@@ -12,6 +12,8 @@ import { getUsers } from '../../actions/userActions';
 
 import AllUsers from './AllUsers';
 
+import Pagination from './Pagination';
+
 const validate = new Validations();
 
 /**
@@ -31,7 +33,8 @@ export class AddUserPage extends React.Component {
       results: [],
       isLoading: false,
       errors: {},
-      invalid: false
+      invalid: false,
+      offset: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -55,8 +58,9 @@ export class AddUserPage extends React.Component {
   searchUsers(e) {
     this.setState({ [e.target.name]: e.target.value });
     const value = e.target.value;
+    const offsetValue;
     if (value !== '') {
-      this.props.getUsers({ username: value });
+      this.props.getUsers({ username: value, offset: offsetValue });
     }
   }
   /**
@@ -97,8 +101,7 @@ export class AddUserPage extends React.Component {
 
         </form>
 
-        <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId}/>
-
+        <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
       </div>
     );
   }
@@ -112,7 +115,6 @@ AddUserPage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.currentGroup.id);
   return {
     users: state.users,
     groupId: state.currentGroup.id

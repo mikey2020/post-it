@@ -87,8 +87,7 @@ class GroupActions {
           res.json({ message: 'message posted to group', data: message });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }

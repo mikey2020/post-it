@@ -123,7 +123,9 @@ class UserActions {
         username: {
           $iLike: '%' + req.body.username + '%'
         }
-    } }).then((data) => {
+      } },
+     { offset: req.body.offset, limit: 5 }
+     ).then((data) => {
       res.json({ users: { data } });
     }).catch(() => {
       res.json({ errors: { message: 'something went wrong' } });

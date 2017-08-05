@@ -27,13 +27,15 @@ body {
 .signup-form{
     background-color: #5F5F5F    ;
     border-radius: 10px;
-    input{
-        color: white;
-        border: 10px solid;
-    }
+    padding-left: 30px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    margin: 20px;
     form{
-      padding-left: 0px;
-      padding-right: 0px;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin: 20px;
     }
 }
 
@@ -161,11 +163,12 @@ body {
 }
 
 .adduserpage{
-    width: 50%;
-    height: 100%;
+    width: 70%;
+    height: 100% !important;
+    max-height: 85%;
     input{
         position: relative;
-        right:  -2px;
+        right: -2px;
     }
 }
 
@@ -214,4 +217,9 @@ body {
         left: 40px;
         background-color: #212121;
     }
+}
+
+.my-pagination {
+    position: relative;
+    top: 30px;
 }
