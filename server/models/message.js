@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     priority: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER

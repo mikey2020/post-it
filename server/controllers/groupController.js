@@ -7,7 +7,7 @@ const UserGroups = models.UserGroups;
 const Message = models.Message;
 
 /**
- *  All group actions
+ * All group actions
  * @class
  */
 class GroupActions {
@@ -61,7 +61,7 @@ class GroupActions {
         id: req.params.groupId
       }
     }).then((group) => {
-      return group.addUser(req.body.userId)
+      return group.addUser(req.validUserId)
         .then(() => {
           res.json({ message: 'user added successfully' });
         });
@@ -79,12 +79,16 @@ class GroupActions {
     Message.create({
       content: req.body.message,
       groupId: req.params.groupId,
-      userId: req.decoded.data.id
+      userId: req.decoded.data.id,
+      priority: req.body.priority
     })
-      .then(() => {
-        res.json({ message: 'message posted to group' });
+      .then((message) => {
+        if (message !== null) {
+          res.json({ message: 'message posted to group', data: message });
+        }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -196,7 +200,7 @@ class GroupActions {
   static getGroupsUserIsMember(req, res) {
     models.User.findOne({
       where: {
-        id: req.body.userId
+        id: req.decoded.data.id
       }
     }).then((user) => {
       return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {

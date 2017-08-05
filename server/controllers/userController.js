@@ -46,6 +46,7 @@ class UserActions {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
+        console.log(userData);
         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
@@ -60,7 +61,7 @@ class UserActions {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static signin(req, res) {
-    User.findAll({
+    User.findOne({
       where: {
         username: req.body.username
       }
@@ -69,9 +70,7 @@ class UserActions {
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
        if (req.body.username && req.body.password &&
-         bcrypt.compareSync(req.body.password, userData[0].password) === true) {
-         req.session.name = req.body.username;
-         req.session.userId = userData[0].id;
+         bcrypt.compareSync(req.body.password, userData.password) === true) {
          const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
        } else {

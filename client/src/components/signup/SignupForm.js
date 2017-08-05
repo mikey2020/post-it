@@ -131,7 +131,7 @@ export class SignupForm extends React.Component {
               type="submit"
               name="sign up"
               value="Sign Up"
-              className="btn waves-effect waves-light red darken-3 signup-button"
+              className="btn waves-effect waves-light grey darken-4"
             />
 
           </div>

@@ -71,12 +71,13 @@ class Validations {
   static checkUserIsValid(req, res, next) {
     models.User.findOne({
       where: {
-        id: req.body.userId
+        username: req.body.username
       }
     }).then((validUser) => {
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }
+      req.validUserId = validUser.id;
       next();
     });
   }
@@ -93,7 +94,6 @@ class Validations {
     if (authorizationHeader) {
       token = authorizationHeader;
     }
-    // const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {

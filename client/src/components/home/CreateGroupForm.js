@@ -68,7 +68,7 @@ export class CreateGroupForm extends React.Component {
   render() {
     const { errors, name, isLoading, invalid } = this.state;
     return (
-      <div id="modal2" className="modal">
+      <div id="modal2" className="modal group-form">
         {errors.message && <div className="alert alert-danger"> {errors.message} </div>}
 
         {errors.input ? <span className="help-block">{errors.input}</span> : <br />}

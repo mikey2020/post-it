@@ -81,10 +81,11 @@ describe('All routes', () => {
         });
     });
 
-    it('should return all messages posted to group ', (done) => {
+    it('should return all messages posted to a particular group ', (done) => {
       user.get(`/api/group/${groupId}/messages`)
         .set('authorization', token)
         .end((err, res) => {
+          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           done();

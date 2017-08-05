@@ -13,7 +13,7 @@ module.exports = {
       },
       priority: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       groupId: {
         type: Sequelize.INTEGER

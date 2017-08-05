@@ -2,6 +2,9 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
+
+import jwt from 'jsonwebtoken';
+
 import routes from './routes';
 
 import {Router,browserHistory} from 'react-router';
@@ -16,6 +19,8 @@ import rootReducer from './src/rootReducer';
 
 import js from './html-actions.js';
 
+import { validateToken, setUser } from './src/actions/signinActions';
+
 
 const store = createStore(
 	
@@ -28,6 +33,10 @@ const store = createStore(
 	
 );
 
+if (localStorage.jwtToken) {
+  validateToken(localStorage.jwtToken);
+  store.dispatch(setUser(jwt.decode(localStorage.jwtToken).data));
+}
 
 
 ReactDOM.render(

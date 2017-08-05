@@ -39,9 +39,9 @@ const joinUserToGroup = (user) => {
 }
 
 
-const getUserGroups = (userId) => {
+const getUserGroups = () => {
     return (dispatch) => {
-        return axios.post('/api/usergroups', userId)
+        return axios.post('/api/usergroups')
             .then((res) => {
                 if (res.data.usergroups) {
                     dispatch(addUserGroups(res.data.usergroups));
@@ -61,7 +61,8 @@ const createGroup = (groupname) => {
     return axios.post('/api/group', groupname)
            .then((res) => {
                if (res.data.group.message) {
-                  dispatch(addGroup(res.data.group));
+                  console.log(res.data.group);
+                  dispatch(addGroup(res.data.group.data));
                   dispatch(addFlashMessage(createMessage('success', res.data.group.message)));
                } else {
                    dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));

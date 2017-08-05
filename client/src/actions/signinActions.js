@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import jwt from 'jsonwebtoken';
+
 import { SET_USER, UNSET_USER } from './types';
 
 import { addFlashMessage, createMessage } from './flashMessageActions';
@@ -14,15 +16,16 @@ const unsetUser = () => ({
 });
 
 const signout = () => (dispatch) => {
+  localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
   dispatch(addFlashMessage(createMessage('success', 'signout successful')));
 };
 
 const validateToken = (token) => {
   if (token) {
-    axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
+    axios.defaults.headers.common['authorization'] = `${token}`;
   } else {
-    delete axios.defaults.headers.common['authorisation'];
+    delete axios.defaults.headers.common['authorization'];
   }
 }
 
@@ -31,7 +34,9 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
              if (res.data.user) {
                const token = res.data.user.userToken;
                localStorage.setItem('jwtToken', token);
-               dispatch(setUser(res.data.user));
+               validateToken(token);
+               console.log(jwt.decode(token).data);
+               dispatch(setUser(jwt.decode(token).data));
                dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
              } else {
                dispatch(setUser(res.data.errors));
@@ -42,4 +47,4 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
              dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
 
-export { validateUser, signout };
+export { validateUser, signout, validateToken, setUser };

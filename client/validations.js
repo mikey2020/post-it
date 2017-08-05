@@ -84,6 +84,33 @@ class Validations {
     };
   }
 
+  /**
+   * @param {object} data - signup object
+   * @returns {object} - errors object if there is any
+   */
+  input(data) {
+    this.errors = {};
+
+    if (data.input === null || data.input === '') {
+      this.errors.input = 'This field is required';
+    }
+
+    if (data.message === null || data.message === '') {
+      this.errors.input = 'Message is required';
+    }
+
+    if (data.priority === null || data.priority === '') {
+      this.errors.priority = 'Priority Level is required';
+    }
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
+
 }
 
 

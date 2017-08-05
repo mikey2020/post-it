@@ -88,12 +88,12 @@ export class AddUserPage extends React.Component {
         <form className="input-field" onSubmit={this.onSubmit}>
             <input
               type="text" 
-			  placeholder="Enter username"
-			  name="username"
-			  onChange={this.searchUsers}
-			  className=""
-			  value={username}
-			/>
+              placeholder="Enter username"
+              name="username"
+              onChange={this.searchUsers}
+              className=""
+              value={username}
+            />
 
         </form>
 
@@ -112,6 +112,7 @@ AddUserPage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state.currentGroup.id);
   return {
     users: state.users,
     groupId: state.currentGroup.id

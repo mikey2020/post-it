@@ -84,7 +84,7 @@ body {
 	position: relative;
 	left: -13px;
     top: -20px;
-    background-color: #5F5F5F ;
+    background-color: #263238 ;
 	height: 700px;
     overflow-y: auto;
     p{
@@ -201,9 +201,17 @@ body {
 }
 
 .links{
-    background-color: #5F5F5F;
+    background-color: #212121;
 }
 
-.message-box{
-    
+.group-form{
+    width: 85%;
+    height: 90% !important;
+    max-height: 85% !important;
+    overflow: scroll;
+    input[type=submit]{
+        position: relative;
+        left: 40px;
+        background-color: #212121;
+    }
 }

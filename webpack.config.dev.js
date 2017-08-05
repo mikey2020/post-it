@@ -51,4 +51,9 @@ export default {
     new ExtractTextPlugin({ filename: 'styles.css' })
   ],
 
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  }
+
 };

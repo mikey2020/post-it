@@ -44,12 +44,12 @@ export class Header extends React.Component {
 
     const userLinks = (
       <nav>
-          <div className="nav-wrapper red darken-3">
+          <div className="nav-wrapper red darken-1">
             <Link to="/home" className="logo">PostIT</Link>
             <ul className="right">
                <div>
-                <li><a className="flow-text waves-effect waves-light btn grey darken-3 links" ><Link to="/home">Home</Link></a></li>
-                <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-3 links">Logout</a></li>
+                <li className="flow-text waves-effect waves-light btn grey darken-4 links" ><Link to="/home">Home</Link></li>
+                <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-4 links">Logout</a></li>
               </div>
             </ul>
           </div>
@@ -59,12 +59,12 @@ export class Header extends React.Component {
 
     const guestLinks = (
        <nav>
-          <div className="nav-wrapper red darken-3">
+          <div className="nav-wrapper red darken-1">
             <Link to="/signup" className="logo">PostIT</Link>
             <ul className="right">
               <div>
-              <a className="flow-text waves-effect waves-light btn grey darken-3 modal-trigger links" href="#modal1">Sign In</a>
-              <a className="flow-text waves-effect waves-light btn grey darken-3 links"><Link to="/signup">Sign Up</Link></a>
+              <li> <a className="flow-text waves-effect waves-light btn grey darken-4 modal-trigger links" href="#modal1">Sign In</a></li>
+              <li className="flow-text waves-effect waves-light btn grey darken-4 links"><Link to="/signup">Sign Up</Link></li>
             </div>
             </ul>
           </div>

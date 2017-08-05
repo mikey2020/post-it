@@ -40,12 +40,13 @@ const getGroupMessages = (groupId) => {
 }
 
 const postMessage = (messageData, groupId) => {
+    console.log('ther is a group id', groupId);
     return (dispatch) => {
         return axios.post(`/api/group/${groupId}/message`, messageData)
               .then((res) => {
-                if (res.data.message.info) {
-                    dispatch(addMessage(res.data.message.messageData));
-                    dispatch(addFlashMessage(createMessage('success', res.data.message.info)));
+                if (res.data.data) {
+                    dispatch(addMessage(res.data.data));
+                    dispatch(addFlashMessage(createMessage('success', res.data.message)));
                 } else {
                     dispatch(addFlashMessage(createMessage('error', res.data.message)));
                 }
