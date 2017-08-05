@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
-import Validations from '../../../../server/middlewares/validations';
+import Validations from '../../../validations';
 
 import { postMessage, getGroupMessages } from '../../actions/messageActions';
 

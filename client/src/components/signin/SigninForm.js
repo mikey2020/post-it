@@ -6,7 +6,7 @@
 
  import { validateUser } from '../../actions/signinActions';
 
- import Validations from '../../../../server/middlewares/validations';
+ import Validations from '../../../validations';
 
  import { addFlashMessage } from '../../actions/flashMessageActions';
 

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { addUser } from '../../actions/signupActions';
 
-import Validations from '../../../../server/middlewares/validations.js';
+import Validations from '../../../validations';
 
 import { addFlashMessage } from '../../actions/flashMessageActions';
 
@@ -66,7 +66,7 @@ export class SignupForm extends React.Component {
       text: res.data.errors.message
     });
      }
-     this.context.router.push('/');
+     this.context.router.push('/home');
    },
  ({ data }) => this.setState({ errors: data })
    );

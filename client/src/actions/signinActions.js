@@ -4,43 +4,42 @@ import { SET_USER, UNSET_USER } from './types';
 
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
-const setUser = (user) => {
-  return {
-    type: SET_USER,
-    user
-  };
+const setUser = user => ({
+  type: SET_USER,
+  user
+});
+
+const unsetUser = () => ({
+  type: UNSET_USER
+});
+
+const signout = () => (dispatch) => {
+  dispatch(unsetUser());
+  dispatch(addFlashMessage(createMessage('success', 'signout successful')));
 };
 
-const unsetUser = () => {
-  return {
-    type: UNSET_USER
-  };
-};
+const validateToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['authorisation'];
+  }
+}
 
-const signout = () => {
-  return (dispatch) => {
-    dispatch(unsetUser());
-    dispatch(addFlashMessage(createMessage('success', 'signout successful')));
-  };
-};
-
-const validateUser = (userData) => {
-  return (dispatch) => {
-    return axios.post('/api/user/signin', userData)
+const validateUser = userData => dispatch => axios.post('/api/user/signin', userData)
            .then((res) => {
              if (res.data.user) {
-                dispatch(setUser(res.data.user));
-                dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
+               const token = res.data.user.userToken;
+               localStorage.setItem('jwtToken', token);
+               dispatch(setUser(res.data.user));
+               dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
              } else {
-              dispatch(setUser(res.data.errors));
-              dispatch(addFlashMessage(createMessage('success', res.data.errors.form)));
+               dispatch(setUser(res.data.errors));
+               dispatch(addFlashMessage(createMessage('success', res.data.errors.form)));
              }
-             
            })
-           .catch((error) => {
+           .catch(() => {
              dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
-  };
-};
 
 export { validateUser, signout };
