@@ -9,6 +9,7 @@ export default (state = [], action = {}) => {
         return Object.assign({}, {
           id: message.id,
           content: message.content,
+          priority: message.priority,
           groupId: message.groupId
         });
       });
@@ -20,6 +21,7 @@ export default (state = [], action = {}) => {
         {
           id: action.message.id,
           content: action.message.content,
+          priority: action.message.priority,
           groupId: action.message.groupId
         }
       ];

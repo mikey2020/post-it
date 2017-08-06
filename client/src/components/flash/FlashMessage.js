@@ -1,7 +1,5 @@
 import React from 'react';
 
-import classnames from 'classnames';
-
 import PropTypes from 'prop-types';
 
 export class FlashMessage extends React.Component {
@@ -19,14 +17,11 @@ export class FlashMessage extends React.Component {
 
     return (
 
-      <div className={classnames('alert', {
-        'alert-success': type === 'success',
-        'alert-danger': type === 'error'
-      })}
-      >
-        <button onClick={this.onClick} className="close"><span>&times;</span></button>
+       <div className="chip flashMessage">
         {text}
+        <i onClick={this.onClick} className="close material-icons">close</i>
       </div>
+        
     );
   }
 }

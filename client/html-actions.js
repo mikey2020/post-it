@@ -1,4 +1,8 @@
  $(document).ready(() => {
+   $('.user-btn').hide();
+    $('.add-user-btn').click(() => {
+      console.log("i was clicked sir");
+    });
     $('.priority').hide();
     $('#priority-level').css('background', 'blue');
     $('.modal').modal();
@@ -13,8 +17,4 @@
         $('#priority-level').css('color', 'red');
       }
     });
-    
-    $('.add-user-btn').click(() => {
-      $('.add-user-btn').hide();
-    })
  });

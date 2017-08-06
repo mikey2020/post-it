@@ -34,11 +34,13 @@ export class AddUserPage extends React.Component {
       isLoading: false,
       errors: {},
       invalid: false,
-      offset: ''
+      offset: '',
+      pageOfItems: []
     };
 
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
+    // this.changeToArray = this.changeToArray.bind(this);
   }
  /**
    * @param {object} e - argument
@@ -58,7 +60,7 @@ export class AddUserPage extends React.Component {
   searchUsers(e) {
     this.setState({ [e.target.name]: e.target.value });
     const value = e.target.value;
-    const offsetValue;
+    const offsetValue = 5;
     if (value !== '') {
       this.props.getUsers({ username: value, offset: offsetValue });
     }
@@ -74,12 +76,21 @@ export class AddUserPage extends React.Component {
     }
     return isValid;
   }
+
+  /*changeToArray(number){
+    let newArray = [];
+    for (let value = 0; value <= number; value + 1) {
+      newArray.push(value);
+    }
+    console.log(newArray);
+    return newArray;
+  }*/
   /**
    *
    * @returns {component} - renders a React component
    */
   render() {
-
+    // const myPages = this.changeToArray(this.props.users.length);
     const { errors, username, isLoading, invalid, results } = this.state;
 
     return (
@@ -100,7 +111,6 @@ export class AddUserPage extends React.Component {
             />
 
         </form>
-
         <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
       </div>
     );

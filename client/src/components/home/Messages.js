@@ -85,7 +85,7 @@ export class Messages extends React.Component {
 
   render() {
     const allMessages = this.props.messages.map(message =>
-      <Message key={message.id} content={message.content} />
+      <Message key={message.id} content={message.content} priority={message.priority} />
         );
 
     return (

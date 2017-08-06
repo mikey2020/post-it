@@ -26,7 +26,7 @@ export class AllUsers extends React.Component {
     return (
       <div>
 
-        <ul>{allResults}</ul>
+        <ul className="collection">{allResults}</ul>
 
       </div>
     );

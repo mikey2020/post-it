@@ -183,9 +183,10 @@ body {
     position: relative ;
     left: 10px;
     margin: 10px;
-    width: 90%;
+    width: 60%;
     height: 60px;
-    color: white
+    color: white;
+    padding: 20px;
 }
 
 .add-user-btn {
@@ -222,4 +223,8 @@ body {
 .my-pagination {
     position: relative;
     top: 30px;
+}
+
+.flashmessage{
+    color: black;
 }

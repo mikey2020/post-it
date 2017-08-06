@@ -18,7 +18,7 @@ export class Message extends React.Component {
             <div className="message-box">
             <li className="collection-item avatar">
               <p className="message"> {this.props.content}</p>
-              <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+              <a href="#!" className="secondary-content">{this.props.priority ? this.props.priority : <p /> }</a>
             </li>
             </div>
           </ul>
@@ -30,7 +30,8 @@ export class Message extends React.Component {
 }
 
 Message.propTypes = {
-  content: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired,
+  priority: PropTypes.string.isRequired
 };
 
 
