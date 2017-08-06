@@ -98,6 +98,9 @@
     "validator": "^7.0.0",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.11.0",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-hot-middleware": "^2.18.2",
+    "node-sass": "^4.5.3",
+    "redux-immutable-state-invariant": "^2.0.0",
+    "sass-loader": "^6.0.6"
   }
 }
