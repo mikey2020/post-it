@@ -47,4 +47,18 @@ const getMembersOfGroup = (groupId) => {
     }
 }
 
-export { getUsers };
+const checkUserExists = (username) => {
+     return axios.post('/api/user/checkUser', username);
+};
+
+const resetPassword = (userData) => {
+    return axios.post('/api/user/resetPassword', userData)
+            .then((res) => {
+              if (res.data.message) {
+                console.log('password has definitely changed');
+              }
+            });
+};
+
+
+export { getUsers, checkUserExists, resetPassword };

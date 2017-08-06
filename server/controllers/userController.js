@@ -85,11 +85,11 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  isUnique(req, res) {
+  static checkUserExists(req, res) {
     User.findOne({
 
       where: {
-        username: req.params.name
+        username: req.body.username
       }
 
     }).then((user) => {
@@ -144,12 +144,22 @@ class UserActions {
     })
      .then((user) => {
        let userData = JSON.stringify(user);
-       userData = JSON.parse(userData)
+       userData = JSON.parse(userData);
+       console.log('old password', userData);
+       user.password = req.body.password;
+
+       user.save().then((newUser) => {
+         console.log('new user', newUser);
+         console.log('passsword seems to be updated');
+         res.json({ message: 'password has been changed' });
+       });
+
      })
-     .catch(() => {
+     .catch((err) => {
+       console.log(err);
        res.status(400).json({ errors: { form: 'Invalid Username' } });
      });
-  }
+ }
 
 }
 

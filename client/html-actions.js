@@ -1,5 +1,9 @@
  $(document).ready(() => {
    $('.user-btn').hide();
+   // $('.new-password').hide();
+   $('.reset-password').click(() => {
+      //$('.new-password').show();
+   })
     $('.add-user-btn').click(() => {
       console.log("i was clicked sir");
     });

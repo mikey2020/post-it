@@ -52,7 +52,9 @@ app.use(webpackHotMiddleware(compiler));
 
 app.get('/api/users', user.allUsers);
 
-app.get('/api/user/:name', user.isUnique);
+app.post('/api/user/checkUser', UserActions.checkUserExists);
+
+app.post('/api/user/resetPassword', UserActions.resetPassword);
 
 app.post('/api/user/signup', UserActions.signup);
 

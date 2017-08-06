@@ -2,6 +2,8 @@
 
  import { connect } from 'react-redux';
 
+ import { Link } from 'react-router';
+
  import PropTypes from 'prop-types';
 
  import { validateUser } from '../../actions/signinActions';
@@ -73,7 +75,6 @@
    render() {
      return (
        <div id="modal1" className="modal signin-container">
-         <div className="">
          <div className="signin-form">
              <h3> Sign In </h3>
              {this.state.errors.form && <div className="alert alert-danger"> {this.state.errors.form} </div>}
@@ -101,11 +102,12 @@
                  type="submit"
                  name="signin"
                  value="Sign In"
-                 className="btn waves-effect waves-light red darken-1"
+                 className="btn waves-effect waves-light grey darken-4"
                />
              </form>
+             <br />
+             <span><Link to="/reset" > Forgot password? </Link></span>
            </div>
-         </div>
          </div>
      );
    }

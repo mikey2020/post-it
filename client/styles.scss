@@ -45,11 +45,10 @@ body {
 }
 
 .signin-form{
+    padding: 30px;
     input{
-        border: 10px solid #b71c1c ;
+        border: 10px solid #212121  ;
         border-radius: 4px;
-        width: 50%;
-        height: 50%;
     }
 }
 
@@ -61,9 +60,8 @@ body {
     padding: 20px 20px;
     position: relative;
     top: 70px;
-    border: 3px solid black;
     color: black;
-    background-color: white;
+    background-color: #5F5F5F;
     border-radius: 10px;
     height: 100%;
     input[type=submit]{
@@ -227,4 +225,8 @@ body {
 
 .flashmessage{
     color: black;
+}
+
+.reset-form{
+    padding: 30px;
 }
