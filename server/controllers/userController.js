@@ -46,7 +46,6 @@ class UserActions {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        console.log(userData);
         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
@@ -132,6 +131,25 @@ class UserActions {
     });
   }
 
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
+ static resetPassword(req, res) {
+    User.findOne({
+      where: {
+        username: req.body.username
+      }
+    })
+     .then((user) => {
+       let userData = JSON.stringify(user);
+       userData = JSON.parse(userData)
+     })
+     .catch(() => {
+       res.status(400).json({ errors: { form: 'Invalid Username' } });
+     });
+  }
 
 }
 
