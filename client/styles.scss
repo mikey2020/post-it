@@ -53,17 +53,15 @@ body {
 }
 
 .signin-container{
-    height: 100%;
     max-width: 90%;
     max-height: 100%;
     width: 70%;
     padding: 20px 20px;
-    position: relative;
     top: 70px;
     color: black;
     background-color: #5F5F5F;
     border-radius: 10px;
-    height: 100%;
+    height: 60%;
     input[type=submit]{
       text-align: left;
     }
@@ -229,4 +227,12 @@ body {
 
 .reset-form{
     padding: 30px;
+}
+
+.my-footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 100;
+    height: 8% !important;
 }
