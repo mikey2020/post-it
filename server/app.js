@@ -64,6 +64,8 @@ app.post('/api/usergroups', Validations.authenticate, GroupActions.getGroupsUser
 
 app.post('/api/user', user.getUsers);
 
+app.post('/api/user/:messageId/read', Validations.authenticate, Unique.checkMessageRead, GroupActions.readMessage);
+
 // group routes
 
 app.get('/api/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.getPosts);
@@ -81,6 +83,7 @@ app.post('/api/group/:groupId/message', Validations.authenticate, Validations.ch
 app.get('/api/group/:groupId/users', Validations.checkGroupExists, GroupActions.getGroupMembers);
 
 // app.get('/api/group/usergroups', validate.authenticate, group.getNumberOfGroups);
+app.post('/api/message/:messageId/readers', GroupActions.getUsersWhoReadMessage);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/client/index.html'));

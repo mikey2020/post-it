@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'groupId',
       onDelete: 'CASACADE'
     });
+
+    Message.belongsToMany(models.User, {
+      foreignKey: 'messageId',
+      through: 'ReadMessages'
+    });
   };
 
   return Message;

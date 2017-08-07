@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { ADD_GROUP_MESSAGES, ADD_MESSAGE } from '../actions/types';
+import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE } from '../actions/types';
 
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
@@ -19,6 +19,13 @@ const addMessage = (message) => {
         message
     }
    
+};
+
+const setUsersWhoReadMessage = (users) => {
+    return {
+        type: SET_USERS_WHO_READ_MESSAGE,
+        users
+    }
 }
 
 
@@ -54,5 +61,33 @@ const postMessage = (messageData, groupId) => {
     };
 };
 
+const readMessage = (messageId) => {
+    console.log('ther is a message id', messageId);
+        return axios.post(`/api/user/${messageId}/read`)
+              .then((res) => {
+                if (res.data.data) {
+                   console.log(res.data)
+                } else {
+                   console.log('somethin=g went errrk');
+                }
+              });
+};
 
-export { getGroupMessages, postMessage };
+const getUsersWhoReadMessage = (messageId) => {
+    console.log('ther is a message id', messageId);
+    return (dispatch) => {
+        return axios.post(`/api/message/${messageId}/readers`)
+              .then((res) => {
+                if (res.data.users) {
+                   console.log(res.data);
+                   dispatch(setUsersWhoReadMessage(res.data.users));
+                } else {
+                   console.log('somethin=g went errrk');
+                }
+              });
+
+    }
+}; 
+
+
+export { getGroupMessages, postMessage, readMessage };

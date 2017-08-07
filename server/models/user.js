@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       through: 'UserGroups',
     });
-    User.hasMany(models.Message, {
-      foreignKey: 'userId'
+    User.belongsToMany(models.Message, {
+      foreignKey: 'userId',
+      through: 'ReadMessages'
     });
   };
 
