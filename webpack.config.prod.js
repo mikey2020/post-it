@@ -2,11 +2,6 @@ import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: process.env.NODE_ENV === "development"
-});
-
 const GLOBALS = {
   'processs.env.NODE_ENV': JSON.stringify('production')
 };
@@ -22,7 +17,7 @@ export default {
 
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, '/client/index.js'),
+    path.join(__dirname, '/client/index.jsx'),
     path.join(__dirname, '/client/styles.scss')
   ],
 
@@ -45,7 +40,9 @@ export default {
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    extractSass
+    new ExtractTextPlugin('css/style.css', {
+      allChunks: true
+    })
   ],
 
   module: {
@@ -62,19 +59,10 @@ export default {
 
       { test: /\.jsx$/, loaders: ['babel-loader'], exclude: /node_modules/ },
 
-      
-        {
-            test: /\.scss$/,
-            use: extractSass.extract({
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }],
-                // use style-loader in development
-                fallback: "style-loader"
-            })
-        }
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css!sass')
+      }
 
     ]
   },
