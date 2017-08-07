@@ -51,7 +51,12 @@ export default {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('styles.css'),
-  ]
+  ],
+
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  }
 
 };
 

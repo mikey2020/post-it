@@ -2,10 +2,6 @@ import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-const GLOBALS = {
-  'processs.env.NODE_ENV': JSON.stringify('production')
-};
-
 export default {
   devtool: 'source-map',
 
@@ -49,16 +45,15 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-
         include: path.join(__dirname, 'client'),
-
         loaders: ['babel-loader'],
-
         exclude: /node_modules/
       },
 
-      { test: /\.jsx$/, loaders: ['babel-loader'], exclude: /node_modules/ },
-
+      {
+        test: /\.jsx$/,
+        loaders: ['babel-loader'],
+        exclude: /node_modules/ },
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css!sass')
@@ -66,5 +61,10 @@ export default {
 
     ]
   },
+
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  }
 
 };
