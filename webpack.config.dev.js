@@ -4,56 +4,54 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   devtool: 'eval-source-map',
-
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, '/client/index.js'),
+    path.join(__dirname, '/client/index.jsx'),
     path.join(__dirname, '/client/styles.scss')
   ],
-
   output: {
     path: path.join(__dirname, 'client/dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
-
   module: {
     loaders: [
       {
-        test: /\.js$/,
-
-        include: path.join(__dirname, 'client'),
-
-        loaders: ['react-hot-loader', 'babel-loader'],
-
-        exclude: /node_modules/
+        loader: 'babel-loader',
+        query: {
+          presets: ['react', 'es2015', 'stage-2']
+        },
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/
       },
-
-      { test: /\.jsx$/, loaders: ['react-hot-loader', 'babel-loader'], exclude: /node_modules/ },
-
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [{
-            loader: 'css-loader'
-          }, {
-            loader: 'sass-loader'
-          }]
-        })
+        loader: ExtractTextPlugin.extract('css!sass')
+      }, {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?root=.'
+      },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff'
+      }, {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff'
+      }, {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream'
+      }, {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file'
       }
     ]
-
   },
 
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin({ filename: 'styles.css' })
-  ],
-
-  node: {
-    net: 'empty',
-    dns: 'empty'
-  }
+    new ExtractTextPlugin('styles.css'),
+  ]
 
 };
+

@@ -20,7 +20,7 @@ export class AllUsers extends React.Component {
    */
   render() {
     const allResults = this.props.users.map(user =>
-        < User key={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
+        <User key={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
     );
 
     return (
@@ -34,10 +34,10 @@ export class AllUsers extends React.Component {
 }
 
 AllUsers.propTypes = {
-   users: PropTypes.array.isRequired,
-   addUserToGroup: PropTypes.func.isRequired,
-   groupId: PropTypes.number.isRequired
-}
+  users: PropTypes.array.isRequired,
+  addUserToGroup: PropTypes.func.isRequired,
+  groupId: PropTypes.number.isRequired
+};
 
 
 export default connect(null, { addUserToGroup })(AllUsers);

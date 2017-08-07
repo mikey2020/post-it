@@ -1,5 +1,4 @@
 import validator from 'validator';
-
 import isEmpty from 'lodash/isEmpty';
 
 /**
@@ -83,7 +82,6 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-
   /**
    * @param {object} data - signup object
    * @returns {object} - errors object if there is any
