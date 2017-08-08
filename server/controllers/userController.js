@@ -67,6 +67,7 @@ class UserActions {
       }
     })
      .then((user) => {
+       console.log(user);
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
        if (req.body.username && req.body.password &&
@@ -77,7 +78,8 @@ class UserActions {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
-     .catch(() => {
+     .catch((err) => {
+       console.log(err);
        res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
