@@ -84,7 +84,9 @@ class GroupActions {
     })
       .then((message) => {
         if (message !== null) {
-          res.json({ message: 'message posted to group', data: message });
+          message.addUser(req.decoded.data.id).then(() => {
+            res.json({ message: 'message posted to group', data: message });
+          });
         }
       })
       .catch(() => {
@@ -207,6 +209,54 @@ class GroupActions {
         userGroups = JSON.parse(userGroups);
         res.json({ usergroups: userGroups });
       });
+    });
+  }
+
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
+  static getUsersWhoReadMessage(req, res) {
+    models.Message.findOne({
+      where: {
+        id: req.params.messageId
+      }
+    }).then((message) => {
+      return message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
+        let messageReaders = JSON.stringify(users);
+        messageReaders = JSON.parse(messageReaders);
+        res.json({ users: messageReaders });
+      });
+    });
+  }
+
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
+  static readMessage(req, res) {
+    models.Message.findOne({
+      where: {
+        id: req.params.messageId
+      }
+    }).then((message) => {
+      if (req.decoded.data.id !== message.userId) {
+        message.addUser(req.decoded.data.id).then((user) => {
+          console.log(user);
+          res.json({ message: 'user read this mesage', data: message });
+        }).catch((err) => {
+          console.log(err);
+          res.json({ message: 'something went wrong registering read message' });
+        });
+      } else {
+        res.json({ message: 'user already read message' });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ message: 'something went wrong finding message' });
     });
   }
 

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import Validations from '../../../validations';
 
-import { postMessage, getGroupMessages } from '../../actions/messageActions';
+import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
 
 import Message from './Message';
 
@@ -31,9 +31,17 @@ export class Messages extends React.Component {
   componentDidMount() {
     const { group } = this.props;
     this.props.getGroupMessages(group.id);
+   
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.messages) { 
+      console.log(this.props.messages);
+      for (let message in this.props.messages) {
+         console.log('am working');
+         readMessage(this.props.messages[message].id);
+      }  
+    }
     if (this.props.messages.length !== prevProps.messages.length) {
       const { group } = this.props;
       this.props.getGroupMessages(group.id);
@@ -129,7 +137,8 @@ Messages.propTypes = {
   group: PropTypes.object.isRequired,
   postMessage: PropTypes.func.isRequired,
   getGroupMessages: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -139,4 +148,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { postMessage, getGroupMessages })(Messages);
+export default connect(mapStateToProps, { postMessage, getGroupMessages, readMessage })(Messages);

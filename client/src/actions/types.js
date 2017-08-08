@@ -9,3 +9,4 @@ export const ADD_GROUP = 'ADD_GROUP';
 export const ADD_CURRENT_GROUP = 'ADD_CURRENT_GROUP';
 export const SET_USERS = 'SET_USERS';
 export const SET_MEMBERS = 'SET_MEMBERS';
+export const SET_USERS_WHO_READ_MESSAGE = 'SET_USERS_WHO_READ_MESSAGE';
