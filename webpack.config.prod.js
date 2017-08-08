@@ -36,7 +36,7 @@ export default {
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('styles.css', { disable: false, allChunks: true })
+    new ExtractTextPlugin('styles.css', { allChunks: true })
   ],
 
   module: {
