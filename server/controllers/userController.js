@@ -49,8 +49,9 @@ class UserActions {
         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
-      .catch(() => {
-        res.status(400).json({ errors: { message: 'user already exists' } });
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ errors: { message: 'error something went wrong' } });
       });
     }
   }
