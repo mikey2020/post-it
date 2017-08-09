@@ -20,7 +20,8 @@ export class Messages extends React.Component {
     this.state = {
       message: '',
       errors: {},
-      priority: ''
+      priority: '',
+      creator: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -31,16 +32,9 @@ export class Messages extends React.Component {
   componentDidMount() {
     const { group } = this.props;
     this.props.getGroupMessages(group.id);
-   
   }
 
   componentDidUpdate(prevProps) {
-    /* if (this.props.messages) {
-      for (let message in this.props.messages) {
-         console.log('am working');
-         readMessage(this.props.messages[message].id);
-      }
-    } */
     if (this.props.messages.length !== prevProps.messages.length) {
       const { group } = this.props;
       this.props.getGroupMessages(group.id);
@@ -64,12 +58,12 @@ export class Messages extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
 
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false });
+      this.setState({ errors: {}, isLoading: false, creator: this.props.username });
+       console.log('mesage creator', this.state.creator);
     }
   }
 
   handlePriority(e) {
-    console.log('my state', this.state);
     e.preventDefault();
     if (e.target.value > 1 && e.target.value < 6) {
       this.setState({ priority: 'normal' });
@@ -92,7 +86,7 @@ export class Messages extends React.Component {
 
   render() {
     const allMessages = this.props.messages.map(message =>
-      <Message key={message.id} content={message.content} priority={message.priority} />
+      <Message key={message.id} content={message.content} priority={message.priority} creator={message.messageCreator} />
         );
 
     return (
@@ -108,13 +102,13 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-      
+
         <ul>{allMessages}</ul>
-  
+
         <div className="row">
           <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>
             <label className="flow-text priority-label">Priority level:</label>
-            <input className="priority-level black" id="priority-level" type="range" name="points" min="0" max="15" onChange={this.handlePriority}/>
+            <input className="priority-level black" id="priority-level" type="range" name="points" min="0" max="15" onChange={this.handlePriority} />
             <textarea id="textarea1" name="message" onChange={this.onChange} className="materialize-textarea" rows="5" value={this.state.message} />
             <br />
             <div className="col s5 m4 l3">

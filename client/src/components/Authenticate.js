@@ -25,7 +25,7 @@ export default (ComposedComponent) => {
    * @returns {component} - renders a React component
    */
     render() {
-      return  <ComposedComponent {...this.props} />
+      return <ComposedComponent {...this.props} />;
     }
 
    }

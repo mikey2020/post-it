@@ -27,7 +27,7 @@ const validateToken = (token) => {
   } else {
     delete axios.defaults.headers.common.authorization;
   }
-}
+};
 
 const validateUser = userData => dispatch => axios.post('/api/user/signin', userData)
            .then((res) => {

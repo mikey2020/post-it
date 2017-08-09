@@ -61,10 +61,10 @@ export class SignupForm extends React.Component {
          text: res.data.message
        });
      } else {
-    this.props.addFlashMessage({
-      type: 'error',
-      text: res.data.errors.message
-    });
+       this.props.addFlashMessage({
+         type: 'error',
+         text: res.data.errors.message
+       });
      }
      this.context.router.push('/home');
    },

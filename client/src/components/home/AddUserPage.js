@@ -77,14 +77,14 @@ export class AddUserPage extends React.Component {
     return isValid;
   }
 
-  /*changeToArray(number){
+  /* changeToArray(number){
     let newArray = [];
     for (let value = 0; value <= number; value + 1) {
       newArray.push(value);
     }
     console.log(newArray);
     return newArray;
-  }*/
+  } */
   /**
    *
    * @returns {component} - renders a React component
@@ -101,14 +101,14 @@ export class AddUserPage extends React.Component {
         {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
 
         <form className="input-field" onSubmit={this.onSubmit}>
-            <input
-              type="text" 
-              placeholder="Enter username"
-              name="username"
-              onChange={this.searchUsers}
-              className=""
-              value={username}
-            />
+          <input
+            type="text"
+            placeholder="Enter username"
+            name="username"
+            onChange={this.searchUsers}
+            className=""
+            value={username}
+          />
 
         </form>
         <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
@@ -124,11 +124,9 @@ AddUserPage.propTypes = {
   users: PropTypes.array.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.users,
-    groupId: state.currentGroup.id
-  };
-};
+const mapStateToProps = state => ({
+  users: state.users,
+  groupId: state.currentGroup.id
+});
 
 export default connect(mapStateToProps, { addUserToGroup, getUsers })(AddUserPage);

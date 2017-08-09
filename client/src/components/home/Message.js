@@ -2,8 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
-
 
 export class Message extends React.Component {
 
@@ -18,10 +16,11 @@ export class Message extends React.Component {
         <div className="col s12 m12 l12">
           <ul className="collection">
             <div className="message-box">
-            <li className="collection-item avatar">
-              <p className="message"> {this.props.content}</p>
-              <a href="#!" className="collection-item"><span className="badge">{this.props.priority ? this.props.priority : <p /> }</span></a>
-            </li>
+              <li className="collection-item avatar">
+                <p className="message"> {this.props.content}</p>
+                {this.props.creator ? <span className="chip"> this.props.creator </span> : <br />}
+                <a href="#!" className="collection-item"><span className="badge">{this.props.priority ? this.props.priority : <p /> }</span></a>
+              </li>
             </div>
           </ul>
         </div>
@@ -33,7 +32,8 @@ export class Message extends React.Component {
 
 Message.propTypes = {
   content: PropTypes.string.isRequired,
-  priority: PropTypes.string.isRequired
+  priority: PropTypes.string.isRequired,
+  creator: PropTypes.string.isRequired
 };
 
 

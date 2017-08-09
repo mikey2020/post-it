@@ -46,10 +46,11 @@ class UserActions {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
-        res.json({ message: `${req.body.username} successfully added`, userToken: token });
+        // const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        res.json({ message: `${req.body.username} successfully added` });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.status(400).json({ errors: { message: 'error something went wrong' } });
       });
     }

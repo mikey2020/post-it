@@ -76,39 +76,39 @@
      return (
        <div id="modal1" className="modal signin-container">
          <div className="signin-form">
-             <h3> Sign In </h3>
-             {this.state.errors.form && <div className="alert alert-danger"> {this.state.errors.form} </div>}
-             <form onSubmit={this.onSubmit}>
-               {this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br />}
-               <input
-                 type="text"
-                 value={this.state.username}
-                 onChange={this.onChange}
-                 placeholder="username"
-                 name="username"
-                 className=""
-               />
+           <h3> Sign In </h3>
+           {this.state.errors.form && <div className="alert alert-danger"> {this.state.errors.form} </div>}
+           <form onSubmit={this.onSubmit}>
+             {this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br />}
+             <input
+               type="text"
+               value={this.state.username}
+               onChange={this.onChange}
+               placeholder="username"
+               name="username"
+               className=""
+             />
 
-               {this.state.errors.password ? <span className="help-block">{this.state.errors.password}</span> : <br />}
-               <input
-                 type="password"
-                 value={this.state.password}
-                 onChange={this.onChange}
-                 placeholder="password"
-                 name="password"
-                 className=""
-               />
-               <input
-                 type="submit"
-                 name="signin"
-                 value="Sign In"
-                 className="btn waves-effect waves-light grey darken-4"
-               />
-             </form>
-             <br />
-             <span><Link to="/reset" > Forgot password? </Link></span>
-           </div>
+             {this.state.errors.password ? <span className="help-block">{this.state.errors.password}</span> : <br />}
+             <input
+               type="password"
+               value={this.state.password}
+               onChange={this.onChange}
+               placeholder="password"
+               name="password"
+               className=""
+             />
+             <input
+               type="submit"
+               name="signin"
+               value="Sign In"
+               className="btn waves-effect waves-light grey darken-4"
+             />
+           </form>
+           <br />
+           <span><Link to="/reset" > Forgot password? </Link></span>
          </div>
+       </div>
      );
    }
  }

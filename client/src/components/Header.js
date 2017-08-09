@@ -44,36 +44,36 @@ export class Header extends React.Component {
 
     const userLinks = (
       <nav>
-          <div className="nav-wrapper blue-grey darken-3">
-            <Link to="/home" className="logo">PostIT</Link>
-            <ul className="right">
-               <div>
-                <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/home">Home</Link></li>
-                <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-4 links">Logout</a></li>
-              </div>
-            </ul>
-          </div>
-        </nav>
+        <div className="nav-wrapper blue-grey darken-3">
+          <Link to="/home" className="logo">PostIT</Link>
+          <ul className="right">
+            <div>
+              <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/home">Home</Link></li>
+              <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-4 links">Logout</a></li>
+            </div>
+          </ul>
+        </div>
+      </nav>
     );
 
 
     const guestLinks = (
-       <nav>
-          <div className="nav-wrapper blue-grey darken-3">
-            <Link to="/signup" className="logo">PostIT</Link>
-            <ul className="right">
-              <div>
+      <nav>
+        <div className="nav-wrapper blue-grey darken-3">
+          <Link to="/signup" className="logo">PostIT</Link>
+          <ul className="right">
+            <div>
               <li> <a className="flow-text waves-effect waves-light btn grey darken-4 modal-trigger links" href="#modal1">Sign In</a></li>
               <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/signup">Sign Up</Link></li>
             </div>
-            </ul>
-          </div>
-        </nav>
-      
-   );  
+          </ul>
+        </div>
+      </nav>
+
+   );
 
     return (
-      <div className="row">   
+      <div className="row">
         {isAuthenticated ? userLinks : guestLinks}
         <SigninForm />
       </div>
@@ -90,10 +90,8 @@ Header.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user
+});
 
 export default connect(mapStateToProps, { signout })(Header);

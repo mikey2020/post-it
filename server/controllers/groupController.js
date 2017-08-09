@@ -90,7 +90,8 @@ class GroupActions {
           });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -163,12 +164,14 @@ class GroupActions {
    * @returns {object} - if there is no error, it returns array of users in a group
    */
   static getGroupMembers(req, res) {
-    UserGroups.findAll({
+    Group.findOne({
       where: {
-        groupId: req.params.groupId
+        id: req.params.groupId
       }
-    }).then((groups) => {
-      res.json({ data: groups });
+    }).then((group) => {
+      group.getUsers().then((users) => {
+        res.json({ groupMembers: users });
+      });
     });
   }
 /**

@@ -4,61 +4,42 @@ import { SET_USERS, SET_MEMBERS } from './types';
 
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
-const setUsers = (users) => {
-    return {
-        type: SET_USERS,
-        users
-    }
+const setUsers = users => ({
+  type: SET_USERS,
+  users
+});
 
-}
+const setMembers = users => ({
+  type: SET_MEMBERS,
+  users
+});
 
-const setMembers = (users) => {
-    return {
-        type: SET_MEMBERS,
-        users
-    }
-
-}
-
-const getUsers = (username) => {
-    return (dispatch) => {
-        return axios.post('/api/user', username)
+const getUsers = username => dispatch => axios.post('/api/user', username)
             .then((res) => {
-                if (res.data.users) {
-                    dispatch(setUsers(res.data.users.data));
-                    // dispatch(addFlashMessage(createMessage('success','user gotten')));
-                } else {
-                    dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
-                }
+              if (res.data.users) {
+                dispatch(setUsers(res.data.users.data));
+              } else {
+                dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
+              }
             });
-    };
-};
 
-const getMembersOfGroup = (groupId) => {
-    return (dispatch) => {
-        return axios.get(`/api/group/${groupId}/users`)
+const getMembersOfGroup = groupId => dispatch => axios.get(`/api/group/${groupId}/users`)
                .then((res) => {
-                if (res.data.data) {
-                    console.log('am getting members', res.data.data);
-                    dispatch(setMembers(res.data.data));
+                 if (res.data.data) {
+                   console.log('am getting members', res.data.data);
+                   dispatch(setMembers(res.data.data));
                    //  dispatch(addFlashMessage(createMessage('success', 'members gotten')));
-                }
-            });
-    }
-}
+                 }
+               });
 
-const checkUserExists = (username) => {
-     return axios.post('/api/user/checkUser', username);
-};
+const checkUserExists = username => axios.post('/api/user/checkUser', username);
 
-const resetPassword = (userData) => {
-    return axios.post('/api/user/resetPassword', userData)
+const resetPassword = userData => axios.post('/api/user/resetPassword', userData)
             .then((res) => {
               if (res.data.message) {
                 // console.log('password has definitely changed');
               }
             });
-};
 
 
 export { getUsers, checkUserExists, resetPassword };

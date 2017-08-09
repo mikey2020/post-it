@@ -28,14 +28,13 @@ describe('User Actions', () => {
       .post('/api/user', mockData)
       .reply(200, { body: { users: { data: resData } } });
 
+    const store = mockStore({ state: [] });
     const expectedActions = [
       { type: types.ADD_FLASH_MESSAGE, message: { text: 'user gotten', type: 'success' } }
     ];
-
-    const store = mockStore({ state: [] });
-
-    return store.dispatch(actions.getUsers()).then(() => {
+    store.dispatch(actions.getUsers()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });
+

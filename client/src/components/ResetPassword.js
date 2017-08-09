@@ -48,24 +48,23 @@ export class ResetPassword extends React.Component {
     resetPassword(this.state);
   }
 
-  onBlur(e){
-      const field = e.target.name;
+  onBlur(e) {
+    const field = e.target.name;
 	  const value = e.target.value;
-		if(value !== ''){
-			checkUserExists({ username: value }).then(res => {
-				let errors = this.state.errors;
-				let invalid;
-				if(res.data.user){
-                    console.log('you are a valid user')
-					invalid = false;
-				}
-				else{
-					errors[field] = 'Unknown user';
-					invalid = true;
-				}
-				this.setState({ errors, invalid });
-			});
-		}
+    if (value !== '') {
+      checkUserExists({ username: value }).then((res) => {
+        const errors = this.state.errors;
+        let invalid;
+        if (res.data.user) {
+          console.log('you are a valid user');
+          invalid = false;
+        }				else {
+          errors[field] = 'Unknown user';
+          invalid = true;
+        }
+        this.setState({ errors, invalid });
+      });
+    }
   }
 
   render() {
