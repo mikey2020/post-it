@@ -26,7 +26,8 @@
     "build:html": "babel-node client/buildHtml.js",
     "prebuild": "npm-run-all clean-build build:html",
     "build": "babel-node client/build.js",
-    "postbuild": "babel-node client/buildServer.js"
+    "postbuild": "babel-node client/buildServer.js",
+    "dist-build": "babel server -d dist --presets es2015,stage-2"
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,7 @@
     "nock": "^9.0.14",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
-    "react-addons-test-utils": "^15.6.0",
+    "react-addons-test-utils": "^15.0.0",
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-mock-store": "^1.2.3"
   },

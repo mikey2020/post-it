@@ -8,13 +8,13 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _dotenv2.default.config();
-
-console.log(process.env.DATABASE_URL);
-
-var fs = require('fs');
 
 var Sequelize = require('sequelize');
 
@@ -33,7 +33,7 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs.readdirSync(__dirname).filter(function (file) {
+_fs2.default.readdirSync(__dirname).filter(function (file) {
   return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
 }).forEach(function (file) {
   var model = sequelize.import(_path2.default.join(__dirname, file));

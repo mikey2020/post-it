@@ -10,6 +10,10 @@ var _validator = require('validator');
 
 var _validator2 = _interopRequireDefault(_validator);
 
+var _isEmpty = require('lodash/isEmpty');
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
+
 var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
@@ -17,10 +21,6 @@ var _dotenv2 = _interopRequireDefault(_dotenv);
 var _jsonwebtoken = require('jsonwebtoken');
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-
-var _isEmpty = require('lodash/isEmpty');
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 var _models = require('../models');
 
@@ -95,9 +95,7 @@ var Validations = function () {
     }
 
     /**
-     * @param {object} req - request object
-     * @param {object} res - response object
-     * @param {object} next - returns data to the next middleware
+     * @param {object} data - signup object
      * @returns {object} - errors object if there is any
      */
 
@@ -109,9 +107,11 @@ var Validations = function () {
           id: req.body.userId
         }
       }).then(function (validUser) {
+        console.log(validUser);
         if (validUser === null) {
           return res.status(400).json({ errors: { message: 'user does not exist' } });
         }
+        req.validUserId = validUser.id;
         next();
       });
     }
@@ -131,7 +131,6 @@ var Validations = function () {
       if (authorizationHeader) {
         token = authorizationHeader;
       }
-      // const token = req.body.token || req.query.token || req.headers['x-access-token'];
       if (token) {
         _jsonwebtoken2.default.verify(token, process.env.JWT_SECRET, function (err, decoded) {
           if (err) {
@@ -147,7 +146,6 @@ var Validations = function () {
         });
       }
     }
-
     /**
      * @param {object} req - signup object
      * @param {object} res - errors object if there is any
@@ -173,10 +171,10 @@ var Validations = function () {
     }
 
     /**
-     * @param {object} req - request object
-     * @param {object} res - response object
-     * @param {object} next - returns data to the next middleware
-     * @returns {object} - errors object if there is any
+     * @param {Object} req - request object
+     * @param {Object} res - response object
+     * @param {Object} next - response object
+     * @returns {void}
      */
 
   }, {

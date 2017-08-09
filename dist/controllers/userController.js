@@ -61,33 +61,14 @@ var UserActions = function () {
 
 
   _createClass(UserActions, [{
-    key: 'isUnique',
-
-    /**
-     * @param {object} req - request object sent to a route
-     * @param {object} res -  response object from the route
-     * @returns {object} - if there is no error, it sends (username) created successfully
-     */
-    value: function isUnique(req, res) {
-      User.findOne({
-
-        where: {
-          userName: req.params.name
-        }
-
-      }).then(function (user) {
-        res.json({ user: user });
-      });
-    }
-
-    /**
-     * @param {object} req - request object sent to a route
-     * @param {object} res -  response object from the route
-     * @returns {object} - if there is no error, it sends (username) created successfully
-     */
-
-  }, {
     key: 'allUsers',
+
+
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it sends (username) created successfully
+     */
     value: function allUsers(req, res) {
       var _this = this;
 
@@ -98,6 +79,13 @@ var UserActions = function () {
         res.json({ errors: { err: err } });
       });
     }
+
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it sends (username) created successfully
+     */
+
   }], [{
     key: 'signup',
     value: function signup(req, res) {
@@ -118,7 +106,7 @@ var UserActions = function () {
           var token = _jsonwebtoken2.default.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
           res.json({ message: req.body.username + ' successfully added', userToken: token });
         }).catch(function () {
-          res.status(400).json({ errors: { message: 'user already exists' } });
+          res.status(400).json({ errors: { message: 'error something went wrong' } });
         });
       }
     }
@@ -131,23 +119,84 @@ var UserActions = function () {
   }, {
     key: 'signin',
     value: function signin(req, res) {
-      User.findAll({
+      User.findOne({
         where: {
           username: req.body.username
         }
       }).then(function (user) {
         var userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        console.log(userData);
-        if (req.body.username && req.body.password && _bcryptNodejs2.default.compareSync(req.body.password, userData[0].password) === true) {
-          req.session.name = req.body.username;
-          req.session.userId = userData[0].id;
-          res.json({ user: { name: req.body.username, message: req.body.username + ' signed in' } });
+        if (req.body.username && req.body.password && _bcryptNodejs2.default.compareSync(req.body.password, userData.password) === true) {
+          var token = _jsonwebtoken2.default.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+          res.json({ user: { name: req.body.username, message: req.body.username + ' signed in', userToken: token } });
         } else {
           res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
         }
       }).catch(function () {
         res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
+      });
+    }
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it sends (username) created successfully
+     */
+
+  }, {
+    key: 'checkUserExists',
+    value: function checkUserExists(req, res) {
+      User.findOne({
+
+        where: {
+          username: req.body.username
+        }
+
+      }).then(function (user) {
+        res.json({ user: user });
+      });
+    }
+  }, {
+    key: 'getUsers',
+    value: function getUsers(req, res) {
+      User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        where: {
+          username: {
+            $iLike: '%' + req.body.username + '%'
+          }
+        } }, { offset: req.body.offset, limit: 5 }).then(function (data) {
+        res.json({ users: { data: data } });
+      }).catch(function () {
+        res.json({ errors: { message: 'something went wrong' } });
+      });
+    }
+
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it sends (username) created successfully
+     */
+
+  }, {
+    key: 'resetPassword',
+    value: function resetPassword(req, res) {
+      User.findOne({
+        where: {
+          username: req.body.username
+        }
+      }).then(function (user) {
+        var userData = JSON.stringify(user);
+        userData = JSON.parse(userData);
+        console.log('old password', userData);
+        user.password = req.body.password;
+
+        user.save().then(function (newUser) {
+          console.log('new user', newUser);
+          console.log('passsword seems to be updated');
+          res.json({ message: 'password has been changed' });
+        });
+      }).catch(function (err) {
+        console.log(err);
+        res.status(400).json({ errors: { form: 'Invalid Username' } });
       });
     }
   }]);

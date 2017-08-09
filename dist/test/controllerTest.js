@@ -64,7 +64,6 @@ describe('All routes', function () {
     it('should return "user added to group" ', function (done) {
       _models2.default.User.create({ username: 'bat', email: 'batman@email.com', password: 'pass', passwordConfirmation: 'pass' }).then(function (newUser) {
         user.post('/api/group/1/user').set('authorization', token).send({ userId: newUser.id }).end(function (err, res) {
-          console.log(res.body);
           res.status.should.equal(200);
           _should2.default.not.exist(err);
           res.body.should.have.property('message', res.body.message);
@@ -75,8 +74,7 @@ describe('All routes', function () {
     });
 
     it('should return "message posted to group" ', function (done) {
-      user.post('/api/group/' + groupId + '/message').set('authorization', token).send({ message: 'This functions is working well' }).end(function (err, res) {
-        console.log(res.body);
+      user.post('/api/group/' + groupId + '/message').set('authorization', token).send({ message: 'This functions is working well', priority: 'normal', creator: 'johnny' }).end(function (err, res) {
         res.status.should.equal(200);
         _should2.default.not.exist(err);
         res.body.should.have.property('message', res.body.message);
@@ -85,9 +83,8 @@ describe('All routes', function () {
       });
     });
 
-    it('should return all messages posted to group ', function (done) {
+    it('should return all messages posted to a particular group ', function (done) {
       user.get('/api/group/' + groupId + '/messages').set('authorization', token).end(function (err, res) {
-        console.log(res.body);
         res.status.should.equal(200);
         _should2.default.not.exist(err);
         done();

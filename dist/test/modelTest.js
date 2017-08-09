@@ -1,43 +1,40 @@
-/* import should from 'should';
+'use strict';
 
-import { User, Group, Post } from '../models/models';
+var _should = require('should');
 
-import '../app';
+var _should2 = _interopRequireDefault(_should);
 
+var _models = require('../models');
 
-describe('User Model Unit Tests:', () => {
-  it('User should be created successfully', (done) => {
-    User.sync({ force: true }).then(() => {
-      User.create({ userName: 'user', password: 'pass', email: 'user@email.com' })
-      .then((user) => {
-        should.exist(user);
-      });
+var _models2 = _interopRequireDefault(_models);
+
+require('../app');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+describe('User Model:', function () {
+  it('should be created successfully', function (done) {
+    _models2.default.User.create({ username: 'user', password: 'pass', email: 'user@email.com' }).then(function (user) {
+      _should2.default.exist(user);
+    });
+    done();
+  });
+});
+
+describe('Group Model:', function () {
+  it('should be created successfully', function (done) {
+    _models2.default.Group.create({ groupname: 'group', groupCreator: 'user', userId: 1 }).then(function (group) {
+      _should2.default.exist(group);
       done();
     });
   });
 });
 
-describe('Group Model Unit Tests:', () => {
-  it('Group should be created successfully', (done) => {
-    Group.create({ name: 'test-group', creator: 'user', userId: '1' })
-    .then((group) => {
-      should.exist(group);
+describe('Message Model:', function () {
+  it('should be created successfully', function (done) {
+    _models2.default.Message.create({ content: 'test-post', groupId: 1, userId: 1, priority: 'normal', messageCreator: 'johnny' }).then(function (post) {
+      _should2.default.exist(post);
       done();
     });
   });
 });
-
-describe('Post Model Unit Tests:', () => {
-  it('Post should be created successfully', (done) => {
-    Post.sync({ force: true }).then(() => {
-      Post.create({ post: 'test-post', groupId: 1, groupName: 'test-group' })
-    .then((post) => {
-      should.exist(post);
-      done();
-    });
-    });
-  });
-});
-
-*/
-"use strict";

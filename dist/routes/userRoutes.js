@@ -10,25 +10,16 @@ var _userController2 = _interopRequireDefault(_userController);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// userRoutes.
-// const app = express();
+var userRoutes = function userRoutes(app) {
+  app.post('/api/user/checkUser', _userController2.default.checkUserExists);
 
-var user = new _userController2.default(); // import express from 'express';
+  app.post('/api/user/resetPassword', _userController2.default.resetPassword);
 
-exports.default = function (app) {
-  app.post('/signin', _userController2.default.signin);
+  app.post('/api/user/signup', _userController2.default.signup);
 
-  app.get('/:name', user.isUnique);
+  app.post('/api/user/signin', _userController2.default.signin);
 
-  app.post('/signup', _userController2.default.signup);
+  app.post('/api/user', _userController2.default.getUsers);
 };
 
-// user route
-
-/* app.get('/api/users', user.allUsers);
-
-app.get('/api/user/:name', user.isUnique);
-
-app.post('/api/user/signup', user.signup);
-
-app.post('/api/user/signin', user.signin); */
+exports.default = userRoutes;

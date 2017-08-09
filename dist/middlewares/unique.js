@@ -18,12 +18,39 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @class
  */
 var Unique = function () {
+
+  /**
+   * @constructor
+   */
   function Unique() {
     _classCallCheck(this, Unique);
+
+    Unique.isAuthenticated = false;
   }
 
-  _createClass(Unique, [{
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @param {object} next - response object that sends data to the next middleware
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
+
+
+  _createClass(Unique, null, [{
     key: 'userGroups',
+    value: function userGroups(req, res, next) {
+      _models2.default.UserGroups.findOne({
+        where: {
+          userId: req.validUserId,
+          groupId: req.params.groupId
+        }
+      }).then(function (user) {
+        if (user) {
+          return res.status(400).json({ errors: { message: 'user already added to group' } });
+        }
+        next();
+      });
+    }
 
     /**
      * @param {object} req - request object sent to a route
@@ -31,15 +58,18 @@ var Unique = function () {
      * @param {object} next - response object that sends data to the next middleware
      * @returns {object} - if there is no error, it returns array of users in a group
      */
-    value: function userGroups(req, res, next) {
-      _models2.default.UserGroups.findOne({
+
+  }, {
+    key: 'checkMessageRead',
+    value: function checkMessageRead(req, res, next) {
+      _models2.default.ReadMessages.findOne({
         where: {
-          userId: req.body.userId,
-          groupId: req.params.groupId
+          messageId: req.params.messageId,
+          userId: req.decoded.data.id
         }
-      }).then(function (user) {
-        if (user) {
-          return res.status(400).json({ errors: { message: 'user already added to group' } });
+      }).then(function (readMessage) {
+        if (readMessage) {
+          return res.status(400).json({ errors: { message: 'user has already read this message' } });
         }
         next();
       });

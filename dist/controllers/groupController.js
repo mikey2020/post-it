@@ -21,7 +21,7 @@ var UserGroups = _models2.default.UserGroups;
 var Message = _models2.default.Message;
 
 /**
- *  All group actions
+ * All group actions
  * @class
  */
 
@@ -108,33 +108,6 @@ var GroupActions = function () {
     }
 
     /**
-     * @param {object} req - request object sent to a route
-     * @param {object} res -  response object from the route
-     * @returns {object} - if there is no error, it returns number of groups a user is part of
-     */
-
-  }, {
-    key: 'getNumberOfGroups',
-    value: function getNumberOfGroups(req, res) {
-      var _this3 = this;
-
-      UserGroups.findAll({
-        attributes: ['groupId'],
-
-        where: {
-          username: req.params.username
-        }
-
-      }).then(function (results) {
-        var data = JSON.stringify(results);
-        data = JSON.parse(data);
-        res.json(data);
-      }).catch(function (err) {
-        _this3.error = err;
-        _this3.sendError(res);
-      });
-    }
-    /**
     * @param {object} req - request object sent to a route
     * @param {object} res -  response object from the route
     * @returns {object} - if there is no error, it returns array of users in a group
@@ -169,7 +142,7 @@ var GroupActions = function () {
           id: req.params.groupId
         }
       }).then(function (group) {
-        return group.addUser(req.body.userId).then(function () {
+        return group.addUser(req.validUserId).then(function () {
           res.json({ message: 'user added successfully' });
         });
       }).catch(function () {
@@ -189,9 +162,15 @@ var GroupActions = function () {
       Message.create({
         content: req.body.message,
         groupId: req.params.groupId,
-        userId: req.decoded.data.id
-      }).then(function () {
-        res.json({ message: 'message posted to group' });
+        userId: req.decoded.data.id,
+        priority: req.body.priority,
+        messageCreator: req.body.creator
+      }).then(function (message) {
+        if (message !== null) {
+          message.addUser(req.decoded.data.id).then(function () {
+            res.json({ message: 'message posted to group', data: message });
+          });
+        }
       }).catch(function () {
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
@@ -226,6 +205,80 @@ var GroupActions = function () {
         }
       }).then(function (groups) {
         res.json({ data: groups });
+      });
+    }
+    /**
+       * @param {object} req - request object sent to a route
+       * @param {object} res -  response object from the route
+       * @returns {object} - if there is no error, it returns array of users in a group
+       */
+
+  }, {
+    key: 'getGroupsUserIsMember',
+    value: function getGroupsUserIsMember(req, res) {
+      _models2.default.User.findOne({
+        where: {
+          id: req.decoded.data.id
+        }
+      }).then(function (user) {
+        return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then(function (groups) {
+          var userGroups = JSON.stringify(groups);
+          userGroups = JSON.parse(userGroups);
+          res.json({ usergroups: userGroups });
+        });
+      });
+    }
+
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it returns array of users in a group
+     */
+
+  }, {
+    key: 'getUsersWhoReadMessage',
+    value: function getUsersWhoReadMessage(req, res) {
+      _models2.default.Message.findOne({
+        where: {
+          id: req.params.messageId
+        }
+      }).then(function (message) {
+        return message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then(function (users) {
+          var messageReaders = JSON.stringify(users);
+          messageReaders = JSON.parse(messageReaders);
+          res.json({ users: messageReaders });
+        });
+      });
+    }
+
+    /**
+     * @param {object} req - request object sent to a route
+     * @param {object} res -  response object from the route
+     * @returns {object} - if there is no error, it returns array of users in a group
+     */
+
+  }, {
+    key: 'readMessage',
+    value: function readMessage(req, res) {
+      _models2.default.Message.findOne({
+        where: {
+          id: req.params.messageId
+        }
+      }).then(function (message) {
+        if (req.decoded.data.id !== message.userId) {
+          message.addUser(req.decoded.data.id).then(function (user) {
+            console.log(user);
+            res.json({ message: 'user read this mesage', data: message });
+          }).catch(function (err) {
+            console.log(err);
+            res.json({ message: 'something went wrong registering read message' });
+          });
+        } else {
+          res.json({ message: 'user already read message' });
+        }
+      }).catch(function (err) {
+        console.log(err);
+        res.json({ message: 'something went wrong finding message' });
       });
     }
   }]);

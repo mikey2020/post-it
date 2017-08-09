@@ -15,7 +15,11 @@ module.exports = {
       },
       priority: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
+      },
+      messageCreator: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       groupId: {
         type: Sequelize.INTEGER

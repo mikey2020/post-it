@@ -8,7 +8,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     priority: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
+    },
+    messageCreator: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
@@ -17,6 +21,11 @@ module.exports = function (sequelize, DataTypes) {
     Message.belongsTo(models.Group, {
       foreignKey: 'groupId',
       onDelete: 'CASACADE'
+    });
+
+    Message.belongsToMany(models.User, {
+      foreignKey: 'messageId',
+      through: 'ReadMessages'
     });
   };
 

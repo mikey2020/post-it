@@ -24,14 +24,19 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: 'userId',
       through: 'UserGroups'
     });
-    User.hasMany(models.Message, {
-      foreignKey: 'userId'
+    User.belongsToMany(models.Message, {
+      foreignKey: 'userId',
+      through: 'ReadMessages'
     });
   };
 
   User.beforeCreate(function (user) {
     user.password = _bcryptNodejs2.default.hashSync(user.password);
   });
+
+  /* User.beforeSave((user) => {
+    user.password = bcrypt.hashSync(user.password);
+  }); */
 
   return User;
 };
