@@ -1,27 +1,15 @@
-// import express from 'express';
-
 import UserActions from '../controllers/userController';
 
-// userRoutes.
-// const app = express();
+const userRoutes = (app) => {
+  app.post('/api/user/checkUser', UserActions.checkUserExists);
 
-const user = new UserActions();
+  app.post('/api/user/resetPassword', UserActions.resetPassword);
 
-export default (app) => {
-  app.post('/signin', UserActions.signin);
+  app.post('/api/user/signup', UserActions.signup);
 
-  app.get('/:name', user.isUnique);
+  app.post('/api/user/signin', UserActions.signin);
 
-  app.post('/signup', UserActions.signup);
+  app.post('/api/user', UserActions.getUsers);
 };
 
-
-// user route
-
-/* app.get('/api/users', user.allUsers);
-
-app.get('/api/user/:name', user.isUnique);
-
-app.post('/api/user/signup', user.signup);
-
-app.post('/api/user/signin', user.signin); */
+export default userRoutes;

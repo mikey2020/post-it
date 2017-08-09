@@ -49,8 +49,7 @@ class UserActions {
         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(400).json({ errors: { message: 'error something went wrong' } });
       });
     }
@@ -67,7 +66,6 @@ class UserActions {
       }
     })
      .then((user) => {
-       console.log(user);
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
        if (req.body.username && req.body.password &&
@@ -78,8 +76,7 @@ class UserActions {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
-     .catch((err) => {
-       console.log(err);
+     .catch(() => {
        res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
      });
   }
@@ -119,19 +116,19 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  getUsers(req, res) {
+  static getUsers(req, res) {
     User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       where: {
         username: {
-          $iLike: '%' + req.body.username + '%'
+          $iLike: `%${req.body.username}%`
         }
       } },
      { offset: req.body.offset, limit: 5 }
      ).then((data) => {
-      res.json({ users: { data } });
-    }).catch(() => {
-      res.json({ errors: { message: 'something went wrong' } });
-    });
+       res.json({ users: { data } });
+     }).catch(() => {
+       res.json({ errors: { message: 'something went wrong' } });
+     });
   }
 
   /**
@@ -139,7 +136,7 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
- static resetPassword(req, res) {
+  static resetPassword(req, res) {
     User.findOne({
       where: {
         username: req.body.username
@@ -156,13 +153,12 @@ class UserActions {
          console.log('passsword seems to be updated');
          res.json({ message: 'password has been changed' });
        });
-
      })
      .catch((err) => {
        console.log(err);
        res.status(400).json({ errors: { form: 'Invalid Username' } });
      });
- }
+  }
 
 }
 

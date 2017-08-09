@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    messageCreator: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     groupId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   });

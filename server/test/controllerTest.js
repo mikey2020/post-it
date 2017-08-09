@@ -71,8 +71,8 @@ describe('All routes', () => {
     it('should return "message posted to group" ', (done) => {
       user.post(`/api/group/${groupId}/message`)
         .set('authorization', token)
-        .send({ message: 'This functions is working well' })
-        .end((err, res) => {   
+        .send({ message: 'This functions is working well', priority: 'normal', creator: 'johnny' })
+        .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
@@ -85,7 +85,6 @@ describe('All routes', () => {
       user.get(`/api/group/${groupId}/messages`)
         .set('authorization', token)
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(200);
           should.not.exist(err);
           done();

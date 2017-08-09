@@ -10,6 +10,8 @@ import AddUserPage from './home/AddUserPage';
 
 import Footer from './Footer';
 
+import TestSideBar from './TestSideBar';
+
 /**
  *  Main App component
  * @class

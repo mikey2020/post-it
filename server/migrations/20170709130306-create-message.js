@@ -15,6 +15,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      messageCreator: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       groupId: {
         type: Sequelize.INTEGER
       },

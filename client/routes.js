@@ -21,7 +21,7 @@ export default (
     <IndexRoute component={Welcome} />
     <Route path="signup" component={SignupPage} />
     <Route path="signin" component={SigninForm} />
-    <Route path="reset" component={ResetPassword} />
     <Route path="home" component={Authenticate(HomePage)} />
+    <Route path="reset" component={ResetPassword} />
   </Route>
 );

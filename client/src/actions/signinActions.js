@@ -18,14 +18,14 @@ const unsetUser = () => ({
 const signout = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
-  dispatch(addFlashMessage(createMessage('success', 'signout successful')));
+  // dispatch(addFlashMessage(createMessage('success', 'signout successful')));
 };
 
 const validateToken = (token) => {
   if (token) {
-    axios.defaults.headers.common['authorization'] = `${token}`;
+    axios.defaults.headers.common.authorization = `${token}`;
   } else {
-    delete axios.defaults.headers.common['authorization'];
+    delete axios.defaults.headers.common.authorization;
   }
 }
 
@@ -35,12 +35,11 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
                const token = res.data.user.userToken;
                localStorage.setItem('jwtToken', token);
                validateToken(token);
-               console.log(jwt.decode(token).data);
                dispatch(setUser(jwt.decode(token).data));
-               dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
+               // dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
              } else {
                dispatch(setUser(res.data.errors));
-               dispatch(addFlashMessage(createMessage('success', res.data.errors.form)));
+               dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
              }
            })
            .catch(() => {

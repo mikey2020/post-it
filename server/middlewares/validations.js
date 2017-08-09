@@ -71,9 +71,10 @@ class Validations {
   static checkUserIsValid(req, res, next) {
     models.User.findOne({
       where: {
-        username: req.body.username
+        id: req.body.userId
       }
     }).then((validUser) => {
+      console.log(validUser);
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }

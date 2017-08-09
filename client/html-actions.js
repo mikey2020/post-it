@@ -10,6 +10,8 @@
     $('.priority').hide();
     $('#priority-level').css('background', 'blue');
     $('.modal').modal();
+    $('#textarea1').val('New Text');
+    $('#textarea1').trigger('autoresize');
     $('.priority-level').change(() => {
       $('.priority').show();
       const priority = $('#priority-level').val();

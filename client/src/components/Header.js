@@ -44,11 +44,11 @@ export class Header extends React.Component {
 
     const userLinks = (
       <nav>
-          <div className="nav-wrapper red darken-1">
+          <div className="nav-wrapper blue-grey darken-3">
             <Link to="/home" className="logo">PostIT</Link>
             <ul className="right">
                <div>
-                <li className="flow-text waves-effect waves-light btn grey darken-4 links" ><Link to="/home">Home</Link></li>
+                <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/home">Home</Link></li>
                 <li><a onClick={this.logout} className="flow-text waves-effect waves-light btn grey darken-4 links">Logout</a></li>
               </div>
             </ul>
@@ -59,12 +59,12 @@ export class Header extends React.Component {
 
     const guestLinks = (
        <nav>
-          <div className="nav-wrapper red darken-1">
+          <div className="nav-wrapper blue-grey darken-3">
             <Link to="/signup" className="logo">PostIT</Link>
             <ul className="right">
               <div>
               <li> <a className="flow-text waves-effect waves-light btn grey darken-4 modal-trigger links" href="#modal1">Sign In</a></li>
-              <li className="flow-text waves-effect waves-light btn grey darken-4 links"><Link to="/signup">Sign Up</Link></li>
+              <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/signup">Sign Up</Link></li>
             </div>
             </ul>
           </div>

@@ -26,7 +26,7 @@ const getUsers = (username) => {
             .then((res) => {
                 if (res.data.users) {
                     dispatch(setUsers(res.data.users.data));
-                    dispatch(addFlashMessage(createMessage('success','user gotten')));
+                    // dispatch(addFlashMessage(createMessage('success','user gotten')));
                 } else {
                     dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
                 }
@@ -41,7 +41,7 @@ const getMembersOfGroup = (groupId) => {
                 if (res.data.data) {
                     console.log('am getting members', res.data.data);
                     dispatch(setMembers(res.data.data));
-                    dispatch(addFlashMessage(createMessage('success', 'members gotten')));
+                   //  dispatch(addFlashMessage(createMessage('success', 'members gotten')));
                 }
             });
     }
@@ -55,7 +55,7 @@ const resetPassword = (userData) => {
     return axios.post('/api/user/resetPassword', userData)
             .then((res) => {
               if (res.data.message) {
-                console.log('password has definitely changed');
+                // console.log('password has definitely changed');
               }
             });
 };

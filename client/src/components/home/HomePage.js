@@ -16,7 +16,7 @@ class HomePage extends React.Component {
         <div className="col s4 m4 l3">
           <Sidebar />
         </div>
-        <div className="col s8 m8 l9">
+        <div className="col s8 m8 l9 message-board">
           <Messages />
         </div>
       </div>

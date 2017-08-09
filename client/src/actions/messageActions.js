@@ -35,25 +35,24 @@ const getGroupMessages = (groupId) => {
             .then((res) => {
                 if (res.data.posts) {
                     dispatch(addGroupMessages(res.data.posts));
-                    dispatch(addFlashMessage(createMessage('success', 'all messages loaded')));
+                    // dispatch(addFlashMessage(createMessage('success', 'all messages loaded')));
                 } else {
                     dispatch(addFlashMessage(createMessage('success', 'no message loaded')));
                 }
             })
-            .catch((error) => {
+            .catch(() => {
                 dispatch(addFlashMessage(createMessage('error', 'something went messages')));
             });
     };
 }
 
 const postMessage = (messageData, groupId) => {
-    console.log('ther is a group id', groupId);
     return (dispatch) => {
         return axios.post(`/api/group/${groupId}/message`, messageData)
               .then((res) => {
                 if (res.data.data) {
                     dispatch(addMessage(res.data.data));
-                    dispatch(addFlashMessage(createMessage('success', res.data.message)));
+                    // dispatch(addFlashMessage(createMessage('success', res.data.message)));
                 } else {
                     dispatch(addFlashMessage(createMessage('error', res.data.message)));
                 }
@@ -62,11 +61,10 @@ const postMessage = (messageData, groupId) => {
 };
 
 const readMessage = (messageId) => {
-    console.log('ther is a message id', messageId);
         return axios.post(`/api/user/${messageId}/read`)
               .then((res) => {
                 if (res.data.data) {
-                   console.log(res.data)
+                   console.log(res.data);
                 } else {
                    console.log('somethin=g went errrk');
                 }

@@ -35,13 +35,12 @@ export class Messages extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.messages) { 
-      console.log(this.props.messages);
+    /* if (this.props.messages) {
       for (let message in this.props.messages) {
          console.log('am working');
          readMessage(this.props.messages[message].id);
-      }  
-    }
+      }
+    } */
     if (this.props.messages.length !== prevProps.messages.length) {
       const { group } = this.props;
       this.props.getGroupMessages(group.id);
@@ -104,24 +103,25 @@ export class Messages extends React.Component {
             <div className="nav-wrapper">
               <div className="row">
                 <a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name ? this.props.group.name : this.props.username }</a>
-                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn adduser-icon red darken-1">Add User</a>
+                <a href="#modal3" className="col s3 m3 l3 waves-effect waves-light btn adduser-icon grey darken-4">Add User</a>
               </div>
             </div>
           </nav>
         </div>
-
+      
         <ul>{allMessages}</ul>
-
+  
         <div className="row">
           <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>
-            <label className="flow-text">Priority level:</label>
+            <label className="flow-text priority-label">Priority level:</label>
             <input className="priority-level black" id="priority-level" type="range" name="points" min="0" max="15" onChange={this.handlePriority}/>
-            <textarea name="message" onChange={this.onChange} className="form-control" rows="5" id="comment" value={this.state.message} />
+            <textarea id="textarea1" name="message" onChange={this.onChange} className="materialize-textarea" rows="5" value={this.state.message} />
             <br />
             <div className="col s5 m4 l3">
-              <button className="btn waves-effect waves-light red darken-1" type="submit" name="action">Post
+              <button className="btn waves-effect waves-light grey darken-4" type="submit" name="action">Post
 										<i className="material-icons right">send</i>
               </button>
+              <span className="thumb active" />
             </div>
             <button className="btn waves-effect waves-light priority">{this.state.priority} </button>
           </form>

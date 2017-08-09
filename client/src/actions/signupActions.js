@@ -7,4 +7,4 @@ import axios from 'axios';
      };
   }
 
-export {addUser};
+export { addUser };

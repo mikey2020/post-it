@@ -20,7 +20,7 @@ export class Message extends React.Component {
             <div className="message-box">
             <li className="collection-item avatar">
               <p className="message"> {this.props.content}</p>
-              <a href="#!" className="secondary-content">{this.props.priority ? this.props.priority : <p /> }</a>
+              <a href="#!" className="collection-item"><span className="badge">{this.props.priority ? this.props.priority : <p /> }</span></a>
             </li>
             </div>
           </ul>

@@ -80,7 +80,8 @@ class GroupActions {
       content: req.body.message,
       groupId: req.params.groupId,
       userId: req.decoded.data.id,
-      priority: req.body.priority
+      priority: req.body.priority,
+      messageCreator: req.body.creator
     })
       .then((message) => {
         if (message !== null) {
@@ -156,29 +157,6 @@ class GroupActions {
       });
   }
 
-  /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it returns number of groups a user is part of
-   */
-  getNumberOfGroups(req, res) {
-    UserGroups.findAll({
-      attributes: ['groupId'],
-      where: {
-        userId: req.body.userId
-      }
-    })
-      .then((results) => {
-        let data = JSON.stringify(results);
-        data = JSON.parse(data);
-        res.json(data);
-      })
-
-      .catch((err) => {
-        this.error = err;
-        this.sendError(res);
-      });
-  }
    /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route

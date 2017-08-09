@@ -15,6 +15,7 @@ export default (ComposedComponent) => {
    * @returns {void}
    */
     componentWillMount() {
+      console.log(this.props.isAuthenticated);
       if (!this.props.isAuthenticated) {
         this.context.router.push('/signup');
       }
@@ -38,9 +39,8 @@ export default (ComposedComponent) => {
   };
 
   const mapStateToProps = (state) => {
-    return {
-      isAuthenticated: state.user.isAuthenticated
-    };
+    const response = { isAuthenticated: state.user.isAuthenticated };
+    return response;
   };
 
   return connect(mapStateToProps)(Authenticate);
