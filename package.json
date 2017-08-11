@@ -21,7 +21,7 @@
     "clean-build": "npm run delete-build && mkdir client/build",
     "undo:db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate:undo:all",
     "db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate",
-    "redux-test": "jest",
+    "redux-test": "jest --coverage",
     "redux-test:watch": "npm run redux-test -- --watch",
     "build:html": "babel-node client/buildHtml.js",
     "prebuild": "npm-run-all clean-build build:html",

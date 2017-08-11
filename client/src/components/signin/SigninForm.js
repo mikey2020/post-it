@@ -51,7 +51,10 @@
      e.preventDefault();
      if (this.isValid()) {
        this.setState({ errors: {}, isLoading: true });
-       this.props.validateUser(this.state);
+       this.props.validateUser(this.state).then(() => {
+         this.context.router.push('/home');
+       });
+       
      }
    }
    /**
@@ -102,6 +105,7 @@
                type="submit"
                name="signin"
                value="Sign In"
+               id="sign-in"
                className="btn waves-effect waves-light grey darken-4"
              />
            </form>

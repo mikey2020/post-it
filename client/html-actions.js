@@ -1,4 +1,6 @@
  $(document).ready(() => {
+   $('.dropdown-button').dropdown('open');
+   $('.dropdown-button').dropdown('close');
    $('.user-btn').hide();
    // $('.new-password').hide();
    $('.reset-password').click(() => {
@@ -7,6 +9,9 @@
     $('.add-user-btn').click(() => {
       console.log("i was clicked sir");
     });
+    $('#sign-in').click(() => {
+      $('#signin').hide();
+    })
     $('.priority').hide();
     $('#priority-level').css('background', 'blue');
     $('.modal').modal();

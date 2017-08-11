@@ -25,20 +25,13 @@ const getGroupMessages = groupId => dispatch => axios.get(`/api/group/${groupId}
             .then((res) => {
               if (res.data.posts) {
                 dispatch(addGroupMessages(res.data.posts));
-                    // dispatch(addFlashMessage(createMessage('success', 'all messages loaded')));
-              } else {
-                dispatch(addFlashMessage(createMessage('success', 'no message loaded')));
               }
-            })
-            .catch(() => {
-              dispatch(addFlashMessage(createMessage('error', 'something went messages')));
             });
 
 const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/group/${groupId}/message`, messageData)
               .then((res) => {
                 if (res.data.data) {
                   dispatch(addMessage(res.data.data));
-                    // dispatch(addFlashMessage(createMessage('success', res.data.message)));
                 } else {
                   dispatch(addFlashMessage(createMessage('error', res.data.message)));
                 }

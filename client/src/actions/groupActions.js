@@ -23,31 +23,17 @@ const setCurrentGroup = group => (dispatch) => {
   dispatch(addCurrentGroup(group));
 };
 
-const joinUserToGroup = user => ({
-  type: ADD_USER_TO_GROUP,
-  user
-});
-
-
 const getUserGroups = () => dispatch => axios.post('/api/usergroups')
             .then((res) => {
               if (res.data.usergroups) {
                 dispatch(addUserGroups(res.data.usergroups));
-                    // dispatch(addFlashMessage(createMessage('success', 'all groups gotten')));
-              } else {
-                dispatch(addFlashMessage(createMessage('success', 'somwething happened')));
               }
-            })
-            .catch(() => {
-              dispatch(addFlashMessage(createMessage('success', 'something went wrong')));
             });
 
 const createGroup = groupname => dispatch => axios.post('/api/group', groupname)
            .then((res) => {
              if (res.data.group.message) {
-               console.log(res.data.group);
                dispatch(addGroup(res.data.group.data));
-                  // dispatch(addFlashMessage(createMessage('success', res.data.group.message)));
              } else {
                dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
              }
@@ -56,7 +42,6 @@ const createGroup = groupname => dispatch => axios.post('/api/group', groupname)
 const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/group/${groupId}/user`, user)
             .then((res) => {
               if (res.data.message) {
-                console.log(res.data.message);
               } else {
                 dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
               }

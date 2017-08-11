@@ -145,10 +145,15 @@ body {
 }
 .adduser-icon{
     position: relative;
-    border-radius: 5px;
-    left: 110px !important;
-    top: 8px;
+    top: 1px;
+    color: #212121;
+    left: 250px !important;
+    font-size: 50px !important;
 }
+
+ .add-user-icon{
+   font-size: 50px;
+ }
 
 #group-name{
    font-size: 30px;
@@ -261,4 +266,14 @@ textarea{
 
 .priority-label {
     color: white;
+}
+
+.message-box{
+    overflow-y: auto;
+    overflow-x: auto;
+    color: black;
+    font: medium -moz-fixed;
+    box-shadow: 10px 10px 5px #888888;
+    font: -webkit-small-control;
+    resize: both;
 }
