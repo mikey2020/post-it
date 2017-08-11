@@ -37,6 +37,14 @@ class Validations {
       this.errors.email = 'Email is required';
     }
 
+    if (data.phoneNumber === null || data.phoneNumber === '') {
+      this.errors.phoneNumber = 'Phone Number is required';
+    }
+
+    if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
+      this.errors.phoneNumber = 'Please enter a valid phone number';
+    }
+
     if (data.email && !validator.isEmail(data.email)) {
       this.errors.email = 'Email is invalid';
     }

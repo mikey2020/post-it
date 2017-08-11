@@ -16,8 +16,8 @@ export class Message extends React.Component {
         <div className="col s12 m12 l12">
           <ul className="collection">
             <div className="message-box">
-             {/*<li className="collection-item">*/}
-                <p className="message"> {this.props.content}</p>
+             {/*<li className="collection-item"> */}
+                <div className="message"> {this.props.content}</div>
                 {this.props.creator ? <span className="chip"> this.props.creator </span> : <br />}
                 <a href="#!"><span className="badge">{this.props.priority ? this.props.priority : <p /> }</span></a>
               {/*</li>*/}

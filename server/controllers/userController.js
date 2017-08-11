@@ -14,6 +14,8 @@ const User = models.User;
 
 const validate = new Validations();
 
+const forgotPasswordMessage = 'Please enter this verification code in the reset password page';
+
 /**
  *  All user actions
  * @class
@@ -41,7 +43,8 @@ class UserActions {
       return User.create({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber
       })
       .then((user) => {
         let userData = JSON.stringify(user);

@@ -1,11 +1,18 @@
+import dotenv from 'dotenv';
+
+import nodemailer from 'nodemailer';
+
+import Nexmo from 'nexmo';
+
 import models from '../models';
 
 const Group = models.Group;
 
-const UserGroups = models.UserGroups;
-
 const Message = models.Message;
 
+const notificationMessage = 'Some one jsut posted a message to a group you are part of';
+
+dotenv.config();
 /**
  * All group actions
  * @class
@@ -46,7 +53,8 @@ class GroupActions {
         res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
       });
     })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.status(400).json({ error: { message: 'group already exists' } });
       });
   }
@@ -61,7 +69,7 @@ class GroupActions {
         id: req.params.groupId
       }
     }).then((group) => {
-      return group.addUser(req.validUserId)
+      group.addUser(req.validUserId)
         .then(() => {
           res.json({ message: 'user added successfully' });
         });
@@ -81,11 +89,19 @@ class GroupActions {
       groupId: req.params.groupId,
       userId: req.decoded.data.id,
       priority: req.body.priority,
-      messageCreator: req.body.creator
+      messageCreator: req.decoded.data.username
     })
       .then((message) => {
+        // console.log('my msg priority', message.priority);
         if (message !== null) {
-          message.addUser(req.decoded.data.id).then(() => {
+          message.addUser(req.decoded.data.id).then((user) => {
+            // console.log('a user', user);
+            if (message.priority === 'urgent') {
+              GroupActions.sendEmail(req.usersEmails, notificationMessage);
+            } else if (message.priority === 'critical') {
+              GroupActions.sendEmail(req.usersEmails, notificationMessage);
+              GroupActions.sendSms('08122701945');
+            }
             res.json({ message: 'message posted to group', data: message });
           });
         }
@@ -163,14 +179,22 @@ class GroupActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns array of users in a group
    */
-  static getGroupMembers(req, res) {
+  static getGroupMembers(req, res, next) {
     Group.findOne({
       where: {
         id: req.params.groupId
       }
     }).then((group) => {
-      group.getUsers().then((users) => {
-        res.json({ groupMembers: users });
+      group.getUsers({ attributes: ['email', 'phoneNumber'] }).then((users) => {
+        if (users) {
+          console.log(users);
+          req.usersEmails = GroupActions.getEmails(users);
+          //console.log('request', req.usersEmails);
+          next();
+          // res.json({ groupMembersEmails: users });
+        } else {
+          res.json({ message: 'No user email found ' });
+        }
       });
     });
   }
@@ -241,6 +265,54 @@ class GroupActions {
     });
   }
 
+  static sendEmail(memberEmails, message) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'superdafe@gmail.com',
+        pass: 'odafe2020'
+      }
+    });
+
+    const mailOptions = {
+      from: 'superdafe@gmail.com',
+      to: memberEmails,
+      subject: 'New message notification',
+      text: message
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ', info.response);
+      }
+    });
+  }
+
+  static getEmails(group) {
+    let emails = [];
+    Object.keys(group).forEach((user) => {
+      emails.push(group[user].email);
+    });
+    console.log(emails);
+    return emails;
+  }
+
+  static sendSms(recipient) {
+    console.log('thi person receiving messages', recipient);
+    const nexmo = new Nexmo({
+      apiKey: process.env.API_KEY,
+      apiSecret: process.env.API_SECRET
+    });
+    nexmo.message.sendSms('07014980491', recipient, 'hello', (err, msg) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(msg);
+      }
+    });
+  }
 }
 
 

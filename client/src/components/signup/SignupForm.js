@@ -26,6 +26,7 @@ export class SignupForm extends React.Component {
     this.state = {
       username: '',
       email: '',
+      phoneNumber: '',
       password: '',
       passwordConfirmation: '',
       errors: {},
@@ -35,21 +36,17 @@ export class SignupForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
-  isValid() {
-    const { errors, isValid } = validate.signup(this.state);
-
-    if (!isValid) {
-      this.setState({ errors });
-    }
-
-    return isValid;
-  }
-
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
   onSubmit(e) {
     e.preventDefault();
 
@@ -71,7 +68,23 @@ export class SignupForm extends React.Component {
  ({ data }) => this.setState({ errors: data })
    );
   }
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
+  isValid() {
+    const { errors, isValid } = validate.signup(this.state);
 
+    if (!isValid) {
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+  /**
+   *
+   * @returns {component} - renders a React component
+   */
   render() {
     const { errors } = this.state;
     return (
@@ -97,6 +110,18 @@ export class SignupForm extends React.Component {
               type="email"
               placeholder="email"
               name="email"
+              className=""
+              id="usr"
+            />
+
+            {errors.phoneNumber ? <span className="help-block">{errors.phoneNumber}</span> : <br />}
+
+            <input
+              value={this.state.phoneNumber}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Phone Number"
+              name="phoneNumber"
               className=""
               id="usr"
             />

@@ -1,6 +1,4 @@
  $(document).ready(() => {
-   $('.dropdown-button').dropdown('open');
-   $('.dropdown-button').dropdown('close');
    $('.user-btn').hide();
    // $('.new-password').hide();
    $('.reset-password').click(() => {

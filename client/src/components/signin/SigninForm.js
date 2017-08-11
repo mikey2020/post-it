@@ -54,7 +54,6 @@
        this.props.validateUser(this.state).then(() => {
          this.context.router.push('/home');
        });
-       
      }
    }
    /**

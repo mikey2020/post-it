@@ -51,7 +51,7 @@ export class Header extends React.Component {
               <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/home">Home</Link></li>
               <li><a className="dropdown-button" href="#" data-activates="dropdown1"><i className="material-icons">account_box</i></a></li>
                <ul id="dropdown1" className="dropdown-content">
-                <li><a onClick={this.logout} className="flow-text waves-effect waves-light links">Logout</a></li>
+                <li><a href="#" onClick={this.logout} className="flow-text waves-effect waves-light links">Logout</a></li>
               </ul>
             </div>
           </ul>
@@ -66,7 +66,7 @@ export class Header extends React.Component {
           <Link to="/signup" className="logo">PostIT</Link>
           <ul className="right">
             <div>
-              <li> <a className="flow-text waves-effect waves-light btn grey darken-4 modal-trigger links" href="#modal1">Sign In</a></li>
+              <li> <a className="flow-text waves-effect waves-light btn grey darken-4 modal-trigger links" id="login-button" href="#modal1">Sign In</a></li>
               <li><Link className="flow-text waves-effect waves-light btn grey darken-4 links" to="/signup">Sign Up</Link></li>
             </div>
           </ul>

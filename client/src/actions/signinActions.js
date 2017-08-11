@@ -18,7 +18,7 @@ const unsetUser = () => ({
 const signout = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
-  // dispatch(addFlashMessage(createMessage('success', 'signout successful')));
+  dispatch(addFlashMessage(createMessage('success', 'signout successful')));
 };
 
 const validateToken = (token) => {

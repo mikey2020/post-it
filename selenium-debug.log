@@ -1,0 +1,62 @@
+10:19:56.409 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
+10:19:56.409 INFO - Launching a standalone Selenium Server
+2017-08-11 10:19:56.437:INFO::main: Logging initialized @283ms to org.seleniumhq.jetty9.util.log.StdErrLog
+10:19:56.502 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+ registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform MAC
+10:19:56.502 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform MAC
+10:19:56.502 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+10:19:56.503 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+Unable to create new instances on this machine.
+10:19:56.503 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+10:19:56.503 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+2017-08-11 10:19:56.555:INFO:osjs.Server:main: jetty-9.4.3.v20170317
+2017-08-11 10:19:56.604:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@14acaea5{/,null,AVAILABLE}
+2017-08-11 10:19:56.644:INFO:osjs.AbstractConnector:main: Started ServerConnector@e25b2fe{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-08-11 10:19:56.645:INFO:osjs.Server:main: Started @491ms
+10:19:56.645 INFO - Selenium Server is up and running
+10:19:57.227 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+10:19:57.269 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Homepage, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+10:19:57.305 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Homepage, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.31.488774 (7e15618d1bf16df8bf0ecf2914ed1964a387ba0b) on port 9079
+Only local connections are allowed.
+10:19:58.879 INFO - Detected dialect: OSS
+10:19:58.908 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Homepage, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+10:19:58.935 INFO - Executing: [get: http://localhost:3000])
+10:20:02.438 INFO - Done: [get: http://localhost:3000]
+10:20:02.458 INFO - Executing: [find elements: By.cssSelector: body])
+10:20:02.498 INFO - Done: [find elements: By.cssSelector: body]
+10:20:02.527 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: body]])
+10:20:02.550 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: body]]
+10:20:02.558 INFO - Executing: [find elements: By.cssSelector: #login-button])
+10:20:02.577 INFO - Done: [find elements: By.cssSelector: #login-button]
+10:20:02.581 INFO - Executing: [is displayed: 1 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #login-button]])
+10:20:02.599 INFO - Done: [is displayed: 1 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #login-button]]
+10:20:02.607 INFO - Executing: [find element: By.cssSelector: #login-button])
+10:20:02.626 INFO - Done: [find element: By.cssSelector: #login-button]
+10:20:02.631 INFO - Executing: [click: 1 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #login-button]])
+10:20:02.710 INFO - Done: [click: 1 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #login-button]]
+10:20:02.720 INFO - Executing: [find elements: By.cssSelector: #modal1])
+10:20:02.749 INFO - Done: [find elements: By.cssSelector: #modal1]
+10:20:02.755 INFO - Executing: [is displayed: 2 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #modal1]])
+10:20:02.797 INFO - Done: [is displayed: 2 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #modal1]]
+10:20:02.804 INFO - Executing: [find element: By.cssSelector: input[name=username]])
+10:20:02.843 INFO - Done: [find element: By.cssSelector: input[name=username]]
+10:20:02.854 INFO - Executing: [send keys: 3 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: input[name=username]], []])
+10:20:02.962 INFO - Done: [send keys: 3 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: input[name=username]], []]
+10:20:02.975 INFO - Executing: [find element: By.cssSelector: input[name=password]])
+10:20:03.014 INFO - Done: [find element: By.cssSelector: input[name=password]]
+10:20:03.025 INFO - Executing: [send keys: 4 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: input[name=password]], []])
+10:20:03.098 INFO - Done: [send keys: 4 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: input[name=password]], []]
+10:20:03.106 INFO - Executing: [find element: By.cssSelector: #sign-in])
+10:20:03.130 INFO - Done: [find element: By.cssSelector: #sign-in]
+10:20:03.135 INFO - Executing: [click: 5 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #sign-in]])
+10:20:03.224 INFO - Done: [click: 5 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: #sign-in]]
+10:20:03.233 INFO - Executing: [find elements: By.cssSelector: .help-block])
+10:20:03.262 INFO - Done: [find elements: By.cssSelector: .help-block]
+10:20:03.269 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: .help-block]])
+10:20:03.299 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: .help-block]]
+10:20:03.309 INFO - Executing: [find element: By.cssSelector: .help-block])
+10:20:03.340 INFO - Done: [find element: By.cssSelector: .help-block]
+10:20:03.343 INFO - Executing: [get text: 6 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: .help-block]])
+10:20:03.373 INFO - Done: [get text: 6 [[ChromeDriver: chrome on MAC (6697b200d9b6c900dabf40cca9496817)] -> css selector: .help-block]]

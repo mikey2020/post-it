@@ -91,7 +91,7 @@ export class AddUserPage extends React.Component {
    */
   render() {
     // const myPages = this.changeToArray(this.props.users.length);
-    const { errors, username, isLoading, invalid, results } = this.state;
+    const { errors, username, } = this.state;
 
     return (
       <div id="modal3" className="modal adduserpage">

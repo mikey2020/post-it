@@ -15,7 +15,7 @@ export default (app) => {
 
   app.post('/api/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.userGroups, GroupActions.addUserToGroup);
 
-  app.post('/api/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.postMessageToGroup);
+  app.post('/api/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupActions.getGroupMembers, GroupActions.postMessageToGroup);
 
   app.get('/api/group/:groupId/users', Validations.checkGroupExists, GroupActions.getGroupMembers);
 
