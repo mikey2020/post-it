@@ -21,7 +21,7 @@ describe('Signin actions', () => {
     nock.cleanAll();
   });
 
-  it('creates a error flash message when user is invalid ', () => {
+  it('creates a success flash message when user is invalid ', () => {
     nock('http://localhost:3000')
       .post('/api/user/signin', mockData)
       .reply(200, { body: { user: { name: 'negan', message: 'negan signed in' } } });

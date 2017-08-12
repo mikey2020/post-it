@@ -1,16 +1,11 @@
 import dotenv from 'dotenv';
-
 import nodemailer from 'nodemailer';
-
 import Nexmo from 'nexmo';
-
 import models from '../models';
 
+
 const Group = models.Group;
-
 const Message = models.Message;
-
-const notificationMessage = 'Some one jsut posted a message to a group you are part of';
 
 dotenv.config();
 /**
@@ -97,9 +92,9 @@ class GroupActions {
           message.addUser(req.decoded.data.id).then(() => {
             // console.log('a user', user);
             if (message.priority === 'urgent') {
-              GroupActions.sendEmail(req.usersEmails, notificationMessage);
+              GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
             } else if (message.priority === 'critical') {
-              GroupActions.sendEmail(req.usersEmails, notificationMessage);
+              GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
               // GroupActions.sendSms();
             }
             res.json({ message: 'message posted to group', data: message });
@@ -312,6 +307,10 @@ class GroupActions {
         console.log(msg);
       }
     });
+  }
+
+  static notificationMessage(username) {
+    return `${username} posted a message to a group you are part of`;
   }
 }
 

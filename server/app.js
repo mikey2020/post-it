@@ -7,15 +7,21 @@ import session from 'express-session';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import io from 'socket.io';
+import http from 'http';
 
+import postMessage from './helpers/socket';
 import webpackConfig from '../webpack.config.dev';
 import UserActions from './controllers/userController';
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
+
 dotenv.config();
 
 const app = express();
+
+http.Server(app);
 
 const port = process.env.PORT;
 
@@ -48,14 +54,12 @@ app.use(session({
 }));
 
 // user routes
-
 app.get('/api/users', user.allUsers);
-
 userRoutes(app);
 
 // group routes
 groupRoutes(app);
-
+postMessage(io);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/client/index.html'));
@@ -65,7 +69,7 @@ app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
-app.listen(port, () => {
+http.listen(port, () => {
   // console.log('Listening on port 3000...');
 });
 
