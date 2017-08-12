@@ -94,13 +94,13 @@ class GroupActions {
       .then((message) => {
         // console.log('my msg priority', message.priority);
         if (message !== null) {
-          message.addUser(req.decoded.data.id).then((user) => {
+          message.addUser(req.decoded.data.id).then(() => {
             // console.log('a user', user);
             if (message.priority === 'urgent') {
               GroupActions.sendEmail(req.usersEmails, notificationMessage);
             } else if (message.priority === 'critical') {
               GroupActions.sendEmail(req.usersEmails, notificationMessage);
-              GroupActions.sendSms('08122701945');
+              // GroupActions.sendSms();
             }
             res.json({ message: 'message posted to group', data: message });
           });

@@ -36,7 +36,7 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
                localStorage.setItem('jwtToken', token);
                validateToken(token);
                dispatch(setUser(jwt.decode(token).data));
-               // dispatch(addFlashMessage(createMessage('success', res.data.user.message)));
+               dispatch(addFlashMessage(createMessage('success', `Welcome ${res.data.user.name}`)));
              } else {
                dispatch(setUser(res.data.errors));
                dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));

@@ -26,13 +26,27 @@ describe('Signin actions', () => {
       .post('/api/user/signin', mockData)
       .reply(200, { body: { user: { name: 'negan', message: 'negan signed in' } } });
 
-    const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'Invalid Signin Parameters', type: 'error' } }
-    ];
-
     const store = mockStore({ isAuthenticated: false, user: {} });
 
-    return store.dispatch(actions.validateUser()).then(() => {
+    const expectedActions = [
+      { type: types.ADD_FLASH_MESSAGE, message: { text: 'negan signed in ', type: 'success' } },
+      { type: types.SET_USER, user: { name: 'negan', message: 'negan signed in' } }
+    ];
+
+    return store.dispatch(actions.validateUser(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('creates a success flash message when user logs out ', () => {
+    const store = mockStore({ isAuthenticated: true, user: { name: 'negan', message: 'negan signed in' } });
+
+    const expectedActions = [
+      { type: types.ADD_FLASH_MESSAGE, message: { text: 'signout successful ', type: 'success' } },
+      { type: types.UNSET_USER }
+    ];
+
+    return store.dispatch(actions.signout()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

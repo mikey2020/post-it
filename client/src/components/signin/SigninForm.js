@@ -105,7 +105,7 @@
                name="signin"
                value="Sign In"
                id="sign-in"
-               className="btn waves-effect waves-light grey darken-4"
+               className="modal-action modal-close btn waves-effect waves-light grey darken-4"
              />
            </form>
            <br />

@@ -29,8 +29,11 @@ export class Sidebar extends React.Component {
   }
 
   componentDidMount() {
-    const { userId, groups } = this.props;
-    this.props.getUserGroups({ userId });
+    if (this.props.userId) {
+      const { userId } = this.props;
+      this.props.getUserGroups({ userId });
+    }
+    
   }
 
   componentDidUpdate(prevProps) {

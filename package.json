@@ -100,7 +100,7 @@
     "open": "0.0.5",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
-    "prop-types": "^15.5.7",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-redux": "4.4.5",
     "react-router": "2.4.0",

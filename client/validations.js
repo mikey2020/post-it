@@ -98,7 +98,7 @@ class Validations {
     }
 
     if (data.message === null || data.message === '') {
-      this.errors.input = 'Message is required';
+      this.errors.message = 'Message is required';
     }
 
     if (data.priority === null || data.priority === '') {

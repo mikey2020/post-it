@@ -12,7 +12,7 @@ import { getUsers } from '../../actions/userActions';
 
 import AllUsers from './AllUsers';
 
-import Pagination from './Pagination';
+// import Pagination from './Pagination';
 
 const validate = new Validations();
 
@@ -99,7 +99,7 @@ export class AddUserPage extends React.Component {
         { errors.message && <div className="alert alert-danger"> {errors.message} </div>}
 
         {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
-
+        <h2 className="addUser-header"> Search for users </h2>
         <form className="input-field" onSubmit={this.onSubmit}>
           <input
             type="text"
@@ -111,7 +111,11 @@ export class AddUserPage extends React.Component {
           />
 
         </form>
-        <AllUsers users={this.props.users} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
+        <AllUsers
+          users={this.props.users}
+          addUserToGroup={this.props.addUserToGroup}
+          groupId={this.props.groupId}
+        />
       </div>
     );
   }

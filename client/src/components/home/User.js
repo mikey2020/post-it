@@ -5,16 +5,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { addUserToGroup } from '../../actions/groupActions';
-
+/**
+ *  User class component
+ * @class
+ */
 export class User extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      add_user: 'Add'
+    };
 
     this.onClick = this.onClick.bind(this);
   }
 
   onClick(e) {
     e.preventDefault();
+    this.setState({ add_user: 'user added' });
     this.props.addUserToGroup({ username: this.props.username }, this.props.groupId);
   }
 
@@ -22,7 +29,7 @@ export class User extends React.Component {
     return (
       <div>
         <li className="collection-item user-btn blue-grey darken-3 flow-text"> {this.props.username}
-          <a onClick={this.onClick} id="add-btn" className="waves-effect waves-light btn add-user-btn grey darken-4">Add</a></li>
+          <button name="add_user" onClick={this.onClick} id="add-btn" className="waves-effect waves-red btn add-user-btn teal lighten-2">{this.state.add_user}</button></li>
         <br />
       </div>
     );

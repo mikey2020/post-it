@@ -19,6 +19,7 @@ const addCurrentGroup = group => ({
   group
 });
 
+
 const setCurrentGroup = group => (dispatch) => {
   dispatch(addCurrentGroup(group));
 };
@@ -42,6 +43,7 @@ const createGroup = groupname => dispatch => axios.post('/api/group', groupname)
 const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/group/${groupId}/user`, user)
             .then((res) => {
               if (res.data.message) {
+                console.log('added user successfully', res.data.message);
               } else {
                 dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
               }

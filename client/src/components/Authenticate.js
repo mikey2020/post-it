@@ -15,7 +15,6 @@ export default (ComposedComponent) => {
    * @returns {void}
    */
     componentWillMount() {
-      console.log(this.props.isAuthenticated);
       if (!this.props.isAuthenticated) {
         this.context.router.push('/signup');
       }

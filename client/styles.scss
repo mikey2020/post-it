@@ -89,14 +89,16 @@ body {
     height: 700px;
     padding: 10px;
     overflow-y: auto;
-    border: 5px solid #37474f;
+    //border: 5px solid #37474f;
     p{
-        color: white; 
-        display: block; /* Make the links appear below each other */
-        padding: 3px; /* Add some padding */
+        color: white;
+        display: block;
+        padding: 3px;
         margin: 20px;
-        background-color: #212121;
-        text-decoration: none; /* Remove underline from links */
+        background-color: #26a69a;
+        text-decoration: none;
+        text-align: left;
+        padding-left: 20%;
     }
 }
 
@@ -110,7 +112,7 @@ body {
 }
 
 .vertical-menu a:hover {
-    background-color: #b71c1c  ;
+    background-color: #4db6ac ;
 }
 
 .vertical-menu a.active {
@@ -128,6 +130,7 @@ body {
 	width: 1000px;
 	position: relative;
 	left: 200px;
+    color: white !important;
 }
 
 .message-input{
@@ -140,15 +143,16 @@ body {
     font-size: 43px; 
     top: 8px;
     :hover{
-      background-color: #b71c1c  ;
+      background-color: #4db6ac  ;
     }
 }
 .adduser-icon{
     position: relative;
     top: 1px;
-    color: #212121;
-    left: 250px !important;
+    left: 300px !important;
     font-size: 50px !important;
+    //color: #263238;
+    color: white;
 }
 
  .add-user-icon{
@@ -159,6 +163,7 @@ body {
    font-size: 30px;
    color: #212121;
    text-transform: uppercase;
+   color: white;
 }
 
 .sidebar-header{
@@ -170,8 +175,8 @@ body {
 }
 
 .adduserpage{
-    width: 70%;
-    height: 100% !important;
+    width: 60%;
+    height: 80% !important;
     max-height: 85%;
     input{
         position: relative;
@@ -190,7 +195,7 @@ body {
     position: relative ;
     left: 10px;
     margin: 10px;
-    width: 60%;
+    width: 74%;
     height: 60px;
     color: white;
     padding: 20px;
@@ -212,7 +217,7 @@ body {
 }
 
 .links{
-    background-color: #212121;
+    background-color: #26a69a;
 }
 
 .group-form{
@@ -267,6 +272,13 @@ textarea{
 .priority-label {
     color: white;
 }
+.priority-level{
+  width: 60% !important;
+  position: relative;
+  left: 60px;
+  top: -5px;
+
+}
 
 .message-box{
     overflow-y: auto;
@@ -277,4 +289,13 @@ textarea{
     resize: both;
     padding-left: 20px;
     background-color: #fff;
+    white-space: pre-line;
+}
+
+.addUser-header{
+    font-size: 20px;
+}
+
+.priority-error {
+    color: white;
 }

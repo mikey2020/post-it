@@ -16,6 +16,7 @@ import Authenticate from './src/components/Authenticate';
 
 import ResetPassword from './src/components/ResetPassword';
 
+
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Welcome} />

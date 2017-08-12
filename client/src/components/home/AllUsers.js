@@ -26,7 +26,7 @@ export class AllUsers extends React.Component {
     return (
       <div>
 
-        <ul className="collection">{allResults}</ul>
+        { this.props.users.length > 0 && <ul className="collection">{allResults}</ul> }
 
       </div>
     );

@@ -1,4 +1,6 @@
  $(document).ready(() => {
+   $('.tap-target').tapTarget('open');
+   $('.tap-target').tapTarget('close');
    $('.user-btn').hide();
    // $('.new-password').hide();
    $('.reset-password').click(() => {

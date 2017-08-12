@@ -14,7 +14,7 @@ const User = models.User;
 
 const validate = new Validations();
 
-const forgotPasswordMessage = 'Please enter this verification code in the reset password page';
+// const forgotPasswordMessage = 'Please enter this verification code in the reset password page';
 
 /**
  *  All user actions
