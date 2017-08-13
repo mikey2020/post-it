@@ -1,14 +1,12 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
 
 import Validations from '../../../validations';
-
 import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
-
 import Message from './Message';
+import subscribeToTimer from '../../../socket';
+
 
 const validate = new Validations();
 
@@ -21,12 +19,15 @@ export class Messages extends React.Component {
       message: '',
       errors: {},
       priority: '',
-      creator: ''
+      creator: '',
+      emmitedData: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePriority = this.handlePriority.bind(this);
+
+    subscribeToTimer((err, data) => this.setState({ emmitedData: data }));
   }
 
   componentDidMount() {
@@ -87,7 +88,7 @@ export class Messages extends React.Component {
 
   render() {
     const allMessages = this.props.messages.map(message =>
-      <Message key={message.id} content={message.content} priority={message.priority} creator={message.messageCreator} />
+      <Message key={message.id} content={message.content} priority={message.priority} creator={message.creator} />
         );
 
     return (
@@ -105,6 +106,8 @@ export class Messages extends React.Component {
         </div>
 
         <ul>{allMessages}</ul>
+
+        {this.state.emmitedData !== '' && <p>{this.state.emmitedData}</p> }
 
         <div className="row">
           <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>

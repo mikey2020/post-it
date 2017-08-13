@@ -66,6 +66,7 @@ class GroupActions {
     }).then((group) => {
       group.addUser(req.validUserId)
         .then(() => {
+          group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
         });
     }).catch(() => {
@@ -205,6 +206,7 @@ class GroupActions {
       }
     }).then((user) => {
       return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
+        console.log(groups);
         let userGroups = JSON.stringify(groups);
         userGroups = JSON.parse(userGroups);
         res.json({ usergroups: userGroups });

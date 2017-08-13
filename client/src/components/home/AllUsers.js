@@ -20,7 +20,7 @@ export class AllUsers extends React.Component {
    */
   render() {
     const allResults = this.props.users.map(user =>
-      <User key={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
+      <User key={user.id} userId={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
     );
 
     return (

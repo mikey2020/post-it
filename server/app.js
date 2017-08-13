@@ -7,7 +7,7 @@ import session from 'express-session';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import io from 'socket.io';
+import socketio from 'socket.io';
 //import http from 'http';
 
 import postMessage from './helpers/socket';
@@ -22,6 +22,8 @@ dotenv.config();
 const app = express();
 
 const http = require('http').Server(app);
+
+const io = socketio(http);
 
 const port = process.env.PORT;
 
@@ -59,7 +61,7 @@ userRoutes(app);
 
 // group routes
 groupRoutes(app);
-postMessage(io)(http);
+postMessage(io);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/client/index.html'));

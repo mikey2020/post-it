@@ -22,7 +22,7 @@ export class User extends React.Component {
   onClick(e) {
     e.preventDefault();
     this.setState({ add_user: 'user added' });
-    this.props.addUserToGroup({ username: this.props.username }, this.props.groupId);
+    this.props.addUserToGroup({ userId: this.props.userId }, this.props.groupId);
   }
 
   render() {
@@ -38,6 +38,7 @@ export class User extends React.Component {
 }
 
 User.propTypes = {
+  userId: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
   addUserToGroup: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired

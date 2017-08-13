@@ -207,9 +207,10 @@ body {
 }
 
 .message{
-   font-size: 30px;
-   position: relative;
-   top: 20px;
+    font-size: 30px;
+    position: relative;
+    top: 20px;
+    padding-left: 60px;
 }
 
 .logo{
@@ -298,4 +299,17 @@ textarea{
 
 .priority-error {
     color: white;
+}
+
+.user-display{
+    position: relative;
+    top: -10px;
+    background-color: #26a69a;
+    color: white;
+}
+
+.message-priority{
+    position: relative;
+    top: -10px;
+    color: white !important;
 }

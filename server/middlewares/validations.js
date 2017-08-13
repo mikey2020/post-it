@@ -86,6 +86,7 @@ class Validations {
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }
+      req.validUsername = validUser.username;
       req.validUserId = validUser.id;
       next();
     });
