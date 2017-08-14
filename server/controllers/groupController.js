@@ -6,6 +6,7 @@ import models from '../models';
 
 const Group = models.Group;
 const Message = models.Message;
+const Notification = models.Notification;
 
 dotenv.config();
 /**
@@ -91,9 +92,10 @@ class GroupActions {
         // console.log('my msg priority', message.priority);
         if (message !== null) {
           message.addUser(req.decoded.data.id).then(() => {
-            // console.log('a user', user);
+            const newNotification = GroupActions.notificationMessage(req.decoded.data.username);
+            GroupActions.addNotification(req.params.groupId, newNotification);
             if (message.priority === 'urgent') {
-              GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
+              GroupActions.sendEmail(req.usersEmails, newNotification);
             } else if (message.priority === 'critical') {
               GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
               // GroupActions.sendSms();
@@ -313,6 +315,27 @@ class GroupActions {
 
   static notificationMessage(username) {
     return `${username} posted a message to a group you are part of`;
+  }
+
+  static addNotification(groupId, notification) {
+    models.Notification.create({
+      groupId: groupId,
+      event: notification
+    })
+   .then((event) => {
+     console.log('checkout notifcs', event);
+   });
+  }
+  
+  static getNotifications(groupId) {
+    models.Notification.findAll({
+      where: {
+        groupId: groupId
+      }
+    })
+    .then((events) => {
+      console.log('notifications', events);
+    })
   }
 }
 
