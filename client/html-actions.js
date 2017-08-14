@@ -1,4 +1,5 @@
  $(document).ready(() => {
+   $('.dropdown-button').dropdown('open');
    $('.tap-target').tapTarget('open');
    $('.tap-target').tapTarget('close');
    $('.user-btn').hide();

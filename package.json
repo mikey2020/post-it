@@ -11,7 +11,7 @@
     "test": "NODE_ENV=test npm run db:refresh && mocha  server/test  --require babel-polyfill --compilers js:babel-register",
     "start": "npm run db:migrate && babel-node server/app.js --presets es2015,stage-2",
     "serve": "node dist/app.js",
-    "server": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
+    "dev:server": "NODE_ENV=development nodemon server/app.js --exec babel-node --presets es2015,stage-2",
     "eslint": "./node_modules/.bin/eslint server/app.js",
     "coveralls": "npm run db:refresh && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha dist/test --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "delete-dist": "rm -r dist",

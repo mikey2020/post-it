@@ -1,14 +1,10 @@
 import React from 'react';
-
 import Header from './Header';
-
 import FlashMessageList from './flash/FlashMessageList';
-
 import CreateGroupForm from './home/CreateGroupForm';
-
 import AddUserPage from './home/AddUserPage';
-
 import Footer from './Footer';
+import Notifications from './Notifications';
 
 /**
  *  Main App component
@@ -22,6 +18,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        <Notifications />
         <Header />
         <FlashMessageList />
         <CreateGroupForm />

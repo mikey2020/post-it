@@ -1,13 +1,8 @@
 import React from 'react';
-
 import { Link } from 'react-router';
-
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-
 import SigninForm from './signin/SigninForm';
-
 import { signout } from '../actions/signinActions';
 
 /**
@@ -48,6 +43,7 @@ export class Header extends React.Component {
           <Link to="/home" className="logo">PostIT</Link>
           <ul className="right">
             <div>
+              <li><i className="material-icons dropdown-button" data-activates="dropdown1">notifications</i></li>
               <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/home">Home</Link></li>
               <li><a href="#" onClick={this.logout} className="flow-text waves-effect btn waves-red links">Logout</a></li>
             </div>

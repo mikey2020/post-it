@@ -4,11 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    groupCreator: DataTypes.STRING,
-    notifications: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allownull: true
-    }
+    groupCreator: DataTypes.STRING
   });
   Group.associate = (models) => {
     Group.hasMany(models.Message, {
