@@ -1,13 +1,8 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-
-import { addUser } from '../../actions/signupActions';
-
+import addUser from '../../actions/signupActions';
 import Validations from '../../../validations';
-
 import { addFlashMessage } from '../../actions/flashMessageActions';
 
 const validate = new Validations();
@@ -49,24 +44,9 @@ export class SignupForm extends React.Component {
    */
   onSubmit(e) {
     e.preventDefault();
-
-    this.props.addUser(this.state).then(
-   (res) => {
-     if (res.data.message) {
-       this.props.addFlashMessage({
-         type: 'success',
-         text: res.data.message
-       });
-     } else {
-       this.props.addFlashMessage({
-         type: 'error',
-         text: res.data.errors.message
-       });
-     }
-     this.context.router.push('/home');
-   },
- ({ data }) => this.setState({ errors: data })
-   );
+    this.props.addUser(this.state).then(() => {
+      this.context.router.push('/home');
+    });
   }
   /**
    * @param {object} e - argument
@@ -154,6 +134,7 @@ export class SignupForm extends React.Component {
             <input
               disabled={this.state.isLoading}
               type="submit"
+              id="signup-button"
               name="sign up"
               value="Sign Up"
               className="btn waves-effect waves-light grey darken-4"

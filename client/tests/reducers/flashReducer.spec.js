@@ -8,7 +8,7 @@ describe('Flash message reducer', () => {
     expect(reducer(undefined, {})).toEqual([]);
   });
 
-  /*it('should handle ADD_FLASH_MESSAGE', () => {
+  it('should handle ADD_FLASH_MESSAGE', () => {
     expect(
       reducer([], {
         type: types.ADD_FLASH_MESSAGE,
@@ -19,9 +19,9 @@ describe('Flash message reducer', () => {
         type: 'success',
         text: 'you are signed in'
       }
-    ]);*/
+    ]);
 
-    /*expect(
+    expect(
       reducer(
         [
           {
@@ -46,6 +46,6 @@ describe('Flash message reducer', () => {
         completed: false,
         id: 0
       }
-    ])
-  });*/
+    ]);
+  });
 });

@@ -1,7 +1,5 @@
 import axios from 'axios';
-
 import { SET_USERS, SET_MEMBERS } from './types';
-
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
 const setUsers = users => ({
@@ -23,7 +21,7 @@ const getUsers = username => dispatch => axios.post('/api/user', username)
               }
             });
 
-const getMembersOfGroup = groupId => dispatch => axios.get(`/api/group/${groupId}/users`)
+/* const getMembersOfGroup = groupId => dispatch => axios.get(`/api/group/${groupId}/users`)
                .then((res) => {
                  if (res.data.data) {
                    console.log('am getting members', res.data.data);
@@ -31,7 +29,7 @@ const getMembersOfGroup = groupId => dispatch => axios.get(`/api/group/${groupId
                    //  dispatch(addFlashMessage(createMessage('success', 'members gotten')));
                  }
                });
-
+*/
 const checkUserExists = username => axios.post('/api/user/checkUser', username);
 
 const resetPassword = userData => axios.post('/api/user/resetPassword', userData)

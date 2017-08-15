@@ -1,15 +1,9 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
-
 import Validations from '../../../validations';
-
 import { addUserToGroup } from '../../actions/groupActions';
-
 import { getUsers } from '../../actions/userActions';
-
 import AllUsers from './AllUsers';
 
 // import Pagination from './Pagination';

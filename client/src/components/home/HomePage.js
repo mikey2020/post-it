@@ -7,7 +7,11 @@ import Messages from './Messages';
  *  HomePage class component
  * @class
  */
-class HomePage extends React.Component {
+export class HomePage extends React.Component {
+  /**
+   *
+   * @returns {component} - renders a React component
+   */
   render() {
     return (
       <div className="row">

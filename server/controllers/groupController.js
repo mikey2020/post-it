@@ -263,8 +263,12 @@ class GroupActions {
       res.json({ message: 'something went wrong finding message' });
     });
   }
-
-  static sendEmail(memberEmails, message) {
+  /**
+   * @param {array} membersEmails - emails of all members of the group
+   * @param {string} message -  notification message to be sent
+   * @returns {void}
+   */
+  static sendEmail(membersEmails, message) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -275,7 +279,7 @@ class GroupActions {
 
     const mailOptions = {
       from: 'superdafe@gmail.com',
-      to: memberEmails,
+      to: membersEmails,
       subject: 'New message notification',
       text: message
     };
@@ -288,7 +292,10 @@ class GroupActions {
       }
     });
   }
-
+  /**
+   * @param {array} group - emails of all members of the group 
+   * @returns {void}
+   */
   static getEmails(group) {
     let emails = [];
     Object.keys(group).forEach((user) => {
@@ -297,7 +304,10 @@ class GroupActions {
     console.log(emails);
     return emails;
   }
-
+  /**
+   * @param {array} recipient - phone number of receiver of the sms
+   * @returns {void}
+   */
   static sendSms(recipient) {
     console.log('thi person receiving messages', recipient);
     const nexmo = new Nexmo({
@@ -326,7 +336,7 @@ class GroupActions {
      console.log('checkout notifcs', event);
    });
   }
-  
+
   static getNotifications(groupId) {
     models.Notification.findAll({
       where: {

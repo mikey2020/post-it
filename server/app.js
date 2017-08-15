@@ -17,6 +17,7 @@ import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
 
+
 dotenv.config();
 
 const app = express();
@@ -24,9 +25,7 @@ const app = express();
 const http = require('http').Server(app);
 
 const io = socketio(http);
-
 const port = process.env.PORT;
-
 const user = new UserActions();
 
 if (process.env.NODE_ENV === 'development') {

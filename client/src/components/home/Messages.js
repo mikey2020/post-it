@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import Validations from '../../../validations';
 import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
 import Message from './Message';
 import subscribeToTimer from '../../../socket';
 
-
 const validate = new Validations();
-
+/**
+ *  Messages class component
+ * @class
+ */
 export class Messages extends React.Component {
-
+  /**
+   * @constructor
+   * @param {object} props -  inherit props from react class
+   */
   constructor(props) {
     super(props);
 
@@ -29,14 +33,19 @@ export class Messages extends React.Component {
 
     subscribeToTimer((err, data) => this.setState({ emmitedData: data }));
   }
-
+  /**
+   * @returns {void}
+   */
   componentDidMount() {
     if (this.props.group && this.props.userId) {
       const { group } = this.props;
       this.props.getGroupMessages(group.id);
     }
   }
-
+  /**
+   * @param {object} prevProps - previous props
+   * @returns {void}
+   */
   componentDidUpdate(prevProps) {
     if (this.props.messages.length !== prevProps.messages.length) {
       const { group } = this.props;
@@ -46,17 +55,10 @@ export class Messages extends React.Component {
       this.props.getGroupMessages(group.id);
     }
   }
-
-  isValid() {
-    const { errors, isValid } = validate.input(this.state);
-
-    if (!isValid) {
-      this.setState({ errors });
-    }
-
-    return isValid;
-  }
-
+   /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
 
@@ -64,7 +66,22 @@ export class Messages extends React.Component {
       this.setState({ errors: {}, isLoading: false, creator: this.props.username });
     }
   }
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
+  onSubmit(e) {
+    e.preventDefault();
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: false });
+      this.props.postMessage(this.state, this.props.group.id);
+    }
+  }
 
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
   handlePriority(e) {
     e.preventDefault();
     if (e.target.value > 1 && e.target.value < 6) {
@@ -75,17 +92,24 @@ export class Messages extends React.Component {
       this.setState({ priority: 'critical' });
     }
   }
+  /**
+   * @param {object} e - argument
+   * @returns {void}
+   */
+  isValid() {
+    const { errors, isValid } = validate.input(this.state);
 
-  onSubmit(e) {
-    e.preventDefault();
-    console.log(this.state.errors);
-    if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false });
-      this.props.postMessage(this.state, this.props.group.id);
+    if (!isValid) {
+      this.setState({ errors });
     }
+
+    return isValid;
   }
 
-
+  /**
+   *
+   * @returns {component} - renders a React component
+   */
   render() {
     const allMessages = this.props.messages.map(message =>
       <Message key={message.id} content={message.content} priority={message.priority} creator={message.creator} />
@@ -106,8 +130,6 @@ export class Messages extends React.Component {
         </div>
 
         <ul>{allMessages}</ul>
-
-        {this.state.emmitedData !== '' && <p>{this.state.emmitedData}</p> }
 
         <div className="row">
           <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>

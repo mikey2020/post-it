@@ -33,7 +33,7 @@ const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/group
                 }
               });
 
-/*const readMessage = messageId => axios.post(`/api/user/${messageId}/read`)
+/* const readMessage = messageId => axios.post(`/api/user/${messageId}/read`)
               .then((res) => {
                 if (res.data.data) {
                   console.log(res.data);
@@ -53,7 +53,7 @@ const getUsersWhoReadMessage = (messageId) => {
                   console.log('something went errrk');
                 }
               });
-};*/
+}; */
 
 
 export { getGroupMessages, postMessage, addGroupMessages, addMessage };

@@ -1,15 +1,9 @@
  import React from 'react';
-
  import { connect } from 'react-redux';
-
  import { Link } from 'react-router';
-
  import PropTypes from 'prop-types';
-
  import { validateUser } from '../../actions/signinActions';
-
  import Validations from '../../../validations';
-
  import { addFlashMessage } from '../../actions/flashMessageActions';
 
  const validate = new Validations();
@@ -79,9 +73,11 @@
        <div id="modal1" className="modal signin-container">
          <div className="signin-form">
            <h3> Sign In </h3>
-           {this.state.errors.form && <div className="alert alert-danger"> {this.state.errors.form} </div>}
+           {this.state.errors.form &&
+           <div className="alert alert-danger"> {this.state.errors.form} </div>}
            <form onSubmit={this.onSubmit}>
-             {this.state.errors.username ? <span className="help-block">{this.state.errors.username}</span> : <br />}
+             {this.state.errors.username ?
+               <span className="help-block">{this.state.errors.username}</span> : <br />}
              <input
                type="text"
                value={this.state.username}
@@ -91,7 +87,8 @@
                className=""
              />
 
-             {this.state.errors.password ? <span className="help-block">{this.state.errors.password}</span> : <br />}
+             {this.state.errors.password ? 
+               <span className="help-block">{this.state.errors.password}</span> : <br />}
              <input
                type="password"
                value={this.state.password}

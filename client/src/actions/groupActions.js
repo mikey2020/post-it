@@ -1,7 +1,5 @@
 import axios from 'axios';
-
 import { ADD_USER_GROUPS, ADD_GROUP, ADD_CURRENT_GROUP } from './types';
-
 import { addFlashMessage, createMessage } from './flashMessageActions';
 
 const addUserGroups = groups => ({
@@ -23,6 +21,7 @@ const addCurrentGroup = group => ({
 const setCurrentGroup = group => (dispatch) => {
   dispatch(addCurrentGroup(group));
 };
+
 
 const getUserGroups = () => dispatch => axios.post('/api/usergroups')
             .then((res) => {

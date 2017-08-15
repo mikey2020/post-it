@@ -1,10 +1,8 @@
 import axios from 'axios';
-
 import jwt from 'jsonwebtoken';
-
 import { SET_USER, UNSET_USER } from './types';
-
 import { addFlashMessage, createMessage } from './flashMessageActions';
+
 
 const setUser = user => ({
   type: SET_USER,
@@ -37,10 +35,10 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
                validateToken(token);
                dispatch(setUser(jwt.decode(token).data));
                dispatch(addFlashMessage(createMessage('success', `Welcome ${res.data.user.name}`)));
-             } else {
+             }/* else {
                dispatch(setUser(res.data.errors));
                dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
-             }
+             } */
            })
            .catch(() => {
              dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));

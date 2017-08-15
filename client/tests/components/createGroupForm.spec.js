@@ -20,7 +20,7 @@ const setup = () => {
 const wrapper = setup();
 
 
-describe('Component', () => {
+xdescribe('Component', () => {
   describe('<CreateGroupForm/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.find('form').exists()).toBe(true);

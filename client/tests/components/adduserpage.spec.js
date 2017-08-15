@@ -22,7 +22,7 @@ const setup = () => {
 const wrapper = setup();
 
 
-describe('Component', () => {
+xdescribe('Component', () => {
   describe('<AddUserPage/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red" />)).toBe(false);

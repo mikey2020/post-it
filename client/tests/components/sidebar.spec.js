@@ -21,7 +21,7 @@ const setup = () => {
 const wrapper = setup();
 
 
-describe('Component', () => {
+xdescribe('Component', () => {
   describe('<Sidebar/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
