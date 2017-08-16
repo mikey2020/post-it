@@ -16,6 +16,12 @@ export class User extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
 
+  /* checkUserIsMember(user){
+    const { members } = this.props;
+    if (members.includes(user)) {   
+    }
+  } */
+
   onClick(e) {
     e.preventDefault();
     this.setState({ add_user: 'user added' });
@@ -38,7 +44,14 @@ User.propTypes = {
   userId: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
   addUserToGroup: PropTypes.func.isRequired,
-  groupId: PropTypes.number.isRequired
+  groupId: PropTypes.number.isRequired,
+  members: PropTypes.members.isRequired
 };
 
-export default connect(null, { addUserToGroup })(User);
+const mapStateToProps = (state) => {
+  return {
+    members: state.members
+  };
+};
+
+export default connect(mapStateToProps, { addUserToGroup })(User);

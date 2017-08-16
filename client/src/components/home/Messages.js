@@ -5,6 +5,7 @@ import Validations from '../../../validations';
 import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
 import Message from './Message';
 import subscribeToTimer from '../../../socket';
+import Members from './Members';
 
 const validate = new Validations();
 /**
@@ -122,7 +123,8 @@ export class Messages extends React.Component {
           <nav className="col s12 m12 l12 right-column-header blue-grey darken-3">
             <div className="nav-wrapper">
               <div className="row">
-                <a href="#!" className="col s7 m7 l7" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</a>
+                <a href="#!" className="col s5 m5 l5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</a>
+                <a href="#" className="col s2 m2 l2 dropdown-button btn members-dropdown" data-beloworigin="true" data-activates="dropdown1"> Members </a>
                 <a href="#modal3" className="col s3 m3 l3"><i className="material-icons adduser-icon">add_circle_outline</i></a>
               </div>
             </div>

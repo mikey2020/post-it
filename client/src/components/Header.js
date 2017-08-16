@@ -44,6 +44,7 @@ export class Header extends React.Component {
           <ul className="right">
             <div>
               <li><a href="#modal4"><i className="material-icons modal-trigger">notifications</i></a></li>
+              <li><span className="notify"> 1 </span></li>
               <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/home">Home</Link></li>
               <li><a href="#" onClick={this.logout} className="flow-text waves-effect btn waves-red links" id="logout-button">Logout</a></li>
             </div>

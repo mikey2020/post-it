@@ -183,13 +183,12 @@ class GroupActions {
         id: req.params.groupId
       }
     }).then((group) => {
-      group.getUsers({ attributes: ['email', 'phoneNumber'] }).then((users) => {
+      group.getUsers({ attributes: { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } }).then((users) => {
         if (users) {
           console.log(users);
+          req.members = users;
           req.usersEmails = GroupActions.getEmails(users);
-          //console.log('request', req.usersEmails);
           next();
-          // res.json({ groupMembersEmails: users });
         } else {
           res.json({ message: 'No user email found ' });
         }
@@ -346,6 +345,14 @@ class GroupActions {
     .then((events) => {
       console.log('notifications', events);
     })
+  }
+
+  static AllGroupMembers(req, res) {
+    if (req.members) {
+      res.json({ members: req.members });
+    } else {
+      res.status(404).json({ message: 'No members in this group' });
+    }
   }
 }
 

@@ -44,9 +44,12 @@ export class SignupForm extends React.Component {
    */
   onSubmit(e) {
     e.preventDefault();
-    this.props.addUser(this.state).then(() => {
-      this.context.router.push('/home');
-    });
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: true });
+      this.props.addUser(this.state).then(() => {
+        this.context.router.push('/home');
+      });
+    }
   }
   /**
    * @param {object} e - argument

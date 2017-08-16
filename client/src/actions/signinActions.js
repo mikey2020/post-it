@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { SET_USER, UNSET_USER } from './types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
-
+import handleErrors from './errorAction';
 
 const setUser = user => ({
   type: SET_USER,
@@ -40,8 +40,10 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
                dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
              } */
            })
-           .catch(() => {
-             dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
+           .catch((err) => {
+             console.log('am getting error dont now about this guy', err);
+             dispatch(handleErrors('Invalid Signin Parameters'));
+             // dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
 
 export { validateUser, signout, validateToken, setUser };

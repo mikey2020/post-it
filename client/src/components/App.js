@@ -3,6 +3,7 @@ import Header from './Header';
 import FlashMessageList from './flash/FlashMessageList';
 import CreateGroupForm from './home/CreateGroupForm';
 import AddUserPage from './home/AddUserPage';
+import Members from './home/Members';
 import Footer from './Footer';
 import Notifications from './Notifications';
 
@@ -23,6 +24,7 @@ export default class App extends React.Component {
         <Notifications />
         <CreateGroupForm />
         <AddUserPage />
+        <Members />
         { this.props.children }
         <Footer />
       </div>
