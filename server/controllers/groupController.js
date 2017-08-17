@@ -344,12 +344,16 @@ class GroupActions {
     })
     .then((events) => {
       console.log('notifications', events);
-    })
+    });
   }
 
   static AllGroupMembers(req, res) {
-    if (req.members) {
-      res.json({ members: req.members });
+    const allMembers = [];
+    Object.keys(req.members).forEach((member) => {
+      allMembers.push(req.members[member].username);
+    });
+    if (allMembers.length > 0) {
+      res.json({ members: allMembers });
     } else {
       res.status(404).json({ message: 'No members in this group' });
     }
