@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import Validations from '../../../validations';
 import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
 import Message from './Message';
-import subscribeToTimer from '../../../socket';
-import Members from './Members';
 
+const socket = io();
 const validate = new Validations();
 /**
  *  Messages class component
@@ -31,8 +30,6 @@ export class Messages extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePriority = this.handlePriority.bind(this);
-
-    subscribeToTimer((err, data) => this.setState({ emmitedData: data }));
   }
   /**
    * @returns {void}
@@ -74,6 +71,7 @@ export class Messages extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
+      socket.emit('new message posted', (this.state.message));
       this.setState({ errors: {}, isLoading: false });
       this.props.postMessage(this.state, this.props.group.id);
     }
@@ -113,19 +111,34 @@ export class Messages extends React.Component {
    */
   render() {
     const allMessages = this.props.messages.map(message =>
-      <Message key={message.id} content={message.content} priority={message.priority} creator={message.creator} />
-        );
+      (<Message
+        key={message.id}
+        content={message.content}
+        priority={message.priority}
+        creator={message.creator}
+      />)
+    );
 
     return (
       <div className="row">
-        {this.state.errors.priority ? <span className="priority-error">{this.state.errors.priority}</span> : <br />}
+        {this.state.errors.priority ?
+          <span className="priority-error">{this.state.errors.priority}</span> : <br />
+        }
         <div>
           <nav className="col s12 m12 l12 right-column-header blue-grey darken-3">
             <div className="nav-wrapper">
               <div className="row">
-                <a href="#!" className="col s5 m5 l5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</a>
-                <a href="#" className="col s2 m2 l2 dropdown-button btn members-dropdown" data-beloworigin="true" data-activates="dropdown1"> Members </a>
-                <a href="#modal3" className="col s3 m3 l3"><i className="material-icons adduser-icon">add_circle_outline</i></a>
+                <a href="" className="col s5 m5 l5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</a>
+                <a
+                  href=""
+                  className="col s2 m2 l2 dropdown-button btn members-dropdown"
+                  data-beloworigin="true"
+                  data-activates="dropdown1"
+                > Members
+                </a>
+                <a href="#modal3" className="col s3 m3 l3">
+                  <i className="material-icons adduser-icon">add_circle_outline</i>
+                </a>
               </div>
             </div>
           </nav>

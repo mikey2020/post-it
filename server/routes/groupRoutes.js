@@ -23,7 +23,7 @@ export default (app) => {
 
   app.post('/api/usergroups', Validations.authenticate, GroupActions.getGroupsUserIsMember);
 
-  app.get('/api/notifications', Validations.authenticate, GroupActions.getUserNotifications);
+  // app.get('/api/notifications', Validations.authenticate, GroupActions.getUserNotifications);
 
   app.post('/api/user/:messageId/read', Validations.authenticate, Unique.checkMessageRead, GroupActions.readMessage);
 };

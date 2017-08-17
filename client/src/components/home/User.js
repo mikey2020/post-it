@@ -7,6 +7,10 @@ import { addUserToGroup } from '../../actions/groupActions';
  * @class
  */
 export class User extends React.Component {
+  /**
+   * @constructor
+   * @param {object} props - react properties
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -16,30 +20,39 @@ export class User extends React.Component {
 
     this.onClick = this.onClick.bind(this);
   }
-
-  componentDidMount(){
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
     this.checkUserIsMember(this.props.username);
   }
 
-  checkUserIsMember(user) {
-    const { members } = this.props;
-    console.log('users / memebers part', members);
-    Object.keys(members).forEach((member) => {
-      if (members[member].username === user) {
-        console.log('a member', user);
-        this.setState({ userState: 'member', userStatus: true });
-      } else {
-        console.log(user + ' is not member');
-      }
-    });
-  }
-
+  /**
+   * @returns {void}
+   * @param {object} e  - event object
+   */
   onClick(e) {
     e.preventDefault();
     this.setState({ userState: 'user added' });
     this.props.addUserToGroup({ userId: this.props.userId }, this.props.groupId);
   }
 
+  /**
+   * @returns {void}
+   * @param {string} user - registered user in the application
+   */
+  checkUserIsMember(user) {
+    const { members } = this.props;
+    Object.keys(members).forEach((member) => {
+      if (members[member].username === user) {
+        console.log('a member', user);
+        this.setState({ userState: 'member', userStatus: true });
+      }
+    });
+  }
+  /**
+   * @returns {void}
+   */
   render() {
     return (
       <div>

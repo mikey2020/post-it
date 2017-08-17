@@ -2,11 +2,11 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import models from '../models';
-
+import GroupConnection from '../helpers/socket';
 
 const Group = models.Group;
 const Message = models.Message;
-const Notification = models.Notification;
+// const Notification = models.Notification;
 
 dotenv.config();
 /**
@@ -185,7 +185,6 @@ class GroupActions {
     }).then((group) => {
       group.getUsers({ attributes: { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } }).then((users) => {
         if (users) {
-          console.log(users);
           req.members = users;
           req.usersEmails = GroupActions.getEmails(users);
           next();
@@ -207,7 +206,6 @@ class GroupActions {
       }
     }).then((user) => {
       return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
-        console.log(groups);
         let userGroups = JSON.stringify(groups);
         userGroups = JSON.parse(userGroups);
         res.json({ usergroups: userGroups });
@@ -246,19 +244,16 @@ class GroupActions {
       }
     }).then((message) => {
       if (req.decoded.data.id !== message.userId) {
-        message.addUser(req.decoded.data.id).then((user) => {
-          console.log(user);
+        message.addUser(req.decoded.data.id).then(() => {
           res.json({ message: 'user read this mesage', data: message });
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
           res.json({ message: 'something went wrong registering read message' });
         });
       } else {
         res.json({ message: 'user already read message' });
       }
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       res.json({ message: 'something went wrong finding message' });
     });
   }
@@ -296,11 +291,10 @@ class GroupActions {
    * @returns {void}
    */
   static getEmails(group) {
-    let emails = [];
+    const emails = [];
     Object.keys(group).forEach((user) => {
       emails.push(group[user].email);
     });
-    console.log(emails);
     return emails;
   }
   /**
@@ -308,7 +302,6 @@ class GroupActions {
    * @returns {void}
    */
   static sendSms(recipient) {
-    console.log('thi person receiving messages', recipient);
     const nexmo = new Nexmo({
       apiKey: process.env.API_KEY,
       apiSecret: process.env.API_SECRET
@@ -322,29 +315,40 @@ class GroupActions {
     });
   }
 
+  /**
+   * @param {string} username - user posting the message
+   */
   static notificationMessage(username) {
     return `${username} posted a message to a group you are part of`;
   }
 
-  static addNotification(groupId, notification) {
+  /**
+   * @returns {void}
+   * @param {number} id - group id
+   * @param {string} notification
+   */
+  static addNotification(id, notification) {
     models.Notification.create({
-      groupId: groupId,
+      groupId: id,
       event: notification
     })
    .then((event) => {
      console.log('checkout notifcs', event);
    });
   }
-
-  static getNotifications(groupId) {
-   return models.Notification.findAll({
+  /**
+   * @returns {void}
+   * @param {number} id - group id
+   */
+  static getNotifications(id) {
+    return models.Notification.findAll({
       where: {
-        groupId: groupId
+        groupId: id
       }
     });
   }
 
-  /*static getUserNotifications(req, res) {
+  /* static getUserNotifications(req, res) {
     const userNotifications = [];
     models.User.findOne({
       where: {
@@ -361,8 +365,12 @@ class GroupActions {
         });
       });
     });
-  }*/
-
+  } */
+  /**
+   * @returns {void}
+   * @param {object} req
+   * @param {object} res
+   */
   static AllGroupMembers(req, res) {
     const allMembers = [];
     Object.keys(req.members).forEach((member) => {

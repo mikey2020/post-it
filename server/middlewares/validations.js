@@ -1,11 +1,7 @@
 import validator from 'validator';
-
 import isEmpty from 'lodash/isEmpty';
-
 import dotenv from 'dotenv';
-
 import jwt from 'jsonwebtoken';
-
 import models from '../models';
 
 dotenv.config();
@@ -73,6 +69,9 @@ class Validations {
   }
 
   /**
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
    * @param {object} data - signup object
    * @returns {object} - errors object if there is any
    */
@@ -82,7 +81,6 @@ class Validations {
         id: req.body.userId
       }
     }).then((validUser) => {
-      console.log(validUser);
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }

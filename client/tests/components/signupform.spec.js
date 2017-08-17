@@ -36,8 +36,8 @@ describe('Component', () => {
     });
 
     it('calls onChange', () => {
-      //sinon.spy(SignupForm.prototype, 'onChange');
-      //expect(SignupForm.prototype.onChange.calledOnce).toBe(true);
+      // sinon.spy(SignupForm.prototype, 'onChange');
+      // expect(SignupForm.prototype.onChange.calledOnce).toBe(true);
     });
   });
 });

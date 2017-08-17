@@ -8,23 +8,19 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import socketio from 'socket.io';
-//import http from 'http';
+import http from 'http';
 
-import postMessage from './helpers/socket';
+import GroupConnection from './helpers/socket';
 import webpackConfig from '../webpack.config.dev';
 import UserActions from './controllers/userController';
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
-
-
 dotenv.config();
 
 const app = express();
-
-const http = require('http').Server(app);
-
-const io = socketio(http);
+const httpApp = http.Server(app);
+const io = socketio(httpApp);
 const port = process.env.PORT;
 const user = new UserActions();
 
@@ -51,8 +47,9 @@ app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true
-
 }));
+
+const group = new GroupConnection(io);
 
 // user routes
 app.get('/api/users', user.allUsers);
@@ -60,7 +57,7 @@ userRoutes(app);
 
 // group routes
 groupRoutes(app);
-postMessage(io);
+
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/client/index.html'));
@@ -70,10 +67,17 @@ app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
-http.listen(port, () => {
+io.on('connection', (socket) => {
+  console.log('socket is connected');
+  socket.on('new message posted', (message) => {
+    console.log(`${message} was just posted`);
+  });
+});
+
+httpApp.listen(port, () => {
   // console.log('Listening on port 3000...');
 });
 
 
-export default app;
+export { app, io };
 

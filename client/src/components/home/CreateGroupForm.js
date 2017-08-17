@@ -1,12 +1,9 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
-
 import Validations from '../../../validations';
-
 import { createGroup } from '../../actions/groupActions';
+const socket = io();
 
 const validate = new Validations();
 /**
@@ -33,6 +30,34 @@ export class CreateGroupForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @returns {void}
+   * @param {Object} e
+   */
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: false });
+    }
+  }
+  /**
+   * @returns {void}
+   * @param {Object} e
+   */
+  onSubmit(e) {
+    e.preventDefault();
+
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: false });
+      socket.emit('new group', this.state.name);
+      this.props.createGroup(this.state);
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
   isValid() {
     const { errors, isValid } = validate.input(this.state);
 
@@ -41,24 +66,6 @@ export class CreateGroupForm extends React.Component {
     }
 
     return isValid;
-  }
-
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-
-    if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false });
-    }
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-
-    if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false });
-
-      this.props.createGroup(this.state);
-    }
   }
 
    /**
@@ -84,7 +91,12 @@ export class CreateGroupForm extends React.Component {
             id="usr"
           />
 
-          <input type="submit" className="btn btn-primary active" value="Create Group" disabled={isLoading || invalid} />
+          <input
+            type="submit"
+            className="btn btn-primary active"
+            value="Create Group"
+            disabled={isLoading || invalid}
+          />
 
 
         </form>

@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getMembersOfGroup } from '../../actions/userActions';
 
+/**
+ *  Members class component
+ * @class
+ */
 class Members extends React.Component {
-    constructor(props){
-        super(props); 
-    }
-
-  componentDidMount(){
-    this.props.getMembersOfGroup(this.props.groupId).then((data) => {
-        console.log('iiinworkignssss', data);
-    });
+   /**
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.getMembersOfGroup(this.props.groupId);
   }
   /**
    * @param {object} prevProps - previous props
@@ -20,9 +21,7 @@ class Members extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.groupId !== prevProps.groupId) {
       const { groupId } = this.props;
-      this.props.getMembersOfGroup(groupId).then((data) => {
-         console.log('getting memvers successfully');
-      });
+      this.props.getMembersOfGroup(groupId);
     }
   }
   /**
@@ -31,17 +30,16 @@ class Members extends React.Component {
    */
   render() {
     const allMembers = this.props.members.map(member =>
-        <li className="member" key={member.id}> {member.username} </li>
-      );
-        return (
-
-            <div>
-              <ul id="dropdown1" className="dropdown-content">
-                { this.props.members.length > 0 && <ul>{ allMembers }</ul> }
-              </ul>
-            </div>
-        )
-    }
+      <li className="member" key={member.id}> {member.username} </li>
+    );
+    return (
+      <div>
+        <ul id="dropdown1" className="dropdown-content">
+          { this.props.members.length > 0 && <ul>{ allMembers }</ul> }
+        </ul>
+      </div>
+    );
+  }
 }
 
 Members.propTypes = {
