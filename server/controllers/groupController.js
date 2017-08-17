@@ -337,15 +337,31 @@ class GroupActions {
   }
 
   static getNotifications(groupId) {
-    models.Notification.findAll({
+   return models.Notification.findAll({
       where: {
         groupId: groupId
       }
-    })
-    .then((events) => {
-      console.log('notifications', events);
     });
   }
+
+  /*static getUserNotifications(req, res) {
+    const userNotifications = [];
+    models.User.findOne({
+      where: {
+        id: req.decoded.data.id
+      }
+    })
+    .then((user) => {
+      user.getGroups().then((groups) => {
+        Object.keys(groups).forEach((group) => {
+          console.log('ecah group', group);
+          GroupActions.getNotifications(groups[group].id).then((notifics) => {
+             console.log('this noticfis', notifics);
+          });
+        });
+      });
+    });
+  }*/
 
   static AllGroupMembers(req, res) {
     const allMembers = [];
