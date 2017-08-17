@@ -36,7 +36,10 @@ export class CreateGroupForm extends React.Component {
    */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-
+     const groupSocket = io(`/${this.state.name}`);
+     groupSocket.on('hi', (data) => {
+       console.log(data);
+     })
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
     }

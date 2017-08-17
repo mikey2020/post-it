@@ -9,16 +9,15 @@ class Group {
    */
   constructor(socket) {
     this.socket = socket;
-    socket.on('new group', (groupname) => {
-      console.log(' am connected to this');
-      const group = socket.of(`/${groupname}`);
+    this.socket.on('new group', (groupname) => {
+      console.log(' am connected to this', groupname);
+      const group = this.socket.of(`/${groupname}`);
       group.on('connection', () => {
         console.log('this group is connected');
       });
       group.emit('hi', 'everyone!');
-    })
-    
-  }
+    });
+  };
   /**
    * @returns {void}
    */

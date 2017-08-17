@@ -49,7 +49,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-const group = new GroupConnection(io);
+// const group = new GroupConnection(io);
 
 // user routes
 app.get('/api/users', user.allUsers);
@@ -71,6 +71,14 @@ io.on('connection', (socket) => {
   console.log('socket is connected');
   socket.on('new message posted', (message) => {
     console.log(`${message} was just posted`);
+  });
+  socket.on('new group', (groupname) => {
+    console.log(' am connected to this', groupname);
+    const group = io.of(`/${groupname}`);
+    group.on('connection', () => {
+      console.log('this group is connected');
+    });
+    group.emit('hi', 'everyone!');
   });
 });
 
