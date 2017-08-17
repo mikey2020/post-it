@@ -10,21 +10,33 @@ export class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      add_user: 'Add'
+      userState: 'Add',
+      userStatus: false
     };
 
     this.onClick = this.onClick.bind(this);
   }
 
-  /* checkUserIsMember(user){
+  componentDidMount(){
+    this.checkUserIsMember(this.props.username);
+  }
+
+  checkUserIsMember(user) {
     const { members } = this.props;
-    if (members.includes(user)) {   
-    }
-  } */
+    console.log('users / memebers part', members);
+    Object.keys(members).forEach((member) => {
+      if (members[member].username === user) {
+        console.log('a member', user);
+        this.setState({ userState: 'member', userStatus: true });
+      } else {
+        console.log(user + ' is not member');
+      }
+    });
+  }
 
   onClick(e) {
     e.preventDefault();
-    this.setState({ add_user: 'user added' });
+    this.setState({ userState: 'user added' });
     this.props.addUserToGroup({ userId: this.props.userId }, this.props.groupId);
   }
 
@@ -32,7 +44,15 @@ export class User extends React.Component {
     return (
       <div>
         <li className="collection-item user-btn blue-grey darken-3 flow-text"> {this.props.username}
-          <button name="add_user" onClick={this.onClick} id="add-btn" className="waves-effect waves-red btn add-user-btn teal lighten-2">{this.state.add_user}</button></li>
+          <button
+            name="add_user"
+            disabled={this.state.userStatus}
+            onClick={this.onClick}
+            id="add-btn"
+            className="waves-effect waves-red btn add-user-btn teal lighten-2"
+          > {this.state.userState}
+          </button>
+        </li>
         <br />
       </div>
     );
@@ -45,7 +65,7 @@ User.propTypes = {
   username: PropTypes.string.isRequired,
   addUserToGroup: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
-  members: PropTypes.members.isRequired
+  members: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
 const mapStateToProps = (state) => {

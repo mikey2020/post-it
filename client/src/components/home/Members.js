@@ -21,8 +21,7 @@ class Members extends React.Component {
     if (this.props.groupId !== prevProps.groupId) {
       const { groupId } = this.props;
       this.props.getMembersOfGroup(groupId).then((data) => {
-         console.log(' i already have afresking group ID', groupId);
-         console.log('am geettted called', data);
+         console.log('getting memvers successfully');
       });
     }
   }
@@ -32,13 +31,13 @@ class Members extends React.Component {
    */
   render() {
     const allMembers = this.props.members.map(member =>
-        <li key={member.id}> {member.username} </li>
+        <li className="member" key={member.id}> {member.username} </li>
       );
         return (
 
             <div>
               <ul id="dropdown1" className="dropdown-content">
-                { this.props.members.length > 0 && <ul className="">{allMembers}</ul> }
+                { this.props.members.length > 0 && <ul>{ allMembers }</ul> }
               </ul>
             </div>
         )

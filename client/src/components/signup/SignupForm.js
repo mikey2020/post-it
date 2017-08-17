@@ -152,7 +152,6 @@ export class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  addFlashMessage: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired
 };
 

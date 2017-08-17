@@ -6,7 +6,7 @@ import { SignupForm } from '../../src/components/signup/SignupForm';
 
 const setup = () => {
   const props = {
-    validateUser: (() => {})
+    addUser: (() => {})
   };
 
   return mount(<SignupForm {...props} />);
@@ -24,9 +24,15 @@ describe('Component', () => {
     });
 
     it('calls onSubmit', () => {
-      wrapper.find('#signup-button').simulate('click');
-      //sinon.spy(SignupForm.prototype, 'onSubmit');
-      //expect(SignupForm.prototype.onSubmit.calledOnce).toBe(true);
+      // wrapper.find('#signup-button').simulate('click');
+      const signupButton = wrapper.find('#signup-button');
+      const onSubmitSpy = sinon.spy(wrapper.instance(), 'onSubmit');
+      wrapper.update();
+      const mockEvent = {
+        preventDefault: () => {}
+      };
+      signupButton.simulate('click', mockEvent);
+      expect(onSubmitSpy.calledOnce).toBe(true);
     });
 
     it('calls onChange', () => {
