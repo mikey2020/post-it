@@ -25,9 +25,18 @@ describe('Component', () => {
     });
 
     it('calls onSubmit', () => {
-      wrapper.find('#sign-in').simulate('click');
-      sinon.spy(SigninForm.prototype, 'onSubmit');
-      expect(SigninForm.prototype.onSubmit.calledOnce).toBe(true);
+      const mockEvent = {
+        preventDefault: () => {},
+        addUser: () => {},
+      };
+      wrapper.find('form').simulate('submit', mockEvent);
+      expect(wrapper.find('form').props().onSubmit).toBeA('function');
+    });
+
+    it('calls onChange', () => {
+      const event = { target: { name: 'bat', value: 'man' } };
+      wrapper.find('.username').simulate('change', event);
+      expect(wrapper.find('.username').props().onChange).toBeA('function');
     });
 
     it('calls isValid', () => {

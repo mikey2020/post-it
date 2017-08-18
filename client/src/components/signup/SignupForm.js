@@ -82,7 +82,7 @@ export class SignupForm extends React.Component {
               type="text"
               placeholder="username"
               name="username"
-              className=""
+              className="username"
             />
 
             {errors.email ? <span className="help-block">{errors.email}</span> : <br />}

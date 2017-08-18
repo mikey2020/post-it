@@ -1,11 +1,7 @@
 import bcrypt from 'bcrypt-nodejs';
-
 import jwt from 'jsonwebtoken';
-
 import dotenv from 'dotenv';
-
 import Validations from '../middlewares/validations';
-
 import models from '../models';
 
 dotenv.config();

@@ -10,11 +10,12 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import socketio from 'socket.io';
 import http from 'http';
 
-import GroupConnection from './helpers/socket';
+import socketConnection from './helpers/socket';
 import webpackConfig from '../webpack.config.dev';
 import UserActions from './controllers/userController';
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
+
 
 dotenv.config();
 
@@ -38,9 +39,7 @@ if (process.env.NODE_ENV === 'development') {
 
 
 app.use(morgan('dev'));
-
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(bodyParser.json());
 
 app.use(session({
@@ -49,13 +48,10 @@ app.use(session({
   saveUninitialized: true
 }));
 
-const group = new GroupConnection(io);
+socketConnection(io);
 
-// user routes
 app.get('/api/users', user.allUsers);
 userRoutes(app);
-
-// group routes
 groupRoutes(app);
 
 
@@ -67,12 +63,6 @@ app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
 
-io.on('connection', (socket) => {
-  console.log('socket is connected');
-  socket.on('new message posted', (message) => {
-    console.log(`${message} was just posted`);
-  });
-});
 
 httpApp.listen(port, () => {
   // console.log('Listening on port 3000...');

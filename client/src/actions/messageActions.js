@@ -27,6 +27,7 @@ const getGroupMessages = groupId => dispatch => axios.get(`/api/group/${groupId}
 const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/group/${groupId}/message`, messageData)
               .then((res) => {
                 if (res.data.data) {
+                  
                   dispatch(addMessage(res.data.data));
                 } else {
                   dispatch(addFlashMessage(createMessage('error', res.data.message)));

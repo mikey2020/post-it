@@ -79,7 +79,7 @@ export class Header extends React.Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
   signout: PropTypes.func.isRequired
 };
 

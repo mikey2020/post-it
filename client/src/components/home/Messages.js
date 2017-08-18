@@ -71,14 +71,15 @@ export class Messages extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      socket.emit('new message posted', (this.state.message));
+      console.log(' this group name', this.props.group.name);
+      socket.emit('new message posted', (this.state.message, this.props.group.name));
       this.setState({ errors: {}, isLoading: false });
       this.props.postMessage(this.state, this.props.group.id);
     }
   }
 
   /**
-   * @param {object} e - argument
+   * @param {Object} e - Event object
    * @returns {void}
    */
   handlePriority(e) {
@@ -168,7 +169,7 @@ export class Messages extends React.Component {
 }
 
 Messages.propTypes = {
-  messages: PropTypes.array.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.string).isRequired,
   group: PropTypes.object.isRequired,
   postMessage: PropTypes.func.isRequired,
   getGroupMessages: PropTypes.func.isRequired,
