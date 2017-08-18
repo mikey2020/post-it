@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import models from '../models';
-import GroupConnection from '../helpers/socket';
+import io from '../app';
 
 const Group = models.Group;
 const Message = models.Message;
@@ -45,7 +45,7 @@ class GroupActions {
       groupCreator: req.decoded.data.username,
       userId: req.decoded.data.id
     }).then((group) => {
-      group.addUser(req.decoded.data.id).then(() => {
+      return group.addUser(req.decoded.data.id).then(() => {
         res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
       });
     })
@@ -65,12 +65,13 @@ class GroupActions {
         id: req.params.groupId
       }
     }).then((group) => {
-      group.addUser(req.validUserId)
+      return group.addUser(req.validUserId)
         .then(() => {
-          group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
+          // group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
         });
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err, 'thi serror shae');
       res.status(400).json({ error: { message: 'Group does not exist' } });
     });
   }
@@ -100,6 +101,7 @@ class GroupActions {
               GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
               // GroupActions.sendSms();
             }
+            io.emit('new message posted', message.content);
             res.json({ message: 'message posted to group', data: message });
           });
         }
@@ -340,16 +342,16 @@ class GroupActions {
    * @returns {void}
    * @param {number} id - group id
    */
-  static getNotifications(id) {
+  /*static getNotifications(id) {
     return models.Notification.findAll({
       where: {
         groupId: id
       }
     });
-  }
+  }*/
 
-  /* static getUserNotifications(req, res) {
-    const userNotifications = [];
+  static getUserNotifications(req, res) {
+    /*const userNotifications = [];
     models.User.findOne({
       where: {
         id: req.decoded.data.id
@@ -364,8 +366,18 @@ class GroupActions {
           });
         });
       });
+    });*/
+    models.User.findOne({
+      where: {
+        userId: req.decoded.data.id,
+      }
+    })
+    .then((user) => {
+      user.getNotifications().then((results) => {
+        console.log(results);
+      });
     });
-  } */
+  }
   /**
    * @returns {void}
    * @param {object} req

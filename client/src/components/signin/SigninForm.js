@@ -2,12 +2,19 @@
  import { connect } from 'react-redux';
  import { Link } from 'react-router';
  import PropTypes from 'prop-types';
- import { validateUser } from '../../actions/signinActions';
+ import { validateUser, validateToken } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
+ import GoogleLogin from 'react-google-login';
+
 
  const validate = new Validations();
-
+ const responseGoogle = (response) => {
+   console.log(response);
+   if (response) {
+     validateToken(response);
+   }
+ };
  /**
  *  SigninForm class component
  * @class
@@ -87,7 +94,7 @@
                className=""
              />
 
-             {this.state.errors.password ? 
+             {this.state.errors.password ?
                <span className="help-block">{this.state.errors.password}</span> : <br />}
              <input
                type="password"
@@ -107,6 +114,16 @@
            </form>
            <br />
            <span><Link to="/reset" > Forgot password? </Link></span>
+           <br />
+           <span>
+             <GoogleLogin
+               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+               buttonText="Sign Up with Google"
+               onSuccess={responseGoogle}
+               onFailure={responseGoogle}
+               uxMode={'popup'}
+             />
+           </span>
          </div>
        </div>
      );

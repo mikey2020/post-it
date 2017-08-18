@@ -36,10 +36,6 @@ export class CreateGroupForm extends React.Component {
    */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-     const groupSocket = io(`/${this.state.name}`);
-     groupSocket.on('hi', (data) => {
-       console.log(data);
-     })
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
     }
@@ -50,10 +46,8 @@ export class CreateGroupForm extends React.Component {
    */
   onSubmit(e) {
     e.preventDefault();
-
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
-      socket.emit('new group', this.state.name);
       this.props.createGroup(this.state);
     }
   }
@@ -63,11 +57,9 @@ export class CreateGroupForm extends React.Component {
    */
   isValid() {
     const { errors, isValid } = validate.input(this.state);
-
     if (!isValid) {
       this.setState({ errors, isLoading: true });
     }
-
     return isValid;
   }
 

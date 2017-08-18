@@ -3,5 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     event: DataTypes.STRING
   });
+
+  Notification.associate = (models) => {
+    Notification.belongsToMany(models.User, {
+      foreignKey: 'notificationId',
+      through: 'UserNotification'
+    });
+  };
   return Notification;
 };

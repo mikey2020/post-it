@@ -36,16 +36,16 @@ const createGroup = groupname => dispatch => axios.post('/api/group', groupname)
                dispatch(addGroup(res.data.group.data));
              } else {
                dispatch(handleErrors(res.data.errors.message));
-               // dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
              }
            });
 
 const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/group/${groupId}/user`, user)
             .then((res) => {
               if (res.data.message) {
-                console.log('added user successfully', res.data.message);
+                console.log('am geetting here');
+                dispatch(addFlashMessage(createMessage('success', res.data.message)));
               } else {
-                dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
+                dispatch(handleErrors(res.data.errors.message));
               }
             });
 

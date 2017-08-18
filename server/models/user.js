@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       through: 'ReadMessages'
     });
+    User.belongsToMany(models.Notification, {
+      foreignKey: 'userId',
+      through: 'UserNotification'
+    });
   };
 
   User.beforeCreate((user) => {

@@ -7,6 +7,7 @@ import SigninForm from './src/components/signin/SigninForm';
 import HomePage from './src/components/home/HomePage';
 import Authenticate from './src/components/Authenticate';
 import ResetPassword from './src/components/ResetPassword';
+import GoogleSignin from './src/components/signup/GoogleSignin';
 
 
 export default (
@@ -16,5 +17,6 @@ export default (
     <Route path="signin" component={SigninForm} />
     <Route path="home" component={Authenticate(HomePage)} />
     <Route path="reset" component={ResetPassword} />
+    <Route path="google" component={GoogleSignin} />
   </Route>
 );

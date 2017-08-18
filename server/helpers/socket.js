@@ -1,31 +1,14 @@
-/**
- * @class
- */
-class Group {
-  /**
-   * @returns {void}
-   * @param {Object} socket
-   * @param {String} groupname - the name of group created user
-   */
-  constructor(socket) {
-    this.socket = socket;
-    this.socket.on('new group', (groupname) => {
-      console.log(' am connected to this', groupname);
-      const group = this.socket.of(`/${groupname}`);
-      group.on('connection', () => {
-        console.log('this group is connected');
-      });
-      group.emit('hi', 'everyone!');
+export default (io) => {
+  io.on('connection', (socket) => {
+    console.log('socket is connected');
+    socket.on('new message posted', (message) => {
+      console.log(`${message} was just posted`);
     });
-  };
-  /**
-   * @returns {void}
-   */
-  postMessage() {
-    this.socket.on('new message posted', (message) => {
-       console.log(message);
+    socket.on('new group', (groupname) => {
+      console.log('groupname');
     });
-  }
-}
-
-export default Group;
+    socket.on('new message posted', (message) => {
+      
+    })
+  });
+};
