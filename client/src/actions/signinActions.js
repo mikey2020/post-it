@@ -27,7 +27,7 @@ const validateToken = (token) => {
   }
 };
 
-const validateUser = userData => dispatch => axios.post('/api/user/signin', userData)
+const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', userData)
            .then((res) => {
              if (res.data.user) {
                const token = res.data.user.userToken;
@@ -40,8 +40,7 @@ const validateUser = userData => dispatch => axios.post('/api/user/signin', user
                dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
              } */
            })
-           .catch((err) => {
-             console.log('am getting error dont now about this guy', err);
+           .catch(() => {
              dispatch(handleErrors('Invalid Signin Parameters'));
              // dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });

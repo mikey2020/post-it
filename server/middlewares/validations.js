@@ -17,7 +17,7 @@ class Validations {
    */
   signup(data) {
     this.errors = {};
-
+    console.log('th is my data', data.username.length);
     if (data.password) {
       data.password = data.password.trim();
     }
@@ -37,8 +37,10 @@ class Validations {
       this.errors.phoneNumber = 'Phone Number is required';
     }
 
-    if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
-      this.errors.phoneNumber = 'Please enter a valid phone number';
+    if (data.phoneNumber !== undefined) {
+      if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
+        this.errors.phoneNumber = 'Please enter a valid phone number';
+      }
     }
 
     if (data.email && !validator.isEmail(data.email)) {

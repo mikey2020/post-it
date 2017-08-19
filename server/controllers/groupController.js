@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import models from '../models';
-import socket from 'socket.io';
 
 const Group = models.Group;
 const Message = models.Message;
@@ -49,7 +48,8 @@ class GroupController {
         res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
       });
     })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.status(400).json({ error: { message: 'Group already exists' } });
       });
   }
@@ -66,10 +66,11 @@ class GroupController {
     }).then((group) => {
       group.addUser(req.validUserId)
         .then(() => {
-          group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
+          // group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
         });
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err);
       res.status(400).json({ error: { message: 'Group does not exist' } });
     });
   }
@@ -97,7 +98,7 @@ class GroupController {
               GroupController.sendEmail(req.usersEmails, newNotification);
             } else if (message.priority === 'critical') {
               GroupController.sendEmail(req.usersEmails,
-              GroupController.notificationMessage(req.decoded.data.username));
+              GroupController.notificationMessage(req.decoded.data.username, message.messageCreator));
             }
             res.json({ message: 'message posted to group', data: message });
           });
@@ -316,9 +317,14 @@ class GroupController {
   }
 
   /**
-   * @param {string} username - user posting the message
+   * @returns {string} - it returns a notification message
+   * @param {string} username - user getting the notification
+   * @param {string} messageCreator - user posting the message
    */
-  static notificationMessage(username) {
+  static notificationMessage(username, messageCreator) {
+    if (username === messageCreator) {
+      return 'You posted a message to a group ';
+    }
     return `${username} posted a message to a group you are part of`;
   }
 
@@ -356,25 +362,29 @@ class GroupController {
     models.User.findOne({
       where: {
         id: req.decoded.data.id
-      }
+      },
+      include: [
+        { model: models.Group, include: [{ model: models.Notification }] }
+      ],
     })
     .then((user) => {
-      user.getGroups().then((groups) => {
-        Object.keys(groups).forEach((group) => {
-          // console.log('ecah group', group);
-          GroupController.getNotifications(groups[group].id).then((notifics) => {
-            notifics = JSON.stringify(notifics);
-            notifics = JSON.parse(notifics);
-            // console.log('this noticfis', notifics);
-            Object.keys(notifics).forEach((eachValue) => {
-              // console.log('notifications', notifics[eachValue]);
-              userNotifications.push(notifics[eachValue]);
-              console.log('all notifcations', userNotifications);
-            });
-          });
-           res.json({ notifications: userNotifications });
-        });
+      const responseObj = Object.assign({}, { username: user.username,
+        groups: user.Groups.map((group) => {
+          return Object.assign({}, { groupName: group.groupname,
+            notifications: group.Notifications.map((notification) => {
+              return Object.assign({}, { event: notification.event });
+            }) });
+        }) });
+      const notifications = responseObj.groups;
+      Object.keys(notifications).forEach((notification) => {
+        userNotifications.push(notifications[notification].notifications);
+        // console.log(notifications[notification].notifications);
       });
+      GroupController.destructureArray(userNotifications);
+      res.status(200).json({ userNotifications: userNotifications });
+    })
+    .catch(() => {
+      res.status(404).json({ message: 'You have no notification' });
     });
   }
   /**
@@ -394,7 +404,19 @@ class GroupController {
     }
   }
 
-}
+  /*static destructureArray (arrays) {
+    let newArray = [];
+    // console.log('this is the array i got', arrays);
+    Object.keys(arrays).forEach((array) => {
+      console.log('each array', array);
+      if (typeof arrays[array] === 'object') {
+        console.l
+        newArray = arrays[array].join(',');
+      }
+    });
+    console.log('these is the new array mikey', newArray);
+  }*/
 
+}
 export default GroupController;
 

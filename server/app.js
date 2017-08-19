@@ -16,7 +16,6 @@ import UserActions from './controllers/userController';
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
-
 dotenv.config();
 
 const app = express();
@@ -35,8 +34,9 @@ if (process.env.NODE_ENV === 'development') {
   }));
 
   app.use(webpackHotMiddleware(compiler));
-}
 
+  socketConnection(io);
+}
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,8 +47,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-
-socketConnection(io);
 
 app.get('/api/users', user.allUsers);
 userRoutes(app);
@@ -69,5 +67,5 @@ httpApp.listen(port, () => {
 });
 
 
-export { app, io };
+export default app;
 

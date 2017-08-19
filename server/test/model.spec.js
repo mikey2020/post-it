@@ -1,12 +1,11 @@
 import should from 'should';
-
 import models from '../models';
 import '../app';
 
 
 describe('User Model:', () => {
   it('should be created successfully', (done) => {
-    models.User.create({ username: 'user', password: 'pass', email: 'user@email.com' })
+    models.User.create({ username: 'user', password: 'pass', passwordConfirmation: 'pass', phoneNumber: '09038489099', email: 'user@email.com' })
       .then((user) => {
         should.exist(user);
       });
@@ -30,6 +29,16 @@ describe('Message Model:', () => {
     models.Message.create({ content: 'test-post', groupId: 1, userId: 1, priority: 'normal', messageCreator: 'johnny' })
     .then((post) => {
       should.exist(post);
+      done();
+    });
+  });
+});
+
+describe('UserGroup Model:', () => {
+  it('should be created successfully', (done) => {
+    models.UserGroups.create({ userId: 1, groupId: 3 })
+    .then((usergroup) => {
+      should.exist(usergroup);
       done();
     });
   });

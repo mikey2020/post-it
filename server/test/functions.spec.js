@@ -1,9 +1,8 @@
 import should from 'should';
-
 import Validations from '../middlewares/validations';
 
-describe('Test Input Validations Class', () => {
-  describe('Sign Up Input validations', () => {
+describe('Validations ', () => {
+  describe('Sign up Input validation', () => {
     it('should return `Username is required`', (done) => {
       const validate = new Validations();
       const mockData = { username: '', password: 'pass', email: 'email' };

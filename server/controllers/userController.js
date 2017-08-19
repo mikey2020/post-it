@@ -7,7 +7,6 @@ import models from '../models';
 dotenv.config();
 
 const User = models.User;
-
 const validate = new Validations();
 
 // const forgotPasswordMessage = 'Please enter this verification code in the reset password page';
@@ -27,7 +26,7 @@ class UserActions {
   }
 
   /**
-   * @param {object} req - request object sent to a route
+   * @param {Object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
@@ -50,7 +49,7 @@ class UserActions {
       })
       .catch((err) => {
         console.log(err);
-        res.status(400).json({ errors: { message: 'error something went wrong' } });
+        res.status(500).json({ errors: { message: 'Something went wrong' } });
       });
     }
   }
@@ -77,7 +76,7 @@ class UserActions {
        }
      })
      .catch(() => {
-       res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
+       res.status(400).json({ errors: { form: 'Invalid User' } });
      });
   }
   /**

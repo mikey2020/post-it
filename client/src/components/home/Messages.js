@@ -71,8 +71,7 @@ export class Messages extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      console.log(' this group name', this.props.group.name);
-      socket.emit('new message posted', (this.state.message, this.props.group.name));
+      socket.emit('new message posted', (this.state.message));
       this.setState({ errors: {}, isLoading: false });
       this.props.postMessage(this.state, this.props.group.id);
     }
