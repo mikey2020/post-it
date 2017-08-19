@@ -41,7 +41,7 @@ const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', u
              } */
            })
            .catch(() => {
-             dispatch(handleErrors('Invalid Signin Parameters'));
+             dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
              // dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
 

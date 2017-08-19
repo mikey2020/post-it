@@ -1,14 +1,14 @@
 import { addFlashMessage, createMessage } from './flashMessageActions';
 import { ACTION_FAILED } from './types';
 
-const setErrors = status => ({
+const setErrors = payload => ({
   type: ACTION_FAILED,
-  status
+  payload
 });
 
-const handleErrors = (errorMessage) => {
+const handleErrors = (errorMessage, actionName) => {
   return (dispatch) => {
-    dispatch(setErrors(true));
+    dispatch(setErrors({ status: true, actionName }));
     dispatch(addFlashMessage(createMessage('error', errorMessage)));
   };
 };

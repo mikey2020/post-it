@@ -17,7 +17,7 @@ const getUsers = username => dispatch => axios.post('/api/v1/user', username)
               if (res.data.users) {
                 dispatch(setUsers(res.data.users.data));
               } else {
-                dispatch(handleErrors(res.data.errors.message));
+                dispatch(handleErrors(res.data.errors.message, 'SET_USERS'));
                 // dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
               }
             });

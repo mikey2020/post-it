@@ -4,7 +4,7 @@ export default (state = [], action) => {
   switch (action.type) {
     case SET_NOTIFICATIONS:
       return action.notifications.map(notification => Object.assign({}, state, {
-        notification: notification.event
+        notification: notification[0].event
       }));
 
     default: return state;

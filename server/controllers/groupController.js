@@ -48,8 +48,7 @@ class GroupController {
         res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
       });
     })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(400).json({ error: { message: 'Group already exists' } });
       });
   }
@@ -66,11 +65,9 @@ class GroupController {
     }).then((group) => {
       group.addUser(req.validUserId)
         .then(() => {
-          // group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
         });
-    }).catch((err) => {
-      console.log(err);
+    }).catch(() => {
       res.status(400).json({ error: { message: 'Group does not exist' } });
     });
   }
@@ -92,7 +89,7 @@ class GroupController {
         // console.log('my msg priority', message.priority);
         if (message !== null) {
           return message.addUser(req.decoded.data.id).then(() => {
-            const newNotification = GroupController.notificationMessage(req.decoded.data.username);
+            const newNotification = GroupController.notificationMessage(req.decoded.data.username, message.messageCreator);
             GroupController.addNotification(req.params.groupId, newNotification);
             if (message.priority === 'urgent') {
               GroupController.sendEmail(req.usersEmails, newNotification);
@@ -338,8 +335,8 @@ class GroupController {
       groupId: id,
       event: notification
     })
-   .then(() => {
-     // console.log('checkout notifcs', event);
+   .then((event) => {
+     console.log('checkout notifcs', event);
    });
   }
   /**
@@ -378,7 +375,7 @@ class GroupController {
       const notifications = responseObj.groups;
       Object.keys(notifications).forEach((notification) => {
         userNotifications.push(notifications[notification].notifications);
-        // console.log(notifications[notification].notifications);
+        console.log(notifications[notification].notifications);
       });
       GroupController.destructureArray(userNotifications);
       res.status(200).json({ userNotifications: userNotifications });
@@ -404,7 +401,7 @@ class GroupController {
     }
   }
 
-  /*static destructureArray (arrays) {
+  static destructureArray (arrays) {
     let newArray = [];
     // console.log('this is the array i got', arrays);
     Object.keys(arrays).forEach((array) => {
@@ -415,7 +412,7 @@ class GroupController {
       }
     });
     console.log('these is the new array mikey', newArray);
-  }*/
+  }
 
 }
 export default GroupController;

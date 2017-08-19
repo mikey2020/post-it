@@ -35,7 +35,7 @@ const createGroup = groupname => dispatch => axios.post('/api/v1/group', groupna
              if (res.data.group.message) {
                dispatch(addGroup(res.data.group.data));
              } else {
-               dispatch(handleErrors(res.data.errors.message));
+               dispatch(handleErrors(res.data.errors.message, 'ADD_GROUP'));
                // dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
              }
            });

@@ -19,7 +19,7 @@ const getNotifications = () => {
        }
      })
      .catch(() => {
-       dispatch(handleErrors('No notifications'));
+       dispatch(handleErrors('No notifications', 'SET_NOTIFICATIONS'));
      });
   };
 };
