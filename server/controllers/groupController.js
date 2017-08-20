@@ -49,8 +49,7 @@ class GroupActions {
         res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
       });
     })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(400).json({ error: { message: 'group already exists' } });
       });
   }
@@ -70,8 +69,7 @@ class GroupActions {
           // group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
         });
-    }).catch((err) => {
-      console.log(err, 'thi serror shae');
+    }).catch(() => {
       res.status(400).json({ error: { message: 'Group does not exist' } });
     });
   }
@@ -289,7 +287,7 @@ class GroupActions {
     });
   }
   /**
-   * @param {array} group - emails of all members of the group 
+   * @param {array} group - emails of all members of the group
    * @returns {void}
    */
   static getEmails(group) {
@@ -318,6 +316,7 @@ class GroupActions {
   }
 
   /**
+   * @returns {void}
    * @param {string} username - user posting the message
    */
   static notificationMessage(username) {

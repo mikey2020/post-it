@@ -2,10 +2,10 @@
  import { connect } from 'react-redux';
  import { Link } from 'react-router';
  import PropTypes from 'prop-types';
+ import GoogleLogin from 'react-google-login';
  import { validateUser, validateToken } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
- import GoogleLogin from 'react-google-login';
 
  const clientId = process.env.CLIENT_ID;
  const validate = new Validations();

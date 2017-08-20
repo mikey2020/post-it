@@ -17,9 +17,7 @@ export class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
-      passwordConfirmation: '',
+      phoneNumber: '',
       errors: {},
       isLoading: false
     };
@@ -28,7 +26,9 @@ export class ResetPassword extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onBlur = this.onBlur.bind(this);
   }
-
+  /**
+   * @returns {void}
+   */
   isValid() {
     const { errors, isValid } = validate.signup(this.state);
 
@@ -38,16 +38,23 @@ export class ResetPassword extends React.Component {
 
     return isValid;
   }
-
+  /**
+   * @returns {void}
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  /**
+   * @param e - object
+   * @returns {void}
+   */
   onSubmit(e) {
     e.preventDefault();
     resetPassword(this.state);
   }
-
+  /**
+   * @param e - object
+   */
   onBlur(e) {
     const field = e.target.name;
 	  const value = e.target.value;
@@ -58,7 +65,7 @@ export class ResetPassword extends React.Component {
         if (res.data.user) {
           console.log('you are a valid user');
           invalid = false;
-        }				else {
+        } else {
           errors[field] = 'Unknown user';
           invalid = true;
         }
@@ -66,7 +73,9 @@ export class ResetPassword extends React.Component {
       });
     }
   }
-
+  /**
+   * @returns {void}
+   */
   render() {
     const { errors } = this.state;
     return (
@@ -74,47 +83,22 @@ export class ResetPassword extends React.Component {
         <form onSubmit={this.onSubmit} className="reset-form">
           <div className="jumbotron signup-form">
             <p id="signup-header" className="flow-text"><h3> Reset Password</h3></p>
-            {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
+            {errors.phoneNumber ? <span className="help-block">{errors.phoneNumber}</span> : <br />}
             <input
               value={this.state.username}
               onChange={this.onChange}
               onBlur={this.onBlur}
               type="text"
-              placeholder="Username"
-              name="username"
+              placeholder="PhoneNumber"
+              name="phoneNumber"
               className=""
             />
-
-            { errors.password ? <span className="help-block">{errors.password}</span> : <br />}
-
-            <input
-              value={this.state.password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="New Password"
-              name="password"
-              className="new-password"
-              id="pwd"
-            />
-
-            {errors.passwordConfirmation ? <span className="help-block">{errors.passwordConfirmation}</span> : <br />}
-
-            <input
-              value={this.state.passwordConfirmation}
-              onChange={this.onChange}
-              type="password"
-              placeholder=" Confirm  New Password"
-              name="passwordConfirmation"
-              className="new-password"
-              id="pwd"
-            />
-
 
             <input
               disabled={this.state.invalid}
               type="submit"
               name="sign up"
-              value="Reset Password"
+              value="Submit"
               className="btn waves-effect waves-light grey darken-4 reset-password"
             />
 
