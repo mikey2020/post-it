@@ -21,12 +21,12 @@ export class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
-  /**
-   * @returns {void}
-   */
-  componentDidMount() {
-    this.props.getNotifications();
-  }
+  // /**
+  //  * @returns {void}
+  //  */
+  // componentDidMount() {
+  //   this.props.getNotifications();
+  // }
 
   /**
    * @param {object} e - argument

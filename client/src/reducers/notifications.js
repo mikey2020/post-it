@@ -13,6 +13,7 @@ export default (state = [], action) => {
         ...state,
         { notification: action.notification }
       ];
+
     case REMOVE_NOTIFICATIONS:
       return [];
 

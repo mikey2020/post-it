@@ -5,22 +5,26 @@ import { getNotifications, addNotification } from '../actions/notificationAction
 
 const socket = io();
 
-socket.on('new message posted', (message) => {
-  console.log( message);
-  alert(message);
-  addNotification(message);
-});
-
 /**
  * Create group form component
  * @class
  */
 class Notifications extends React.Component {
     /**
+     * @constructor
+     * @param {Object} - props
+     */
+  constructor(props) {
+      super(props);
+      socket.on('new message posted', (message) => {
+        this.props.addNotification(message);
+      });
+    }
+    /**
    * @returns {void}
    */
   componentDidMount() {
-    getNotifications();
+    this.props.getNotifications();
   }
     /**
    *
@@ -41,7 +45,9 @@ class Notifications extends React.Component {
 
 
 Notifications.propTypes = {
-  notifications: PropTypes.arrayOf(PropTypes.string).isRequired
+  notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
+  getNotifications: PropTypes.func.isRequired,
+  addNotification: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

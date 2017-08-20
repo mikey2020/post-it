@@ -91,7 +91,7 @@ class GroupController {
         if (message !== null) {
           return message.addUser(req.decoded.data.id).then(() => {            
             const newNotification =
-            GroupController.notificationMessage(req.decoded.data.username, message.messageCreator);
+            GroupController.notificationMessage(message.messageCreator);
             GroupController.addNotification(req.params.groupId, newNotification);
             req.app.io.emit('new message posted', newNotification);
             if (message.priority === 'urgent') {
@@ -318,17 +318,10 @@ class GroupController {
 
   /**
    * @returns {string} - it returns a notification message
-   * @param {string} username - user getting the notification
    * @param {string} messageCreator - user posting the message
    */
-  static notificationMessage(username, messageCreator) {
-    console.log(username, messageCreator);
-    if (username === messageCreator) {
-      return 'You posted a message to a group ';
-    } else {
-      return `${messageCreator} posted a message to a group you are part of`;
-    }
-    
+  static notificationMessage(messageCreator) {
+    return `${messageCreator} posted a message to a group `;
   }
 
   /**

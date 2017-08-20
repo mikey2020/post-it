@@ -102,9 +102,8 @@ class UserActions {
   static allUsers(req, res) {
     User.findAll({}).then((data) => {
       res.json({ data });
-    }).catch((err) => {
-      this.errors = err;
-      res.json({ errors: { err } });
+    }).catch(() => {
+      res.status(404).json({ errors: {} });
     });
   }
 

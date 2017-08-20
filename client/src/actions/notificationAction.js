@@ -10,7 +10,7 @@ const setNotifications = (notifications) => {
 };
 
 const addNotification = (notification) => {
-  console.log('am amm am workkkiing herrrrrreeee...');
+  console.log('am amm am workkkiing herrrrrreeee...', notification); 
   return {
     type: ADD_NOTIFICATION,
     notification
