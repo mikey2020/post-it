@@ -1,6 +1,8 @@
 import UserActions from '../controllers/userController';
 
 const userRoutes = (app) => {
+  app.get('/api/v1/users', UserActions.allUsers);
+
   app.post('/api/v1/user/checkUser', UserActions.checkUserExists);
 
   app.post('/api/v1/user/resetPassword', UserActions.resetPassword);

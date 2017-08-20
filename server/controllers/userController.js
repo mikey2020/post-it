@@ -99,7 +99,7 @@ class UserActions {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  allUsers(req, res) {
+  static allUsers(req, res) {
     User.findAll({}).then((data) => {
       res.json({ data });
     }).catch((err) => {

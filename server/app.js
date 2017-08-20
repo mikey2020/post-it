@@ -9,14 +9,12 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { app, httpApp } from './helpers/socket';
 import webpackConfig from '../webpack.config.dev';
-import UserActions from './controllers/userController';
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
 dotenv.config();
 
 const port = process.env.PORT;
-const user = new UserActions();
 
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
@@ -40,7 +38,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.get('/api/users', user.allUsers);
+
 userRoutes(app);
 groupRoutes(app);
 
