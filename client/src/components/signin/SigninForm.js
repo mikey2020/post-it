@@ -7,7 +7,7 @@
  import { addFlashMessage } from '../../actions/flashMessageActions';
  import GoogleLogin from 'react-google-login';
 
-
+ const clientId = process.env.CLIENT_ID;
  const validate = new Validations();
  const responseGoogle = (response) => {
    console.log(response);
@@ -115,10 +115,10 @@
            <br />
            <span><Link to="/reset" > Forgot password? </Link></span>
            <br />
-           <span>
+           <span className="g-signin2">
              <GoogleLogin
-               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-               buttonText="Sign Up with Google"
+               clientId={clientId}
+               buttonText="Sign In with Google"
                onSuccess={responseGoogle}
                onFailure={responseGoogle}
                uxMode={'popup'}
