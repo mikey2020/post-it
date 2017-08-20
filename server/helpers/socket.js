@@ -1,11 +1,14 @@
-import models from '../models';
+import socketio from 'socket.io';
+import { httpApp, app } from '../server';
 
-export default (io) => {
-  io.on('connection', (socket) => {
-    console.log('socket is connected');
-    socket.on('new message posted', (message) => {
-      console.log('====================>', message);
-      console.log(`${message} was just posted in`);
-    });
+const io = socketio(httpApp);
+app.io = io;
+
+io.on('connection', (socket) => {
+  console.log('socket is connected');
+  socket.emit('connection is alive', {
+    message: 'connection is alive',
   });
-};
+});
+
+export { app, httpApp };

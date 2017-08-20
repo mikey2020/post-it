@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SigninForm from './signin/SigninForm';
 import { signout } from '../actions/signinActions';
-import { getNotifications } from '../actions/notificationAction';
+import { getNotifications, removeNotifications } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -19,6 +19,13 @@ export class Header extends React.Component {
     super(props);
 
     this.logout = this.logout.bind(this);
+    this.clearNotifications = this.clearNotifications.bind(this);
+  }
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.getNotifications();
   }
 
   /**
@@ -30,9 +37,13 @@ export class Header extends React.Component {
     this.props.signout();
     this.context.router.push('/signup');
   }
-
-  componentDidMount(){
-    this.props.getNotifications();
+  /**
+   * @returns {void}
+   */
+  clearNotifications(e) {
+    e.preventDefault();
+    console.log('am vrey much alive here ======');
+    removeNotifications().then((dat) => { console.log('---------', dat); });
   }
 
   /**
@@ -48,7 +59,7 @@ export class Header extends React.Component {
           <Link to="/home" className="logo">PostIT</Link>
           <ul className="right">
             <div>
-              <li><a href="#modal4"><i className="material-icons modal-trigger">notifications</i></a></li>
+              <li><a href="#modal4" onClick={this.clearNotifications}><i className="material-icons modal-trigger">notifications</i></a></li>
               <li><span className="notify">{this.props.notifications.length}</span></li>
               <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/home">Home</Link></li>
               <li><a href="#" onClick={this.logout} className="flow-text waves-effect btn waves-red links" id="logout-button">Logout</a></li>
@@ -99,4 +110,4 @@ const mapStateToProps = state => ({
   notifications: state.notifications
 });
 
-export default connect(mapStateToProps, { signout, getNotifications })(Header);
+export default connect(mapStateToProps, { signout, getNotifications, removeNotifications })(Header);

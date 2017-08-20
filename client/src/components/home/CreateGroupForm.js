@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
 import { createGroup } from '../../actions/groupActions';
-const socket = io();
 
 const validate = new Validations();
 /**
@@ -50,7 +49,6 @@ export class CreateGroupForm extends React.Component {
 
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
-      socket.emit('new group', this.state.name);
       this.props.createGroup(this.state);
     }
   }

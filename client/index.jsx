@@ -10,6 +10,11 @@ import routes from './routes';
 import js from './html-actions.js';
 import { validateToken, setUser } from './src/actions/signinActions';
 
+const socket = io();
+socket.on('connection is alive',(data) => {
+  console.log(data);
+});
+
 const store = createStore(
   rootReducer,
   compose(

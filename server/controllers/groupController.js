@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import models from '../models';
+import { io } from '../helpers/socket';
 
 const Group = models.Group;
 const Message = models.Message;
@@ -88,21 +89,23 @@ class GroupController {
       .then((message) => {
         // console.log('my msg priority', message.priority);
         if (message !== null) {
-          return message.addUser(req.decoded.data.id).then(() => {
-            const newNotification = GroupController.notificationMessage(req.decoded.data.username, message.messageCreator);
+          return message.addUser(req.decoded.data.id).then(() => {            
+            const newNotification =
+            GroupController.notificationMessage(req.decoded.data.username, message.messageCreator);
             GroupController.addNotification(req.params.groupId, newNotification);
+            req.app.io.emit('new message posted', newNotification);
             if (message.priority === 'urgent') {
               GroupController.sendEmail(req.usersEmails, newNotification);
             } else if (message.priority === 'critical') {
               GroupController.sendEmail(req.usersEmails,
-              GroupController.notificationMessage(req.decoded.data.username, message.messageCreator));
+              GroupController.notificationMessage(req.decoded.data.username,
+              message.messageCreator));
             }
             res.json({ message: 'message posted to group', data: message });
           });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
@@ -276,13 +279,13 @@ class GroupController {
       text: message
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    /* transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
       } else {
         console.log('Email sent: ', info.response);
       }
-    });
+    }); */
   }
   /**
    * @param {array} group - emails of all members of the group
@@ -319,10 +322,13 @@ class GroupController {
    * @param {string} messageCreator - user posting the message
    */
   static notificationMessage(username, messageCreator) {
+    console.log(username, messageCreator);
     if (username === messageCreator) {
       return 'You posted a message to a group ';
+    } else {
+      return `${messageCreator} posted a message to a group you are part of`;
     }
-    return `${username} posted a message to a group you are part of`;
+    
   }
 
   /**
@@ -334,10 +340,7 @@ class GroupController {
     models.Notification.create({
       groupId: id,
       event: notification
-    })
-   .then((event) => {
-     console.log('checkout notifcs', event);
-   });
+    });
   }
   /**
    * @returns {void}
@@ -353,7 +356,11 @@ class GroupController {
       return notific;
     });
   }
-
+   /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
   static getUserNotifications(req, res) {
     const userNotifications = [];
     models.User.findOne({
@@ -375,10 +382,9 @@ class GroupController {
       const notifications = responseObj.groups;
       Object.keys(notifications).forEach((notification) => {
         userNotifications.push(notifications[notification].notifications);
-        console.log(notifications[notification].notifications);
       });
       GroupController.destructureArray(userNotifications);
-      res.status(200).json({ userNotifications: userNotifications });
+      res.status(200).json({ userNotifications });
     })
     .catch(() => {
       res.status(404).json({ message: 'You have no notification' });
@@ -407,7 +413,6 @@ class GroupController {
     Object.keys(arrays).forEach((array) => {
       console.log('each array', array);
       if (typeof arrays[array] === 'object') {
-        console.l
         newArray = arrays[array].join(',');
       }
     });
