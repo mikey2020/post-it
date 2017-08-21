@@ -15,11 +15,11 @@ class Notifications extends React.Component {
      * @param {Object} - props
      */
   constructor(props) {
-      super(props);
-      socket.on('new message posted', (message) => {
-        this.props.addNotification(message);
-      });
-    }
+    super(props);
+    socket.on('new message posted', (message) => {
+      this.props.addNotification(message);
+    });
+  }
     /**
    * @returns {void}
    */
