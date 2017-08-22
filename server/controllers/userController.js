@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import request from 'request';
+import shortid from 'shortid';
+import nodemailer from 'nodemailer';
+
 import Validations from '../middlewares/validations';
 import models from '../models';
 
@@ -15,7 +17,7 @@ const validate = new Validations();
  *  All user actions
  * @class
  */
-class UserActions {
+class UserController {
 
   /**
    * @constructor
@@ -71,22 +73,7 @@ class UserActions {
          const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
        } else {
-         request.post({ url: 'https://api.authentimate.com/v1/verifications',
-           json: true,
-           auth: {
-             user: 'sk_ea5909bebc8083be8b778940ce75ab8f'
-           },
-           form: {
-             phoneNumber: user.phoneNumber
-           }
-         }, (err, httpResponse, body) => {
-           if (err) return res.status(401).json(err);
-           user.verificationIdentifier = body.id;
-           user.verificationExpiry = body.expires;
-           user.save();
-           console.log('authentiamte', body);
-           res.status(401).send('A verification code has been sent to your phone.');
-         });
+         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
      .catch(() => {
@@ -150,21 +137,20 @@ class UserActions {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static resetPassword(req, res) {
+    const verificationCode = shortid.generate();
+    console.log('verify code', verificationCode);
     User.findOne({
       where: {
         username: req.body.username
       }
     })
      .then((user) => {
-       let userData = JSON.stringify(user);
-       userData = JSON.parse(userData);
-       console.log('old password', userData);
-       user.password = req.body.password;
+       user.verificationCode = verificationCode;
        user.save().then((newUser) => {
-         console.log('new user', newUser);
-         console.log('passsword seems to be updated');
-         res.json({ message: 'password has been changed' });
+         console.log(newUser);
        });
+       UserController.sendVerificationCode(user.email, user.username, verificationCode);
+       res.json({ message: 'Verification code sent' });
      })
      .catch(() => {
        res.status(400).json({ errors: { form: 'Invalid Username' } });
@@ -173,32 +159,55 @@ class UserActions {
   /**
    * @returns {void}
    */
-  static checkVerificationCode(req, res, next) {
-    const verificationCode = req.body.code;
-    const verificationId = req.body.identifier;
+  static sendVerificationCode(userEmail, username, verificationCode) {
+    const url = 'http://localhost:3000';
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'superdafe@gmail.com',
+        pass: 'odafe2020'
+      }
+    });
 
-    User.findOne({
-      where: {
-        verificationIdentifier: verificationId
-      } }, (err, user) => {
-      if (err) return next(err);
-      if (!user) return res.status(401).send('Unauthorized');
-      request.get('https://api.authentimate.com/v1/verifications/check?id=ver_7b19ddcc6402fd0cd28ade60246ca60c&code=928571',
-        {
-          auth: { user: 'sk_ea5909bebc8083be8b778940ce75ab8f' },
-          json: true
-        },
-        (error, response, body) => {
-          if (!error && response.statusCode === 200) {
-            if (body.verified !== true) { return res.status(401).send('Unauthorized'); }
-            return res.status(200).json(user);
-          }
-        }
-    );
+    const mailOptions = {
+      from: 'superdafe@gmail.com',
+      to: userEmail,
+      subject: 'Reset password verification code',
+      html: `<h2>Hello, ${username}!</h2>
+          <p><strong>Your Verification code is:</strong> ${verificationCode}</p>\
+          <p><a href="${url}">Update my password</a></p><br /><br />\
+          <p>Please use this link to update your password by inputing your verification code</p>\`
+          <p>You can post messages on <a href="mike-post.herokuapp.com">POSTIT</a></p>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ', info.response);
+      }
     });
   }
 
+  /**
+   * @returns {void}
+   */
+  static checkVerificationCode(req, res) {
+    models.findOne({
+      where: {
+        verificationCode: req.body.verificationCode
+      }
+    })
+    .then((user) => {
+      if (req.body.verificationCode === user.verificationCode) {
+        user.password = req.body.password;
+        user.save().then((newUser) => {
+           console.log('this my new symbol', newUser);
+        });
+      }
+    });
+  }
 }
 
 
-export default UserActions;
+export default UserController;

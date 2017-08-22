@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import validations from '../../validations';
+import Input from './Input';
 import { checkUserExists, resetPassword } from '../actions/userActions';
 
 const validate = new validations();
@@ -17,14 +18,55 @@ export class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      phoneNumber: '',
+      username: '',
+      verificationInput: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      status: 'enter username'
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onBlur = this.onBlur.bind(this);
+  }
+  /**
+   * @returns {void}
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+  /**
+   * @param event - object
+   * @returns {void}
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    resetPassword(this.state).then((res) => {
+      console.log('my response', res);
+      this.setState({ status: 'waiting for verification code' });
+    });
+    console.log(this.state.status);
+  }
+  /**
+   * @returns {void}
+   * @param {Object} event - object
+   */
+  onBlur(event) {
+    const field = event.target.name;
+    const value = event.target.value;
+    if (value !== '') {
+      checkUserExists({ username: value }).then((res) => {
+        const errors = this.state.errors;
+        let invalid;
+        if (res.data.user) {
+          invalid = false;
+        } else {
+          errors[field] = 'Unknown user';
+          invalid = true;
+        }
+        this.setState({ errors, invalid });
+      });
+    }
   }
   /**
    * @returns {void}
@@ -41,57 +83,25 @@ export class ResetPassword extends React.Component {
   /**
    * @returns {void}
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-  /**
-   * @param e - object
-   * @returns {void}
-   */
-  onSubmit(e) {
-    e.preventDefault();
-    resetPassword(this.state);
-  }
-  /**
-   * @param e - object
-   */
-  onBlur(e) {
-    const field = e.target.name;
-	  const value = e.target.value;
-    if (value !== '') {
-      checkUserExists({ username: value }).then((res) => {
-        const errors = this.state.errors;
-        let invalid;
-        if (res.data.user) {
-          console.log('you are a valid user');
-          invalid = false;
-        } else {
-          errors[field] = 'Unknown user';
-          invalid = true;
-        }
-        this.setState({ errors, invalid });
-      });
-    }
-  }
-  /**
-   * @returns {void}
-   */
   render() {
-    const { errors } = this.state;
+    const { errors, status } = this.state;
+    const verificationCodeInput = (
+      <Input type="text" value={this.state.verificationInput} placeholder="Enter verification code" />
+    );
     return (
       <div className="" id="signup-body">
-        <form onSubmit={this.onSubmit} className="reset-form">
+        { status === 'enter username' &&
+       <form onSubmit={this.onSubmit} className="reset-form">
           <div className="jumbotron signup-form">
-            <p id="signup-header" className="flow-text"><h3> Reset Password</h3></p>
-            {errors.phoneNumber ? <span className="help-block">{errors.phoneNumber}</span> : <br />}
-            <input
-              value={this.state.username}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              type="text"
-              placeholder="PhoneNumber"
-              name="phoneNumber"
-              className=""
+            <p id="signup-header" className="flow-text"><h3>Enter Username</h3></p>
+            {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
+             <input
+               value={this.state.username}
+               onChange={this.onChange}
+               onBlur={this.onBlur}
+               type="text"
+               placeholder="Enter username"
+               name="username"
             />
 
             <input
@@ -101,9 +111,11 @@ export class ResetPassword extends React.Component {
               value="Submit"
               className="btn waves-effect waves-light grey darken-4 reset-password"
             />
-
           </div>
         </form>
+        }
+
+        { status === 'waiting fro verification code' && verificationCodeInput }
       </div>
 
     );

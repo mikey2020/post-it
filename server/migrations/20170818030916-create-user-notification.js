@@ -8,7 +8,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGERGROUPID
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

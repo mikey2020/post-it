@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
-    verificationIdentifier: DataTypes.STRING,
-    verificationExpiry: DataTypes.STRING
+    verificationCode: DataTypes.STRING
   });
 
   User.associate = (models) => {

@@ -37,6 +37,7 @@ const checkUserExists = username => axios.post('/api/user/checkUser', username);
 const resetPassword = userData => axios.post('/api/user/resetPassword', userData)
             .then((res) => {
               if (res.data.message) {
+                console.log(res.data.message);
                 // console.log('password has definitely changed');
               }
             });
