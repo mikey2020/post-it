@@ -46,8 +46,8 @@ class UserController {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        // const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
-        res.json({ message: `${req.body.username} successfully added` });
+        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
       .catch(() => {
         res.status(400).json({ errors: { message: 'error something went wrong' } });
@@ -138,7 +138,6 @@ class UserController {
    */
   static resetPassword(req, res) {
     const verificationCode = shortid.generate();
-    console.log('verify code', verificationCode);
     User.findOne({
       where: {
         username: req.body.username
@@ -146,9 +145,7 @@ class UserController {
     })
      .then((user) => {
        user.verificationCode = verificationCode;
-       user.save().then((newUser) => {
-         console.log(newUser);
-       });
+       user.save().then((newUser) => {});
        UserController.sendVerificationCode(user.email, user.username, verificationCode);
        res.json({ message: 'Verification code sent' });
      })
@@ -157,7 +154,9 @@ class UserController {
      });
   }
   /**
-   * @returns {void}
+   * @param {Array} userEmail
+   * @param {String} username
+   * @param {String} verificationCode
    */
   static sendVerificationCode(userEmail, username, verificationCode) {
     const url = 'http://localhost:3000';

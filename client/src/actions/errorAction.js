@@ -1,10 +1,26 @@
 import { addFlashMessage, createMessage } from './flashMessageActions';
-import { ACTION_FAILED } from './types';
+import { ACTION_FAILED, ACTION_SUCCESS } from './types';
 
-const setErrors = status => ({
-  type: ACTION_FAILED,
-  status
-});
+const setErrors = (status) => {
+  if (status === true) {
+    return {
+      type: ACTION_FAILED,
+      status
+    };
+  }
+  return {
+    type: ACTION_SUCCESS,
+    status
+  };
+};
+
+
+const handleSuccess = (successMessage) => {
+  return (dispatch) => {
+    dispatch(setErrors(false));
+    dispatch(addFlashMessage(createMessage('success', successMessage)));
+  };
+};
 
 const handleErrors = (errorMessage) => {
   return (dispatch) => {
@@ -14,4 +30,4 @@ const handleErrors = (errorMessage) => {
 };
 
 
-export default handleErrors;
+export { handleErrors, handleSuccess };
