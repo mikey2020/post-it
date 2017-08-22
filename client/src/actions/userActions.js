@@ -12,7 +12,7 @@ const setMembers = members => ({
   members
 });
 
-const getUsers = username => dispatch => axios.post('/api/user', username)
+const getUsers = username => dispatch => axios.post('/api/v1/user', username)
             .then((res) => {
               if (res.data.users) {
                 dispatch(setUsers(res.data.users.data));
@@ -21,19 +21,17 @@ const getUsers = username => dispatch => axios.post('/api/user', username)
               }
             });
 
-const getMembersOfGroup = groupId => dispatch => axios.get(`/api/group/${groupId}/users`)
+const getMembersOfGroup = groupId => dispatch => axios.get(`/api/v1/group/${groupId}/users`)
                .then((res) => {
                  if (res.data.members) {
-                   console.log('am getting members', res.data.members);
                    dispatch(setMembers(res.data.members));
                  } else {
                    // dispatch(handleErrors(res.data.message));
                  }
                });
+const checkUserExists = username => axios.post('/api/v1/user/checkUser', username);
 
-const checkUserExists = username => axios.post('/api/user/checkUser', username);
-
-const resetPassword = userData => axios.post('/api/user/resetPassword', userData)
+const resetPassword = userData => axios.post('/api/v1/user/resetPassword', userData)
             .then((res) => {
               if (res.data.message) {
                 console.log(res.data.message);

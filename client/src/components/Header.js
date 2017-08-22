@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SigninForm from './signin/SigninForm';
 import { signout } from '../actions/signinActions';
+import { getNotifications, removeNotifications } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -18,7 +19,14 @@ export class Header extends React.Component {
     super(props);
 
     this.logout = this.logout.bind(this);
+    this.clearNotifications = this.clearNotifications.bind(this);
   }
+  // /**
+  //  * @returns {void}
+  //  */
+  // componentDidMount() {
+  //   this.props.getNotifications();
+  // }
 
   /**
    * @param {object} e - argument
@@ -28,6 +36,14 @@ export class Header extends React.Component {
     e.preventDefault();
     this.props.signout();
     this.context.router.push('/signup');
+  }
+  /**
+   * @returns {void}
+   */
+  clearNotifications(e) {
+    e.preventDefault();
+    console.log('am vrey much alive here ======');
+    removeNotifications().then((dat) => { console.log('---------', dat); });
   }
 
   /**
@@ -43,8 +59,8 @@ export class Header extends React.Component {
           <Link to="/home" className="logo">PostIT</Link>
           <ul className="right">
             <div>
-              <li><a href="#modal4"><i className="material-icons modal-trigger">notifications</i></a></li>
-              <li><span className="notify"> 1 </span></li>
+              <li><a href="#modal4" onClick={this.clearNotifications}><i className="material-icons modal-trigger">notifications</i></a></li>
+              <li><span className="notify">{this.props.notifications.length}</span></li>
               <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/home">Home</Link></li>
               <li><a href="#" onClick={this.logout} className="flow-text waves-effect btn waves-red links" id="logout-button">Logout</a></li>
             </div>
@@ -79,8 +95,10 @@ export class Header extends React.Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.object.isRequired,
-  signout: PropTypes.func.isRequired
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
+  signout: PropTypes.func.isRequired,
+  notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
+  getNotifications: PropTypes.func.isRequired
 };
 
 Header.contextTypes = {
@@ -88,7 +106,8 @@ Header.contextTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  notifications: state.notifications
 });
 
-export default connect(mapStateToProps, { signout })(Header);
+export default connect(mapStateToProps, { signout, getNotifications, removeNotifications })(Header);

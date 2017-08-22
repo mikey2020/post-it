@@ -91,7 +91,7 @@
                onChange={this.onChange}
                placeholder="username"
                name="username"
-               className=""
+               className="username"
              />
 
              {this.state.errors.password ?
@@ -102,7 +102,7 @@
                onChange={this.onChange}
                placeholder="password"
                name="password"
-               className=""
+               className="password"
              />
              <input
                type="submit"

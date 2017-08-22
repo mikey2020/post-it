@@ -12,10 +12,12 @@
     "mocha": true
   },
   "globals": {
-   "localStorage": true
+   "localStorage": true,
+   "io": true
   },
   "rules": {
     "import/no-named-as-default": 0,
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,

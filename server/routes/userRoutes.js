@@ -1,15 +1,17 @@
 import UserController from '../controllers/userController';
 
 const userRoutes = (app) => {
-  app.post('/api/user/checkUser', UserController.checkUserExists);
+  app.get('/api/v1/users', UserController.allUsers);
 
-  app.post('/api/user/resetPassword', UserController.resetPassword);
+  app.post('/api/v1/user/checkUser', UserController.checkUserExists);
 
-  app.post('/api/user/signup', UserController.signup);
+  app.post('/api/v1/user/resetPassword', UserController.resetPassword);
 
-  app.post('/api/user/signin', UserController.signin);
+  app.post('/api/v1/user/signup', UserController.signup);
 
-  app.post('/api/user', UserController.getUsers);
+  app.post('/api/v1/user/signin', UserController.signin);
+
+  app.post('/api/v1/user', UserController.getUsers);
 };
 
 export default userRoutes;

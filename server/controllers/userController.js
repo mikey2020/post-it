@@ -8,7 +8,6 @@ import Validations from '../middlewares/validations';
 import models from '../models';
 
 dotenv.config();
-
 const User = models.User;
 const validate = new Validations();
 // const forgotPasswordMessage = 'Please enter this verification code in the reset password page';
@@ -28,7 +27,7 @@ class UserController {
   }
 
   /**
-   * @param {object} req - request object sent to a route
+   * @param {Object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
@@ -50,7 +49,7 @@ class UserController {
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
       .catch(() => {
-        res.status(400).json({ errors: { message: 'error something went wrong' } });
+        res.status(500).json({ errors: { message: 'Something went wrong' } });
       });
     }
   }
@@ -77,7 +76,7 @@ class UserController {
        }
      })
      .catch(() => {
-       res.status(400).json({ errors: { form: 'Invalid Signin Parameters' } });
+       res.status(400).json({ errors: { form: 'Invalid User' } });
      });
   }
   /**
@@ -102,12 +101,11 @@ class UserController {
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  allUsers(req, res) {
+  static allUsers(req, res) {
     User.findAll({}).then((data) => {
       res.json({ data });
-    }).catch((err) => {
-      this.errors = err;
-      res.json({ errors: { err } });
+    }).catch(() => {
+      res.status(404).json({ errors: {} });
     });
   }
 
@@ -145,7 +143,7 @@ class UserController {
     })
      .then((user) => {
        user.verificationCode = verificationCode;
-       user.save().then((newUser) => {});
+       user.save().then(() => {});
        UserController.sendVerificationCode(user.email, user.username, verificationCode);
        res.json({ message: 'Verification code sent' });
      })
@@ -169,7 +167,7 @@ class UserController {
     });
 
     const mailOptions = {
-      from: 'superdafe@gmail.com',
+      from: 'PostIt',
       to: userEmail,
       subject: 'Reset password verification code',
       html: `<h2>Hello, ${username}!</h2>

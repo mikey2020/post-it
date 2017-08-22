@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
 import { createGroup } from '../../actions/groupActions';
-const socket = io();
 
 const validate = new Validations();
 /**

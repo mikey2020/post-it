@@ -41,10 +41,9 @@ export class ResetPassword extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    resetPassword(this.state).then((res) => {
-      console.log('my response', res);
-      this.setState({ status: 'waiting for verification code' });
-    });
+    resetPassword(this.state);
+    console.log('my response');
+    this.setState({ status: 'waiting for verification code' });
     console.log(this.state.status);
   }
   /**
@@ -86,14 +85,20 @@ export class ResetPassword extends React.Component {
   render() {
     const { errors, status } = this.state;
     const verificationCodeInput = (
+      <form className="reset-form">
+        <div className="jumbotron signup-form">
+        <h3>Enter Verification code </h3>
       <Input type="text" value={this.state.verificationInput} placeholder="Enter verification code" />
+      <Input type="submit" className="btn"/>
+        </div>
+      </form>
     );
     return (
       <div className="" id="signup-body">
         { status === 'enter username' &&
        <form onSubmit={this.onSubmit} className="reset-form">
           <div className="jumbotron signup-form">
-            <p id="signup-header" className="flow-text"><h3>Enter Username</h3></p>
+            <h3 id="signup-header" className="flow-text" >Enter Username</h3>
             {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
              <input
                value={this.state.username}
@@ -115,7 +120,7 @@ export class ResetPassword extends React.Component {
         </form>
         }
 
-        { status === 'waiting fro verification code' && verificationCodeInput }
+        { status === 'waiting for verification code' && verificationCodeInput }
       </div>
 
     );

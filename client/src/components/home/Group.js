@@ -33,7 +33,7 @@ export class Group extends React.Component {
     return (
       <div>
         <a onClick={this.onClick} className="waves-effect waves-light btn group-btn "> 
-          {this.props.groupname} <span className="new badge red">4</span> 
+          {this.props.groupname}
         </a>
         <br />
       </div>

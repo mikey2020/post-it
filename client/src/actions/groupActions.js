@@ -23,23 +23,24 @@ const setCurrentGroup = group => (dispatch) => {
 };
 
 
-const getUserGroups = () => dispatch => axios.post('/api/usergroups')
+const getUserGroups = () => dispatch => axios.post('/api/v1/usergroups')
             .then((res) => {
               if (res.data.usergroups) {
                 dispatch(addUserGroups(res.data.usergroups));
               }
             });
 
-const createGroup = groupname => dispatch => axios.post('/api/group', groupname)
+const createGroup = groupname => dispatch => axios.post('/api/v1/group', groupname)
            .then((res) => {
              if (res.data.group.message) {
                dispatch(addGroup(res.data.group.data));
              } else {
-               dispatch(handleErrors(res.data.errors.message));
+               dispatch(handleErrors(res.data.errors.message, 'ADD_GROUP'));
+               // dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
              }
            });
 
-const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/group/${groupId}/user`, user)
+const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/v1/group/${groupId}/user`, user)
             .then((res) => {
               if (res.data.message) {
                 console.log('am geetting here');

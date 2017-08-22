@@ -61,7 +61,7 @@ export class User extends React.Component {
             name="add_user"
             disabled={this.state.userStatus}
             onClick={this.onClick}
-            id="add-btn"
+            id=""
             className="waves-effect waves-red btn add-user-btn teal lighten-2"
           > {this.state.userState}
           </button>

@@ -31,15 +31,15 @@ export class Messages extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePriority = this.handlePriority.bind(this);
   }
-  /**
-   * @returns {void}
-   */
-  componentDidMount() {
-    if (this.props.group && this.props.userId) {
-      const { group } = this.props;
-      this.props.getGroupMessages(group.id);
-    }
-  }
+  // /**
+  //  * @returns {void}
+  //  */
+  // componentDidMount() {
+  //   if (this.props.group && this.props.userId) {
+  //     const { group } = this.props;
+  //     this.props.getGroupMessages(group.id);
+  //   }
+  // }
   /**
    * @param {object} prevProps - previous props
    * @returns {void}
@@ -54,25 +54,25 @@ export class Messages extends React.Component {
     }
   }
    /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
 
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false, creator: this.props.username });
     }
   }
   /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     if (this.isValid()) {
-      socket.on('new message posted', (message) => {
-         console.log(' new message posted', message);
+      socket.on('new message', (message) => {
+        console.log(' new message', message);
       });
       this.setState({ errors: {}, isLoading: false });
       this.props.postMessage(this.state, this.props.group.id);
@@ -80,12 +80,12 @@ export class Messages extends React.Component {
   }
 
   /**
-   * @param {object} e - argument
+   * @param {Object} e - Event object
    * @returns {void}
    */
   handlePriority(e) {
     e.preventDefault();
-    if (e.target.value > 1 && e.target.value < 6) {
+    if (e.target.value > -1 && e.target.value < 6) {
       this.setState({ priority: 'normal' });
     } else if (e.target.value > 5 && e.target.value < 11) {
       this.setState({ priority: 'urgent' });
@@ -118,6 +118,7 @@ export class Messages extends React.Component {
         content={message.content}
         priority={message.priority}
         creator={message.creator}
+        date={message.timeCreated}
       />)
     );
 
@@ -170,8 +171,8 @@ export class Messages extends React.Component {
 }
 
 Messages.propTypes = {
-  messages: PropTypes.array.isRequired,
-  group: PropTypes.object.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  group: PropTypes.objectOf(PropTypes.string).isRequired,
   postMessage: PropTypes.func.isRequired,
   getGroupMessages: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
