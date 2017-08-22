@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Message = (props) =>  {
-    return (
+  return (
       <div className="row">
 
         <div className="col s12 m12 l12">

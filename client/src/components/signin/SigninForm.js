@@ -10,10 +10,7 @@
  const clientId = process.env.CLIENT_ID;
  const validate = new Validations();
  const responseGoogle = (response) => {
-   console.log(response);
-   if (response) {
-     validateToken(response);
-   }
+   console.log('google response', response);
  };
  /**
  *  SigninForm class component
@@ -117,7 +114,7 @@
            <br />
            <span className="g-signin2">
              <GoogleLogin
-               clientId={clientId}
+               clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
                buttonText="Sign In with Google"
                onSuccess={responseGoogle}
                onFailure={responseGoogle}

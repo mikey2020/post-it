@@ -17,6 +17,5 @@ export default (
     <Route path="signin" component={SigninForm} />
     <Route path="home" component={Authenticate(HomePage)} />
     <Route path="reset" component={ResetPassword} />
-    <Route path="google" component={GoogleSignin} />
   </Route>
 );
