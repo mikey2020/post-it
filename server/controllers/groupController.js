@@ -94,7 +94,7 @@ class GroupController {
             GroupController.notificationMessage(message.messageCreator);
             GroupController.addNotification(req.params.groupId, newNotification);
             // req.app.io.emit('new message', message.content);
-            req.app.io.emit('new message posted', newNotification);
+            req.app.io.emit('new message posted', message);
             if (message.priority === 'urgent') {
               GroupController.sendEmail(req.usersEmails, newNotification);
             } else if (message.priority === 'critical') {
@@ -111,6 +111,7 @@ class GroupController {
       });
   }
   /**
+
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns an array of messages
@@ -120,14 +121,19 @@ class GroupController {
       where: {
         groupId: req.params.groupId
       },
-      sort: '"createdAt" DESC'
+      order: [
+        ['createdAt', 'ASC']
+      ],
+      offset: req.query.offset,
+      limit: req.query.limit
     })
         .then((posts) => {
           let data = JSON.stringify(posts);
           data = JSON.parse(data);
           res.json({ posts: data });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           res.status(500).json({ errors: 'Something went wrong' });
         });
   }

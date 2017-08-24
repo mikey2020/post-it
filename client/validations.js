@@ -59,7 +59,7 @@ class Validations {
       isValid: isEmpty(errors)
     };
   }
-  
+
   /**
    * @param {object} data - signup object
    * @returns {object} - errors object if there is any
@@ -113,6 +113,32 @@ class Validations {
     };
   }
 
+  /**
+   * @param {object} data - signup object
+   * @returns {object} - errors object if there is any
+   */
+  newPasswordInputs(data) {
+    this.errors = {};
+    if (data.code === null || data.code === '') {
+      this.errors.code = 'Please enter verification code';
+    }
+    /* if (data.newPassword === null || data.newPassword === '') {
+      this.errors.newPassword = 'New Password is required';
+    }
+    if (data.newPasswordConfirmation === null || data.newPasswordConfirmation === '') {
+      this.errors.newPasswordConfirmation = 'Password Confirmation is required';
+    }
+    if (data.newPasswordConfirmation !== data.newPassword) {
+      this.errors.newPasswordConfirmation = 'Passwords do not match';
+    } */
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
 }
 
 

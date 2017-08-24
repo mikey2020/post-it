@@ -17,7 +17,7 @@ const setUsersWhoReadMessage = users => ({
   users
 });
 
-const getGroupMessages = groupId => dispatch => axios.get(`/api/v1/group/${groupId}/messages`)
+const getGroupMessages = (groupId, limit, offset) => dispatch => axios.get(`/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
             .then((res) => {
               if (res.data.posts) {
                 dispatch(addGroupMessages(res.data.posts));
@@ -26,14 +26,14 @@ const getGroupMessages = groupId => dispatch => axios.get(`/api/v1/group/${group
 
 const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/v1/group/${groupId}/message`, messageData)
               .then((res) => {
-                if (res.data.data) {   
+                if (res.data.data) {
                   dispatch(addMessage(res.data.data));
                 } else {
                   dispatch(addFlashMessage(createMessage('error', res.data.message)));
                 }
               });
 
-/* const readMessage = messageId => axios.post(`/api/v1/user/${messageId}/read`)
+const readMessage = messageId => axios.post(`/api/v1/user/${messageId}/read`)
               .then((res) => {
                 if (res.data.data) {
                   console.log(res.data);
@@ -42,7 +42,7 @@ const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/v1/gr
                 }
               });
 
-const getUsersWhoReadMessage = (messageId) => {
+/* const getUsersWhoReadMessage = (messageId) => {
   console.log('ther is a message id', messageId);
   return dispatch => axios.post(`/api/v1/message/${messageId}/readers`)
               .then((res) => {

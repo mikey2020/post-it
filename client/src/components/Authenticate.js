@@ -1,7 +1,5 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 
 export default (ComposedComponent) => {
@@ -17,6 +15,8 @@ export default (ComposedComponent) => {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
         this.context.router.push('/signup');
+      } else {
+        this.context.router.push('/home');
       }
     }
     /**

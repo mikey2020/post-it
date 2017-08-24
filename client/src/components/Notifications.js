@@ -17,7 +17,9 @@ class Notifications extends React.Component {
   constructor(props) {
     super(props);
     socket.on('new message posted', (message) => {
-      this.props.addNotification(message);
+      if (this.props.username !== message.messageCreator) {
+        this.props.addNotification(`${message.messageCreator} posted ${message.content} to a group which you are a member`);
+      }
     });
   }
     /**

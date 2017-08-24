@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import validations from '../../validations';
+import Validations from '../../validations';
 import Input from './Input';
-import { checkUserExists, resetPassword } from '../actions/userActions';
+import { checkUserExists, resetPassword, verifyCode } from '../actions/userActions';
 
-const validate = new validations();
+const validate = new Validations();
 /**
  *  SignupForm class component
  * @class
@@ -19,32 +19,35 @@ export class ResetPassword extends React.Component {
     super(props);
     this.state = {
       username: '',
-      verificationInput: '',
+      code: '',
       errors: {},
       isLoading: false,
-      status: 'enter username'
+      status: 'enter username',
+      newPassword: '',
+      newPasswordConfirmation: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.verifyCode = this.verifyCode.bind(this);
+    // this.isValid = this.isValid.bind(this);
   }
   /**
+   * @param {Object} event
    * @returns {void}
    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
   /**
-   * @param event - object
+   * @param {Object} event
    * @returns {void}
    */
   onSubmit(event) {
     event.preventDefault();
     resetPassword(this.state);
-    console.log('my response');
     this.setState({ status: 'waiting for verification code' });
-    console.log(this.state.status);
   }
   /**
    * @returns {void}
@@ -60,7 +63,7 @@ export class ResetPassword extends React.Component {
         if (res.data.user) {
           invalid = false;
         } else {
-          errors[field] = 'Unknown user';
+          errors[field] = 'Invalid user';
           invalid = true;
         }
         this.setState({ errors, invalid });
@@ -71,28 +74,78 @@ export class ResetPassword extends React.Component {
    * @returns {void}
    */
   isValid() {
-    const { errors, isValid } = validate.signup(this.state);
-
+    console.log('am working');
+    const { errors, isValid } = validate.newPasswordInputs(this.state);
+    console.log('in cokponrnt errors', errors);
     if (!isValid) {
       this.setState({ errors });
     }
-
+    console.log('this errors', this.state.errors);
     return isValid;
+  }
+  /**
+   * @param {Object} event
+   * @returns {void}
+   */
+  verifyCode(event) {
+    event.preventDefault();
+    if (this.isValid()) {
+      const { code } = this.state;
+      console.log(code);
+      this.props.verifyCode({ code });
+      this.setState({ status: 'update password' });
+    } else {
+      // console.log('thin serrors', this.state.errors);
+    }
   }
   /**
    * @returns {void}
    */
   render() {
-    const { errors, status } = this.state;
+    const { errors, status, code, username } = this.state;
     const verificationCodeInput = (
-      <form className="reset-form">
+      <form className="reset-form" onSubmit={this.verifyCode}>
         <div className="jumbotron signup-form">
-        <h3>Enter Verification code </h3>
-      <Input type="text" value={this.state.verificationInput} placeholder="Enter verification code" />
-      <Input type="submit" className="btn"/>
+          <h3>Enter Verification code </h3>
+          {errors.code ? <span className="help-block">{errors.code}</span> : <br />}
+          <Input
+            type="text"
+            value={code}
+            placeholder="Enter verification code"
+            onChange={this.onChange}
+            name="code"
+          />
+          <Input type="submit" className="btn" />
         </div>
       </form>
     );
+
+    const updatePassword = (
+      <form className="reset-form">
+        <div className="jumbotron signup-form">
+          <h3>Enter New Password</h3> 
+          {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
+          <Input
+            type="password"
+            value={this.state.newPassword}
+            placeholder="Enter New Password"
+            onChange={this.onChange}
+            name="newPassword"
+          />
+
+          <Input
+            type="password"
+            value={this.state.newPasswordConfirmation}
+            placeholder="Confirm New Password"
+            onChange={this.onChange}
+            name="newPasswordConfirmation"
+          />
+
+          <Input type="Submit" className="btn" value="Update Password" />
+        </div>
+      </form>
+    );
+
     return (
       <div className="" id="signup-body">
         { status === 'enter username' &&
@@ -101,7 +154,7 @@ export class ResetPassword extends React.Component {
             <h3 id="signup-header" className="flow-text" >Enter Username</h3>
             {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
              <input
-               value={this.state.username}
+               value={username}
                onChange={this.onChange}
                onBlur={this.onBlur}
                type="text"
@@ -121,6 +174,8 @@ export class ResetPassword extends React.Component {
         }
 
         { status === 'waiting for verification code' && verificationCodeInput }
+
+        {status === 'update password' && updatePassword}
       </div>
 
     );
@@ -128,13 +183,12 @@ export class ResetPassword extends React.Component {
 }
 
 ResetPassword.propTypes = {
-  addFlashMessage: PropTypes.func.isRequired,
-  addUser: PropTypes.func.isRequired,
-  checkUserExists: PropTypes.func.isRequired
+  // checkUserExists: PropTypes.func.isRequired,
+  verifyCode: PropTypes.func.isRequired
 };
 
 ResetPassword.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null)(ResetPassword);
+export default connect(null, { verifyCode })(ResetPassword);

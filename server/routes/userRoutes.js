@@ -7,6 +7,8 @@ const userRoutes = (app) => {
 
   app.post('/api/v1/user/resetPassword', UserController.resetPassword);
 
+  app.post('/api/v1/user/verifyCode', UserController.checkVerificationCode);
+
   app.post('/api/v1/user/signup', UserController.signup);
 
   app.post('/api/v1/user/signin', UserController.signin);

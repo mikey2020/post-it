@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { SET_USERS, SET_MEMBERS } from './types';
 import { handleErrors, handleSuccess } from './errorAction';
+import { validateUser } from './signinActions';
 
 const setUsers = users => ({
   type: SET_USERS,
@@ -38,5 +39,20 @@ const resetPassword = userData => axios.post('/api/v1/user/resetPassword', userD
               }
             });
 
+const verifyCode = (code) => {
+  return (dispatch) => {
+    axios.post('/api/v1/user/verifyCode', code)
+    .then((res) => {
+      console.log('status code', res.data.status);
+      if (res.data.userToken) {
+        dispatch(handleSuccess('Code verification successful', 'VERIFY_PASSWORD_RESET_CODE'));
+        dispatch(validateUser(res.data.userData));
+      } else {
+        dispatch(handleErrors('Code verification failure', 'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
+      }
+    });
+  };
+};
 
-export { getUsers, checkUserExists, resetPassword, getMembersOfGroup };
+
+export { getUsers, checkUserExists, resetPassword, getMembersOfGroup, verifyCode };

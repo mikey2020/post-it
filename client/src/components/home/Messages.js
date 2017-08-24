@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
-import { postMessage, getGroupMessages, readMessage } from '../../actions/messageActions';
+import { postMessage, getGroupMessages, readMessage, addMessage } from '../../actions/messageActions';
 import Message from './Message';
 
 const socket = io();
@@ -18,18 +18,28 @@ export class Messages extends React.Component {
    */
   constructor(props) {
     super(props);
-
+    let offset;
+    if (this.props.messages.length < 10) {
+      offset = 0;
+    }
+    offset = Math.abs(this.props.messages.length - 10);
     this.state = {
       message: '',
       errors: {},
       priority: '',
       creator: '',
-      emmitedData: ''
+      limit: 10,
+      offset
     };
+
+    socket.on('new message posted', (message) => {
+      this.props.addMessage(message);
+    });
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePriority = this.handlePriority.bind(this);
+    this.viewArchived = this.viewArchived.bind(this);
   }
   // /**
   //  * @returns {void}
@@ -45,12 +55,12 @@ export class Messages extends React.Component {
    * @returns {void}
    */
   componentDidUpdate(prevProps) {
+    const { group } = this.props;
+    const { limit, offset } = this.state;
     if (this.props.messages.length !== prevProps.messages.length) {
-      const { group } = this.props;
-      this.props.getGroupMessages(group.id);
+      this.props.getGroupMessages(group.id, limit, offset);
     } else if (this.props.group.id !== prevProps.group.id) {
-      const { group } = this.props;
-      this.props.getGroupMessages(group.id);
+      this.props.getGroupMessages(group.id, limit, offset);
     }
   }
    /**
@@ -71,9 +81,6 @@ export class Messages extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
-      socket.on('new message', (message) => {
-        console.log(' new message', message);
-      });
       this.setState({ errors: {}, isLoading: false });
       this.props.postMessage(this.state, this.props.group.id);
     }
@@ -94,16 +101,24 @@ export class Messages extends React.Component {
     }
   }
   /**
+   * @returns {void}
+   */
+  viewArchived() {
+    const { group } = this.props;
+    const { limit, offset } = this.state;
+    this.setState({ limit: limit + 5, offset: 0 });
+    this.props.getGroupMessages(group.id, limit + 5, offset);
+    // this.setState({ limit: 10 });
+  }
+  /**
    * @param {object} e - argument
    * @returns {void}
    */
   isValid() {
     const { errors, isValid } = validate.input(this.state);
-
     if (!isValid) {
       this.setState({ errors });
     }
-
     return isValid;
   }
 
@@ -146,7 +161,8 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-
+        { this.props.messages.length > 0 &&
+         <span onClick={this.viewArchived} className="archived btn"> View old messages</span>}
         <ul>{allMessages}</ul>
 
         <div className="row">
@@ -176,7 +192,7 @@ Messages.propTypes = {
   postMessage: PropTypes.func.isRequired,
   getGroupMessages: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  userId: PropTypes.number.isRequired
+  addMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -186,4 +202,5 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { postMessage, getGroupMessages, readMessage })(Messages);
+export default connect(mapStateToProps,
+{ postMessage, getGroupMessages, readMessage, addMessage })(Messages);

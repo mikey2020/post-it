@@ -7,8 +7,6 @@ import SigninForm from './src/components/signin/SigninForm';
 import HomePage from './src/components/home/HomePage';
 import Authenticate from './src/components/Authenticate';
 import ResetPassword from './src/components/ResetPassword';
-import GoogleSignin from './src/components/signup/GoogleSignin';
-
 
 export default (
   <Route path="/" component={App}>

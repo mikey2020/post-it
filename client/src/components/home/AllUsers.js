@@ -5,34 +5,30 @@ import { addUserToGroup } from '../../actions/groupActions';
 import User from './User';
 
 
-/**
- *  AllUsers component
- * @class
- */
-export class AllUsers extends React.Component {
-    /**
-   *
-   * @returns {void} - react render method
-   */
-  render() {
-    const allResults = this.props.users.map(user =>
-      <User key={user.id} userId={user.id} username={user.username} addUserToGroup={this.props.addUserToGroup} groupId={this.props.groupId} />
-    );
+const AllUsers = (props) => {
+  const allResults = props.users.map(user =>
+    <User
+      key={user.id}
+      userId={user.id}
+      username={user.username}
+      addUserToGroup={props.addUserToGroup}
+      groupId={props.groupId}
+    />
+  );
 
-    return (
-      <div>
+  return (
+    <div>
 
-        { this.props.users.length > 0 && <ul className="collection">{allResults}</ul> }
+      { props.users.length > 0 && <ul className="collection">{allResults}</ul> }
 
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 AllUsers.propTypes = {
-  users: PropTypes.array.isRequired,
+  users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   addUserToGroup: PropTypes.func.isRequired,
-  groupId: PropTypes.number.isRequired
+  groupId: PropTypes.string.isRequired
 };
 
 

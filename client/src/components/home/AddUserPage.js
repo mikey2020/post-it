@@ -6,8 +6,6 @@ import { addUserToGroup } from '../../actions/groupActions';
 import { getUsers } from '../../actions/userActions';
 import AllUsers from './AllUsers';
 
-// import Pagination from './Pagination';
-
 const validate = new Validations();
 
 /**
@@ -71,14 +69,6 @@ export class AddUserPage extends React.Component {
     return isValid;
   }
 
-  /* changeToArray(number){
-    let newArray = [];
-    for (let value = 0; value <= number; value + 1) {
-      newArray.push(value);
-    }
-    console.log(newArray);
-    return newArray;
-  } */
   /**
    *
    * @returns {component} - renders a React component
@@ -119,7 +109,7 @@ AddUserPage.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
   getUsers: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired
 };
 
 const mapStateToProps = state => ({

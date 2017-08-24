@@ -10,7 +10,7 @@ const setNotifications = (notifications) => {
 };
 
 const addNotification = (notification) => {
-  console.log('am amm am workkkiing herrrrrreeee...', notification); 
+  console.log('am amm am workkkiing herrrrrreeee...', notification);
   return {
     type: ADD_NOTIFICATION,
     notification
@@ -29,10 +29,9 @@ const getNotifications = () => {
      .then((res) => {
        if (res.data.userNotifications) {
          dispatch(setNotifications(res.data.userNotifications));
+       } else {
+         dispatch(handleErrors('No notifications', 'SET_NOTIFICATIONS'));
        }
-     })
-     .catch(() => {
-       dispatch(handleErrors('No notifications', 'SET_NOTIFICATIONS'));
      });
   };
 };

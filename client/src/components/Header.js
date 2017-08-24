@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SigninForm from './signin/SigninForm';
 import { signout } from '../actions/signinActions';
-import { getNotifications, removeNotifications } from '../actions/notificationAction';
+import { removeNotifications } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -21,13 +21,6 @@ export class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
-  // /**
-  //  * @returns {void}
-  //  */
-  // componentDidMount() {
-  //   this.props.getNotifications();
-  // }
-
   /**
    * @param {object} e - argument
    * @returns {void}
@@ -38,12 +31,12 @@ export class Header extends React.Component {
     this.context.router.push('/signup');
   }
   /**
+   * @param {Object} event
    * @returns {void}
    */
-  clearNotifications(e) {
-    e.preventDefault();
-    console.log('am vrey much alive here ======');
-    removeNotifications().then((dat) => { console.log('---------', dat); });
+  clearNotifications(event) {
+    event.preventDefault();
+    this.props.removeNotifications();
   }
 
   /**
@@ -51,7 +44,7 @@ export class Header extends React.Component {
    * @returns {component} - renders a React component
    */
   render() {
-    const { isAuthenticated } = this.props.user;
+    const { isAuthenticated } = this.props;
 
     const userLinks = (
       <nav>
@@ -59,10 +52,24 @@ export class Header extends React.Component {
           <Link to="/home" className="logo">PostIT</Link>
           <ul className="right">
             <div>
-              <li><a href="#modal4" onClick={this.clearNotifications}><i className="material-icons modal-trigger">notifications</i></a></li>
-              <li><span className="notify">{this.props.notifications.length}</span></li>
-              <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/home">Home</Link></li>
-              <li><a href="#" onClick={this.logout} className="flow-text waves-effect btn waves-red links" id="logout-button">Logout</a></li>
+              <li>
+                <a href="#modal4" onClick={this.clearNotifications}>
+                  <i className="material-icons modal-trigger">notifications</i></a></li>
+              {this.props.notifications.length &&
+                <li><span className="notify"> { this.props.notifications.length } </span></li> }
+              <li>
+                <Link
+                  className="flow-text waves-effect waves-red btn teal lighten-1 links"
+                  to="/home"
+                >
+                Home</Link></li>
+              <li>
+                <a
+                  href=""
+                  onClick={this.logout}
+                  className="flow-text waves-effect btn waves-red links"
+                  id="logout-button"
+                >Logout</a></li>
             </div>
           </ul>
         </div>
@@ -95,10 +102,10 @@ export class Header extends React.Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.objectOf(PropTypes.string).isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   signout: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
-  getNotifications: PropTypes.func.isRequired
+  removeNotifications: PropTypes.func.isRequired
 };
 
 Header.contextTypes = {
@@ -106,8 +113,8 @@ Header.contextTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
+  isAuthenticated: state.user.isAuthenticated,
   notifications: state.notifications
 });
 
-export default connect(mapStateToProps, { signout, getNotifications, removeNotifications })(Header);
+export default connect(mapStateToProps, { signout, removeNotifications })(Header);

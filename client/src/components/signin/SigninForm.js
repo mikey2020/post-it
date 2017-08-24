@@ -3,15 +3,19 @@
  import { Link } from 'react-router';
  import PropTypes from 'prop-types';
  import GoogleLogin from 'react-google-login';
- import { validateUser, validateToken } from '../../actions/signinActions';
+ import { validateUser, validateGoogleUser } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
 
- const clientId = process.env.CLIENT_ID;
+// const clientId = process.env.CLIENT_ID;
  const validate = new Validations();
- const responseGoogle = (response) => {
-   console.log('google response', response);
- };
+ /* const responseGoogle = (response) => {
+   console.log('gogole id', response);
+   const profile = response.getBasicProfile();
+   const userData = { username: profile.ig, email: profile.U3, password: response.googleId };
+   validateGoogleUser(userData);
+   console.log(userData);
+ }; */
  /**
  *  SigninForm class component
  * @class
@@ -31,6 +35,7 @@
 
      this.onChange = this.onChange.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
+     this.responseGoogle = this.responseGoogle.bind(this);
    }
 
    /**
@@ -40,7 +45,6 @@
    onChange(e) {
      this.setState({ [e.target.name]: e.target.value });
    }
-
    /**
    * @param {object} e - argument
    * @returns {void}
@@ -66,6 +70,21 @@
      }
 
      return isValid;
+   }
+   /**
+    * @returns {void}
+    * @param {Object} response
+    */
+   responseGoogle(response) {
+     console.log('gogole id', response);
+     const profile = response.getBasicProfile();
+     const userData = {
+       username: profile.ig,
+       email: profile.U3,
+       password: response.googleId,
+       passwordConfirmation: response.googleId };
+     this.props.validateGoogleUser(userData);
+     console.log(userData);
    }
 
   /**
@@ -112,13 +131,12 @@
            <br />
            <span><Link to="/reset" > Forgot password? </Link></span>
            <br />
-           <span className="g-signin2">
+           <span className="">
              <GoogleLogin
                clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
                buttonText="Sign In with Google"
-               onSuccess={responseGoogle}
-               onFailure={responseGoogle}
-               uxMode={'popup'}
+               onSuccess={this.responseGoogle}
+               onFailure={this.responseGoogle}
              />
            </span>
          </div>
@@ -128,11 +146,12 @@
  }
 
  SigninForm.propTypes = {
-   validateUser: PropTypes.func.isRequired
+   validateUser: PropTypes.func.isRequired,
+   validateGoogleUser: PropTypes.func.isRequired
  };
 
  SigninForm.contextTypes = {
    router: PropTypes.object.isRequired
  };
 
- export default connect(null, { validateUser, addFlashMessage })(SigninForm);
+ export default connect(null, { validateUser, validateGoogleUser, addFlashMessage })(SigninForm);

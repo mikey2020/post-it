@@ -49,7 +49,7 @@ class UserController {
         res.json({ message: `${req.body.username} successfully added`, userToken: token });
       })
       .catch(() => {
-        res.status(500).json({ errors: { message: 'Something went wrong' } });
+        res.status(400).json({ errors: { message: 'User already exists' } });
       });
     }
   }
@@ -62,7 +62,8 @@ class UserController {
     User.findOne({
       where: {
         username: req.body.username
-      }
+      },
+      attributes: { exclude: ['createdAt', 'updatedAt', 'verificationCode', 'phoneNumber'] }
     })
      .then((user) => {
        let userData = JSON.stringify(user);
@@ -75,7 +76,8 @@ class UserController {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
-     .catch(() => {
+     .catch((err) => {
+       console.log(err);
        res.status(400).json({ errors: { form: 'Invalid User' } });
      });
   }
@@ -86,11 +88,9 @@ class UserController {
    */
   static checkUserExists(req, res) {
     User.findOne({
-
       where: {
         username: req.body.username
       }
-
     }).then((user) => {
       res.json({ user });
     });
@@ -190,18 +190,24 @@ class UserController {
    * @returns {void}
    */
   static checkVerificationCode(req, res) {
-    models.findOne({
+    User.findOne({
       where: {
-        verificationCode: req.body.verificationCode
+        verificationCode: req.body.code
       }
     })
     .then((user) => {
       if (req.body.verificationCode === user.verificationCode) {
         user.password = req.body.password;
         user.save().then((newUser) => {
-           console.log('this my new symbol', newUser);
+          console.log('this my new symbol', newUser);
+          const userData = { username: newUser.username, password: newUser.password };
+          const userToken = jwt.sign({ data: newUser }, process.env.JWT_SECRET, { expiresIn: '2h' });
+          res.status(201).json({ userData, userToken });
         });
       }
+    })
+    .catch(() => {
+      res.status(400).json({ message: 'Invalid verification code' });
     });
   }
 }

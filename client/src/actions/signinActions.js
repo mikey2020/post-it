@@ -2,7 +2,8 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { SET_USER, UNSET_USER } from './types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
-import handleErrors from './errorAction';
+import { handleErrors, handleSuccess } from './errorAction';
+import addUser from './signupActions';
 
 const setUser = user => ({
   type: SET_USER,
@@ -27,6 +28,12 @@ const validateToken = (token) => {
   }
 };
 
+const validateGoogleUser = (userData) => {
+  return (dispatch) => {
+    dispatch(addUser(userData));
+  };
+};
+
 const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', userData)
            .then((res) => {
              if (res.data.user) {
@@ -35,14 +42,10 @@ const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', u
                validateToken(token);
                dispatch(setUser(jwt.decode(token).data));
                dispatch(addFlashMessage(createMessage('success', `Welcome ${res.data.user.name}`)));
-             }/* else {
-               dispatch(setUser(res.data.errors));
-               dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
-             } */
+             }
            })
            .catch(() => {
              dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
-             // dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
            });
 
-export { validateUser, signout, validateToken, setUser };
+export { validateUser, signout, validateToken, setUser, validateGoogleUser };
