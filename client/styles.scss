@@ -34,7 +34,9 @@ body {
     padding-right: 40px;
     padding-bottom: 20px;
     padding-top: 10px;
-    margin: 20px;
+    width: 500px;
+    margin-left: 50px;
+    margin-right: 50px;
     color: black;
     form{
       padding-left: 20px;
@@ -59,7 +61,7 @@ body {
 .signin-container{
     max-width: 90%;
     max-height: 100%;
-    width: 70%;
+    width: 40%;
     padding: 20px 20px;
     top: 70px;
     color: black;
@@ -216,6 +218,7 @@ body {
 
 .logo{
     font-size: 30px;
+    padding-left: 20px;
 }
 
 .links{
@@ -341,4 +344,25 @@ textarea{
 .archived{
     padding-left: 20px;
     padding-top: 10px;
+}
+
+.group-btn{
+    text-transform: capitalize;
+}
+
+.post-message{
+    position: fixed;
+    bottom: 15%;
+    left: 26.5% !important;
+    width: 72% !important;
+    height: 20% !important;
+    background: #37474f !important;
+    textarea.materialize-textarea {
+        width: 80%;
+    }
+    button{
+       position: relative;
+       top: -60px;
+       left: 720px;
+    }
 }

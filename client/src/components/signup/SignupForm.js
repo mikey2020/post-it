@@ -72,6 +72,7 @@ export class SignupForm extends React.Component {
     const { errors } = this.state;
     return (
       <div className="" id="signup-body">
+        <center>
         <form onSubmit={this.onSubmit}>
           <div className="jumbotron signup-form">
             <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
@@ -145,6 +146,7 @@ export class SignupForm extends React.Component {
 
           </div>
         </form>
+        </center>
       </div>
 
     );

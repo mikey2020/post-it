@@ -159,7 +159,7 @@ export class Messages extends React.Component {
         <ul>{allMessages}</ul>
 
         <div className="row">
-          <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>
+          <form className="col s12 m12 l12 form-group post-message" onSubmit={this.onSubmit}>
             <label className="flow-text priority-label">Priority level:</label>
             <input
               className="priority-level"

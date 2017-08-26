@@ -84,7 +84,6 @@
        password: response.googleId,
        passwordConfirmation: response.googleId };
      this.props.validateGoogleUser(userData);
-     console.log(userData);
    }
 
   /**

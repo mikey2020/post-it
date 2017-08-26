@@ -46,7 +46,7 @@ class UserController {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
-        res.json({ message: `${req.body.username} successfully added`, userToken: token });
+        res.status(201).json({ message: `${req.body.username} successfully added`, userToken: token });
       })
       .catch(() => {
         res.status(400).json({ errors: { message: 'User already exists' } });
@@ -153,6 +153,7 @@ class UserController {
      });
   }
   /**
+   * @returns {void}
    * @param {Array} userEmail
    * @param {String} username
    * @param {String} verificationCode

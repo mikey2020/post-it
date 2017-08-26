@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 import Validations from '../../../validations';
 import { addUserToGroup } from '../../actions/groupActions';
 import { getUsers } from '../../actions/userActions';
@@ -32,7 +33,6 @@ export class AddUserPage extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
-    // this.changeToArray = this.changeToArray.bind(this);
   }
  /**
    * @param {object} e - argument

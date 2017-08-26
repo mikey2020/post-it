@@ -31,7 +31,6 @@ export class ResetPassword extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.verifyCode = this.verifyCode.bind(this);
-    // this.isValid = this.isValid.bind(this);
   }
   /**
    * @param {Object} event
@@ -46,7 +45,7 @@ export class ResetPassword extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    resetPassword(this.state);
+    this.props.resetPassword(this.state);
     this.setState({ status: 'waiting for verification code' });
   }
   /**
@@ -200,11 +199,12 @@ export class ResetPassword extends React.Component {
 
 ResetPassword.propTypes = {
   // checkUserExists: PropTypes.func.isRequired,
-  verifyCode: PropTypes.func.isRequired
+  verifyCode: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired
 };
 
 ResetPassword.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { verifyCode })(ResetPassword);
+export default connect(null, { verifyCode, resetPassword })(ResetPassword);
