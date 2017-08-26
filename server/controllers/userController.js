@@ -73,6 +73,7 @@ class UserController {
          const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
        } else {
+         console.log('what ups my man =====', userData);
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
@@ -170,11 +171,11 @@ class UserController {
       from: 'PostIt',
       to: userEmail,
       subject: 'Reset password verification code',
-      html: `<h2>Hello, ${username}!</h2>
+      html: `<div><h2>Hello, ${username}!</h2>
           <p><strong>Your Verification code is:</strong> ${verificationCode}</p>\
           <p><a href="${url}">Update my password</a></p><br /><br />\
           <p>Please use this link to update your password by inputing your verification code</p>\`
-          <p>You can post messages on <a href="mike-post.herokuapp.com">POSTIT</a></p>`
+          <p>You can post messages on <a href="mike-post.herokuapp.com">POSTIT</a></p></div>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -196,17 +197,21 @@ class UserController {
       }
     })
     .then((user) => {
-      if (req.body.verificationCode === user.verificationCode) {
-        user.password = req.body.password;
+      console.log('thid user', user);
+      if (req.body.code === user.verificationCode) {
+        user.password = req.body.newPassword;
         user.save().then((newUser) => {
           console.log('this my new symbol', newUser);
           const userData = { username: newUser.username, password: newUser.password };
           const userToken = jwt.sign({ data: newUser }, process.env.JWT_SECRET, { expiresIn: '2h' });
           res.status(201).json({ userData, userToken });
         });
+      } else {
+        res.status(400).json({ message: 'Invalid verification code' });
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.status(400).json({ message: 'Invalid verification code' });
     });
   }

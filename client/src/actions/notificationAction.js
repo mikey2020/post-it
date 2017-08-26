@@ -10,16 +10,16 @@ const setNotifications = (notifications) => {
 };
 
 const addNotification = (notification) => {
-  console.log('am amm am workkkiing herrrrrreeee...', notification);
   return {
     type: ADD_NOTIFICATION,
     notification
   };
 };
 
-const removeNotifications = () => {
+const removeNotifications = (notification) => {
   return {
-    type: REMOVE_NOTIFICATIONS
+    type: REMOVE_NOTIFICATIONS,
+    notification
   };
 };
 

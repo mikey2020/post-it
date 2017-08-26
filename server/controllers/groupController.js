@@ -253,16 +253,14 @@ class GroupController {
     }).then((message) => {
       if (req.decoded.data.id !== message.userId) {
         message.addUser(req.decoded.data.id).then(() => {
-          res.json({ message: 'user read this mesage', data: message });
+          res.status(201).json({ message: 'user read this mesage', data: message });
         }).catch(() => {
-          res.json({ message: 'something went wrong registering read message' });
+          res.status(500).json({ message: 'something went wrong registering read message' });
         });
-      } else {
-        res.json({ message: 'user already read message' });
       }
     })
     .catch(() => {
-      res.json({ message: 'something went wrong finding message' });
+      res.status(400).json({ message: 'something went wrong finding message' });
     });
   }
   /**
@@ -407,18 +405,37 @@ class GroupController {
     }
   }
 
-  static destructureArray(arrays) {
-    let newArray = [];
-    // console.log('this is the array i got', arrays);
-    Object.keys(arrays).forEach((array) => {
-      console.log('each array', array);
-      if (typeof arrays[array] === 'object') {
-        newArray = arrays[array].join(',');
+  /**
+   * @returns {void}
+   * @param {Object} req
+   * @param {Object} res
+   */
+  static getUnreadMessagesNumber(req, res) {
+    models.Message.findAndCountAll({
+      where: {
+        groupId: req.params.groupId,
+        userId: req.decoded.data.id
       }
+    })
+    .then((messages) => {
+      const allMessages = messages.count;
+      models.User.findOne({
+        where: {
+          id: req.decoded.data.id
+        }
+      })
+      .then((user) => {
+        user.getMessages({ where: { groupId: req.params.groupId } }).then((readMessages) => {
+          const numberOfReadMessages = readMessages.length;
+          const unreadMessages = Math.abs(allMessages - numberOfReadMessages);
+          res.status(200).json({ unreadMessages });
+        });
+      });
+    })
+    .catch(() => {
+      res.status(404).json({ message: 'no message found' });
     });
-    console.log('these is the new array mikey', newArray);
   }
-
 }
 export default GroupController;
 

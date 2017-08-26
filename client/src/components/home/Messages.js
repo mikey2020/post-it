@@ -41,15 +41,6 @@ export class Messages extends React.Component {
     this.handlePriority = this.handlePriority.bind(this);
     this.viewArchived = this.viewArchived.bind(this);
   }
-  // /**
-  //  * @returns {void}
-  //  */
-  // componentDidMount() {
-  //   if (this.props.group && this.props.userId) {
-  //     const { group } = this.props;
-  //     this.props.getGroupMessages(group.id);
-  //   }
-  // }
   /**
    * @param {object} prevProps - previous props
    * @returns {void}
@@ -81,7 +72,7 @@ export class Messages extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false });
+      this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1 });
       this.props.postMessage(this.state, this.props.group.id);
     }
   }
@@ -130,6 +121,8 @@ export class Messages extends React.Component {
     const allMessages = this.props.messages.map(message =>
       (<Message
         key={message.id}
+        messageId={message.id}
+        readMessage={this.props.readMessage}
         content={message.content}
         priority={message.priority}
         creator={message.creator}
@@ -168,16 +161,36 @@ export class Messages extends React.Component {
         <div className="row">
           <form className="col s12 m12 l12 form-group" onSubmit={this.onSubmit}>
             <label className="flow-text priority-label">Priority level:</label>
-            <input className="priority-level" id="priority-level" type="range" name="points" min="0" max="15" onChange={this.handlePriority} />
-            <textarea id="textarea1" name="message" onChange={this.onChange} className="materialize-textarea" rows="5" value={this.state.message} />
+            <input
+              className="priority-level"
+              id="priority-level"
+              type="range"
+              name="points"
+              min="0"
+              max="15"
+              onChange={this.handlePriority}
+            />
+            <textarea
+              id="textarea1"
+              name="message"
+              onChange={this.onChange}
+              className="materialize-textarea"
+              rows="5"
+              value={this.state.message}
+            />
             <br />
             <div className="col s5 m4 l3">
-              <button className="btn waves-effect waves-light teal lighten-2" type="submit" name="action">Post
-										<i className="material-icons right">send</i>
+              <button
+                className="btn waves-effect waves-light teal lighten-2"
+                type="submit"
+                name="action"
+              >Post <i className="material-icons right">send</i>
               </button>
               <span className="thumb active" />
             </div>
-            <button className="btn waves-effect waves-light priority">{this.state.priority} </button>
+            <button
+              className="btn waves-effect waves-light priority"
+            >{this.state.priority} </button>
           </form>
         </div>
 
@@ -192,7 +205,8 @@ Messages.propTypes = {
   postMessage: PropTypes.func.isRequired,
   getGroupMessages: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  addMessage: PropTypes.func.isRequired
+  addMessage: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

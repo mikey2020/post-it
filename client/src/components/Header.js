@@ -18,6 +18,11 @@ export class Header extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      notices: 0,
+      showNotices: 'false'
+    };
+
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
@@ -36,7 +41,11 @@ export class Header extends React.Component {
    */
   clearNotifications(event) {
     event.preventDefault();
-    this.props.removeNotifications();
+    // this.props.removeNotifications();
+    // this.setState({ notices: 0 });
+    this.state.notices = 0;
+    this.setState({ showNotices: 'false' });
+    console.log('notices', this.state.notices);
   }
 
   /**
@@ -45,7 +54,12 @@ export class Header extends React.Component {
    */
   render() {
     const { isAuthenticated } = this.props;
-
+    const { showNotices } = this.state;
+    this.state.notices = this.props.notifications.length;
+    if (this.props.notifications.length > 0) {
+      this.setState({ showNotices: 'true' });
+    }
+    console.log('thi state', this.state.notices);
     const userLinks = (
       <nav>
         <div className="nav-wrapper blue-grey darken-3">
@@ -55,7 +69,7 @@ export class Header extends React.Component {
               <li>
                 <a href="#modal4" onClick={this.clearNotifications}>
                   <i className="material-icons modal-trigger">notifications</i></a></li>
-              {this.props.notifications.length &&
+              { showNotices === 'true' && // this.props.notifications.length > 0 &&
                 <li><span className="notify"> { this.props.notifications.length } </span></li> }
               <li>
                 <Link

@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE } from '../actions/types';
+import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE, SET_UNREAD_MESSAGES } from '../actions/types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
+import { handleErrors, handleSuccess } from './errorAction';
 
 const addGroupMessages = messages => ({
   type: ADD_GROUP_MESSAGES,
@@ -17,6 +18,12 @@ const setUsersWhoReadMessage = users => ({
   users
 });
 
+const setUnreadMessages = (messages) => {
+  return {
+    type: SET_UNREAD_MESSAGES,
+    messages
+  };
+};
 const getGroupMessages = (groupId, limit, offset) => dispatch => axios.get(`/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
             .then((res) => {
               if (res.data.posts) {
@@ -42,6 +49,18 @@ const readMessage = messageId => axios.post(`/api/v1/user/${messageId}/read`)
                 }
               });
 
+const getUnreadMessages = (groupId) => {
+  return (dispatch) => {
+    axios.get(`/api/v1/user/${groupId}/unreadMessages`)
+    .then(() => {
+      // dispatch(setUnreadMessages(res.data.unreadMessages));
+      dispatch(handleSuccess(null, 'SET_UNREAD_MESSAGES'));
+    })
+    .catch(() => {
+      dispatch(handleErrors(null, 'SET_UNREAD_MESSAGES_FAILED'));
+    });
+  };
+};
 /* const getUsersWhoReadMessage = (messageId) => {
   console.log('ther is a message id', messageId);
   return dispatch => axios.post(`/api/v1/message/${messageId}/readers`)
@@ -56,4 +75,5 @@ const readMessage = messageId => axios.post(`/api/v1/user/${messageId}/read`)
 }; */
 
 
-export { getGroupMessages, postMessage, addGroupMessages, addMessage };
+export { getGroupMessages,
+postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages };

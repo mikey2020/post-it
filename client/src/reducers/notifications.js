@@ -14,7 +14,10 @@ export default (state = [], action) => {
       ];
 
     case REMOVE_NOTIFICATIONS:
-      return [];
+      return [
+        ...state,
+        {}
+      ];
 
     default: return state;
 

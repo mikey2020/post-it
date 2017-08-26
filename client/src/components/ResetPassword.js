@@ -92,8 +92,7 @@ export class ResetPassword extends React.Component {
     if (this.isValid()) {
       const { code } = this.state;
       console.log(code);
-      this.props.verifyCode({ code });
-      this.setState({ status: 'update password' });
+      this.props.verifyCode(this.state);
     } else {
       // console.log('thin serrors', this.state.errors);
     }
@@ -115,16 +114,8 @@ export class ResetPassword extends React.Component {
             onChange={this.onChange}
             name="code"
           />
-          <Input type="submit" className="btn" />
-        </div>
-      </form>
-    );
 
-    const updatePassword = (
-      <form className="reset-form">
-        <div className="jumbotron signup-form">
-          <h3>Enter New Password</h3> 
-          {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
+          {errors.newPassword ? <span className="help-block">{errors.newPassword}</span> : <br />}
           <Input
             type="password"
             value={this.state.newPassword}
@@ -132,7 +123,7 @@ export class ResetPassword extends React.Component {
             onChange={this.onChange}
             name="newPassword"
           />
-
+          {errors.newPasswordConfirmation ? <span className="help-block">{errors.newPasswordConfirmation}</span> : <br />}
           <Input
             type="password"
             value={this.state.newPasswordConfirmation}
@@ -141,10 +132,36 @@ export class ResetPassword extends React.Component {
             name="newPasswordConfirmation"
           />
 
-          <Input type="Submit" className="btn" value="Update Password" />
+          <Input type="submit" className="btn" />
         </div>
       </form>
     );
+
+    // const updatePassword = (
+    //   <form className="reset-form">
+    //     <div className="jumbotron signup-form">
+    //       <h3>Enter New Password</h3> 
+    //       {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
+    //       <Input
+    //         type="password"
+    //         value={this.state.newPassword}
+    //         placeholder="Enter New Password"
+    //         onChange={this.onChange}
+    //         name="newPassword"
+    //       />
+
+    //       <Input
+    //         type="password"
+    //         value={this.state.newPasswordConfirmation}
+    //         placeholder="Confirm New Password"
+    //         onChange={this.onChange}
+    //         name="newPasswordConfirmation"
+    //       />
+
+    //       <Input type="Submit" className="btn" value="Update Password" />
+    //     </div>
+    //   </form>
+    // );
 
     return (
       <div className="" id="signup-body">
@@ -175,7 +192,6 @@ export class ResetPassword extends React.Component {
 
         { status === 'waiting for verification code' && verificationCodeInput }
 
-        {status === 'update password' && updatePassword}
       </div>
 
     );

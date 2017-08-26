@@ -122,7 +122,7 @@ class Validations {
     if (data.code === null || data.code === '') {
       this.errors.code = 'Please enter verification code';
     }
-    /* if (data.newPassword === null || data.newPassword === '') {
+    if (data.newPassword === null || data.newPassword === '') {
       this.errors.newPassword = 'New Password is required';
     }
     if (data.newPasswordConfirmation === null || data.newPasswordConfirmation === '') {
@@ -130,7 +130,7 @@ class Validations {
     }
     if (data.newPasswordConfirmation !== data.newPassword) {
       this.errors.newPasswordConfirmation = 'Passwords do not match';
-    } */
+    }
     const errors = this.errors;
 
     return {

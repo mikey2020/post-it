@@ -25,5 +25,7 @@ export default (app) => {
 
   app.get('/api/v1/user/notifications', Validations.authenticate, GroupController.getUserNotifications);
 
-  app.post('/api/v1/user/:messageId/read', Validations.authenticate, Unique.checkMessageRead, GroupController.readMessage);
+  app.post('/api/v1/user/:messageId/read', Validations.authenticate, GroupController.readMessage);
+
+  app.get('/api/v1/user/:groupId/unreadMessages', Validations.authenticate, GroupController.getUnreadMessagesNumber);
 };

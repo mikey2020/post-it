@@ -39,13 +39,13 @@ const resetPassword = userData => axios.post('/api/v1/user/resetPassword', userD
               }
             });
 
-const verifyCode = (code) => {
+const verifyCode = (userData) => {
   return (dispatch) => {
-    axios.post('/api/v1/user/verifyCode', code)
+    axios.post('/api/v1/user/verifyCode', userData)
     .then((res) => {
       console.log('status code', res.data.status);
       if (res.data.userToken) {
-        dispatch(handleSuccess('Code verification successful', 'VERIFY_PASSWORD_RESET_CODE'));
+        dispatch(handleSuccess('Code verification successful, Please login now', 'VERIFY_PASSWORD_RESET_CODE'));
         dispatch(validateUser(res.data.userData));
       } else {
         dispatch(handleErrors('Code verification failure', 'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
