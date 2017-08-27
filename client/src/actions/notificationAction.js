@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SET_NOTIFICATIONS, REMOVE_NOTIFICATIONS, ADD_NOTIFICATION } from './types';
-import handleErrors from './errorAction';
+import { handleErrors, handleSuccess } from './errorAction';
 
 const setNotifications = (notifications) => {
   return {
@@ -16,10 +16,9 @@ const addNotification = (notification) => {
   };
 };
 
-const removeNotifications = (notification) => {
+const removeNotifications = () => {
   return {
-    type: REMOVE_NOTIFICATIONS,
-    notification
+    type: REMOVE_NOTIFICATIONS
   };
 };
 
@@ -27,14 +26,28 @@ const getNotifications = () => {
   return (dispatch) => {
     axios.get('/api/v1/user/notifications')
      .then((res) => {
-       if (res.data.userNotifications) {
-         dispatch(setNotifications(res.data.userNotifications));
+       if (res.data.userNotices) {
+         dispatch(setNotifications(res.data.userNotices));
        } else {
-         dispatch(handleErrors('No notifications', 'SET_NOTIFICATIONS'));
+         dispatch(handleErrors(null, 'SET_NOTIFICATIONS'));
        }
      });
   };
 };
 
+const deleteNotification = () => {
+  return (dispatch) => {
+    axios.delete('/api/v1/user/delete/notifications')
+    .then((res) => {
+      console.log('------->>>>>>', res.data.message);
+      // dispatch(removeNotifications({}));
+      dispatch(handleSuccess(null, 'REMOVE_NOTIFICATIONS'));
+    })
+    .catch(() => {
+      dispatch(handleErrors(null, 'REMOVE_NOTIFICATIONS'));
+    });
+  };
+};
 
-export { getNotifications, removeNotifications, addNotification };
+
+export { getNotifications, removeNotifications, addNotification, deleteNotification };

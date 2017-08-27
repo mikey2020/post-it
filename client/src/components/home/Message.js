@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Readers from './Readers';
+import { getUsersWhoReadMessage } from '../../actions/messageActions';
 /**
  * @class
  */
@@ -13,16 +16,18 @@ class Message extends React.Component {
     // this.handlePageLoad = this.handlePageLoad.bind(this);
     // this.props.readMessage(this.props.messageId);
   }
-  // /**
-  //  * @returns {void}
-  //  */
-  // componentDidMount() {
-  //   this.props.readMessage(this.props.messageId);
-  // }
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
+   // this.props.readMessage(this.props.messageId);
+    this.props.getUsersWhoReadMessage(this.props.messageId);
+  }
   /**
    * @returns {void}
    */
   render() {
+    console.log(this.props.messageReaders);
     return (
       <div className="row">
         <div className="col s12 m12 l12">
@@ -36,10 +41,11 @@ class Message extends React.Component {
               <span
                 className="badge message-priority btn blue-grey darken-3"
               >{this.props.priority ? this.props.priority : <p /> }</span>
+              <a href="#modal5" className="messageReaders btn">message readers</a>
             </div>
           </ul>
         </div>
-
+        <Readers readers={this.props.messageReaders} />
       </div>
     );
   }
@@ -51,8 +57,15 @@ Message.propTypes = {
   creator: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   readMessage: PropTypes.func.isRequired,
-  messageId: PropTypes.number.isRequired
+  messageId: PropTypes.number.isRequired,
+  messageReaders: PropTypes.arrayOf(PropTypes.string).isRequired,
+  getUsersWhoReadMessage: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state) => {
+  return {
+    readers: state.usersWhoReadMessage
+  };
+};
 
-export default Message;
+export default connect(mapStateToProps, { getUsersWhoReadMessage })(Message);

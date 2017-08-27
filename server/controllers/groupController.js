@@ -91,9 +91,9 @@ class GroupController {
         if (message !== null) {
           return message.addUser(req.decoded.data.id).then(() => {            
             const newNotification =
-            GroupController.notificationMessage(message.messageCreator);
-            GroupController.addNotification(req.params.groupId, newNotification);
-            // req.app.io.emit('new message', message.content);
+            GroupController.notificationMessage(message);
+            GroupController.addNotification(req.params.groupId,
+            newNotification, req.decoded.data.id);
             req.app.io.emit('new message posted', message);
             if (message.priority === 'urgent') {
               GroupController.sendEmail(req.usersEmails, newNotification);
@@ -132,8 +132,7 @@ class GroupController {
           data = JSON.parse(data);
           res.json({ posts: data });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           res.status(500).json({ errors: 'Something went wrong' });
         });
   }
@@ -325,8 +324,8 @@ class GroupController {
    * @returns {string} - it returns a notification message
    * @param {string} messageCreator - user posting the message
    */
-  static notificationMessage(messageCreator) {
-    return `${messageCreator} posted a message to a group `;
+  static notificationMessage(message) {
+    return `${message.messageCreator} posted '${message.content}' to a group which you are a member`;
   }
 
   /**
@@ -334,24 +333,15 @@ class GroupController {
    * @param {number} id - group id
    * @param {string} notification
    */
-  static addNotification(id, notification) {
+  static addNotification(id, notice, userId) {
     models.Notification.create({
       groupId: id,
-      event: notification
-    });
-  }
-  /**
-   * @returns {void}
-   * @param {number} id - group id
-   */
-  /*static getNotifications(id) {
-    return models.Notification.findAll({
-      where: {
-        groupId: id
-      }
-    })
-    .then((notific) => {
-      return notific;
+      event: notice
+    }).then((notification) => {
+      console.log(notification);
+      notification.addUser(userId).then((user) => {
+        console.log('user was added', user);
+      });
     });
   }
    /**
@@ -370,19 +360,26 @@ class GroupController {
       ],
     })
     .then((user) => {
-      const responseObj = Object.assign({}, { username: user.username,
+      const responseObj = { ...[],
+        username: user.username,
         groups: user.Groups.map((group) => {
-          return Object.assign({}, { groupName: group.groupname,
+          return { ...{},
+            groupName: group.groupname,
             notifications: group.Notifications.map((notification) => {
-              return Object.assign({}, { event: notification.event });
-            }) });
-        }) });
+              return { ...{}, event: notification.event };
+            }) };
+        }) };
       const notifications = responseObj.groups;
       Object.keys(notifications).forEach((notification) => {
         userNotifications.push(notifications[notification].notifications);
       });
-      GroupController.destructureArray(userNotifications);
-      res.status(200).json({ userNotifications });
+      const userNotices = userNotifications.reduce(
+        (a, b) => {
+          return a.concat(b);
+        },
+        []
+      );
+      res.status(200).json({ userNotices });
     })
     .catch(() => {
       res.status(404).json({ message: 'You have no notification' });
@@ -434,6 +431,22 @@ class GroupController {
     })
     .catch(() => {
       res.status(404).json({ message: 'no message found' });
+    });
+  }
+  /**
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {void}
+   */
+  static deleteNotifications(req, res) {
+    models.UserNotification.destroy({
+      where: {
+        userId: req.decoded.data.id
+      }
+    }).then(() => {
+      res.json({
+        message: 'All notifications deleted'
+      });
     });
   }
 }

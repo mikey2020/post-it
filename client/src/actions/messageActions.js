@@ -61,7 +61,7 @@ const getUnreadMessages = (groupId) => {
     });
   };
 };
-/* const getUsersWhoReadMessage = (messageId) => {
+const getUsersWhoReadMessage = (messageId) => {
   console.log('ther is a message id', messageId);
   return dispatch => axios.post(`/api/v1/message/${messageId}/readers`)
               .then((res) => {
@@ -72,8 +72,8 @@ const getUnreadMessages = (groupId) => {
                   console.log('something went errrk');
                 }
               });
-}; */
+};
 
 
 export { getGroupMessages,
-postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages };
+postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages, getUsersWhoReadMessage };

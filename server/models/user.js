@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     user.password = bcrypt.hashSync(user.password);
   });
 
-  User.beforeSave((user) => {
+  User.beforeUpdate((user) => {
     user.password = bcrypt.hashSync(user.password);
   });
 

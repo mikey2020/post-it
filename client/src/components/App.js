@@ -6,7 +6,7 @@ import AddUserPage from './home/AddUserPage';
 import Members from './home/Members';
 import Footer from './Footer';
 import Notifications from './Notifications';
-
+import Readers from './home/Readers';
 /**
  *  Main App component
  * @class
@@ -24,6 +24,7 @@ export default class App extends React.Component {
         <Notifications />
         <CreateGroupForm />
         <AddUserPage />
+        <Readers />
         <Members />
         { this.props.children }
         <Footer />

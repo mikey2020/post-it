@@ -8,6 +8,7 @@ import currentGroup from './reducers/currentGroup';
 import error from './reducers/error';
 import members from './reducers/members';
 import notifications from './reducers/notifications';
+import usersWhoReadMessage from './reducers/usersWhoReadMessage';
 
 export default combineReducers({
   flashMessage,
@@ -18,5 +19,6 @@ export default combineReducers({
   members,
   users,
   error,
-  notifications
+  notifications,
+  usersWhoReadMessage
 });

@@ -227,9 +227,10 @@ body {
 
 .group-form{
     width: 85%;
-    height: 90% !important;
+    height: 40% !important;
     max-height: 85% !important;
     overflow: scroll;
+    border-radius: 10px;
     input[type=submit]{
         position: relative;
         left: 40px;
@@ -267,7 +268,7 @@ textarea{
 }
 
 .priority{
-    background-color: #212121;
+    background-color: red;
 }
 
 .thumb{
@@ -365,4 +366,9 @@ textarea{
        top: -60px;
        left: 720px;
     }
+}
+
+.messageReaders{
+    position: relative;
+    left: 600px;
 }

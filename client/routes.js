@@ -11,7 +11,7 @@ import ResetPassword from './src/components/ResetPassword';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Welcome} />
-    <Route path="signup" component={SignupPage} />
+    <Route path="signup" component={Authenticate(SignupPage)} />
     <Route path="signin" component={SigninForm} />
     <Route path="home" component={Authenticate(HomePage)} />
     <Route path="reset" component={ResetPassword} />

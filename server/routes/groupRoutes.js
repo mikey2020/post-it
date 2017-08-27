@@ -25,6 +25,8 @@ export default (app) => {
 
   app.get('/api/v1/user/notifications', Validations.authenticate, GroupController.getUserNotifications);
 
+  app.delete('/api/v1/user/delete/notifications', Validations.authenticate, GroupController.deleteNotifications);
+
   app.post('/api/v1/user/:messageId/read', Validations.authenticate, GroupController.readMessage);
 
   app.get('/api/v1/user/:groupId/unreadMessages', Validations.authenticate, GroupController.getUnreadMessagesNumber);

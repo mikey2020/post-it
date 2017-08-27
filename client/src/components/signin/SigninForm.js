@@ -9,13 +9,6 @@
 
 // const clientId = process.env.CLIENT_ID;
  const validate = new Validations();
- /* const responseGoogle = (response) => {
-   console.log('gogole id', response);
-   const profile = response.getBasicProfile();
-   const userData = { username: profile.ig, email: profile.U3, password: response.googleId };
-   validateGoogleUser(userData);
-   console.log(userData);
- }; */
  /**
  *  SigninForm class component
  * @class
@@ -81,6 +74,7 @@
      const userData = {
        username: profile.ig,
        email: profile.U3,
+       phoneNumber: 'agoogleuser',
        password: response.googleId,
        passwordConfirmation: response.googleId };
      this.props.validateGoogleUser(userData);

@@ -33,8 +33,32 @@ class UserController {
    */
   static signup(req, res) {
     const { errors, isValid } = validate.signup(req.body);
+   console.log(UserController.checkGoogleUserExists());
     if (!isValid) {
       res.status(400).json(errors);
+    } else if (UserController.checkGoogleUserExists(req.body.username) === true) {
+      console.log('--=====>>>?????', req.body.phoneNumber);
+      User.findOne({
+        where: {
+          username: req.body.username
+        },
+        attributes: { exclude: ['createdAt', 'updatedAt', 'verificationCode', 'phoneNumber'] }
+      })
+     .then((user) => {
+       let userData = JSON.stringify(user);
+       userData = JSON.parse(userData);
+       console.log('google user', userData);
+       console.log(req.body.password);
+       console.log(bcrypt.compareSync(req.body.password, userData.password) === true);
+       if (req.body.username && req.body.password &&
+         bcrypt.compareSync(req.body.password, userData.password) === true) {
+         console.log('am here');
+         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
+       } else {
+         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
+       }
+     });
     } else {
       return User.create({
         username: req.body.username,
@@ -59,6 +83,7 @@ class UserController {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static signin(req, res) {
+    console.log(req.body);
     User.findOne({
       where: {
         username: req.body.username
@@ -68,17 +93,18 @@ class UserController {
      .then((user) => {
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
+       console.log('>>>>>>>', userData);
+       console.log(bcrypt.compareSync(req.body.password, userData.password) === true);
        if (req.body.username && req.body.password &&
          bcrypt.compareSync(req.body.password, userData.password) === true) {
+           console.log('i got here');
          const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
        } else {
-         console.log('what ups my man =====', userData);
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
-     .catch((err) => {
-       console.log(err);
+     .catch(() => {
        res.status(400).json({ errors: { form: 'Invalid User' } });
      });
   }
@@ -94,6 +120,24 @@ class UserController {
       }
     }).then((user) => {
       res.json({ user });
+    });
+  }
+
+  /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it sends (username) created successfully
+   */
+  static checkGoogleUserExists(username) {
+    return User.findOne({
+      where: {
+        username
+      }
+    }).then((user) => {
+      if (user !== null) {
+        return true;
+      }
+      return false;
     });
   }
 
@@ -201,18 +245,14 @@ class UserController {
       console.log('thid user', user);
       if (req.body.code === user.verificationCode) {
         user.password = req.body.newPassword;
-        user.save().then((newUser) => {
-          console.log('this my new symbol', newUser);
-          const userData = { username: newUser.username, password: newUser.password };
-          const userToken = jwt.sign({ data: newUser }, process.env.JWT_SECRET, { expiresIn: '2h' });
-          res.status(201).json({ userData, userToken });
+        user.update().then(() => {
+          res.status(201).json({ message: 'password updated successfully' });
         });
       } else {
         res.status(400).json({ message: 'Invalid verification code' });
       }
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       res.status(400).json({ message: 'Invalid verification code' });
     });
   }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SigninForm from './signin/SigninForm';
 import { signout } from '../actions/signinActions';
-import { removeNotifications } from '../actions/notificationAction';
+import { getNotifications, deleteNotification } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -20,11 +20,32 @@ export class Header extends React.Component {
 
     this.state = {
       notices: 0,
-      showNotices: 'false'
+      showNotices: 'true'
     };
+
+    // if (this.props.notifications.length > 0) {
+    //   this.setState({ showNotices: 'true' });
+    // } else {
+    //   this.setState({ showNotices: 'true' });
+    // }
 
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
+  }
+  // /**
+  //  * @returns {void}
+  //  */
+  // componentWillMount() {
+  //   this.props.getNotifications();
+  // }
+
+  /**
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.notifications !== nextProps.notifications) {
+      this.setState({ showNotices: 'true' });
+    }
   }
   /**
    * @param {object} e - argument
@@ -41,11 +62,10 @@ export class Header extends React.Component {
    */
   clearNotifications(event) {
     event.preventDefault();
-    // this.props.removeNotifications();
-    // this.setState({ notices: 0 });
-    this.state.notices = 0;
+    this.props.deleteNotification();
     this.setState({ showNotices: 'false' });
-    console.log('notices', this.state.notices);
+    this.state.showNotices = 'false';
+    console.log('show notice', this.state.showNotices);
   }
 
   /**
@@ -55,11 +75,6 @@ export class Header extends React.Component {
   render() {
     const { isAuthenticated } = this.props;
     const { showNotices } = this.state;
-    this.state.notices = this.props.notifications.length;
-    if (this.props.notifications.length > 0) {
-      this.setState({ showNotices: 'true' });
-    }
-    console.log('thi state', this.state.notices);
     const userLinks = (
       <nav>
         <div className="nav-wrapper blue-grey darken-3">
@@ -119,7 +134,8 @@ Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   signout: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
-  removeNotifications: PropTypes.func.isRequired
+  deleteNotification: PropTypes.func.isRequired,
+  getNotifications: PropTypes.func.isRequired
 };
 
 Header.contextTypes = {
@@ -131,4 +147,4 @@ const mapStateToProps = state => ({
   notifications: state.notifications
 });
 
-export default connect(mapStateToProps, { signout, removeNotifications })(Header);
+export default connect(mapStateToProps, { signout, deleteNotification, getNotifications })(Header);

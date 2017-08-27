@@ -21,8 +21,9 @@ export class Messages extends React.Component {
     let offset;
     if (this.props.messages.length < 10) {
       offset = 0;
+    } else {
+      offset = Math.abs(this.props.messages.length - 10);
     }
-    offset = Math.abs(this.props.messages.length - 10);
     this.state = {
       message: '',
       errors: {},
@@ -170,6 +171,9 @@ export class Messages extends React.Component {
               max="15"
               onChange={this.handlePriority}
             />
+            <button
+              className="btn waves-effect waves-light priority"
+            > heeloooo{this.state.priority} </button>
             <textarea
               id="textarea1"
               name="message"
@@ -188,9 +192,6 @@ export class Messages extends React.Component {
               </button>
               <span className="thumb active" />
             </div>
-            <button
-              className="btn waves-effect waves-light priority"
-            >{this.state.priority} </button>
           </form>
         </div>
 
