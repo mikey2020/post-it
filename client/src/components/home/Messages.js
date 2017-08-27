@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
-import { postMessage, getGroupMessages, readMessage, addMessage } from '../../actions/messageActions';
+import { postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage } from '../../actions/messageActions';
 import Message from './Message';
 
 const socket = io();
@@ -18,20 +18,20 @@ export class Messages extends React.Component {
    */
   constructor(props) {
     super(props);
-    let offset;
-    if (this.props.messages.length < 10) {
-      offset = 0;
-    } else {
-      offset = Math.abs(this.props.messages.length - 10);
-    }
     this.state = {
       message: '',
       errors: {},
       priority: '',
       creator: '',
       limit: 10,
-      offset
+      offset: 10
     };
+
+    /*if (this.props.messages.length < 10) {
+      this.state.offset = 0;
+    } else {
+      this.state.offset = Math.abs(this.props.messages.length - 10);
+    }*/
 
     socket.on('new message posted', (message) => {
       this.props.addMessage(message);
@@ -95,7 +95,8 @@ export class Messages extends React.Component {
   /**
    * @returns {void}
    */
-  viewArchived() {
+  viewArchived(event) {
+    event.preventDefault();
     const { group } = this.props;
     const { limit, offset } = this.state;
     this.setState({ limit: limit + 5, offset: 0 });
@@ -113,7 +114,6 @@ export class Messages extends React.Component {
     }
     return isValid;
   }
-
   /**
    *
    * @returns {component} - renders a React component
@@ -128,6 +128,7 @@ export class Messages extends React.Component {
         priority={message.priority}
         creator={message.creator}
         date={message.timeCreated}
+        getUsersWhoReadMessage={this.props.getUsersWhoReadMessage}
       />)
     );
 
@@ -156,8 +157,8 @@ export class Messages extends React.Component {
           </nav>
         </div>
         { this.props.messages.length > 0 &&
-         <span onClick={this.viewArchived} className="archived btn"> View old messages</span>}
-        <ul>{allMessages}</ul>
+        <a href="" onClick={this.viewArchived} className="archived">..........View old messages.............</a>}
+        <div className="all-messages"><ul>{allMessages}</ul></div>
 
         <div className="row">
           <form className="col s12 m12 l12 form-group post-message" onSubmit={this.onSubmit}>
@@ -207,7 +208,8 @@ Messages.propTypes = {
   getGroupMessages: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   addMessage: PropTypes.func.isRequired,
-  readMessage: PropTypes.func.isRequired
+  readMessage: PropTypes.func.isRequired,
+  getUsersWhoReadMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -218,4 +220,4 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps,
-{ postMessage, getGroupMessages, readMessage, addMessage })(Messages);
+{ postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage })(Messages);

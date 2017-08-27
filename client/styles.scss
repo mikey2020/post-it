@@ -210,7 +210,7 @@ body {
 }
 
 .message{
-    font-size: 30px;
+    font-size: 20px;
     position: relative;
     top: 20px;
     padding-left: 60px;
@@ -294,8 +294,12 @@ textarea{
     box-shadow: 10px 10px 5px #888888;
     resize: both;
     padding-left: 20px;
+    margin-bottom: 5px;
+    margin-top: 3px;
     background-color: #fff;
-    white-space: pre-line;
+    // white-space: pre-line;
+    width: max-content;
+    border-radius: 10px;
 }
 
 .addUser-header{
@@ -307,15 +311,20 @@ textarea{
 }
 
 .user-display{
-    position: relative;
-    top: -10px;
     background-color: #26a69a;
     color: white;
+    border: 2px solid;
+    position: relative;
+    left: -20px;
+    top: -8px;
+    margin-top: 20px;
+    
 }
 
 .message-priority{
     position: relative;
-    top: -10px;
+    top: -20px;
+    font-size: 10px !important;
     color: white !important;
 }
 
@@ -340,11 +349,16 @@ textarea{
 }
 .message-time{
     font-size: 8px;
+    position: relative;
+    top: 35px;
+    right: 12px;
 }
 
 .archived{
     padding-left: 20px;
     padding-top: 10px;
+    margin-top: 23px;
+    color: white;
 }
 
 .group-btn{
@@ -353,11 +367,12 @@ textarea{
 
 .post-message{
     position: fixed;
-    bottom: 15%;
+    bottom: 9%;
     left: 26.5% !important;
     width: 72% !important;
     height: 20% !important;
     background: #37474f !important;
+    z-index: 10px;
     textarea.materialize-textarea {
         width: 80%;
     }
@@ -370,5 +385,21 @@ textarea{
 
 .messageReaders{
     position: relative;
-    left: 600px;
+    left: -82px;
+    color: #26a69a;
+    top: -40px;
+    margin-bottom: 20px;
+}
+
+.all-messages{
+    overflow: scroll;
+    padding-bottom: 170px !important;
+    z-index: 10px;
+    height: max-content !important;
+    max-height: 80% !important;
+    max-width: max-content !important;
+}
+
+.collection{
+    border: none !important;
 }
