@@ -48,11 +48,9 @@ Members.propTypes = {
   getMembersOfGroup: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    members: state.members,
-    groupId: state.currentGroup.id
-  };
-};
+const mapStateToProps = state => ({
+  members: state.members,
+  groupId: state.currentGroup.id
+});
 
 export default connect(mapStateToProps, { getMembersOfGroup })(Members);

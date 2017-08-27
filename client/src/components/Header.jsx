@@ -40,6 +40,7 @@ export class Header extends React.Component {
   // }
 
   /**
+   * @param {Object} nextProps
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
@@ -65,7 +66,6 @@ export class Header extends React.Component {
     this.props.deleteNotification();
     this.setState({ showNotices: 'false' });
     this.state.showNotices = 'false';
-    console.log('show notice', this.state.showNotices);
   }
 
   /**
@@ -84,7 +84,7 @@ export class Header extends React.Component {
               <li>
                 <a href="#modal4" onClick={this.clearNotifications}>
                   <i className="material-icons modal-trigger">notifications</i></a></li>
-              { showNotices === 'true' && // this.props.notifications.length > 0 &&
+              { showNotices === 'true' &&
                 <li><span className="notify"> { this.props.notifications.length } </span></li> }
               <li>
                 <Link
@@ -112,8 +112,17 @@ export class Header extends React.Component {
           <Link to="/signup" className="logo">PostIT</Link>
           <ul className="right">
             <div>
-              <li> <a className="flow-text waves-effect waves-red btn teal lighten-1 modal-trigger links" id="login-button" href="#modal1">Sign In</a></li>
-              <li><Link className="flow-text waves-effect waves-red btn teal lighten-1 links" to="/signup">Sign Up</Link></li>
+              <li>
+                <a
+                  className="waves-effect waves-red btn teal lighten-1 modal-trigger links"
+                  id="login-button"
+                  href="#modal1"
+                >Sign In</a></li>
+              <li>
+                <Link
+                  className="flow-text waves-effect waves-red btn teal lighten-1 links" 
+                  to="/signup"
+                >Sign Up</Link></li>
             </div>
           </ul>
         </div>

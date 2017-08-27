@@ -69,7 +69,6 @@
     * @param {Object} response
     */
    responseGoogle(response) {
-     console.log('gogole id', response);
      const profile = response.getBasicProfile();
      const userData = {
        username: profile.ig,

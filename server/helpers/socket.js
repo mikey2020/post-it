@@ -1,11 +1,12 @@
 import socketio from 'socket.io';
+import winston from 'winston';
 import { httpApp, app } from '../server';
 
 const io = socketio(httpApp);
 app.io = io;
 
 io.on('connection', (socket) => {
-  console.log('socket is connected');
+  winston.log('socket is connected');
   socket.emit('connection is alive', {
     message: 'connection is alive',
   });

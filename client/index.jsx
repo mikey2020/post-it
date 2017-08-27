@@ -4,15 +4,17 @@ import jwt from 'jsonwebtoken';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import winston from 'winston';
 import { createStore, applyMiddleware, compose } from 'redux';
+
 import rootReducer from './src/rootReducer';
 import routes from './routes';
 import js from './html-actions.js';
 import { validateToken, setUser } from './src/actions/signinActions';
 
 const socket = io();
-socket.on('connection is alive',(data) => {
-  console.log(data);
+socket.on('connection is alive', (data) => {
+  winston.log(data);
 });
 
 const store = createStore(
@@ -33,5 +35,5 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
   </Provider>
-  ,document.getElementById('app')
+  , document.getElementById('app')
 );

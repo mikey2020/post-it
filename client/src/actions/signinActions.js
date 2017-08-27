@@ -1,7 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { SET_USER, UNSET_USER } from './types';
-import { addFlashMessage, createMessage } from './flashMessageActions';
 import { handleErrors, handleSuccess } from './errorAction';
 import addUser from './signupActions';
 
@@ -17,7 +16,7 @@ const unsetUser = () => ({
 const signout = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
-  dispatch(addFlashMessage(createMessage('success', 'signout successful')));
+  dispatch(handleSuccess('signout successful', 'SIGNOUT_SUCCESSFUL'));
 };
 
 const validateToken = (token) => {
@@ -28,10 +27,8 @@ const validateToken = (token) => {
   }
 };
 
-const validateGoogleUser = (userData) => {
-  return (dispatch) => {
-    dispatch(addUser(userData));
-  };
+const validateGoogleUser = userData => (dispatch) => {
+  dispatch(addUser(userData));
 };
 
 const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', userData)
@@ -41,7 +38,7 @@ const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', u
                localStorage.setItem('jwtToken', token);
                validateToken(token);
                dispatch(setUser(jwt.decode(token).data));
-               dispatch(addFlashMessage(createMessage('success', `Welcome ${res.data.user.name}`)));
+               dispatch(handleSuccess(`Welcome ${res.data.user.name}`, 'SET_USER_SUCCESS'));
              }
            })
            .catch(() => {

@@ -7,13 +7,13 @@ import User from './User';
 
 const AllUsers = (props) => {
   const allResults = props.users.map(user =>
-    <User
+    (<User
       key={user.id}
       userId={user.id}
       username={user.username}
       addUserToGroup={props.addUserToGroup}
       groupId={props.groupId}
-    />
+    />)
   );
 
   return (
@@ -26,8 +26,8 @@ const AllUsers = (props) => {
 };
 
 AllUsers.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   addUserToGroup: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   groupId: PropTypes.string.isRequired
 };
 

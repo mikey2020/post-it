@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 import dotenv from 'dotenv';
@@ -17,7 +18,6 @@ class Validations {
    */
   signup(data) {
     this.errors = {};
-    console.log('th is my data', data.username.length);
     if (data.password) {
       data.password = data.password.trim();
     }

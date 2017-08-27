@@ -6,15 +6,6 @@ import PropTypes from 'prop-types';
  */
 class Message extends React.Component {
   /**
-   * @constructor
-   * @param {Object} props
-   */
-  constructor(props) {
-    super(props);
-    // this.handlePageLoad = this.handlePageLoad.bind(this);
-    // this.props.readMessage(this.props.messageId); 
-  }
-  /**
    * @returns {void}
    */
   componentDidMount() {
@@ -38,7 +29,10 @@ class Message extends React.Component {
               <span
                 className="badge message-priority btn blue-grey darken-3"
               >{this.props.priority ? this.props.priority : <p /> }</span>
-              <a href="#modal5" className="messageReaders "><i className="material-icons">report</i></a>
+              <a
+                href="#modal5"
+                className="messageReaders"
+              ><i className="material-icons">report</i></a>
             </div>
           </ul>
         </div>

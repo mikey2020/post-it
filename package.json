@@ -70,7 +70,8 @@
     "react-test-renderer": "^15.6.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-mock-store": "^1.2.3",
-    "sinon": "^3.1.0"
+    "sinon": "^3.1.0",
+    "winston": "^2.3.1"
   },
   "dependencies": {
     "axios": "0.12.0",

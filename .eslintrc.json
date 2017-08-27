@@ -13,7 +13,9 @@
   },
   "globals": {
    "localStorage": true,
-   "io": true
+   "io": true,
+   "window": true,
+   "document": true
   },
   "rules": {
     "import/no-named-as-default": 0,
@@ -26,6 +28,7 @@
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
+    "import/extensions": 0,
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
     "valid-jsdoc": ["error", {
       "requireReturn": true,

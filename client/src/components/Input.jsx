@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = (props) => {
-  return (
-    <div>
-      <input
-        value={props.value}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        type={props.type}
-        placeholder={props.placeholder}
-        name={props.name}
-        className={props.className}
-      />
-    </div>
+const Input = props => (
+  <div>
+    <input
+      value={props.value}
+      onChange={props.onChange}
+      onBlur={props.onBlur}
+      type={props.type}
+      placeholder={props.placeholder}
+      name={props.name}
+      className={props.className}
+    />
+  </div>
   );
-};
 
 Input.propTypes = {
   value: PropTypes.string.isRequired,

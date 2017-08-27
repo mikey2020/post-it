@@ -32,7 +32,12 @@ export class Group extends React.Component {
   render() {
     return (
       <div>
-        <a onClick={this.onClick} className="waves-effect waves-light btn group-btn "> 
+        <a
+          role="button"
+          tabIndex={0}
+          onClick={this.onClick}
+          className="waves-effect waves-light btn group-btn"
+        >
           {this.props.groupname}
         </a>
         <br />
@@ -45,7 +50,7 @@ export class Group extends React.Component {
 Group.propTypes = {
   groupname: PropTypes.string.isRequired,
   setCurrentGroup: PropTypes.func.isRequired,
-  group: PropTypes.object.isRequired
+  group: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 export default connect(null, { setCurrentGroup })(Group);

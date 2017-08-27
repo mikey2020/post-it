@@ -26,7 +26,6 @@ class Unique {
       }
     })
     .then((user) => {
-      console.log(user);
       if (user) {
         return res.status(400).json({ errors: { message: 'user already added to group' } });
       }

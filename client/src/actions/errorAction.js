@@ -15,20 +15,16 @@ const setErrors = (payload) => {
 };
 
 
-const handleSuccess = (successMessage, actionName) => {
-  return (dispatch) => {
-    dispatch(setErrors({ status: false, actionName }));
-    if (successMessage !== null) {
-      dispatch(addFlashMessage(createMessage('success', successMessage)));
-    }
-  };
+const handleSuccess = (successMessage, actionName) => (dispatch) => {
+  dispatch(setErrors({ status: false, actionName }));
+  if (successMessage !== null) {
+    dispatch(addFlashMessage(createMessage('success', successMessage)));
+  }
 };
 
-const handleErrors = (errorMessage, actionName) => {
-  return (dispatch) => {
-    dispatch(setErrors({ status: true, actionName }));
-    dispatch(addFlashMessage(createMessage('error', errorMessage)));
-  };
+const handleErrors = (errorMessage, actionName) => (dispatch) => {
+  dispatch(setErrors({ status: true, actionName }));
+  dispatch(addFlashMessage(createMessage('error', errorMessage)));
 };
 
 

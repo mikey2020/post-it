@@ -12,7 +12,7 @@ const socket = io();
 class Notifications extends React.Component {
     /**
      * @constructor
-     * @param {Object} - props
+     * @param {Object} props
      */
   constructor(props) {
     super(props);
@@ -53,11 +53,9 @@ Notifications.propTypes = {
   addNotification: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    notifications: state.notifications,
-    username: state.user.user.username
-  };
-};
+const mapStateToProps = state => ({
+  notifications: state.notifications,
+  username: state.user.user.username
+});
 
 export default connect(mapStateToProps, { getNotifications, addNotification })(Notifications);

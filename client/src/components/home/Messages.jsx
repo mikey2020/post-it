@@ -27,11 +27,11 @@ export class Messages extends React.Component {
       offset: 10
     };
 
-    /*if (this.props.messages.length < 10) {
+    /* if (this.props.messages.length < 10) {
       this.state.offset = 0;
     } else {
       this.state.offset = Math.abs(this.props.messages.length - 10);
-    }*/
+    } */
 
     socket.on('new message posted', (message) => {
       this.props.addMessage(message);
@@ -93,6 +93,7 @@ export class Messages extends React.Component {
     }
   }
   /**
+   * @param {Object} event
    * @returns {void}
    */
   viewArchived(event) {
@@ -157,12 +158,20 @@ export class Messages extends React.Component {
           </nav>
         </div>
         { this.props.messages.length > 0 &&
-        <a href="" onClick={this.viewArchived} className="archived">..........View old messages.............</a>}
+        <a
+          href=""
+          onClick={this.viewArchived}
+          className="archived"
+        >
+          ..........View old messages.............</a>}
         <div className="all-messages"><ul>{allMessages}</ul></div>
 
         <div className="row">
           <form className="col s12 m12 l12 form-group post-message" onSubmit={this.onSubmit}>
-            <label className="flow-text priority-label">Priority level:</label>
+            <label
+              htmlFor="priority level"
+              className="flow-text priority-label"
+            >Priority level:</label>
             <input
               className="priority-level"
               id="priority-level"

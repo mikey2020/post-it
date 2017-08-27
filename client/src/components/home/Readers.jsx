@@ -24,10 +24,8 @@ Readers.propTypes = {
   readers: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    readers: state.usersWhoReadMessage
-  };
-};
+const mapStateToProps = state => ({
+  readers: state.usersWhoReadMessage
+});
 
 export default connect(mapStateToProps, { getUsersWhoReadMessage })(Readers);

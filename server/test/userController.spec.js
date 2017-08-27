@@ -6,7 +6,7 @@ import { validUserSignup, validUserSignin } from '../seeders/user-seeders';
 
 const user = request.agent(app);
 let token;
-let groupId;
+
 describe('UserController', () => {
   before((done) => {
     models.sequelize.sync();
@@ -36,12 +36,10 @@ describe('UserController', () => {
             res.body.should.have.property('user', res.body.user);
             res.body.user.message.should.equal('johnny signed in');
             token = res.body.user.userToken;
-            console.log(token);
             done();
           });
       });
     });
-
   });
 
   describe('should not work without signing in', () => {

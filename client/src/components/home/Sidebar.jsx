@@ -54,7 +54,12 @@ export class Sidebar extends React.Component {
    */
   render() {
     const allGroups = this.props.groups.map(group =>
-     <Group key={group.id} groupname={group.name} group={group} setCurrentGroup={setCurrentGroup} />
+      (<Group
+        key={group.id}
+        groupname={group.name}
+        group={group}
+        setCurrentGroup={setCurrentGroup}
+      />)
     );
 
     return (

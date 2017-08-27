@@ -1,12 +1,11 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
+import winston from 'winston';
 import models from '../models';
-import { io } from '../helpers/socket';
 
 const Group = models.Group;
 const Message = models.Message;
-// const Notification = models.Notification;
 
 dotenv.config();
 /**
@@ -44,11 +43,9 @@ class GroupController {
       groupname: req.body.name,
       groupCreator: req.decoded.data.username,
       userId: req.decoded.data.id
-    }).then((group) => {
-      return group.addUser(req.decoded.data.id).then(() => {
-        res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
-      });
-    })
+    }).then(group => group.addUser(req.decoded.data.id).then(() => {
+      res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
+    }))
       .catch(() => {
         res.status(400).json({ error: { message: 'Group already exists' } });
       });
@@ -63,14 +60,12 @@ class GroupController {
       where: {
         id: req.params.groupId
       }
-    }).then((group) => {
-      return group.addUser(req.validUserId)
+    }).then(group => group.addUser(req.validUserId)
         .then(() => {
           res.json({ message: 'user added successfully' });
+        })).catch(() => {
+          res.status(400).json({ error: { message: 'Group does not exist' } });
         });
-    }).catch(() => {
-      res.status(400).json({ error: { message: 'Group does not exist' } });
-    });
   }
 
   /**
@@ -87,9 +82,8 @@ class GroupController {
       messageCreator: req.decoded.data.username
     })
       .then((message) => {
-        // console.log('my msg priority', message.priority);
         if (message !== null) {
-          return message.addUser(req.decoded.data.id).then(() => {            
+          return message.addUser(req.decoded.data.id).then(() => {
             const newNotification =
             GroupController.notificationMessage(message);
             GroupController.addNotification(req.params.groupId,
@@ -211,13 +205,11 @@ class GroupController {
       where: {
         id: req.decoded.data.id
       }
-    }).then((user) => {
-      return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
-        let userGroups = JSON.stringify(groups);
-        userGroups = JSON.parse(userGroups);
-        res.json({ usergroups: userGroups });
-      });
-    });
+    }).then(user => user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
+      let userGroups = JSON.stringify(groups);
+      userGroups = JSON.parse(userGroups);
+      res.json({ usergroups: userGroups });
+    }));
   }
 
   /**
@@ -230,13 +222,11 @@ class GroupController {
       where: {
         id: req.params.messageId
       }
-    }).then((message) => {
-      return message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
-        let messageReaders = JSON.stringify(users);
-        messageReaders = JSON.parse(messageReaders);
-        res.json({ users: messageReaders });
-      });
-    });
+    }).then(message => message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
+      let messageReaders = JSON.stringify(users);
+      messageReaders = JSON.parse(messageReaders);
+      res.json({ users: messageReaders });
+    }));
   }
 
   /**
@@ -285,9 +275,9 @@ class GroupController {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        winston.log(error);
       } else {
-        console.log('Email sent: ', info.response);
+        winston.info('Email sent: ', info.response);
       }
     });
   }
@@ -313,16 +303,16 @@ class GroupController {
     });
     nexmo.message.sendSms('07014980491', recipient, 'hello', (err, msg) => {
       if (err) {
-        console.log(err);
+        winston.log(err);
       } else {
-        console.log(msg);
+        winston.log(msg);
       }
     });
   }
 
   /**
-   * @returns {string} - it returns a notification message
-   * @param {string} messageCreator - user posting the message
+   * @returns {String} - it returns a notification message
+   * @param {Object} message - message object
    */
   static notificationMessage(message) {
     return `${message.messageCreator} posted '${message.content}' to a group which you are a member`;
@@ -330,7 +320,9 @@ class GroupController {
 
   /**
    * @returns {void}
-   * @param {number} id - group id
+   * @param {number} id - id that notification belongs to
+   * @param {string} notice - event that took place
+   * @param {userId} userId
    * @param {string} notification
    */
   static addNotification(id, notice, userId) {
@@ -338,9 +330,8 @@ class GroupController {
       groupId: id,
       event: notice
     }).then((notification) => {
-      console.log(notification);
       notification.addUser(userId).then((user) => {
-        console.log('user was added', user);
+        winston.log('user was added', user);
       });
     });
   }
@@ -362,21 +353,16 @@ class GroupController {
     .then((user) => {
       const responseObj = { ...[],
         username: user.username,
-        groups: user.Groups.map((group) => {
-          return { ...{},
-            groupName: group.groupname,
-            notifications: group.Notifications.map((notification) => {
-              return { ...{}, event: notification.event };
-            }) };
-        }) };
+        groups: user.Groups.map(group => ({ ...{},
+          groupName: group.groupname,
+          notifications: group.Notifications.map(
+            notification => ({ ...{}, event: notification.event })) })) };
       const notifications = responseObj.groups;
       Object.keys(notifications).forEach((notification) => {
         userNotifications.push(notifications[notification].notifications);
       });
       const userNotices = userNotifications.reduce(
-        (a, b) => {
-          return a.concat(b);
-        },
+        (a, b) => a.concat(b),
         []
       );
       res.status(200).json({ userNotices });

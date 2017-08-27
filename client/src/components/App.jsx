@@ -11,24 +11,21 @@ import Readers from './home/Readers';
  *  Main App component
  * @class
  */
-export default class App extends React.Component {
+export default () =>
   /**
    *
    * @returns {component} - renders a React component
    */
-  render() {
-    return (
-      <div>
-        <Header />
-        <FlashMessageList />
-        <Notifications />
-        <CreateGroupForm />
-        <AddUserPage />
-        <Readers />
-        <Members />
-        { this.props.children }
-        <Footer />
-      </div>
-    );
-  }
-}
+   (
+     <div>
+       <Header />
+       <FlashMessageList />
+       <Notifications />
+       <CreateGroupForm />
+       <AddUserPage />
+       <Readers />
+       <Members />
+       { this.props.children }
+       <Footer />
+     </div>
+  );

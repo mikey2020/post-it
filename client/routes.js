@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from './src/components/App';
-import Welcome from './src/components/Welcome';
-import SignupPage from './src/components/signup/SignupPage';
-import SigninForm from './src/components/signin/SigninForm';
-import HomePage from './src/components/home/HomePage';
-import Authenticate from './src/components/Authenticate';
-import ResetPassword from './src/components/ResetPassword';
+import App from './src/components/App.jsx';
+import Welcome from './src/components/Welcome.jsx';
+import SignupPage from './src/components/signup/SignupPage.jsx';
+import SigninForm from './src/components/signin/SigninForm.jsx';
+import HomePage from './src/components/home/HomePage.jsx';
+import Authenticate from './src/components/Authenticate.jsx';
+import ResetPassword from './src/components/ResetPassword.jsx';
 
 export default (
   <Route path="/" component={App}>

@@ -13,7 +13,6 @@ import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
 dotenv.config();
-
 const port = process.env.PORT;
 
 if (process.env.NODE_ENV === 'development') {

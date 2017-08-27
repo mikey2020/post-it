@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ReactPaginate from 'react-paginate';
+
 import Validations from '../../../validations';
 import { addUserToGroup } from '../../actions/groupActions';
 import { getUsers } from '../../actions/userActions';
@@ -74,7 +74,6 @@ export class AddUserPage extends React.Component {
    * @returns {component} - renders a React component
    */
   render() {
-    // const myPages = this.changeToArray(this.props.users.length);
     const { errors, username, } = this.state;
 
     return (

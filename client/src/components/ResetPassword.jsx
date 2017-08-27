@@ -73,13 +73,10 @@ export class ResetPassword extends React.Component {
    * @returns {void}
    */
   isValid() {
-    console.log('am working');
     const { errors, isValid } = validate.newPasswordInputs(this.state);
-    console.log('in cokponrnt errors', errors);
     if (!isValid) {
       this.setState({ errors });
     }
-    console.log('this errors', this.state.errors);
     return isValid;
   }
   /**
@@ -89,11 +86,7 @@ export class ResetPassword extends React.Component {
   verifyCode(event) {
     event.preventDefault();
     if (this.isValid()) {
-      const { code } = this.state;
-      console.log(code);
       this.props.verifyCode(this.state);
-    } else {
-      // console.log('thin serrors', this.state.errors);
     }
   }
   /**
@@ -122,7 +115,8 @@ export class ResetPassword extends React.Component {
             onChange={this.onChange}
             name="newPassword"
           />
-          {errors.newPasswordConfirmation ? <span className="help-block">{errors.newPasswordConfirmation}</span> : <br />}
+          {errors.newPasswordConfirmation ?
+            <span className="help-block">{errors.newPasswordConfirmation}</span> : <br />}
           <Input
             type="password"
             value={this.state.newPasswordConfirmation}
@@ -136,46 +130,20 @@ export class ResetPassword extends React.Component {
       </form>
     );
 
-    // const updatePassword = (
-    //   <form className="reset-form">
-    //     <div className="jumbotron signup-form">
-    //       <h3>Enter New Password</h3> 
-    //       {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
-    //       <Input
-    //         type="password"
-    //         value={this.state.newPassword}
-    //         placeholder="Enter New Password"
-    //         onChange={this.onChange}
-    //         name="newPassword"
-    //       />
-
-    //       <Input
-    //         type="password"
-    //         value={this.state.newPasswordConfirmation}
-    //         placeholder="Confirm New Password"
-    //         onChange={this.onChange}
-    //         name="newPasswordConfirmation"
-    //       />
-
-    //       <Input type="Submit" className="btn" value="Update Password" />
-    //     </div>
-    //   </form>
-    // );
-
     return (
       <div className="" id="signup-body">
         { status === 'enter username' &&
-       <form onSubmit={this.onSubmit} className="reset-form">
+        <form onSubmit={this.onSubmit} className="reset-form">
           <div className="jumbotron signup-form">
             <h3 id="signup-header" className="flow-text" >Enter Username</h3>
             {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
-             <input
-               value={username}
-               onChange={this.onChange}
-               onBlur={this.onBlur}
-               type="text"
-               placeholder="Enter username"
-               name="username"
+            <input
+              value={username}
+              onChange={this.onChange}
+              onBlur={this.onBlur}
+              type="text"
+              placeholder="Enter username"
+              name="username"
             />
 
             <input
@@ -198,7 +166,6 @@ export class ResetPassword extends React.Component {
 }
 
 ResetPassword.propTypes = {
-  // checkUserExists: PropTypes.func.isRequired,
   verifyCode: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired
 };
