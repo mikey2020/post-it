@@ -32,6 +32,7 @@ describe('GroupController', () => {
             res.body.user.message.should.equal('naruto signed in');
             token = res.body.user.userToken;
             console.log('@@@@@@@@@@@@@@@@...', token);
+            console.log(res.body);
             done();
           });
     });

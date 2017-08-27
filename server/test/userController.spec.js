@@ -18,7 +18,7 @@ describe('UserController', () => {
       request(app).post('/api/v1/user/signup')
         .send(validUserSignup)
         .end((err, res) => {
-          res.status.should.equal(200);
+          res.status.should.equal(201);
           should.not.exist(err);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('john successfully added');

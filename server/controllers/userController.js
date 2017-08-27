@@ -12,7 +12,6 @@ dotenv.config();
 const User = models.User;
 const validate = new Validations();
 
-
 /**
  *  All user actions
  * @class
@@ -36,24 +35,6 @@ class UserController {
     const { errors, isValid } = validate.signup(req.body);
     if (!isValid) {
       res.status(400).json(errors);
-    } else if (UserController.checkGoogleUserExists(req.body.username) === true) {
-      User.findOne({
-        where: {
-          username: req.body.username
-        },
-        attributes: { exclude: ['createdAt', 'updatedAt', 'verificationCode', 'phoneNumber'] }
-      })
-     .then((user) => {
-       let userData = JSON.stringify(user);
-       userData = JSON.parse(userData);
-       if (req.body.username && req.body.password &&
-         bcrypt.compareSync(req.body.password, userData.password) === true) {
-         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
-         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
-       } else {
-         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
-       }
-     });
     } else {
       return User.create({
         username: req.body.username,
