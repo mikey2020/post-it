@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Validations from '../../validations';
-import Input from './Input';
+import Input from './Input.jsx';
 import { checkUserExists, resetPassword, verifyCode } from '../actions/userActions';
 
 const validate = new Validations();

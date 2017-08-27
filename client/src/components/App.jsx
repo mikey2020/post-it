@@ -1,17 +1,19 @@
 import React from 'react';
-import Header from './Header';
-import FlashMessageList from './flash/FlashMessageList';
-import CreateGroupForm from './home/CreateGroupForm';
-import AddUserPage from './home/AddUserPage';
-import Members from './home/Members';
-import Footer from './Footer';
-import Notifications from './Notifications';
-import Readers from './home/Readers';
+import Header from './Header.jsx';
+import FlashMessageList from './flash/FlashMessageList.jsx';
+import CreateGroupForm from './home/CreateGroupForm.jsx';
+import AddUserPage from './home/AddUserPage.jsx';
+import Members from './home/Members.jsx';
+import Footer from './Footer.jsx';
+import Notifications from './Notifications.jsx';
+import Readers from './home/Readers.jsx';
+
 /**
  *  Main App component
  * @class
+ * @param {Object} props
  */
-export default () =>
+export default props =>
   /**
    *
    * @returns {component} - renders a React component
@@ -25,7 +27,7 @@ export default () =>
        <AddUserPage />
        <Readers />
        <Members />
-       { this.props.children }
+       { props.children }
        <Footer />
      </div>
   );

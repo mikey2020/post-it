@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Group from './Group';
+import Group from './Group.jsx';
 import { getUserGroups, setCurrentGroup } from '../../actions/groupActions';
 
 /**

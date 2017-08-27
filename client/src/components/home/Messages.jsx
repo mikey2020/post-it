@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
 import { postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage } from '../../actions/messageActions';
-import Message from './Message';
+import Message from './Message.jsx';
 
 const socket = io();
 const validate = new Validations();
@@ -183,7 +183,7 @@ export class Messages extends React.Component {
             />
             <button
               className="btn waves-effect waves-light priority"
-            > heeloooo{this.state.priority} </button>
+            > {this.state.priority} </button>
             <textarea
               id="textarea1"
               name="message"
@@ -195,7 +195,7 @@ export class Messages extends React.Component {
             <br />
             <div className="col s5 m4 l3">
               <button
-                className="btn waves-effect waves-light teal lighten-2"
+                className="btn waves-effect waves-light teal lighten-2 post-message-button"
                 type="submit"
                 name="action"
               >Post <i className="material-icons right">send</i>
