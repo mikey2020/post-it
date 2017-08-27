@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SigninForm from './signin/SigninForm';
+import SigninForm from './signin/SigninForm.jsx';
 import { signout } from '../actions/signinActions';
 import { getNotifications, deleteNotification } from '../actions/notificationAction';
 

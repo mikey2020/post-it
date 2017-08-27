@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Validations from '../../../validations';
 import { addUserToGroup } from '../../actions/groupActions';
 import { getUsers } from '../../actions/userActions';
-import AllUsers from './AllUsers';
+import AllUsers from './AllUsers.jsx';
 
 const validate = new Validations();
 

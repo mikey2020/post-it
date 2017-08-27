@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Header from './Header.jsx';
 import FlashMessageList from './flash/FlashMessageList.jsx';
 import CreateGroupForm from './home/CreateGroupForm.jsx';
@@ -11,8 +10,9 @@ import Readers from './home/Readers.jsx';
 /**
  *  Main App component
  * @class
+ * @param {Object} props
  */
-export default () =>
+export default props =>
   /**
    *
    * @returns {component} - renders a React component
@@ -26,7 +26,7 @@ export default () =>
        <AddUserPage />
        <Readers />
        <Members />
-       { this.props.children }
+       { props.children }
        <Footer />
      </div>
   );

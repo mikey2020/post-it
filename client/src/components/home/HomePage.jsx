@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from './Sidebar';
-import Messages from './Messages';
+import Sidebar from './Sidebar.jsx';
+import Messages from './Messages.jsx';
 
 
 /**

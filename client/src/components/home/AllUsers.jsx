@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addUserToGroup } from '../../actions/groupActions';
-import User from './User';
+import User from './User.jsx';
 
 
 const AllUsers = (props) => {
