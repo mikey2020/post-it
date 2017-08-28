@@ -1,24 +1,18 @@
 import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from './types';
 
-const createMessage = (typeName, message) => {
-  return {
-    type: typeName,
-    text: message
-  };
-};
+const createMessage = (typeName, message) => ({
+  type: typeName,
+  text: message
+});
 
-const addFlashMessage = (message) => {
-  return {
-    type: ADD_FLASH_MESSAGE,
-    message
-  };
-};
+const addFlashMessage = message => ({
+  type: ADD_FLASH_MESSAGE,
+  message
+});
 
-const deleteFlashMessage = (id) => {
-  return {
-    type: DELETE_FLASH_MESSAGE,
-    id
-  };
-};
+const deleteFlashMessage = id => ({
+  type: DELETE_FLASH_MESSAGE,
+  id
+});
 
 export { addFlashMessage, deleteFlashMessage, createMessage };

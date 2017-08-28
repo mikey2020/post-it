@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE } from '../actions/types';
+import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE, SET_UNREAD_MESSAGES } from '../actions/types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
+import { handleErrors, handleSuccess } from './errorAction';
 
 const addGroupMessages = messages => ({
   type: ADD_GROUP_MESSAGES,
@@ -17,14 +18,19 @@ const setUsersWhoReadMessage = users => ({
   users
 });
 
-const getGroupMessages = groupId => dispatch => axios.get(`/api/group/${groupId}/messages`)
+const setUnreadMessages = messages => ({
+  type: SET_UNREAD_MESSAGES,
+  messages
+});
+
+const getGroupMessages = (groupId, limit, offset) => dispatch => axios.get(`/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
             .then((res) => {
               if (res.data.posts) {
                 dispatch(addGroupMessages(res.data.posts));
               }
             });
 
-const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/group/${groupId}/message`, messageData)
+const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/v1/group/${groupId}/message`, messageData)
               .then((res) => {
                 if (res.data.data) {
                   dispatch(addMessage(res.data.data));
@@ -33,27 +39,37 @@ const postMessage = (messageData, groupId) => dispatch => axios.post(`/api/group
                 }
               });
 
-/*const readMessage = messageId => axios.post(`/api/user/${messageId}/read`)
+const readMessage = messageId => dispatch => axios.post(`/api/v1/user/${messageId}/read`)
               .then((res) => {
                 if (res.data.data) {
-                  console.log(res.data);
-                } else {
-                  console.log('somethin=g went errrk');
+                  dispatch(handleSuccess(null, 'USER_READ_MESSAGE'));
                 }
+              })
+              .catch(() => {
+                dispatch(handleErrors(null, 'USER_READ_MESSAGE_FAILED'));
               });
 
-const getUsersWhoReadMessage = (messageId) => {
-  console.log('ther is a message id', messageId);
-  return dispatch => axios.post(`/api/message/${messageId}/readers`)
+const getUnreadMessages = groupId => (dispatch) => {
+  axios.get(`/api/v1/user/${groupId}/unreadMessages`)
+    .then((res) => {
+      dispatch(handleSuccess(null, 'SET_UNREAD_MESSAGES'));
+      dispatch(setUnreadMessages(res.data));
+    })
+    .catch(() => {
+      dispatch(handleErrors(null, 'SET_UNREAD_MESSAGES_FAILED'));
+    });
+};
+
+const getUsersWhoReadMessage = messageId => dispatch => axios.post(`/api/v1/message/${messageId}/readers`)
               .then((res) => {
                 if (res.data.users) {
-                  console.log(res.data);
                   dispatch(setUsersWhoReadMessage(res.data.users));
-                } else {
-                  console.log('something went errrk');
                 }
+              })
+              .catch(() => {
+                dispatch(handleErrors(null, 'SET_USERS_WHO_READ_MESSAGE_FAILED'));
               });
-};*/
 
 
-export { getGroupMessages, postMessage, addGroupMessages, addMessage };
+export { getGroupMessages,
+postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages, getUsersWhoReadMessage };

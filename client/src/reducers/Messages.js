@@ -5,12 +5,13 @@ import { ADD_GROUP_MESSAGES, ADD_MESSAGE } from '../actions/types';
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_GROUP_MESSAGES:
-      return action.messages.map(message => Object.assign({}, {
+      return action.messages.map(message => ({ ...state,
         id: message.id,
         content: message.content,
         priority: message.priority,
         groupId: message.groupId,
-        creator: message.messageCreator
+        creator: message.messageCreator,
+        timeCreated: message.createdAt
       }));
 
 
@@ -22,7 +23,8 @@ export default (state = [], action = {}) => {
           content: action.message.content,
           priority: action.message.priority,
           groupId: action.message.groupId,
-          creator: action.message.messageCreator
+          creator: action.message.messageCreator,
+          timeCreated: action.message.createdAt
         }
       ];
 

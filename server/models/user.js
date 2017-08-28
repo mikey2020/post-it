@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     password: DataTypes.STRING,
-
-    phoneNumber: DataTypes.STRING
+    phoneNumber: DataTypes.STRING,
+    verificationCode: DataTypes.STRING
   });
 
   User.associate = (models) => {
@@ -24,15 +24,19 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       through: 'ReadMessages'
     });
+    User.belongsToMany(models.Notification, {
+      foreignKey: 'userId',
+      through: 'UserNotification'
+    });
   };
 
   User.beforeCreate((user) => {
     user.password = bcrypt.hashSync(user.password);
   });
 
-  /* User.beforeSave((user) => {
+  User.beforeUpdate((user) => {
     user.password = bcrypt.hashSync(user.password);
-  }); */
+  });
 
   return User;
 };

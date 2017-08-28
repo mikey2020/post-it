@@ -1,5 +1,4 @@
 import isEmpty from 'lodash/isEmpty';
-
 import { SET_USER, UNSET_USER } from '../actions/types';
 
 const initialState = {

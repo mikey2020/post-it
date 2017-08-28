@@ -92,5 +92,34 @@ describe('Test Input Validations Class', () => {
       done();
     });
   });
+
+  describe('New password validations', () => {
+    it('should return `please enter verification code`', (done) => {
+      const validate = new Validations();
+      const mockData = { code: '' };
+      const { errors } = validate.newPasswordInputs(mockData);
+      errors.code.should.equal('Please enter verification code');
+
+      done();
+    });
+
+    it('should return `New Password is required`', (done) => {
+      const validate = new Validations();
+      const mockData = { newPassword: '' };
+      const { errors } = validate.newPasswordInputs(mockData);
+      errors.newPassword.should.equal('New Password is required');
+
+      done();
+    });
+
+    it('should return `Password Confirmation is required`', (done) => {
+      const validate = new Validations();
+      const mockData = { newPasswordConfirmation: '', newPassword: 'data' };
+      const { errors } = validate.newPasswordInputs(mockData);
+      errors.newPasswordConfirmation.should.equal('Passwords do not match');
+
+      done();
+    });
+  });
 });
 

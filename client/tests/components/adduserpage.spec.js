@@ -1,16 +1,13 @@
 import React from 'react';
-
 import expect from 'expect';
-
 import { shallow } from 'enzyme';
-
-import { AddUserPage } from '../../src/components/home/AddUserPage';
+import { AddUserPage } from '../../src/components/home/AddUserPage.jsx';
 
 
 const setup = () => {
   const props = {
     addUserToGroup: (() => {}),
-    groupId: '',
+    groupId: 1,
     getUsers: (() => {}),
     users: []
 

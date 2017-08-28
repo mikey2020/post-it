@@ -1,14 +1,14 @@
 {
   "development": {
+     "dialect": "postgres",
+    "use_env_variable": "DATABASE_URL"
+  },
+  "test": {
     "host": "localhost",
-    "database": "post-it-development",
+    "database": "post-it-test",
     "username": "postgres",
     "password": "dafe",
    "dialect": "postgres"
-  },
-  "test": {
-    "dialect": "postgres",
-    "use_env_variable": "DATABASE_TEST_URL"
   },
   "production": {
     "dialect": "postgres",
