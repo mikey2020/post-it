@@ -1,11 +1,8 @@
 import React from 'react';
-
+import SocketMock from 'socket-io-mock';
 import expect from 'expect';
-
 import { shallow } from 'enzyme';
-
-import { Messages } from '../../src/components/home/Messages';
-
+import { Messages } from '../../src/components/home/Messages.jsx';
 
 const setup = () => {
   const props = {
@@ -18,8 +15,9 @@ const setup = () => {
   return shallow(<Messages {...props} />);
 };
 
-const wrapper = setup();
 
+const wrapper = setup();
+const io = new SocketMock();
 
 describe('Component', () => {
   describe('<Message/>', () => {

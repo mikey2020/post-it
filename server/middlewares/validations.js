@@ -1,11 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import validator from 'validator';
-
 import isEmpty from 'lodash/isEmpty';
-
 import dotenv from 'dotenv';
-
 import jwt from 'jsonwebtoken';
-
 import models from '../models';
 
 dotenv.config();
@@ -21,7 +18,6 @@ class Validations {
    */
   signup(data) {
     this.errors = {};
-
     if (data.password) {
       data.password = data.password.trim();
     }
@@ -41,8 +37,10 @@ class Validations {
       this.errors.phoneNumber = 'Phone Number is required';
     }
 
-    if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
-      this.errors.phoneNumber = 'Please enter a valid phone number';
+    if (data.phoneNumber !== undefined) {
+      if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
+        this.errors.phoneNumber = 'Please enter a valid phone number';
+      }
     }
 
     if (data.email && !validator.isEmail(data.email)) {
@@ -73,6 +71,9 @@ class Validations {
   }
 
   /**
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
    * @param {object} data - signup object
    * @returns {object} - errors object if there is any
    */
@@ -82,7 +83,6 @@ class Validations {
         id: req.body.userId
       }
     }).then((validUser) => {
-      console.log(validUser);
       if (validUser === null) {
         return res.status(400).json({ errors: { message: 'user does not exist' } });
       }

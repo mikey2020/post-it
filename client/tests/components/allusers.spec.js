@@ -1,16 +1,15 @@
 import React from 'react';
-
 import expect from 'expect';
-
 import { shallow } from 'enzyme';
-
-import { AllUsers } from '../../src/components/home/AllUsers';
+import { AllUsers } from '../../src/components/home/AllUsers.jsx';
 
 
 const setup = () => {
   const props = {
     users: [],
-    groupId: ''
+    groupId: '',
+    contextTypes: {},
+    addUserToGroup: () => {},
   };
 
   return shallow(<AllUsers {...props} />);
@@ -25,7 +24,7 @@ describe('Component', () => {
       expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
       expect(wrapper.find('nav').exists()).toBe(false);
       expect(wrapper.find('Link').exists()).toBe(false);
-      expect(wrapper.find('ul').exists()).toBe(true);
+      expect(wrapper.find('ul').exists()).toBe(false);
     });
   });
 });

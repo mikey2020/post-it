@@ -1,11 +1,9 @@
-
 import { ADD_USER_GROUPS, ADD_GROUP } from '../actions/types';
-
 
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_USER_GROUPS:
-      return action.groups.map(group => Object.assign({}, {
+      return action.groups.map(group => ({ ...state,
         id: group.id,
         name: group.groupname,
         creator: group.groupCreator

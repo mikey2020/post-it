@@ -5,7 +5,7 @@ export default (state = [], action) => {
   switch (action.type) {
     case SET_USERS_WHO_READ_MESSAGE:
       return action.users.map((user) => {
-        return Object.assign({}, {
+        return ({ ...state,
           id: user.id,
           username: user.username,
           messageId: user.ReadMessages.messageId

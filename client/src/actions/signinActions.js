@@ -1,10 +1,8 @@
 import axios from 'axios';
-
 import jwt from 'jsonwebtoken';
-
 import { SET_USER, UNSET_USER } from './types';
-
-import { addFlashMessage, createMessage } from './flashMessageActions';
+import { handleErrors, handleSuccess } from './errorAction';
+import addUser from './signupActions';
 
 const setUser = user => ({
   type: SET_USER,
@@ -18,7 +16,7 @@ const unsetUser = () => ({
 const signout = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
-  dispatch(addFlashMessage(createMessage('success', 'signout successful')));
+  dispatch(handleSuccess('signout successful', 'SIGNOUT_SUCCESSFUL'));
 };
 
 const validateToken = (token) => {
@@ -29,21 +27,22 @@ const validateToken = (token) => {
   }
 };
 
-const validateUser = userData => dispatch => axios.post('/api/user/signin', userData)
+const validateGoogleUser = userData => (dispatch) => {
+  dispatch(addUser(userData));
+};
+
+const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', userData)
            .then((res) => {
              if (res.data.user) {
                const token = res.data.user.userToken;
                localStorage.setItem('jwtToken', token);
                validateToken(token);
                dispatch(setUser(jwt.decode(token).data));
-               dispatch(addFlashMessage(createMessage('success', `Welcome ${res.data.user.name}`)));
-             } else {
-               dispatch(setUser(res.data.errors));
-               dispatch(addFlashMessage(createMessage('error', res.data.errors.form)));
+               dispatch(handleSuccess(`Welcome ${res.data.user.name}`, 'SET_USER_SUCCESS'));
              }
            })
            .catch(() => {
-             dispatch(addFlashMessage(createMessage('error', 'Invalid Signin Parameters')));
+             dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
            });
 
-export { validateUser, signout, validateToken, setUser };
+export { validateUser, signout, validateToken, setUser, validateGoogleUser };

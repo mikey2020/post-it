@@ -1,12 +1,8 @@
 import React from 'react';
-
 import expect from 'expect';
-
 import { shallow } from 'enzyme';
-
 import sinon from 'sinon';
-
-import { CreateGroupForm } from '../../src/components/home/CreateGroupForm';
+import { CreateGroupForm } from '../../src/components/home/CreateGroupForm.jsx';
 
 
 const setup = () => {

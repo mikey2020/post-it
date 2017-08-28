@@ -1,10 +1,7 @@
 import React from 'react';
-
 import expect from 'expect';
-
 import { shallow } from 'enzyme';
-
-import { FlashMessage } from '../../src/components/flash/FlashMessage';
+import { FlashMessage } from '../../src/components/flash/FlashMessage.jsx';
 
 
 const setup = () => {

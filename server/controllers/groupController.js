@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
+import winston from 'winston';
 import models from '../models';
-
 
 const Group = models.Group;
 const Message = models.Message;
@@ -12,7 +12,7 @@ dotenv.config();
  * All group actions
  * @class
  */
-class GroupActions {
+class GroupController {
 
   /**
    * @constructor
@@ -43,14 +43,11 @@ class GroupActions {
       groupname: req.body.name,
       groupCreator: req.decoded.data.username,
       userId: req.decoded.data.id
-    }).then((group) => {
-      group.addUser(req.decoded.data.id).then(() => {
-        res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
-      });
-    })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ error: { message: 'group already exists' } });
+    }).then(group => group.addUser(req.decoded.data.id).then(() => {
+      res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
+    }))
+      .catch(() => {
+        res.status(400).json({ error: { message: 'Group already exists' } });
       });
   }
   /**
@@ -63,15 +60,12 @@ class GroupActions {
       where: {
         id: req.params.groupId
       }
-    }).then((group) => {
-      group.addUser(req.validUserId)
+    }).then(group => group.addUser(req.validUserId)
         .then(() => {
-          group.notifications.push(`${req.decoded.data.username} added ${req.ValidUsername} to ${group.groupname}`);
           res.json({ message: 'user added successfully' });
+        })).catch(() => {
+          res.status(400).json({ error: { message: 'Group does not exist' } });
         });
-    }).catch(() => {
-      res.status(400).json({ error: { message: 'Group does not exist' } });
-    });
   }
 
   /**
@@ -88,26 +82,30 @@ class GroupActions {
       messageCreator: req.decoded.data.username
     })
       .then((message) => {
-        // console.log('my msg priority', message.priority);
         if (message !== null) {
-          message.addUser(req.decoded.data.id).then(() => {
-            // console.log('a user', user);
+          return message.addUser(req.decoded.data.id).then(() => {
+            const newNotification =
+            GroupController.notificationMessage(message);
+            GroupController.addNotification(req.params.groupId,
+            newNotification, req.decoded.data.id);
+            req.app.io.emit('new message posted', message);
             if (message.priority === 'urgent') {
-              GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
+              GroupController.sendEmail(req.usersEmails, newNotification);
             } else if (message.priority === 'critical') {
-              GroupActions.sendEmail(req.usersEmails, GroupActions.notificationMessage(req.decoded.data.username));
-              // GroupActions.sendSms();
+              GroupController.sendEmail(req.usersEmails,
+              GroupController.notificationMessage(req.decoded.data.username,
+              message.messageCreator));
             }
             res.json({ message: 'message posted to group', data: message });
           });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(500).json({ error: { message: 'error saving to database' } });
       });
   }
   /**
+
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns an array of messages
@@ -116,7 +114,12 @@ class GroupActions {
     Message.findAll({
       where: {
         groupId: req.params.groupId
-      }
+      },
+      order: [
+        ['createdAt', 'ASC']
+      ],
+      offset: req.query.offset,
+      limit: req.query.limit
     })
         .then((posts) => {
           let data = JSON.stringify(posts);
@@ -166,13 +169,13 @@ class GroupActions {
       .catch((err) => {
         this.error = err;
         this.sendError(res);
-       // res.status(500).json({ errors: { message: 'error retrieving data from database' } });
       });
   }
 
    /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
+   * @param {function} next
    * @returns {object} - if there is no error, it returns array of users in a group
    */
   static getGroupMembers(req, res, next) {
@@ -181,13 +184,11 @@ class GroupActions {
         id: req.params.groupId
       }
     }).then((group) => {
-      group.getUsers({ attributes: ['email', 'phoneNumber'] }).then((users) => {
+      group.getUsers({ attributes: { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } }).then((users) => {
         if (users) {
-          console.log(users);
-          req.usersEmails = GroupActions.getEmails(users);
-          //console.log('request', req.usersEmails);
+          req.members = users;
+          req.usersEmails = GroupController.getEmails(users);
           next();
-          // res.json({ groupMembersEmails: users });
         } else {
           res.json({ message: 'No user email found ' });
         }
@@ -204,14 +205,11 @@ class GroupActions {
       where: {
         id: req.decoded.data.id
       }
-    }).then((user) => {
-      return user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
-        console.log(groups);
-        let userGroups = JSON.stringify(groups);
-        userGroups = JSON.parse(userGroups);
-        res.json({ usergroups: userGroups });
-      });
-    });
+    }).then(user => user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
+      let userGroups = JSON.stringify(groups);
+      userGroups = JSON.parse(userGroups);
+      res.json({ usergroups: userGroups });
+    }));
   }
 
   /**
@@ -224,13 +222,11 @@ class GroupActions {
       where: {
         id: req.params.messageId
       }
-    }).then((message) => {
-      return message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
-        let messageReaders = JSON.stringify(users);
-        messageReaders = JSON.parse(messageReaders);
-        res.json({ users: messageReaders });
-      });
-    });
+    }).then(message => message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
+      let messageReaders = JSON.stringify(users);
+      messageReaders = JSON.parse(messageReaders);
+      res.json({ users: messageReaders });
+    }));
   }
 
   /**
@@ -245,77 +241,200 @@ class GroupActions {
       }
     }).then((message) => {
       if (req.decoded.data.id !== message.userId) {
-        message.addUser(req.decoded.data.id).then((user) => {
-          console.log(user);
-          res.json({ message: 'user read this mesage', data: message });
-        }).catch((err) => {
-          console.log(err);
-          res.json({ message: 'something went wrong registering read message' });
+        message.addUser(req.decoded.data.id).then(() => {
+          res.status(201).json({ message: 'user read this mesage', data: message });
+        }).catch(() => {
+          res.status(500).json({ message: 'something went wrong registering read message' });
         });
-      } else {
-        res.json({ message: 'user already read message' });
       }
     })
-    .catch((err) => {
-      console.log(err);
-      res.json({ message: 'something went wrong finding message' });
+    .catch(() => {
+      res.status(400).json({ message: 'something went wrong finding message' });
     });
   }
-
-  static sendEmail(memberEmails, message) {
+  /**
+   * @param {array} membersEmails - emails of all members of the group
+   * @param {string} message -  notification message to be sent
+   * @returns {void}
+   */
+  static sendEmail(membersEmails, message) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'superdafe@gmail.com',
-        pass: 'odafe2020'
+        user: process.env.Email,
+        pass: process.env.EmailPass
       }
     });
 
     const mailOptions = {
-      from: 'superdafe@gmail.com',
-      to: memberEmails,
+      from: 'PostIt',
+      to: membersEmails,
       subject: 'New message notification',
       text: message
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        winston.log(error);
       } else {
-        console.log('Email sent: ', info.response);
+        winston.info('Email sent: ', info.response);
       }
     });
   }
-
+  /**
+   * @param {array} group - emails of all members of the group
+   * @returns {void}
+   */
   static getEmails(group) {
-    let emails = [];
+    const emails = [];
     Object.keys(group).forEach((user) => {
       emails.push(group[user].email);
     });
-    console.log(emails);
     return emails;
   }
-
+  /**
+   * @param {array} recipient - phone number of receiver of the sms
+   * @returns {void}
+   */
   static sendSms(recipient) {
-    console.log('thi person receiving messages', recipient);
     const nexmo = new Nexmo({
       apiKey: process.env.API_KEY,
       apiSecret: process.env.API_SECRET
     });
     nexmo.message.sendSms('07014980491', recipient, 'hello', (err, msg) => {
       if (err) {
-        console.log(err);
+        winston.log(err);
       } else {
-        console.log(msg);
+        winston.log(msg);
       }
     });
   }
 
-  static notificationMessage(username) {
-    return `${username} posted a message to a group you are part of`;
+  /**
+   * @returns {String} - it returns a notification message
+   * @param {Object} message - message object
+   */
+  static notificationMessage(message) {
+    return `${message.messageCreator} posted '${message.content}' to a group which you are a member`;
+  }
+
+  /**
+   * @returns {void}
+   * @param {number} id - id that notification belongs to
+   * @param {string} notice - event that took place
+   * @param {userId} userId
+   * @param {string} notification
+   */
+  static addNotification(id, notice, userId) {
+    models.Notification.create({
+      groupId: id,
+      event: notice
+    }).then((notification) => {
+      notification.addUser(userId).then((user) => {
+        winston.log('user was added', user);
+      });
+    });
+  }
+   /**
+   * @param {object} req - request object sent to a route
+   * @param {object} res -  response object from the route
+   * @returns {object} - if there is no error, it returns array of users in a group
+   */
+  static getUserNotifications(req, res) {
+    const userNotifications = [];
+    models.User.findOne({
+      where: {
+        id: req.decoded.data.id
+      },
+      include: [
+        { model: models.Group, include: [{ model: models.Notification }] }
+      ],
+    })
+    .then((user) => {
+      const responseObj = { ...[],
+        username: user.username,
+        groups: user.Groups.map(group => ({ ...{},
+          groupName: group.groupname,
+          notifications: group.Notifications.map(
+            notification => ({ ...{}, event: notification.event })) })) };
+      const notifications = responseObj.groups;
+      Object.keys(notifications).forEach((notification) => {
+        userNotifications.push(notifications[notification].notifications);
+      });
+      const userNotices = userNotifications.reduce(
+        (a, b) => a.concat(b),
+        []
+      );
+      res.status(200).json({ userNotices });
+    })
+    .catch(() => {
+      res.status(404).json({ message: 'You have no notification' });
+    });
+  }
+  /**
+   * @returns {void}
+   * @param {object} req
+   * @param {object} res
+   */
+  static allGroupMembers(req, res) {
+    const allMembers = [];
+    Object.keys(req.members).forEach((member) => {
+      allMembers.push(req.members[member].username);
+    });
+    if (allMembers.length > 0) {
+      res.json({ members: allMembers });
+    } else {
+      res.status(404).json({ message: 'No members in this group' });
+    }
+  }
+
+  /**
+   * @returns {void}
+   * @param {Object} req
+   * @param {Object} res
+   */
+  static getUnreadMessagesNumber(req, res) {
+    models.Message.findAndCountAll({
+      where: {
+        groupId: req.params.groupId,
+        userId: req.decoded.data.id
+      }
+    })
+    .then((messages) => {
+      const allMessages = messages.count;
+      models.User.findOne({
+        where: {
+          id: req.decoded.data.id
+        }
+      })
+      .then((user) => {
+        user.getMessages({ where: { groupId: req.params.groupId } }).then((readMessages) => {
+          const numberOfReadMessages = readMessages.length;
+          const unreadMessages = Math.abs(allMessages - numberOfReadMessages);
+          res.status(200).json({ unreadMessages });
+        });
+      });
+    })
+    .catch(() => {
+      res.status(404).json({ message: 'no message found' });
+    });
+  }
+  /**
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {void}
+   */
+  static deleteNotifications(req, res) {
+    models.UserNotification.destroy({
+      where: {
+        userId: req.decoded.data.id
+      }
+    }).then(() => {
+      res.json({
+        message: 'All notifications deleted'
+      });
+    });
   }
 }
-
-
-export default GroupActions;
+export default GroupController;
 

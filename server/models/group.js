@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'groupId',
       through: 'UserGroups',
     });
+    Group.hasMany(models.Notification, {
+      foreignKey: 'groupId'
+    });
   };
   return Group;
 };
