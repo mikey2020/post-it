@@ -6,7 +6,7 @@ engines:
      - javascript:
    checks:
      Similar code:
-       enabled: true
+       enabled: false
  eslint:
    enabled: true
    checks:
