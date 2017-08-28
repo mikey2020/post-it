@@ -3,3 +3,6 @@ node_modules/
 coverage/
 .DS_Store
 package-lock.json
+bin/
+selenium-debug-log
+
