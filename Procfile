@@ -1,1 +1,1 @@
-web: npm run db:refresh && babel-node client/buildServer.js 
+web: npm run db:migrate && babel-node client/buildServer.js 

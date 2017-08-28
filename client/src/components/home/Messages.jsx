@@ -24,14 +24,14 @@ export class Messages extends React.Component {
       priority: '',
       creator: '',
       limit: 10,
-      offset: 10
+      offset: 5
     };
 
-    /* if (this.props.messages.length < 10) {
+    if (this.props.messages.length < 10) {
       this.state.offset = 0;
     } else {
       this.state.offset = Math.abs(this.props.messages.length - 10);
-    } */
+    }
 
     socket.on('new message posted', (message) => {
       this.props.addMessage(message);
