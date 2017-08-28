@@ -46,8 +46,8 @@ The following features make up the PostIt API:
 
 ### **Installation Steps**
 * Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
-* Clone the project repository from your terminal `git clone https://github.com/andela-eefekemo/DMS.git`
-* Change directory into the `document-mgt-system` directory
+* Clone the project repository from your terminal `git clone https://github.com/mikey2020/post-it`
+* Change directory into the `post-it` directory
 * Run `npm install` to install the dependencies in the `package.json` file
 * Run `npm run dev:server` to start the project
 * Run `npm test` to run the server-side(api) tests
