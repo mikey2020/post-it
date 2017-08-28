@@ -1,67 +1,75 @@
+## PostIt messaging application
+
 [![Build Status](https://travis-ci.org/mikey2020/post-it.svg?branch=develop)](https://travis-ci.org/mikey2020/post-it)
 [![Code Climate](https://codeclimate.com/github/mikey2020/post-it/badges/gpa.svg)](https://codeclimate.com/github/mikey2020/post-it)
 [![Coverage Status](https://coveralls.io/repos/github/mikey2020/post-it/badge.svg)](https://coveralls.io/github/mikey2020/post-it)
 
+## API Documentation
+The API endpoints are each dedicated to a single task and they use HTTP response codes to indicate API status and errors.
 
-# post-it
-PostIt is a simple application that allows friends and colleagues create groups for notifications. 
+## API Summary
+View full API documentation [here](https://mike-post.herokuapp.com/api-docs)
 
+#### API Features
 
-## POST IT
-This repository contains a simple application that allows user post messages to different groups.
+The following features make up the PostIt API:
 
-### Development
-This application was developed using [ExpressJS](http://expressjs.com/). PostgreSQL was used for persisting data with [Sequelize](https://http://docs.sequelizejs.com/) as [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) 
-and [React with Redux](http://redux.js.org/docs) for client side.
+###### Authentication
 
-### Installation
-* Start up your terminal (or Command Prompt on Windows OS).
+- It uses JSON Web Token (JWT) for authentication
+- It generates a token on successful login or account creation and returns it to the user
+- It verifies the token to ensure a user is authenticated to access every endpoints
 
-* Ensure that you've `node` installed on your PC.
+###### Users
 
-* Clone the repository by entering the command `git clone https://github.com/mikey2020/post-it` in the terminal.
+- It allows users to be signed up or created. 
+- It allows users to login and obtain a unique token which expires every 5hours
+- It allows users post message to a group.
 
-* Navigate to the project folder using `cd post-it` on your terminal (or command prompt)
+###### Groups
 
-* Please install this packages `babel`, `sequelize`, `mocha` globally
+- It allows authenticated users to create group.
+- It allows users to add user to a group. 
+- It allows users get all messages posted a particular group.
 
-* Then cd into server directory and run command `npm install`
+###### Search
 
-* Create a `.env` file in your root directory.
- 
-Variables such as DATABASE_URL (which must be a postgreSQL URL) and PORT are defined in the .env file and it is essential you create this file before running the application.
-```
-PORT=3000
-DATABASE_URL='postgres://john:doe@localhost:5432/databaseName'
-```
-* After this, you can then start the server with the command: `npm start`.
+- It allows users search for other users. 
 
-### Tests 
+## Technologies Used
+- **[JavaScript ES6](http://es6-features.org/)** - Codes were written in javascript to enhance HTML pages.
+- **[ReactJS](https://facebook.github.io/react/)** - React is an open-source JavaScript library for building user interfaces.
+- **[NodeJS](https://nodejs.org/)** - Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
+- **[ExpressJS](https://expressjs.com/)** - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. I used this framework for routing.
+- **[PostgreSQL](https://www.postgresql.org/)** - Postgres is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards compliance.
+- **[Sequelize](http://docs.sequelizejs.com/)** - Sequelize is a promise-based ORM for Node.js which supports the dialects of PostgreSQL and features solid transaction support, relations, read replication and more.
 
-* Then you can run tests with `npm test` but first please make sure your node environment is set as test
+### **Installation Steps**
+* Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
+* Clone the project repository from your terminal `git clone https://github.com/andela-eefekemo/DMS.git`
+* Change directory into the `document-mgt-system` directory
+* Run `npm install` to install the dependencies in the `package.json` file
+* Run `npm run dev:server` to start the project
+* Run `npm test` to run the server-side(api) tests
+* Run `npm run redux-test` to run the client-side(React) tests
+* Use [Postman](https://www.getpostman.com/) or any API testing tool of your choice to access the endpoints
 
+**You can also test the application by going to `https://mike-post.herokuapp.com/`**
 
+### **Endpoints**
+**N/B:** For all endpoints that require authentication, use \
+`Authorization: <token>`
 
-## Api Endpoints
+### How to Contribute
+Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
 
-Request type | Endpoint | Action | Parameters |
------------- | ---------| --------| ---------|
-POST | [/api/user/signup] | Create a new user | {username , email , password}
+1. Fork the repository.
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request describing the feature(s) you have added
 
-POST | [/api/user/signin]| Authenticate user  | {username , password}
+Ensure your codes follow the [AirBnB Javascript Styles Guide](https://github.com/airbnb/javascript)
 
-POST | [/api/group]| Create new group         | {name}
-
-PUT | [ /api/group/:groupid/user] | Add user to a group | {username}
-
-POST | [/api/group/:groupid/message] | Add message to a group | {post}
-
-POST | [/api/group/:groupid/messages] | Get all posts from a group | 
-
-
-
-You can test the application by going to https://mike-post.herokuapp.com/
-
- 
 ### Author
-*Michael Eboagu*
+**Michael Eboagu**

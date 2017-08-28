@@ -45,7 +45,7 @@ class UserController {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '5h' });
         res.status(201).json({ message: `${req.body.username} successfully added`, userToken: token });
       })
       .catch(() => {
@@ -70,7 +70,7 @@ class UserController {
        userData = JSON.parse(userData);
        if (req.body.username && req.body.password &&
          bcrypt.compareSync(req.body.password, userData.password) === true) {
-         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '2h' });
+         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '5h' });
          res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
        } else {
          res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });

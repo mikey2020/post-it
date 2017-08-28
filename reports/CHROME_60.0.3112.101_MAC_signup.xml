@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="1"
-            tests="3">
+            failures="0"
+            tests="1">
 
   <testsuite name="signup"
-    errors="0" failures="1" hostname="" id="" package="signup" skipped="2"
-    tests="3" time="8.879" timestamp="Mon, 28 Aug 2017 03:11:20 GMT">
+    errors="0" failures="0" hostname="" id="" package="signup" skipped="0"
+    tests="1" time="7.551" timestamp="Mon, 28 Aug 2017 08:01:06 GMT">
   
-    <testcase name="User sign in without credentials" classname="signup" time="8.879" assertions="5">
+    <testcase name="Sign up test" classname="signup" time="7.551" assertions="2">
 
     
-
-    
-
-    
-
-      <failure message="Testing if element &lt;.help-block&gt; contains text: &quot;Username is required&quot;.">    at Object.User sign in without credentials (/Users/andeladeveloper/Desktop/post-it/tests/signup.js:14:15)
-    at _combinedTickCallback (internal/process/next_tick.js:73:7)</failure>
 
     
     </testcase>
@@ -24,18 +17,6 @@
 
   
 
-  
-    
-    <testcase
-      name="User sign in with wrong email" classname="signup">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="User sign in success" classname="signup">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>

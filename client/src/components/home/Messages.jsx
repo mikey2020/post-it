@@ -73,7 +73,7 @@ export class Messages extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1 });
+      this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1, offset: 0 });
       this.props.postMessage(this.state, this.props.group.id);
     }
   }
