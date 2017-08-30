@@ -1,7 +1,7 @@
 import should from 'should';
 import request from 'supertest';
-import app from '../app';
-import models from '../models';
+import app from '../../app';
+import models from '../../models';
 
 const user = request.agent(app);
 let token;
@@ -29,6 +29,7 @@ describe('GroupController', () => {
             res.status.should.equal(200);
             should.not.exist(err);
             res.body.should.have.property('user', res.body.user);
+            res.body.user.name.should.equal(exampleUser.username);
             res.body.user.message.should.equal('naruto signed in');
             token = res.body.user.userToken;
             done();
@@ -41,7 +42,8 @@ describe('GroupController', () => {
             .set('authorization', token)
             .send({ name: 'test-group' })
             .end((err, res) => {
-              res.status.should.equal(200);
+              res.status.should.equal(201);
+              res.body.group.data.groupName.should.equal('test-group');
               should.not.exist(err);
               groupId = res.body.group.data.id;
               done();
@@ -66,10 +68,13 @@ describe('GroupController', () => {
   it('should return "message posted to group" ', (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
-        .send({ message: 'This functions is working well', priority: 'normal', creator: 'johnny' })
+        .send({ message: 'This functions is working well', priority: 'normal' })
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
+          res.body.data.content.should.equal('This functions is working well');
+          res.body.data.priority.should.equal('normal');
+          res.body.data.messageCreator.should.equal('naruto');
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('message posted to group');
           done();
@@ -92,6 +97,7 @@ describe('GroupController', () => {
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
+          should.exist(res.body.posts);
           done();
         });
   });

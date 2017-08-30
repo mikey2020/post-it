@@ -39,16 +39,20 @@ class GroupController {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static createGroup(req, res) {
-    Group.create({
-      groupname: req.body.name,
-      groupCreator: req.decoded.data.username,
-      userId: req.decoded.data.id
-    }).then(group => group.addUser(req.decoded.data.id).then(() => {
-      res.json({ group: { message: `${req.body.name} created successfully`, data: group } });
-    }))
+    if (req.body.name === undefined) {
+      res.status(400).json({ errors: { message: 'Group name is required' } });
+    } else {
+      Group.create({
+        groupName: req.body.name,
+        groupCreator: req.decoded.data.username,
+        userId: req.decoded.data.id
+      }).then(group => group.addUser(req.decoded.data.id).then(() => {
+        res.status(201).json({ group: { message: `${req.body.name} created successfully`, data: group } });
+      }))
       .catch(() => {
-        res.status(400).json({ error: { message: 'Group already exists' } });
+        res.status(500).json({ error: { message: 'Group already exists' } });
       });
+    }
   }
   /**
    * @param {object} req - request object sent to a route
@@ -63,15 +67,20 @@ class GroupController {
     }).then(group => group.addUser(req.validUserId)
         .then(() => {
           res.json({ message: 'user added successfully' });
-        })).catch(() => {
-          res.status(400).json({ error: { message: 'Group does not exist' } });
-        });
+        })
+        .catch(() => {
+          res.status(500).json({ message: 'Something went wrong' });
+        })
+      ).catch(() => {
+        res.status(404).json({ error: { message: 'Group does not exist' } });
+      });
   }
 
+
   /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it sends message posted to group
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {void} - It allows users post a message to a group
    */
   static postMessageToGroup(req, res) {
     Message.create({
@@ -101,11 +110,10 @@ class GroupController {
         }
       })
       .catch(() => {
-        res.status(500).json({ error: { message: 'error saving to database' } });
+        res.status(500).json({ error: { message: 'Something went wrong' } });
       });
   }
   /**
-
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
    * @returns {object} - if there is no error, it returns an array of messages
@@ -135,10 +143,10 @@ class GroupController {
    * @param {object} res -  response object from the route
    * @returns {void}
    */
-  checkGroups(req, res) {
+  checkGroupName(req, res) {
     Group.findOne({
       where: {
-        groupname: req.params.name
+        groupName: req.params.name
       }
     })
       .then((group) => {
@@ -190,7 +198,7 @@ class GroupController {
           req.usersEmails = GroupController.getEmails(users);
           next();
         } else {
-          res.json({ message: 'No user email found ' });
+          res.status(404).json({ message: 'No user email found' });
         }
       });
     });

@@ -5,7 +5,7 @@ export default (state = [], action = {}) => {
     case ADD_USER_GROUPS:
       return action.groups.map(group => ({ ...state,
         id: group.id,
-        name: group.groupname,
+        name: group.groupName,
         creator: group.groupCreator
       }));
 
@@ -15,7 +15,7 @@ export default (state = [], action = {}) => {
         ...state,
         {
           id: action.group.id,
-          name: action.group.groupname,
+          name: action.group.groupName,
           creator: action.group.groupCreator
         }
       ];

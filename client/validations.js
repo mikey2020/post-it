@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 
@@ -8,46 +9,46 @@ import isEmpty from 'lodash/isEmpty';
 class Validations {
 
   /**
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  signup(data) {
+  signup(user) {
     this.errors = {};
 
-    if (data.password) {
-      data.password = data.password.trim();
+    if (user.password) {
+      user.password = user.password.trim();
     }
-    if (!data.email || !data.password || !data.username) {
+    if (!user.email || !user.password || !user.username) {
       this.errors.invalid = 'Invalid paramters';
     }
 
-    if (data.username === null || data.username === '') {
+    if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
     }
 
-    if (data.email === null || data.email === '') {
+    if (user.email === null || user.email === '') {
       this.errors.email = 'Email is required';
     }
 
-    if (data.phoneNumber === null || data.phoneNumber === '') {
+    if (user.phoneNumber === null || user.phoneNumber === '') {
       this.errors.phoneNumber = 'Phone Number is required';
     }
 
-    if (data.email && !validator.isEmail(data.email)) {
+    if (user.email && !validator.isEmail(user.email)) {
       this.errors.email = 'Email is invalid';
     }
 
-    if (data.password === null || data.password === '') {
+    if (user.password === null || user.password === '') {
       this.errors.password = 'Password is required';
     }
-    if (data.password && data.password.length <= 4) {
+    if (user.password && user.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (data.passwordConfirmation === null || data.passwordConfirmation === '') {
+    if (user.passwordConfirmation === null || user.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
-    if (data.password && !validator.equals(data.password, data.passwordConfirmation)) {
+    if (user.password && !validator.equals(user.password, user.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
 
@@ -61,20 +62,20 @@ class Validations {
   }
 
   /**
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  signin(data) {
+  signin(user) {
     this.errors = {};
 
-    if (data.password) {
-      data.password = data.password.trim();
+    if (user.password) {
+      user.password = user.password.trim();
     }
-    if (data.username === null || data.username === '') {
+    if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
     }
 
-    if (data.password === null || data.password === '') {
+    if (user.password === null || user.password === '') {
       this.errors.password = 'Password is required';
     }
 
@@ -87,21 +88,21 @@ class Validations {
     };
   }
   /**
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  input(data) {
+  input(user) {
     this.errors = {};
 
-    if (data.input === null || data.input === '') {
+    if (user.input === null || user.input === '') {
       this.errors.input = 'This field is required';
     }
 
-    if (data.message === null || data.message === '') {
+    if (user.message === null || user.message === '') {
       this.errors.message = 'Message is required';
     }
 
-    if (data.priority === null || data.priority === '') {
+    if (user.priority === null || user.priority === '') {
       this.errors.priority = 'Priority Level is required';
     }
     const errors = this.errors;
@@ -114,21 +115,41 @@ class Validations {
   }
 
   /**
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  newPasswordInputs(data) {
+  groupInput(user) {
     this.errors = {};
-    if (data.code === null || data.code === '') {
+
+    if (user.name === null || user.name === '') {
+      this.errors.input = 'This field is required';
+    }
+
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
+
+  /**
+   * @param {object} user - signup object
+   * @returns {object} - errors object if there is any
+   */
+  newPasswordInputs(user) {
+    this.errors = {};
+    if (user.code === null || user.code === '') {
       this.errors.code = 'Please enter verification code';
     }
-    if (data.newPassword === null || data.newPassword === '') {
+    if (user.newPassword === null || user.newPassword === '') {
       this.errors.newPassword = 'New Password is required';
     }
-    if (data.newPasswordConfirmation === null || data.newPasswordConfirmation === '') {
+    if (user.newPasswordConfirmation === null || user.newPasswordConfirmation === '') {
       this.errors.newPasswordConfirmation = 'Password Confirmation is required';
     }
-    if (data.newPasswordConfirmation !== data.newPassword) {
+    if (user.newPasswordConfirmation !== user.newPassword) {
       this.errors.newPasswordConfirmation = 'Passwords do not match';
     }
     const errors = this.errors;

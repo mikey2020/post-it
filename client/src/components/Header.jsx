@@ -120,7 +120,7 @@ export class Header extends React.Component {
                 >Sign In</a></li>
               <li>
                 <Link
-                  className="flow-text waves-effect waves-red btn teal lighten-1 links" 
+                  className="flow-text waves-effect waves-red btn teal lighten-1 links"
                   to="/signup"
                 >Sign Up</Link></li>
             </div>

@@ -9,11 +9,9 @@ export default (app) => {
 
   app.post('/api/v1/group', Validations.authenticate, GroupController.createGroup);
 
-  app.get('/api/v1/group/:name', Validations.authenticate, group.checkGroups);
+  app.get('/api/v1/group/:name', Validations.authenticate, group.checkGroupName);
 
-  app.get('/api/v1/groups/user', Validations.authenticate, group.getUserGroups);
-
-  app.post('/api/v1/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.userGroups, GroupController.addUserToGroup);
+  app.post('/api/v1/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.isAlreadyGroupMember, GroupController.addUserToGroup);
 
   app.post('/api/v1/group/:groupId/message', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupController.getGroupMembers, GroupController.postMessageToGroup);
 

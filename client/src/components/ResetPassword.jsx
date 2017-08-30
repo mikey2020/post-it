@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Validations from '../../validations';
-import Input from './Input.jsx';
 import { checkUserExists, resetPassword, verifyCode } from '../actions/userActions';
 
 const validate = new Validations();
@@ -99,7 +98,7 @@ export class ResetPassword extends React.Component {
         <div className="jumbotron signup-form">
           <h3>Enter Verification code </h3>
           {errors.code ? <span className="help-block">{errors.code}</span> : <br />}
-          <Input
+          <input
             type="text"
             value={code}
             placeholder="Enter verification code"
@@ -108,7 +107,7 @@ export class ResetPassword extends React.Component {
           />
 
           {errors.newPassword ? <span className="help-block">{errors.newPassword}</span> : <br />}
-          <Input
+          <input
             type="password"
             value={this.state.newPassword}
             placeholder="Enter New Password"
@@ -117,7 +116,7 @@ export class ResetPassword extends React.Component {
           />
           {errors.newPasswordConfirmation ?
             <span className="help-block">{errors.newPasswordConfirmation}</span> : <br />}
-          <Input
+          <input
             type="password"
             value={this.state.newPasswordConfirmation}
             placeholder="Confirm New Password"
@@ -125,40 +124,41 @@ export class ResetPassword extends React.Component {
             name="newPasswordConfirmation"
           />
 
-          <Input type="submit" className="btn" />
+          <input type="submit" className="btn" />
         </div>
       </form>
     );
 
     return (
       <div className="" id="signup-body">
-        { status === 'enter username' &&
-        <form onSubmit={this.onSubmit} className="reset-form">
-          <div className="jumbotron signup-form">
-            <h3 id="signup-header" className="flow-text" >Enter Username</h3>
-            {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
-            <input
-              value={username}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              type="text"
-              placeholder="Enter username"
-              name="username"
-            />
+        <center>
+          { status === 'enter username' &&
+          <form onSubmit={this.onSubmit} className="reset-form">
+            <div className="jumbotron signup-form">
+              <h3 id="signup-header" className="flow-text" >Enter Username</h3>
+              {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
+              <input
+                value={username}
+                onChange={this.onChange}
+                onBlur={this.onBlur}
+                type="text"
+                placeholder="Enter username"
+                name="username"
+              />
 
-            <input
-              disabled={this.state.invalid}
-              type="submit"
-              name="sign up"
-              value="Submit"
-              className="btn waves-effect waves-light grey darken-4 reset-password"
-            />
-          </div>
-        </form>
+              <inpu
+                disabled={this.state.invalid}
+                type="submit"
+                name="sign up"
+                value="Submit"
+                className="btn waves-effect waves-light grey darken-4 reset-password"
+              />
+            </div>
+          </form>
         }
 
-        { status === 'waiting for verification code' && verificationCodeInput }
-
+          { status === 'waiting for verification code' && verificationCodeInput }
+        </center>
       </div>
 
     );

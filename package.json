@@ -8,7 +8,7 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "test": "npm run db:refresh && mocha  server/test  --require babel-polyfill --compilers js:babel-register",
+    "test": "npm run db:refresh && mocha  server/test/**  --require babel-polyfill --compilers js:babel-register",
     "start": "npm run db:migrate && babel-node server/app.js --presets es2015,stage-2",
     "serve": "node dist/app.js",
     "dev:server": "NODE_ENV=development nodemon server/app.js --exec babel-node --presets es2015,stage-2",
@@ -21,8 +21,8 @@
     "clean-build": "npm run delete-build && mkdir client/build",
     "undo:db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate:undo:all",
     "db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate",
-    "redux-test": "jest --coverage client/tests",
-    "redux-test:watch": "npm run redux-test -- --watch",
+    "client-tests": "jest --coverage client/tests",
+    "client-tests:watch": "npm run client-tests -- --watch",
     "build:html": "babel-node client/buildHtml.js",
     "prebuild": "npm-run-all clean-build build:html",
     "build": "babel-node client/build.js",
@@ -124,9 +124,9 @@
     "superagent": "^3.5.2",
     "supertest": "^3.0.0",
     "validator": "^7.0.0",
-    "winston": "^2.3.1",
     "webpack": "1.13.0",
     "webpack-dev-middleware": "1.6.1",
-    "webpack-hot-middleware": "2.10.0"
+    "webpack-hot-middleware": "2.10.0",
+    "winston": "^2.3.1"
   }
 }

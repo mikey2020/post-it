@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import io from 'socket.io-client';
 import Validations from '../../../validations';
 import { postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage } from '../../actions/messageActions';
 import Message from './Message.jsx';
@@ -22,9 +23,10 @@ export class Messages extends React.Component {
       message: '',
       errors: {},
       priority: '',
+      priorityLevel: 0,
       creator: '',
       limit: 10,
-      offset: 5
+      offset: 0
     };
 
     if (this.props.messages.length < 10) {
@@ -41,6 +43,14 @@ export class Messages extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePriority = this.handlePriority.bind(this);
     this.viewArchived = this.viewArchived.bind(this);
+  }
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
+    const { group } = this.props;
+    const { limit, offset } = this.state;
+    this.props.getGroupMessages(group.id, limit, offset);
   }
   /**
    * @param {object} prevProps - previous props
@@ -79,17 +89,17 @@ export class Messages extends React.Component {
   }
 
   /**
-   * @param {Object} e - Event object
+   * @param {Object} event - Event object
    * @returns {void}
    */
-  handlePriority(e) {
-    e.preventDefault();
-    if (e.target.value > -1 && e.target.value < 6) {
-      this.setState({ priority: 'normal' });
-    } else if (e.target.value > 5 && e.target.value < 11) {
-      this.setState({ priority: 'urgent' });
-    } else if (e.target.value > 10 && e.target.value < 16) {
-      this.setState({ priority: 'critical' });
+  handlePriority(event) {
+    event.preventDefault();
+    if (event.target.value > -1 && event.target.value < 6) {
+      this.setState({ [event.target.name]: event.target.value, priority: 'normal' });
+    } else if (event.target.value > 5 && event.target.value < 11) {
+      this.setState({ [event.target.name]: event.target.value, priority: 'urgent' });
+    } else if (event.target.value > 10 && event.target.value < 16) {
+      this.setState({ [event.target.name]: event.target.value, priority: 'critical' });
     }
   }
   /**
@@ -132,11 +142,12 @@ export class Messages extends React.Component {
         getUsersWhoReadMessage={this.props.getUsersWhoReadMessage}
       />)
     );
+    const { priority, errors, message, priorityLevel } = this.state;
 
     return (
       <div className="row">
-        {this.state.errors.priority ?
-          <span className="priority-error">{this.state.errors.priority}</span> : <br />
+        {errors.priority ?
+          <span className="priority-error">{errors.priority}</span> : <br />
         }
         <div>
           <nav className="col s12 m12 l12 right-column-header blue-grey darken-3">
@@ -176,21 +187,22 @@ export class Messages extends React.Component {
               className="priority-level"
               id="priority-level"
               type="range"
-              name="points"
+              name="priorityLevel"
               min="0"
               max="15"
+              value={priorityLevel}
               onChange={this.handlePriority}
             />
             <button
               className="btn waves-effect waves-light priority"
-            > {this.state.priority} </button>
+            > {priority} </button>
             <textarea
               id="textarea1"
               name="message"
               onChange={this.onChange}
               className="materialize-textarea"
               rows="5"
-              value={this.state.message}
+              value={message}
             />
             <br />
             <div className="col s5 m4 l3">
@@ -204,7 +216,6 @@ export class Messages extends React.Component {
             </div>
           </form>
         </div>
-
       </div>
     );
   }

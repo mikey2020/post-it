@@ -12,7 +12,7 @@ const setMembers = members => ({
   members
 });
 
-const getUsers = username => dispatch => axios.post('/api/v1/user', username)
+const getUsers = username => dispatch => axios.post('/api/v1/users', username)
             .then((res) => {
               if (res.data.users) {
                 dispatch(setUsers(res.data.users.data));

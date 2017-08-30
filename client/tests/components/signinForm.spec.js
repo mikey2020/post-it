@@ -6,7 +6,8 @@ import { SigninForm } from '../../src/components/signin/SigninForm';
 
 const setup = () => {
   const props = {
-    validateUser: (() => {})
+    validateUser: (() => {}),
+    validateGoogleUser: () => {}
   };
 
   return shallow(<SigninForm {...props} />);
@@ -37,11 +38,6 @@ describe('Component', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
       expect(wrapper.find('.username').props().onChange).toBeA('function');
-    });
-
-    it('calls isValid', () => {
-      sinon.spy(SigninForm.prototype, 'isValid');
-      expect(SigninForm.prototype.isValid.calledOnce).toBe(true);
     });
   });
 });

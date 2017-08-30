@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /**
  * @class
  */
-class Message extends React.Component {
+export class Message extends React.Component {
   /**
    * @returns {void}
    */

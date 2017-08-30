@@ -5,7 +5,7 @@ import axios from 'axios';
 import expect from 'expect';
 import MockLocalStorage from 'mock-localstorage';
 import addUser from '../../src/actions/signupActions';
-import * as types from '../../src/actions/types';
+// import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -27,6 +27,7 @@ describe('Signup actions', () => {
   it('creates a error flash message when user already exists', () => {
     const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve({ data: { errors: { message: 'user already exists' } } }));
-    expect(store.dispatch(addUser(mockData))).toBe({});
+    store.dispatch(addUser(mockData));
+    expect(store.getActions()).toEqual([]);
   });
 });

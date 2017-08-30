@@ -226,15 +226,16 @@ body {
 }
 
 .group-form{
-    width: 85%;
-    height: 40% !important;
-    max-height: 85% !important;
+    width: 55%;
+    height: 30% !important;
     overflow: scroll;
     border-radius: 10px;
-    input[type=submit]{
+    color: #fff;
+    input[type=text]{
         position: relative;
         left: 40px;
-        background-color: #212121;
+        width: 50% !important;
+        color: #000;
     }
 }
 
@@ -269,6 +270,8 @@ textarea{
 
 .priority{
     background-color: #26a69a;
+    position: relative;
+    left: 85px;
 }
 
 .thumb{
@@ -403,4 +406,20 @@ textarea{
     position: relative;
        top: -60px;
        left: 720px;
+}
+.select-group{
+    position: relative;
+    top: 80px;
+    left: 70px;
+    color: white;
+}
+
+.help-block{
+    color: white;
+}
+
+#create-group-button{
+    position: relative;
+    left: 60px;
+    background: #263238;
 }

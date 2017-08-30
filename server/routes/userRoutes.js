@@ -1,7 +1,7 @@
 import UserController from '../controllers/userController';
 
 const userRoutes = (app) => {
-  app.get('/api/v1/users', UserController.allUsers);
+  app.post('/api/v1/users', UserController.getUsers);
 
   app.post('/api/v1/user/checkUser', UserController.checkUserExists);
 
@@ -12,8 +12,6 @@ const userRoutes = (app) => {
   app.post('/api/v1/user/signup', UserController.signup);
 
   app.post('/api/v1/user/signin', UserController.signin);
-
-  app.post('/api/v1/user', UserController.getUsers);
 };
 
 export default userRoutes;

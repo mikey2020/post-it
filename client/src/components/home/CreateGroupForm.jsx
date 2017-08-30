@@ -31,20 +31,20 @@ export class CreateGroupForm extends React.Component {
 
   /**
    * @returns {void}
-   * @param {Object} e
+   * @param {Object} event
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
     }
   }
   /**
    * @returns {void}
-   * @param {Object} e
+   * @param {Object} event
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
       this.props.createGroup(this.state);
@@ -55,7 +55,7 @@ export class CreateGroupForm extends React.Component {
    * @returns {void}
    */
   isValid() {
-    const { errors, isValid } = validate.input(this.state);
+    const { errors, isValid } = validate.groupInput(this.state);
     if (!isValid) {
       this.setState({ errors, isLoading: true });
     }
@@ -70,31 +70,33 @@ export class CreateGroupForm extends React.Component {
     const { errors, name, isLoading, invalid } = this.state;
     return (
       <div id="modal2" className="modal group-form">
-        {errors.message && <div className="alert alert-danger"> {errors.message} </div>}
+        <div className="" >
+          {errors.message && <div className="alert alert-danger"> {errors.message} </div>}
 
-        {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
+          {errors.name ? <span className="help-block">{errors.name}</span> : <br />}
 
-        <form className="form-group" onSubmit={this.onSubmit}>
-          <input
-            type="text"
-            placeholder="Enter group name"
-            name="name"
-            onChange={this.onChange}
-            className="form-control"
-            value={name}
-            id="usr"
-          />
+          <form className="form-group" onSubmit={this.onSubmit}>
+            <input
+              type="text"
+              placeholder="Enter group name"
+              name="name"
+              onChange={this.onChange}
+              className="form-control"
+              value={name}
+              id="usr"
+            />
 
-          <input
-            type="submit"
-            className="btn btn-primary active"
-            value="Create Group"
-            disabled={isLoading || invalid}
-          />
+            <input
+              type="submit"
+              className="btn btn-primary active"
+              value="Create Group"
+              id="create-group-button"
+              disabled={isLoading || invalid}
+            />
 
 
-        </form>
-
+          </form>
+        </div>
       </div>
     );
   }

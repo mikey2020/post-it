@@ -6,8 +6,9 @@
  import { validateUser, validateGoogleUser } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
+ import { checkUserExists } from '../../actions/userActions';
 
-// const clientId = process.env.CLIENT_ID;
+
  const validate = new Validations();
  /**
  *  SigninForm class component
@@ -23,27 +24,29 @@
      this.state = {
        username: '',
        password: '',
-       errors: {}
+       errors: {},
+       invalid: true
      };
 
      this.onChange = this.onChange.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
+     this.onBlur = this.onBlur.bind(this);
      this.responseGoogle = this.responseGoogle.bind(this);
    }
 
    /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-   onChange(e) {
-     this.setState({ [e.target.name]: e.target.value });
+   onChange(event) {
+     this.setState({ [event.target.name]: event.target.value, invalid: false, errors: {} });
    }
    /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-   onSubmit(e) {
-     e.preventDefault();
+   onSubmit(event) {
+     event.preventDefault();
      if (this.isValid()) {
        this.setState({ errors: {}, isLoading: true });
        this.props.validateUser(this.state).then(() => {
@@ -52,6 +55,27 @@
      }
    }
    /**
+    * @param {Object} event
+    * @returns {void}
+    */
+   onBlur(event) {
+     const field = event.target.name;
+     const value = event.target.value;
+     if (value !== '') {
+       checkUserExists({ username: value }).then((res) => {
+         const errors = this.state.errors;
+         let invalid;
+         if (res.data.user) {
+           invalid = false;
+         } else {
+           errors[field] = 'Invalid user, Please sign up';
+           invalid = true;
+         }
+         this.setState({ errors, invalid });
+       });
+     }
+   }
+     /**
    * @param {object} e - argument
    * @returns {void}
    */
@@ -84,26 +108,28 @@
    * @returns {component} - renders a React component
    */
    render() {
+     const { errors, username } = this.state;
      return (
        <div id="modal1" className="modal signin-container">
          <div className="signin-form">
            <h3> Sign In </h3>
-           {this.state.errors.form &&
-           <div className="alert alert-danger"> {this.state.errors.form} </div>}
+           {errors.form &&
+           <div className="alert alert-danger"> {errors.form} </div>}
            <form onSubmit={this.onSubmit}>
-             {this.state.errors.username ?
-               <span className="help-block">{this.state.errors.username}</span> : <br />}
+             {errors.username ?
+               <span className="help-block red darken-4">{errors.username}</span> : <br />}
              <input
                type="text"
-               value={this.state.username}
+               value={username}
                onChange={this.onChange}
+               onBlur={this.onBlur}
                placeholder="username"
                name="username"
                className="username"
              />
 
-             {this.state.errors.password ?
-               <span className="help-block">{this.state.errors.password}</span> : <br />}
+             {errors.password ?
+               <span className="help-block">{errors.password}</span> : <br />}
              <input
                type="password"
                value={this.state.password}
@@ -117,6 +143,7 @@
                name="signin"
                value="Sign In"
                id="sign-in"
+               disabled={this.state.invalid}
                className="modal-action modal-close btn waves-effect waves-light grey darken-4"
              />
            </form>
@@ -146,4 +173,6 @@
    router: PropTypes.object.isRequired
  };
 
- export default connect(null, { validateUser, validateGoogleUser, addFlashMessage })(SigninForm);
+
+ export default connect(null, {
+   validateUser, validateGoogleUser, addFlashMessage })(SigninForm);

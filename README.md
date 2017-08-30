@@ -51,7 +51,7 @@ The following features make up the PostIt API:
 * Run `npm install` to install the dependencies in the `package.json` file
 * Run `npm run dev:server` to start the project
 * Run `npm test` to run the server-side(api) tests
-* Run `npm run redux-test` to run the client-side(React) tests
+* Run `npm run client-tests` to run the client-side(React) tests
 * Use [Postman](https://www.getpostman.com/) or any API testing tool of your choice to access the endpoints
 
 **You can also test the application by going to `https://mike-post.herokuapp.com/`**
@@ -73,3 +73,7 @@ Ensure your codes follow the [AirBnB Javascript Styles Guide](https://github.com
 
 ### Author
 **Michael Eboagu**
+
+## License 
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

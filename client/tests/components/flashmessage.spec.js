@@ -21,7 +21,6 @@ describe('Component', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
       expect(wrapper.find('input').exists()).toBe(false);
-      expect(wrapper.find('button').exists()).toBe(true);
     });
   });
 });

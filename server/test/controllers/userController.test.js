@@ -1,8 +1,8 @@
 import should from 'should';
 import request from 'supertest';
-import app from '../app';
-import models from '../models';
-import { validUserSignup, validUserSignin } from '../seeders/user-seeders';
+import app from '../../app';
+import models from '../../models';
+import { validUserSignup, validUserSignin } from '../../seeders/user-seeders';
 
 const user = request.agent(app);
 let token;
@@ -20,6 +20,7 @@ describe('UserController', () => {
         .end((err, res) => {
           res.status.should.equal(201);
           should.not.exist(err);
+          should.exist(res.body.userToken);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('john successfully added');
           done();
@@ -33,6 +34,7 @@ describe('UserController', () => {
           .end((err, res) => {
             res.status.should.equal(200);
             should.not.exist(err);
+            res.body.user.name.should.equal(validUserSignin.username);
             res.body.should.have.property('user', res.body.user);
             res.body.user.message.should.equal('johnny signed in');
             token = res.body.user.userToken;

@@ -29,10 +29,10 @@ export class User extends React.Component {
 
   /**
    * @returns {void}
-   * @param {object} e  - event object
+   * @param {object} event  - event object
    */
-  onClick(e) {
-    e.preventDefault();
+  onClick(event) {
+    event.preventDefault();
     this.setState({ userState: 'user added' });
     this.props.addUserToGroup({ userId: this.props.userId }, this.props.groupId);
   }
@@ -45,7 +45,6 @@ export class User extends React.Component {
     const { members } = this.props;
     Object.keys(members).forEach((member) => {
       if (members[member].username === user) {
-        console.log('a member', user);
         this.setState({ userState: 'member', userStatus: true });
       }
     });

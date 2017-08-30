@@ -24,32 +24,38 @@ describe('User Actions', () => {
   });
 
   it('checks if a user already exists in the database', () => {
+    const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve(1));
-    expect(actions.checkUserExists(mockData)).toBe({});
+    actions.checkUserExists(mockData);
+    expect(store.getActions()).toEqual([]);
   });
 
   it('sends verification code for resetting password', () => {
     const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve({ data: { message: 'Verification code sent' } }));
-    expect(store.dispatch(actions.resetPassword(mockData))).toBe({});
+    store.dispatch(actions.resetPassword(mockData));
+    expect(store.getActions()).toEqual([]);
   });
 
   it('verifies code sent to user for resetting password is successful', () => {
     const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve({ data: { message: 'password updated successfully' } }));
-    expect(store.dispatch(actions.verifyCode({}))).toBe(undefined);
+    store.dispatch(actions.verifyCode({}));
+    expect(store.getActions()).toEqual([]);
   });
 
   it('verifies code sent to user for resetting password is unsuccessful', () => {
     const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve({ data: { message: null } }));
-    expect(store.dispatch(actions.verifyCode({}))).toBe(true);
+    store.dispatch(actions.verifyCode({}));
+    expect(store.getActions()).toEqual([]);
   });
 
   it('get members of a group', () => {
     const store = mockStore([]);
     axios.get = jest.fn(() => Promise.resolve({ data: { members: [] } }));
-    expect(store.dispatch(actions.getMembersOfGroup(1))).toBe({});
+    store.dispatch(actions.getMembersOfGroup(1));
+    expect(store.getActions()).toEqual([]);
   });
 });
 

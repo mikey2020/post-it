@@ -18,7 +18,7 @@ class Unique {
    * @param {object} next - response object that sends data to the next middleware
    * @returns {object} - if there is no error, it returns array of users in a group
    */
-  static userGroups(req, res, next) {
+  static isAlreadyGroupMember(req, res, next) {
     models.UserGroups.findOne({
       where: {
         userId: req.validUserId,

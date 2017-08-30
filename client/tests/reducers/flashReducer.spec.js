@@ -17,7 +17,8 @@ describe('Flash message reducer', () => {
     ).toEqual([
       {
         type: 'success',
-        text: 'you are signed in'
+        text: 'you are signed in',
+        id: 1
       }
     ]);
 
@@ -31,21 +32,12 @@ describe('Flash message reducer', () => {
           }
         ],
         {
-          type: types.ADD_TODO,
-          text: 'Run the tests'
+          type: types.ADD_FLASH_MESSAGE,
+          message: { type: 'success', text: 'Run the tests' }
         }
       )
     ).toEqual([
-      {
-        text: 'Run the tests',
-        completed: false,
-        id: 1
-      },
-      {
-        text: 'Use Redux',
-        completed: false,
-        id: 0
-      }
+      { text: 'Use Redux', completed: false, id: 0 }, { id: 1, type: 'success', text: 'Run the tests' }
     ]);
   });
 

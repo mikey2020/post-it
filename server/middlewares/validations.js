@@ -13,51 +13,55 @@ dotenv.config();
 class Validations {
 
   /**
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  signup(data) {
+  signup(user) {
     this.errors = {};
-    if (data.password) {
-      data.password = data.password.trim();
+    if (user.password) {
+      user.password = user.password.trim();
     }
-    if (!data.email || !data.password || !data.username) {
+    if (!user.email || !user.password || !user.username) {
       this.errors.invalid = 'Invalid paramters';
     }
 
-    if (data.username === null || data.username === '') {
+    if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
     }
 
-    if (data.email === null || data.email === '') {
+    if (user.email === null || user.email === '') {
       this.errors.email = 'Email is required';
     }
 
-    if (data.phoneNumber === null || data.phoneNumber === '') {
+    if (user.phoneNumber === null || user.phoneNumber === '') {
       this.errors.phoneNumber = 'Phone Number is required';
     }
 
-    if (data.phoneNumber !== undefined) {
-      if (data.phoneNumber.length > 11 || data.phoneNumber < 11) {
+    if (user.phoneNumber !== undefined) {
+      if (user.phoneNumber.length > 11 || user.phoneNumber < 11) {
+        this.errors.phoneNumber = 'Please enter a valid phone number';
+      }
+
+      if (Validations.isPhoneNumber(user.phoneNumber) !== true) {
         this.errors.phoneNumber = 'Please enter a valid phone number';
       }
     }
 
-    if (data.email && !validator.isEmail(data.email)) {
+    if (user.email && !validator.isEmail(user.email)) {
       this.errors.email = 'Email is invalid';
     }
 
-    if (data.password === null || data.password === '') {
+    if (user.password === null || user.password === '') {
       this.errors.password = 'Password is required';
     }
-    if (data.password && data.password.length <= 4) {
+    if (user.password && user.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (data.passwordConfirmation === null || data.passwordConfirmation === '') {
+    if (user.passwordConfirmation === null || user.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
-    if (data.password && !validator.equals(data.password, data.passwordConfirmation)) {
+    if (user.password && !validator.equals(user.password, user.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
 
@@ -74,7 +78,7 @@ class Validations {
    * @param {object} req
    * @param {object} res
    * @param {function} next
-   * @param {object} data - signup object
+   * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
   static checkUserIsValid(req, res, next) {
@@ -95,15 +99,15 @@ class Validations {
   /**
    * @param {object} req - signup object
    * @param {object} res - errors object if there is any
-   * @param {object} next - returns data to next middleware
+   * @param {object} next - returns user to next middleware
    * @returns {object} -returns error if there is any
    */
   static authenticate(req, res, next) {
     const authorizationHeader = req.headers.authorization;
-    let token;
-    if (authorizationHeader) {
-      token = authorizationHeader;
-    }
+    const token = authorizationHeader || null;
+    // if (authorizationHeader) {
+    //   token = authorizationHeader;
+    // }
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
@@ -122,7 +126,7 @@ class Validations {
   /**
    * @param {object} req - signup object
    * @param {object} res - errors object if there is any
-   * @param {object} next - returns data to next middleware
+   * @param {object} next - returns user to next middleware
    * @returns {object} -returns error if there is any
    */
   static isGroupMember(req, res, next) {
@@ -159,6 +163,22 @@ class Validations {
     });
   }
 
+  /**
+   * @param  {userInput} str
+   * @description checks if the string pass in is a digit. Means all the charcters are digit
+   * @return {boolean} true or false
+   */
+  static isPhoneNumber (userInput) {
+    if (userInput.length === 0) {
+      return false;
+    }
+    for (let i = 0; i < userInput.length; i += 1) {
+      if (/[0-9]/.test(userInput[i]) === false) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 

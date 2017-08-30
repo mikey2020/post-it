@@ -17,7 +17,6 @@ const validate = new Validations();
  * @class
  */
 class UserController {
-
   /**
    * @constructor
    */
@@ -109,19 +108,6 @@ class UserController {
         return true;
       }
       return false;
-    });
-  }
-
-  /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
-   */
-  static allUsers(req, res) {
-    User.findAll({}).then((data) => {
-      res.json({ data });
-    }).catch(() => {
-      res.status(404).json({ errors: {} });
     });
   }
 
@@ -229,6 +215,5 @@ class UserController {
     });
   }
 }
-
 
 export default UserController;

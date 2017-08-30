@@ -15,6 +15,7 @@
    "localStorage": true,
    "io": true,
    "window": true,
+   "$": true,
    "document": true
   },
   "rules": {

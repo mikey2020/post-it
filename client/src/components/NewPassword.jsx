@@ -24,27 +24,29 @@ class NewPassword extends React.Component {
     const { errors } = this.state;
     return (
       <form className="reset-form">
-        <div className="jumbotron signup-form">
-          <h3>Enter New Password</h3>
-          {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
-          <input
-            type="password"
-            value={this.state.newPassword}
-            placeholder="Enter New Password"
-            onChange={this.onChange}
-            name="newPassword"
-          />
+        <center>
+          <div className="jumbotron signup-form">
+            <h3>Enter New Password</h3>
+            {errors.newPassword ? <span className="help-block">{errors.username}</span> : <br />}
+            <input
+              type="password"
+              value={this.state.newPassword}
+              placeholder="Enter New Password"
+              onChange={this.onChange}
+              name="newPassword"
+            />
 
-          <input
-            type="password"
-            value={this.state.newPasswordConfirmation}
-            placeholder="Confirm New Password"
-            onChange={this.onChange}
-            name="newPasswordConfirmation"
-          />
+            <input
+              type="password"
+              value={this.state.newPasswordConfirmation}
+              placeholder="Confirm New Password"
+              onChange={this.onChange}
+              name="newPasswordConfirmation"
+            />
 
-          <input type="Submit" className="btn" value="Update Password" />
-        </div>
+            <input type="Submit" className="btn" value="Update Password" />
+          </div>
+        </center>
       </form>
     );
   }

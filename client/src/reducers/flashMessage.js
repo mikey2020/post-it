@@ -2,13 +2,15 @@ import shortid from 'shortid';
 import findIndex from 'lodash/findIndex';
 import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from '../actions/types';
 
+const num = 0;
+
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_FLASH_MESSAGE:
       return [
         ...state,
         {
-          id: shortid.generate(),
+          id: num + 1,
           type: action.message.type,
           text: action.message.text
         }

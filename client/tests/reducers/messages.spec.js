@@ -16,7 +16,7 @@ describe('Messages reducer', () => {
       messages: [{ id: 1, content: 'tarly house', groupId: 3, priority: 'normal', messageCreator: 'mike' }]
 
     })).toEqual(
-       [{ id: 1, content: 'tarly house', groupId: 3, priority: 'normal', creator: 'mike' }]
+       [{ id: 1, content: 'tarly house', priority: 'normal', groupId: 3, creator: 'mike', timeCreated: undefined }]
     );
   });
 });
