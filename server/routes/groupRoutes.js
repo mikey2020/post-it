@@ -5,7 +5,7 @@ import Validations from '../middlewares/validations';
 const group = new GroupController();
 
 export default (app) => {
-  app.get('/api/v1/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, Unique.checkMessageNumber, GroupController.getPosts);
+  app.get('/api/v1/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, GroupController.getPosts);
 
   app.post('/api/v1/group', Validations.authenticate, GroupController.createGroup);
 

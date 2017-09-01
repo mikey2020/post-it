@@ -8,6 +8,8 @@ describe('UserGroup Model:', () => {
     models.UserGroups.create({ userId: 1, groupId: 3 })
     .then((usergroup) => {
       should.exist(usergroup);
+      should.exist(usergroup.userId);
+      should.exist(usergroup.groupId);
       done();
     });
   });

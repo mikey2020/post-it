@@ -115,7 +115,7 @@ export class Header extends React.Component {
               <li>
                 <a
                   className=""
-                  id="login-button"
+                  id=""
                   href="#modal1"
                 >Sign In</a></li>
               <li>

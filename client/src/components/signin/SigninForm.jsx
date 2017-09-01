@@ -2,7 +2,6 @@
  import { connect } from 'react-redux';
  import { Link } from 'react-router';
  import PropTypes from 'prop-types';
- import GoogleLogin from 'react-google-login';
  import { validateUser, validateGoogleUser } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
@@ -31,7 +30,6 @@
      this.onChange = this.onChange.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
      this.onBlur = this.onBlur.bind(this);
-     this.responseGoogle = this.responseGoogle.bind(this);
    }
 
    /**
@@ -88,18 +86,6 @@
 
      return isValid;
    }
-   /**
-    * @returns {void}
-    * @param {Object} response
-    */
-   responseGoogle(response) {
-     console.log(response);
-     const profile = response.getBasicProfile();
-     const userData = {
-       username: profile.ig,
-       email: profile.U3 };
-     this.props.validateGoogleUser(userData);
-   }
 
   /**
    *
@@ -148,14 +134,6 @@
            <br />
            <span><Link to="/reset" > Forgot password? </Link></span>
            <br />
-           <span className="">
-             <GoogleLogin
-               clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
-               buttonText="Sign In with Google"
-               onSuccess={this.responseGoogle}
-               onFailure={this.responseGoogle}
-             />
-           </span>
          </div>
        </div>
      );

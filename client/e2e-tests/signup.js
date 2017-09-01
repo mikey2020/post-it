@@ -1,5 +1,5 @@
 module.exports = {
-  'Sign up test': (browser) => {
+  'Sign up fails , when details are incorrect': (browser) => {
     browser
       .url('http://localhost:3000/signup')
       .waitForElementVisible('body', 1000)

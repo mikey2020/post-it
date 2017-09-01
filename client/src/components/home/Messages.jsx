@@ -87,7 +87,9 @@ export class Messages extends React.Component {
     event.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1, offset: 0 });
-      this.props.postMessage(this.state, this.props.group.id);
+      this.props.postMessage(this.state, this.props.group.id).then(() => {
+        this.setState({ message: '' });
+      });
     }
   }
 
@@ -171,7 +173,7 @@ export class Messages extends React.Component {
           onClick={this.viewArchived}
           className="archived btn light-blue"
         >
-          view archived</a> </div> : <h4 className="archived btn light-blue">All messages</h4>
+          view archived</a> </div> : <h4 className="archived  light-blue">All messages</h4>
         }
 
         <div className="all-messages"><ul>{allMessages}</ul></div>

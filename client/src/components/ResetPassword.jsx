@@ -44,8 +44,9 @@ export class ResetPassword extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.resetPassword(this.state);
-    this.setState({ status: 'waiting for verification code' });
+    this.props.resetPassword(this.state).then(() => {
+      this.setState({ status: 'waiting for verification code' });
+    });
   }
   /**
    * @returns {void}
@@ -124,7 +125,7 @@ export class ResetPassword extends React.Component {
             name="newPasswordConfirmation"
           />
 
-          <input type="submit" className="btn" />
+          <input type="submit" className="btn waves-effect waves-light grey darken-4 reset-password" />
         </div>
       </form>
     );

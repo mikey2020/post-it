@@ -187,9 +187,15 @@ body {
     width: 60%;
     height: 80% !important;
     max-height: 85%;
-    input{
+    overflow: scroll;
+    border-radius: 10px;
+    color: #000;
+    input[type=text]{
         position: relative;
-        right: -2px;
+        left: 10px;
+        width: 50% !important;
+        border: 4ppx solid;
+        color: #000;
     }
 }
 
@@ -204,15 +210,18 @@ body {
     position: relative ;
     left: 10px;
     margin: 10px;
+
     width: 74%;
     height: 60px;
     color: white;
+    background-color: #03a9f4;
     padding: 20px;
 }
 
 .add-user-btn {
     position: relative;
     left: 300px;
+    background-color: #212121;
 }
 
 .message{
@@ -312,6 +321,7 @@ textarea{
 
 .addUser-header{
     font-size: 20px;
+    padding-left: 30px;
 }
 
 .priority-error {
@@ -432,6 +442,7 @@ textarea{
 .help-block{
     color: black;
     padding: 8px;
+    margin: 20px;
     background-color: rgba(0,0,0,0.12);
 }
 

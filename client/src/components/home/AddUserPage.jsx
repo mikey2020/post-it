@@ -89,10 +89,10 @@ export class AddUserPage extends React.Component {
             placeholder="Enter username"
             name="username"
             onChange={this.searchUsers}
-            className=""
+            className="username"
             value={username}
           />
-
+          <i className="material-icons">search</i>
         </form>
         <AllUsers
           users={this.props.users}

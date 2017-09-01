@@ -203,8 +203,10 @@ class UserController {
     .then((user) => {
       if (req.body.code === user.verificationCode) {
         user.password = req.body.newPassword;
-        user.update().then(() => {
+        user.update({ password: req.body.newPassword }).then(() => {
           res.status(201).json({ message: 'password updated successfully' });
+        })
+        .catch(() => {
         });
       } else {
         res.status(400).json({ message: 'Invalid verification code' });

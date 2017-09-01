@@ -55,7 +55,6 @@ class Unique {
   }
 
   static checkMessageNumber(req, res, next) {
-    console.log('=======[[[[[[[[=========--=====-00a====');
     models.Message.findAndCountAll({
       where: {
         groupId: req.params.groupId,

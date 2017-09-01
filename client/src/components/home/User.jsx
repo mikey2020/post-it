@@ -55,13 +55,13 @@ export class User extends React.Component {
   render() {
     return (
       <div>
-        <li className="collection-item user-btn blue-grey darken-3 flow-text"> {this.props.username}
+        <li className="collection-item user-btn light-blue flow-text"> {this.props.username}
           <button
             name="add_user"
             disabled={this.state.userStatus}
             onClick={this.onClick}
             id=""
-            className="waves-effect waves-red btn add-user-btn teal lighten-2"
+            className="waves-effect waves-red btn  add-user-btn "
           > {this.state.userState}
           </button>
         </li>
