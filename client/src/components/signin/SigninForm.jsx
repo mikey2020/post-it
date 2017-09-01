@@ -144,7 +144,7 @@
                value="Sign In"
                id="sign-in"
                disabled={this.state.invalid}
-               className="modal-action modal-close btn waves-effect waves-light grey darken-4"
+               className="modal-action modal-close btn waves-effect waves-light light-blue"
              />
            </form>
            <br />

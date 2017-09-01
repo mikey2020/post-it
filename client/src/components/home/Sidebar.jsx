@@ -67,7 +67,7 @@ export class Sidebar extends React.Component {
         <div>
           <div className="vertical-menu">
             <h4 className="sidebar-header">Groups<i className="material-icons add_icon">
-              <a href="#modal2">add_box</a></i></h4>
+              <a href="#modal2" className="add_box">add_box</a></i></h4>
             <ul>{allGroups}</ul>
           </div>
         </div>

@@ -27,7 +27,7 @@ export class Message extends React.Component {
               { this.props.creator ?
                 <span className="chip user-display"> {this.props.creator}</span> : <br />}
               <span
-                className="badge message-priority btn blue-grey darken-3"
+                className="badge message-priority"
               >{this.props.priority ? this.props.priority : <p /> }</span>
               <a
                 href="#modal5"

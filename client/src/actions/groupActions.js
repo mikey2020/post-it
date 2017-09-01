@@ -23,7 +23,7 @@ const setCurrentGroup = group => (dispatch) => {
 };
 
 
-const getUserGroups = () => dispatch => axios.post('/api/v1/usergroups')
+const getUserGroups = () => dispatch => axios.get('/api/v1/user/groups')
             .then((res) => {
               if (res.data.usergroups) {
                 dispatch(addUserGroups(res.data.usergroups));

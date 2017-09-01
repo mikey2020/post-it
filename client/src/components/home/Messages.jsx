@@ -26,14 +26,14 @@ export class Messages extends React.Component {
       priorityLevel: 0,
       creator: '',
       limit: 10,
-      offset: 0
+      offset: 10
     };
 
-    if (this.props.messages.length < 10) {
-      this.state.offset = 0;
-    } else {
-      this.state.offset = Math.abs(this.props.messages.length - 10);
-    }
+    // if (this.props.messages.length < 10) {
+    //   this.state.offset = 0;
+    // } else {
+    //   this.state.offset = Math.abs(this.props.messages.length - 10);
+    // }
 
     socket.on('new message posted', (message) => {
       this.props.addMessage(message);
@@ -60,7 +60,7 @@ export class Messages extends React.Component {
     const { group } = this.props;
     const { limit, offset } = this.state;
     if (this.props.messages.length !== prevProps.messages.length) {
-      this.props.getGroupMessages(group.id, limit, offset);
+      this.props.getGroupMessages(group.id, limit + 10, offset);
     } else if (this.props.group.id !== prevProps.group.id) {
       this.props.getGroupMessages(group.id, limit, offset);
     }
@@ -150,17 +150,10 @@ export class Messages extends React.Component {
           <span className="priority-error">{errors.priority}</span> : <br />
         }
         <div>
-          <nav className="col s12 m12 l12 right-column-header blue-grey darken-3">
+          <nav className="col s12 m12 l12 right-column-header">
             <div className="nav-wrapper">
               <div className="row">
-                <a href="" className="col s5 m5 l5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</a>
-                <a
-                  href=""
-                  className="col s2 m2 l2 dropdown-button btn members-dropdown"
-                  data-beloworigin="true"
-                  data-activates="dropdown1"
-                > Members
-                </a>
+                <span className="col s5 m5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</span>
                 <a href="#modal3" className="col s3 m3 l3">
                   <i className="material-icons adduser-icon">add_circle_outline</i>
                 </a>
@@ -168,13 +161,13 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-        { this.props.messages.length > 0 &&
+        { this.props.messages.length > 0 ?
         <a
           href=""
           onClick={this.viewArchived}
-          className="archived"
+          className="archived btn light-blue"
         >
-          ..........View old messages.............</a>}
+          view archived</a> : <h2> No new messages </h2>}
         <div className="all-messages"><ul>{allMessages}</ul></div>
 
         <div className="row">
@@ -196,8 +189,9 @@ export class Messages extends React.Component {
             <button
               className="btn waves-effect waves-light priority"
             > {priority} </button>
-            <textarea
-              id="textarea1"
+            <input
+              id=""
+              type="text"
               name="message"
               onChange={this.onChange}
               className="materialize-textarea"
@@ -207,7 +201,7 @@ export class Messages extends React.Component {
             <br />
             <div className="col s5 m4 l3">
               <button
-                className="btn waves-effect waves-light teal lighten-2 post-message-button"
+                className="btn waves-effect waves-light post-message-button"
                 type="submit"
                 name="action"
               >Post <i className="material-icons right">send</i>

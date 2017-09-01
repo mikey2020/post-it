@@ -20,7 +20,7 @@ export class Header extends React.Component {
 
     this.state = {
       notices: 0,
-      showNotices: 'true'
+      showNotices: 'false'
     };
 
     // if (this.props.notifications.length > 0) {
@@ -77,7 +77,7 @@ export class Header extends React.Component {
     const { showNotices } = this.state;
     const userLinks = (
       <nav>
-        <div className="nav-wrapper blue-grey darken-3">
+        <div className="nav-wrapper">
           <Link to="/home" className="logo">PostIT</Link>
           <ul className="right">
             <div>
@@ -88,7 +88,7 @@ export class Header extends React.Component {
                 <li><span className="notify"> { this.props.notifications.length } </span></li> }
               <li>
                 <Link
-                  className="flow-text waves-effect waves-red btn teal lighten-1 links"
+                  className=""
                   to="/home"
                 >
                 Home</Link></li>
@@ -96,7 +96,7 @@ export class Header extends React.Component {
                 <a
                   href=""
                   onClick={this.logout}
-                  className="flow-text waves-effect btn waves-red links"
+                  className=""
                   id="logout-button"
                 >Logout</a></li>
             </div>
@@ -108,19 +108,19 @@ export class Header extends React.Component {
 
     const guestLinks = (
       <nav>
-        <div className="nav-wrapper blue-grey darken-3">
+        <div className="nav-wrapper">
           <Link to="/signup" className="logo">PostIT</Link>
           <ul className="right">
             <div>
               <li>
                 <a
-                  className="waves-effect waves-red btn teal lighten-1 modal-trigger links"
+                  className=""
                   id="login-button"
                   href="#modal1"
                 >Sign In</a></li>
               <li>
                 <Link
-                  className="flow-text waves-effect waves-red btn teal lighten-1 links"
+                  className=""
                   to="/signup"
                 >Sign Up</Link></li>
             </div>

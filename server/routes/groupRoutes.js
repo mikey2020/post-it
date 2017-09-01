@@ -17,9 +17,9 @@ export default (app) => {
 
   app.get('/api/v1/group/:groupId/users', Validations.checkGroupExists, GroupController.getGroupMembers, GroupController.allGroupMembers);
 
-  app.post('/api/v1/message/:messageId/readers', GroupController.getUsersWhoReadMessage);
+  app.get('/api/v1/message/:messageId/readers', GroupController.getUsersWhoReadMessage);
 
-  app.post('/api/v1/usergroups', Validations.authenticate, GroupController.getGroupsUserIsMember);
+  app.get('/api/v1/user/groups', Validations.authenticate, GroupController.getGroupsUserIsMember);
 
   app.get('/api/v1/user/notifications', Validations.authenticate, GroupController.getUserNotifications);
 
@@ -27,5 +27,5 @@ export default (app) => {
 
   app.post('/api/v1/user/:messageId/read', Validations.authenticate, GroupController.readMessage);
 
-  app.get('/api/v1/user/:groupId/unreadMessages', Validations.authenticate, GroupController.getUnreadMessagesNumber);
+  app.get('/api/v1/user/:groupId/unreadMessages', Validations.authenticate, GroupController.getUnreadMessages);
 };

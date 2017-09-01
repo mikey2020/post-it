@@ -9,6 +9,7 @@ import error from './reducers/error';
 import members from './reducers/members';
 import notifications from './reducers/notifications';
 import usersWhoReadMessage from './reducers/usersWhoReadMessage';
+import unreadMessages from './reducers/unreadMessages';
 
 export default combineReducers({
   flashMessage,
@@ -20,5 +21,6 @@ export default combineReducers({
   users,
   error,
   notifications,
-  usersWhoReadMessage
+  usersWhoReadMessage,
+  unreadMessages
 });

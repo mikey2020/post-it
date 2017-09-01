@@ -1,0 +1,860 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>PostIt API</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;javascript&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#development" class="toc-h1 toc-link" data-title="Development">Development</a>
+          </li>
+          <li>
+            <a href="#installation" class="toc-h1 toc-link" data-title="Installation">Installation</a>
+          </li>
+          <li>
+            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#list-users" class="toc-h2 toc-link" data-title="Users">List Users</a>
+                  </li>
+                  <li>
+                    <a href="#sign-up-user" class="toc-h2 toc-link" data-title="Users">Sign up User</a>
+                  </li>
+                  <li>
+                    <a href="#sign-in-user" class="toc-h2 toc-link" data-title="Users">Sign in User</a>
+                  </li>
+                  <li>
+                    <a href="#to-verify-a-user-exists" class="toc-h2 toc-link" data-title="Users">To verify a User exists</a>
+                  </li>
+                  <li>
+                    <a href="#to-help-user-get-started-with-reseting-password" class="toc-h2 toc-link" data-title="Users">To help user get started with reseting password</a>
+                  </li>
+                  <li>
+                    <a href="#to-verify-code-for-reseting-password-and-update-password" class="toc-h2 toc-link" data-title="Users">To verify code for reseting password and update password</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#groups" class="toc-h1 toc-link" data-title="Groups">Groups</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-a-new-group" class="toc-h2 toc-link" data-title="Groups">Create a new group</a>
+                  </li>
+                  <li>
+                    <a href="#add-user-to-a-group" class="toc-h2 toc-link" data-title="Groups">Add user to a group</a>
+                  </li>
+                  <li>
+                    <a href="#post-message-to-a-group" class="toc-h2 toc-link" data-title="Groups">Post message to a group</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-messages-in-a-group" class="toc-h2 toc-link" data-title="Groups">Get all messages in a group</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-group-notifications" class="toc-h2 toc-link" data-title="Groups">Get all group notifications</a>
+                  </li>
+                  <li>
+                    <a href="#delete-all-notifications" class="toc-h2 toc-link" data-title="Groups">Delete all notifications</a>
+                  </li>
+                  <li>
+                    <a href="#check-if-group-exists" class="toc-h2 toc-link" data-title="Groups">Check if group exists</a>
+                  </li>
+                  <li>
+                    <a href="#get-groups-user-is-a-member" class="toc-h2 toc-link" data-title="Groups">Get groups user is a member</a>
+                  </li>
+                  <li>
+                    <a href="#when-user-reads-a-message" class="toc-h2 toc-link" data-title="Groups">When user reads a message</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-users-who-read-a-message" class="toc-h2 toc-link" data-title="Groups">Get all users who read a message</a>
+                  </li>
+                  <li>
+                    <a href="#get-the-number-of-unread-messages" class="toc-h2 toc-link" data-title="Groups">Get the number of unread messages</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-members-of-a-group" class="toc-h2 toc-link" data-title="Groups">Get all members of a group</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#status-codes" class="toc-h1 toc-link" data-title="Status codes">Status codes</a>
+          </li>
+      </div>
+        <ul class="toc-footer">
+            <li>2017  PostIt app by Michael Eboagu</li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Welcome to the PostIT API! You can use our API to access PostIT API endpoints, which allows users to sign up , sign in , create a group , post message to a group and so on.</p>
+<h1 id='development'>Development</h1>
+<p>The application was developed with <a href="https://nodejs.org/">NodeJs</a> and <a href="https://expressjs.com/">Express</a> is used for routing. The <a href="https://www.postgresql.org/">Postgres</a> database was used with <a href="http://docs.sequelizejs.com/">sequelize</a> as the ORM.</p>
+<h1 id='installation'>Installation</h1>
+<p>First ensure you have 
+ - <code>node</code> installed or install <a href="https://nodejs.org/en/download/">Node</a>
+ - <code>postgres</code> installed on your local machine you find out more <a href="https://www.postgresql.org/">here</a>
+then
+Clone the project repository from your terminal <code>git clone https://github.com/mikey2020/post-it</code>
+Change directory into the <code>post-it</code> directory
+Run <code>npm install</code> to install the dependencies in the <code>package.json</code> file
+Run <code>npm run dev:server</code> to start the project</p>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Sample</span> <span class="nx">JSON</span> <span class="nx">response</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code>   <span class="p">{</span>
+     <span class="nl">user</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nl">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="nx">username</span><span class="p">:</span> <span class="s1">'sasuke'</span><span class="p">,</span>
+       <span class="nx">email</span><span class="p">:</span> <span class="s1">'sasuke@konoha.com'</span>
+       <span class="nl">phoneNumber</span><span class="p">:</span> <span class="s1">'09012345678'</span>
+     <span class="p">},</span>
+     <span class="nx">message</span><span class="p">:</span> <span class="s1">'sasuke signed in'</span>
+   <span class="p">}</span>
+</code></pre><h1 id='users'>Users</h1><h2 id='list-users'>List Users</h2>
+<p>To get list of all registered users </p>
+<h3 id='request'>Request</h3>
+<ul>
+<li>Endpoint: POST: api/v1/users</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>  <span class="nx">List</span> <span class="nx">all</span> <span class="nx">users</span>
+   <span class="p">{</span>
+     <span class="s2">"users"</span><span class="p">:</span> <span class="p">[{</span>
+       <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"sasuke"</span><span class="p">,</span>
+       <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"sasuke@konoha.com"</span>
+       <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"09012345678"</span>
+     <span class="p">},</span>
+     <span class="p">{</span>
+       <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+       <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
+       <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"naruto@konoha.com"</span>
+       <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"03032345676"</span>
+     <span class="p">}],</span>
+     <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"naruto signed in"</span>
+   <span class="p">}</span>
+</code></pre><h2 id='sign-up-user'>Sign up User</h2>
+<p>To sign up or add user </p>
+<h3 id='request-2'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/user/signup</li>
+<li>Body (application/json)</li>
+</ul>
+<h3 id='response-2'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Sign</span> <span class="nx">up</span> <span class="nx">User</span>
+<span class="p">{</span>
+   <span class="nl">signupRequest</span><span class="p">:</span> <span class="p">{</span> 
+    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span>
+    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"boruto@uzumaki.com"</span><span class="p">,</span>
+    <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0930944800"</span><span class="p">,</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"sarada"</span><span class="p">,</span>
+    <span class="s2">"passwordConfirmation"</span><span class="p">:</span> <span class="s2">"sarada"</span>
+   <span class="p">}</span>
+
+   <span class="nl">signupResponse</span><span class="p">:</span> <span class="p">{</span> 
+       <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto successfully added"</span><span class="p">,</span> 
+       <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='sign-in-user'>Sign in User</h2><h3 id='request-3'>Request</h3>
+<ul>
+<li>Endpoint:POST: /api/v1/user/signin</li>
+<li>Body (application/json)</li>
+</ul>
+<h3 id='response-3'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Signin</span> <span class="nx">User</span>
+<span class="p">{</span>
+   <span class="nl">signinRequest</span><span class="p">:</span> <span class="p">{</span> 
+    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"sarada"</span>
+   <span class="p">}</span>
+
+   <span class="nl">signinResponse</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span> 
+            <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
+            <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
+        <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='to-verify-a-user-exists'>To verify a User exists</h2><h3 id='request-4'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/user/checkUser</li>
+<li>Body (application/json)</li>
+</ul>
+<h3 id='response-4'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="nl">checkUserRequest</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
+    <span class="p">}</span>
+
+    <span class="nl">checkUserResponse</span><span class="p">:</span> <span class="p">{</span>
+
+        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span> 
+            <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
+            <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span> 
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><h2 id='to-help-user-get-started-with-reseting-password'>To help user get started with reseting password</h2><h3 id='request-5'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/user/resetPassword</li>
+<li>Body (application/json)</li>
+</ul>
+<h3 id='response-5'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="p">{</span>
+    <span class="nl">resetPasswordRequest</span><span class="p">:{</span>
+
+        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
+
+    <span class="p">}</span>
+
+    <span class="nl">resetPasswordResponse</span><span class="p">:{</span>
+
+       <span class="p">{</span> 
+           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Verification code sent"</span>
+
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='to-verify-code-for-reseting-password-and-update-password'>To verify code for reseting password and update password</h2><h3 id='request-6'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/user/verifyCode</li>
+<li>Body (application/json)</li>
+</ul>
+<h3 id='response-6'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+   <span class="nl">verifyCodeRequest</span><span class="p">:</span> <span class="p">{</span>
+
+        <span class="s2">"code"</span><span class="p">:</span> <span class="s2">"verificationCode"</span><span class="p">,</span>
+
+        <span class="s2">"newPassword"</span><span class="p">:</span> <span class="s2">"myNewPassword"</span>
+    <span class="p">}</span>
+
+    <span class="nl">verifyCodeResponse</span><span class="p">:</span> <span class="p">{</span>
+
+       <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"password updated successfully"</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h1 id='groups'>Groups</h1><h2 id='create-a-new-group'>Create a new group</h2><h3 id='request'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/group</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>  <span class="nx">Create</span> <span class="nx">a</span> <span class="nx">group</span>
+   <span class="p">{</span>
+     <span class="nl">request</span><span class="p">:</span> <span class="p">{</span>
+       <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Team 7"</span>
+     <span class="p">}</span>
+
+     <span class="nl">response</span><span class="p">:</span> <span class="p">{</span>
+         <span class="p">{</span> 
+             <span class="s2">"group"</span><span class="p">:</span> 
+             <span class="p">{</span> 
+                 <span class="s2">"message"</span><span class="p">:</span> <span class="s1">'Team 7 created successfully'</span><span class="p">,</span> 
+                 <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                     <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"Team 7"</span><span class="p">,</span>
+                     <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
+                     <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span>
+                 <span class="p">}</span>
+             <span class="p">}</span> 
+         <span class="p">}</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre><h2 id='add-user-to-a-group'>Add user to a group</h2><h3 id='request-2'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/group/:groupId/user</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response-2'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Add</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
+<span class="p">{</span>
+   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
+      <span class="nl">userId</span><span class="p">:</span> <span class="mi">1</span>
+   <span class="p">}</span>
+
+   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
+       <span class="nl">message</span><span class="p">:</span> <span class="s1">'user added successfully'</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='post-message-to-a-group'>Post message to a group</h2><h3 id='request-3'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/group/:groupId/message</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response-3'>Response</h3>
+<ul>
+<li>Status: 201: CREATED</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Post</span> <span class="nx">message</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
+<span class="p">{</span>
+   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
+      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"how are you?"</span><span class="p">,</span>
+      <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+   <span class="p">}</span>
+
+   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
+       <span class="p">{</span> 
+           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
+           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">15</span>
+                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
+                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
+                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='get-all-messages-in-a-group'>Get all messages in a group</h2><h3 id='request-4'>Request</h3>
+<ul>
+<li>Endpoint: GET: /api/v1/group/:groupId/messages</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response-4'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Get</span> <span class="nx">all</span> <span class="nx">messages</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">group</span>
+<span class="p">{</span>
+
+   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
+      <span class="nl">posts</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span> 
+           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
+           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
+                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
+                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
+           <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="p">{</span> 
+           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
+           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
+                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"am fine"</span>
+                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
+                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"blaze"</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='get-all-group-notifications'>Get all group notifications</h2><h3 id='request-5'>Request</h3>
+<ul>
+<li>Endpoint: GET: /api/v1/user/notifications</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response-5'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Post</span> <span class="nx">message</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
+<span class="p">{</span>
+   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
+      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"how are you?"</span><span class="p">,</span>
+      <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+   <span class="p">}</span>
+
+   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
+       <span class="p">{</span> 
+           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
+           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">15</span>
+                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
+                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
+                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
+                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre><h2 id='delete-all-notifications'>Delete all notifications</h2><h3 id='request-6'>Request</h3>
+<ul>
+<li>Endpoint: DELETE: /api/v1/user/delete/notifications</li>
+<li>Requires: Authentication</li>
+</ul>
+<h3 id='response-6'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">Delete</span> <span class="nx">all</span> <span class="nx">notifications</span>
+
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nl">message</span><span class="p">:</span> <span class="s1">'All notifications deleted'</span>
+<span class="p">}</span>
+
+
+</code></pre><h2 id='check-if-group-exists'>Check if group exists</h2><h3 id='request-7'>Request</h3>
+<ul>
+<li>Endpoint: GET: /api/v1/group/:name</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-7'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"ataksuki"</span><span class="p">,</span>
+        <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"nagato"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+</code></pre><h2 id='get-groups-user-is-a-member'>Get groups user is a member</h2><h3 id='request-8'>Request</h3>
+<ul>
+<li>Endpoint:  GET: /api/v1/user/groups</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-8'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:{</span>
+    <span class="s2">"usergroups"</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"bad guys"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"menma"</span><span class="p">,</span>
+            <span class="s2">"UserGroups"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:07:25.240Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:07:25.240Z"</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"good guys "</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
+            <span class="s2">"UserGroups"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T17:13:16.157Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T17:13:16.157Z"</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+    <span class="p">]</span>
+
+<span class="p">}</span>
+
+
+</code></pre><h2 id='when-user-reads-a-message'>When user reads a message</h2><h3 id='request-9'>Request</h3>
+<ul>
+<li>Endpoint: POST: /api/v1/user/:messageId/read</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-9'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"user read this mesage"</span><span class="p">,</span>
+    <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"test-post"</span><span class="p">,</span>
+        <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span><span class="p">,</span>
+        <span class="s2">"messageCreator"</span><span class="p">:</span> <span class="s2">"johnny"</span><span class="p">,</span>
+        <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:44.720Z"</span><span class="p">,</span>
+        <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:44.720Z"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+
+
+</code></pre><h2 id='get-all-users-who-read-a-message'>Get all users who read a message</h2><h3 id='request-10'>Request</h3>
+<ul>
+<li>Endpoint: GET: /api/v1/message/:messageId/readers</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-10'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"users"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
+            <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"naruto@konoha.com"</span><span class="p">,</span>
+            <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"$2a$10$oBa5iH8tGO8JeeKTLCogTOM8/43bEZ4ZROTQpqLTEcJ3OFfhlJx2i"</span><span class="p">,</span>
+            <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0902345957"</span><span class="p">,</span>
+            <span class="s2">"verificationCode"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="s2">"ReadMessages"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"messageId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:43.722Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:43.722Z"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+
+</code></pre><h2 id='get-the-number-of-unread-messages'>Get the number of unread messages</h2><h3 id='request-11'>Request</h3>
+<ul>
+<li>Endpoint: POST:  /api/v1/user/:groupId/unreadMessages</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-11'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"unreadMessages"</span><span class="p">:</span> <span class="mi">1</span>    
+<span class="p">}</span>
+
+
+</code></pre><h2 id='get-all-members-of-a-group'>Get all members of a group</h2><h3 id='request-12'>Request</h3>
+<ul>
+<li>Endpoint: GET:  /api/v1/group/:groupId/users</li>
+<li>Requires: Authentication </li>
+</ul>
+<h3 id='response-12'>Response</h3>
+<ul>
+<li>Status: 200: OK</li>
+<li>Body (application/json)</li>
+</ul>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"members"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"naruto"</span><span class="p">,</span>
+        <span class="s2">"bat"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+</code></pre><h1 id='status-codes'>Status codes</h1>
+<aside class="notice">This sections is to let you know the different kinds of status codes used in this API</aside>
+
+<p>The PostIt API uses the following status codes:</p>
+
+<table><thead>
+<tr>
+<th>Status Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK - Your request was successful.</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created - Your request was successful and has resulted in a new resource being created.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request is not correct.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- You have not entered correct signin/login details.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- You trying to access a resource that is restricted.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- Your request could not be found on the server.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -53,14 +53,14 @@ const getUnreadMessages = groupId => (dispatch) => {
   axios.get(`/api/v1/user/${groupId}/unreadMessages`)
     .then((res) => {
       dispatch(handleSuccess(null, 'SET_UNREAD_MESSAGES'));
-      dispatch(setUnreadMessages(res.data));
+      dispatch(setUnreadMessages(res.data.messages));
     })
     .catch(() => {
       dispatch(handleErrors(null, 'SET_UNREAD_MESSAGES_FAILED'));
     });
 };
 
-const getUsersWhoReadMessage = messageId => dispatch => axios.post(`/api/v1/message/${messageId}/readers`)
+const getUsersWhoReadMessage = messageId => dispatch => axios.get(`/api/v1/message/${messageId}/readers`)
               .then((res) => {
                 if (res.data.users) {
                   dispatch(setUsersWhoReadMessage(res.data.users));

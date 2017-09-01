@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 /**
  * @class
@@ -26,18 +27,22 @@ export class FlashMessage extends React.Component {
    * @returns {void}
    */
   render() {
-    const { text } = this.props.message;
+    const { text, type } = this.props.message;
 
     return (
 
-      <div className="chip flashMessage">
-        {text}
-        <i
+      <div className={classnames('alert', {
+        'alert-success': type === 'success',
+        'alert-danger': type === 'error'
+      })}
+      >
+        <a
           role="button"
           tabIndex={0}
           onClick={this.onClick}
-          className="close material-icons"
-        >close</i>
+        >
+          <i className="small close material-icons" >close</i></a>
+        {text}
       </div>
 
     );

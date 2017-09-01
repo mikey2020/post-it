@@ -37,9 +37,13 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
 userRoutes(app);
 groupRoutes(app);
 
+app.get('/api-docs', (req, res) =>
+  res.sendFile(path.join(__dirname, '../api-docs/index.html'))
+);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/client/index.html'));

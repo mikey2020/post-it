@@ -117,7 +117,7 @@ class UserController {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static getUsers(req, res) {
-    User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+    User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
       where: {
         username: {
           $iLike: `%${req.body.username}%`

@@ -4,8 +4,8 @@ import React from 'react';
  * @class
  */
 export default () => (
-  <div id="landing-page">
-    <h2 className="well well-sm welcome-text blue-grey darken-3"> Welcome to Post It</h2>
+  <div className="landing-page">
+    <h2 className="light-blue darken-4"> Welcome to Post It</h2>
   </div>
   );
 

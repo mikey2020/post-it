@@ -252,7 +252,7 @@ class GroupController {
         message.addUser(req.decoded.data.id).then(() => {
           res.status(201).json({ message: 'user read this mesage', data: message });
         }).catch(() => {
-          res.status(500).json({ message: 'something went wrong registering read message' });
+          res.status(500).json({ message: 'something went wrong' });
         });
       }
     })
@@ -349,31 +349,15 @@ class GroupController {
    * @returns {object} - if there is no error, it returns array of users in a group
    */
   static getUserNotifications(req, res) {
-    const userNotifications = [];
     models.User.findOne({
       where: {
         id: req.decoded.data.id
-      },
-      include: [
-        { model: models.Group, include: [{ model: models.Notification }] }
-      ],
+      }
     })
     .then((user) => {
-      const responseObj = { ...[],
-        username: user.username,
-        groups: user.Groups.map(group => ({ ...{},
-          groupName: group.groupname,
-          notifications: group.Notifications.map(
-            notification => ({ ...{}, event: notification.event })) })) };
-      const notifications = responseObj.groups;
-      Object.keys(notifications).forEach((notification) => {
-        userNotifications.push(notifications[notification].notifications);
+      user.getNotifications().then((notices) => {
+        res.json({ notices });
       });
-      const userNotices = userNotifications.reduce(
-        (a, b) => a.concat(b),
-        []
-      );
-      res.status(200).json({ userNotices });
     })
     .catch(() => {
       res.status(404).json({ message: 'You have no notification' });
@@ -401,7 +385,7 @@ class GroupController {
    * @param {Object} req
    * @param {Object} res
    */
-  static getUnreadMessagesNumber(req, res) {
+  static getUnreadMessages(req, res) {
     models.Message.findAndCountAll({
       where: {
         groupId: req.params.groupId,
@@ -409,7 +393,8 @@ class GroupController {
       }
     })
     .then((messages) => {
-      const allMessages = messages.count;
+      const allMessagesNumber = messages.count;
+      const allMessages = messages.rows;
       models.User.findOne({
         where: {
           id: req.decoded.data.id
@@ -418,8 +403,8 @@ class GroupController {
       .then((user) => {
         user.getMessages({ where: { groupId: req.params.groupId } }).then((readMessages) => {
           const numberOfReadMessages = readMessages.length;
-          const unreadMessages = Math.abs(allMessages - numberOfReadMessages);
-          res.status(200).json({ unreadMessages });
+          const unreadMessages = Math.abs(allMessagesNumber - numberOfReadMessages);
+          res.status(200).json({ number: unreadMessages, messages: allMessages });
         });
       });
     })
