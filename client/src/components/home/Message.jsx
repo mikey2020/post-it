@@ -6,10 +6,18 @@ import PropTypes from 'prop-types';
  */
 export class Message extends React.Component {
   /**
-   * @returns {void}
+   * 
+   * @param {*} props
    */
-  componentDidMount() {
-    // this.props.readMessage(this.props.messageId);
+  constructor(props) {
+    super(props);
+
+    this.handleOnClick = this.handleOnClick.bind(this);
+  }
+  /**
+   * @returns void
+   */
+  handleOnClick() {
     this.props.getUsersWhoReadMessage(this.props.messageId);
   }
   /**
@@ -32,6 +40,7 @@ export class Message extends React.Component {
               <a
                 href="#modal5"
                 className="messageReaders"
+                onClick={this.handleOnClick}
               ><i className="material-icons">report</i></a>
             </div>
           </ul>

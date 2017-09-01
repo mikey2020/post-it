@@ -6,6 +6,7 @@ import models from '../models';
 
 const Group = models.Group;
 const Message = models.Message;
+// const ReadMessages = models.ReadMessages;
 
 dotenv.config();
 /**
@@ -250,7 +251,7 @@ class GroupController {
     }).then((message) => {
       if (req.decoded.data.id !== message.userId) {
         message.addUser(req.decoded.data.id).then(() => {
-          res.status(201).json({ message: 'user read this mesage', data: message });
+          res.status(201).json({ message: 'user read this message', data: message });
         }).catch(() => {
           res.status(500).json({ message: 'something went wrong' });
         });
@@ -428,6 +429,7 @@ class GroupController {
       });
     });
   }
+
 }
 export default GroupController;
 

@@ -51,6 +51,9 @@ export class Messages extends React.Component {
     const { group } = this.props;
     const { limit, offset } = this.state;
     this.props.getGroupMessages(group.id, limit, offset);
+    this.props.messages.map((message) => {
+      this.props.readMessage(message.id);
+    });
   }
   /**
    * @param {object} prevProps - previous props
@@ -161,13 +164,16 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-        { this.props.messages.length > 0 ?
+        { this.props.messages.length >= 5 ?
+        <div>
         <a
           href=""
           onClick={this.viewArchived}
           className="archived btn light-blue"
         >
-          view archived</a> : <h2> No new messages </h2>}
+          view archived</a> </div> : <h4 className="archived btn light-blue">All messages</h4>
+        }
+
         <div className="all-messages"><ul>{allMessages}</ul></div>
 
         <div className="row">
@@ -229,7 +235,8 @@ Messages.propTypes = {
 const mapStateToProps = state => ({
   messages: state.Messages,
   group: state.currentGroup,
-  username: state.user.user.username
+  username: state.user.user.username,
+  userId: state.user.user.id
 });
 
 

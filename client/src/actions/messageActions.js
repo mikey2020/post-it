@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE, SET_UNREAD_MESSAGES } from '../actions/types';
+import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE, SET_UNREAD_MESSAGES, SET_CURRENT_MESSAGE } from '../actions/types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
 import { handleErrors, handleSuccess } from './errorAction';
 
@@ -21,6 +21,11 @@ const setUsersWhoReadMessage = users => ({
 const setUnreadMessages = messages => ({
   type: SET_UNREAD_MESSAGES,
   messages
+});
+
+const setCurrentMessage = message => ({
+  type: SET_CURRENT_MESSAGE,
+  message
 });
 
 const getGroupMessages = (groupId, limit, offset) => dispatch => axios.get(`/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
@@ -69,7 +74,6 @@ const getUsersWhoReadMessage = messageId => dispatch => axios.get(`/api/v1/messa
               .catch(() => {
                 dispatch(handleErrors(null, 'SET_USERS_WHO_READ_MESSAGE_FAILED'));
               });
-
 
 export { getGroupMessages,
 postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages, getUsersWhoReadMessage };

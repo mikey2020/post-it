@@ -54,6 +54,23 @@ class Unique {
     });
   }
 
+  static checkMessageNumber(req, res, next) {
+    console.log('=======[[[[[[[[=========--=====-00a====');
+    models.Message.findAndCountAll({
+      where: {
+        groupId: req.params.groupId,
+        userId: req.decoded.data.id
+      }
+    }).then((message) => {
+      const messageNumber = message.count;
+      if (messageNumber <= req.query.offset) {
+        req.query.limit = messageNumber;
+        req.query.offset = 0;
+      }
+      next();
+    });
+  }
+
 }
 
 
