@@ -36,7 +36,7 @@ export class ResetPassword extends React.Component {
    * @returns {void}
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value, errors: { } });
   }
   /**
    * @param {Object} event
@@ -146,7 +146,7 @@ export class ResetPassword extends React.Component {
                 name="username"
               />
 
-              <inpu
+              <input
                 disabled={this.state.invalid}
                 type="submit"
                 name="sign up"

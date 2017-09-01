@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import addUser from '../../actions/signupActions';
 import Validations from '../../../validations';
@@ -20,16 +21,20 @@ export class SignupForm extends React.Component {
     super(props);
     this.state = {
       username: '',
+      googleUsername: '',
+      googleEmail: '',
       email: '',
       phoneNumber: '',
       password: '',
       passwordConfirmation: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      showGoogleButton: false
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
   /**
    * @param {object} e - argument
@@ -64,12 +69,26 @@ export class SignupForm extends React.Component {
 
     return isValid;
   }
+
+  /**
+    * @returns {void}
+    * @param {Object} response
+    */
+  responseGoogle(response) {
+     const profile = response.getBasicProfile();
+     const userData = {
+       username: profile.ig,
+       email: profile.U3 };
+     this.setState({ googleEmail: userData.email,
+       googleUsername: userData.username,
+       showGoogleButton: true });
+   }
   /**
    *
    * @returns {component} - renders a React component
    */
   render() {
-    const { errors } = this.state;
+    const { errors, username, googleUsername, email, googleEmail, showGoogleButton } = this.state;
     return (
       <div className="" id="signup-body">
         <center>
@@ -78,7 +97,7 @@ export class SignupForm extends React.Component {
               <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
               {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
               <input
-                value={this.state.username}
+                value={username || googleUsername}
                 onChange={this.onChange}
                 type="text"
                 placeholder="username"
@@ -89,7 +108,7 @@ export class SignupForm extends React.Component {
               {errors.email ? <span className="help-block">{errors.email}</span> : <br />}
 
               <input
-                value={this.state.email}
+                value={email || googleEmail}
                 onChange={this.onChange}
                 type="email"
                 placeholder="email"
@@ -145,7 +164,15 @@ export class SignupForm extends React.Component {
                 value="Sign Up"
                 className="btn waves-effect waves-light light-blue accent-4"
               />
-
+              
+               <GoogleLogin
+                  clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
+                  buttonText="Sign Up with Google"
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                  className="btn  google-btn waves-effect waves-red "
+                  disabled={showGoogleButton}
+              />
             </div>
           </form>
         </center>

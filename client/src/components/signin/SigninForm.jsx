@@ -93,13 +93,11 @@
     * @param {Object} response
     */
    responseGoogle(response) {
+     console.log(response);
      const profile = response.getBasicProfile();
      const userData = {
        username: profile.ig,
-       email: profile.U3,
-       phoneNumber: 'agoogleuser',
-       password: response.googleId,
-       passwordConfirmation: response.googleId };
+       email: profile.U3 };
      this.props.validateGoogleUser(userData);
    }
 
