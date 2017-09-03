@@ -49,6 +49,7 @@
        this.setState({ errors: {}, isLoading: true });
        this.props.validateUser(this.state).then(() => {
          this.context.router.push('/home');
+         this.setState({ errors: {}, username: '', password: '' });
        });
      }
    }

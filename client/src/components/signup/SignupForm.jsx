@@ -75,14 +75,14 @@ export class SignupForm extends React.Component {
     * @param {Object} response
     */
   responseGoogle(response) {
-     const profile = response.getBasicProfile();
-     const userData = {
-       username: profile.ig,
-       email: profile.U3 };
-     this.setState({ googleEmail: userData.email,
-       googleUsername: userData.username,
-       showGoogleButton: true });
-   }
+    const profile = response.getBasicProfile();
+    const userData = {
+      username: profile.ig,
+      email: profile.U3 };
+    this.setState({ googleEmail: userData.email,
+      googleUsername: userData.username,
+      showGoogleButton: true });
+  }
   /**
    *
    * @returns {component} - renders a React component
@@ -164,14 +164,14 @@ export class SignupForm extends React.Component {
                 value="Sign Up"
                 className="btn waves-effect waves-light light-blue accent-4"
               />
-              
-               <GoogleLogin
-                  clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
-                  buttonText="Sign Up with Google"
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle}
-                  className="btn  google-btn waves-effect waves-red "
-                  disabled={showGoogleButton}
+
+              <GoogleLogin
+                clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
+                buttonText="Sign Up with Google"
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                className="btn  google-btn waves-effect waves-red "
+                disabled={showGoogleButton}
               />
             </div>
           </form>

@@ -79,7 +79,8 @@ export class AddUserPage extends React.Component {
     return (
       <div id="modal3" className="modal adduserpage">
 
-        { errors.message && <div className="alert alert-danger"> {errors.message} </div>}
+        { errors.message &&
+          <div className="alert alert-danger"> {errors.message} </div>}
 
         {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
         <h2 className="addUser-header"> Search for users </h2>
@@ -88,6 +89,7 @@ export class AddUserPage extends React.Component {
             type="text"
             placeholder="Enter username"
             name="username"
+            id="username"
             onChange={this.searchUsers}
             className="username"
             value={username}
@@ -116,4 +118,5 @@ const mapStateToProps = state => ({
   groupId: state.currentGroup.id
 });
 
-export default connect(mapStateToProps, { addUserToGroup, getUsers })(AddUserPage);
+export default connect(mapStateToProps,
+ { addUserToGroup, getUsers })(AddUserPage);

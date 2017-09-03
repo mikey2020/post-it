@@ -60,6 +60,11 @@ The following features make up the PostIt API:
 **N/B:** For all endpoints that require authentication, use \
 `Authorization: <token>`
 
+### **Limitations**
+* Users cannot update a group's name 
+* Users cannot update/change their information
+* Users cannot remove another user from a group 
+
 ### How to Contribute
 Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
 

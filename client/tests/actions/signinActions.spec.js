@@ -1,7 +1,6 @@
 /* global jest */
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import axios from 'axios';
 import expect from 'expect';
 import MockLocalStorage from 'mock-localstorage';
@@ -16,9 +15,6 @@ const token = 'token';
 window.localStorage = mockStorage;
 
 describe('Signin actions', () => {
-  beforeEach(() => moxios.install());
-  afterEach(() => moxios.uninstall());
-
   it('creates an error flash message when user is invalid ', () => {
     const store = mockStore({ isAuthenticated: false, user: {} });
     const expectedActions = [{ type: 'ADD_FLASH_MESSAGE', message: { type: 'error', text: 'Invalid Signin Parameters' } }];
