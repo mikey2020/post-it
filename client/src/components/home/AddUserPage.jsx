@@ -30,7 +30,6 @@ export class AddUserPage extends React.Component {
       offset: '',
       pageOfItems: []
     };
-    console.log('this props', this.props);
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
   }
