@@ -21,6 +21,7 @@ export class ResetPassword extends React.Component {
       code: '',
       errors: {},
       isLoading: false,
+      invalid: true,
       status: 'enter username',
       newPassword: '',
       newPasswordConfirmation: ''
@@ -36,7 +37,7 @@ export class ResetPassword extends React.Component {
    * @returns {void}
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value, errors: { } });
+    this.setState({ [event.target.name]: event.target.value, errors: {},  });
   }
   /**
    * @param {Object} event

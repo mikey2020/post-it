@@ -51,9 +51,7 @@ export class Messages extends React.Component {
     const { group } = this.props;
     const { limit, offset } = this.state;
     this.props.getGroupMessages(group.id, limit, offset);
-    this.props.messages.map((message) => {
-      this.props.readMessage(message.id);
-    });
+    this.props.messages.map(message => this.props.readMessage(message.id));
   }
   /**
    * @param {object} prevProps - previous props
@@ -166,14 +164,14 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-        { this.props.messages.length >= 5 ?
-        <div>
-        <a
-          href=""
-          onClick={this.viewArchived}
-          className="archived btn light-blue"
-        >
-          view archived</a> </div> : <h4 className="archived  light-blue">All messages</h4>
+        { this.props.messages.length > 0 ?
+          <div>
+            <a
+              href=""
+              onClick={this.viewArchived}
+              className="archived btn light-blue"
+            >
+          view archived</a> </div> : <h3 className="white"> No Messages in group yet </h3>
         }
 
         <div className="all-messages"><ul>{allMessages}</ul></div>
@@ -211,6 +209,7 @@ export class Messages extends React.Component {
               <button
                 className="btn waves-effect waves-light post-message-button"
                 type="submit"
+                id="post-message-button"
                 name="action"
               >Post <i className="material-icons right">send</i>
               </button>

@@ -18,7 +18,7 @@ class Notifications extends React.Component {
     super(props);
     socket.on('new message posted', (message) => {
       if (this.props.username !== message.messageCreator) {
-        this.props.addNotification(`${message.messageCreator} posted '${message.content}' to a group which you are a member`);
+        this.props.addNotification(`${message.messageCreator} posted a message to a group which you are a member`);
       }
     });
   }
@@ -38,8 +38,8 @@ class Notifications extends React.Component {
     );
     return (
       <div id="modal4" className="modal notifications">
-        <h1> Notifications </h1>
-        <ul className="collection">{allNotifications}</ul>
+        <h1 className="notification-header"> Notifications </h1>
+        <ul className="collection notice">{allNotifications}</ul>
       </div>
     );
   }

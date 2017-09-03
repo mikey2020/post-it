@@ -44,8 +44,10 @@ class UserController {
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
-        const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '5h' });
-        res.status(201).json({ message: `${req.body.username} successfully added`, userToken: token });
+        const token = jwt.sign({ data: userData },
+        process.env.JWT_SECRET, { expiresIn: '5h' });
+        res.status(201).json({ message: `${req.body.username} successfully added`,
+          userToken: token });
       })
       .catch(() => {
         res.status(400).json({ errors: { message: 'User already exists' } });
@@ -117,7 +119,8 @@ class UserController {
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
   static getUsers(req, res) {
-    User.findAll({ attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
+    User.findAll({ attributes:
+      { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
       where: {
         username: {
           $iLike: `%${req.body.username}%`
@@ -160,7 +163,7 @@ class UserController {
    * @param {String} verificationCode
    */
   static sendVerificationCode(userEmail, username, verificationCode) {
-    const url = 'http://localhost:3000';
+    const url = process.env.URL;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

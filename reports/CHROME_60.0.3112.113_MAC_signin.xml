@@ -4,12 +4,36 @@
             tests="3">
 
   <testsuite name="signin"
-    errors="0" failures="1" hostname="" id="" package="signin" skipped="2"
-    tests="3" time="6.569" timestamp="Wed, 30 Aug 2017 05:40:48 GMT">
+    errors="0" failures="1" hostname="" id="" package="signin" skipped="0"
+    tests="3" time="33.13" timestamp="Sat, 02 Sep 2017 19:11:58 GMT">
   
-    <testcase name="User sign in without credentials" classname="signin" time="6.569" assertions="2">
+    <testcase name="Shows `error message` when user tries to sign in with invalid username" classname="signin" time="9.183" assertions="4">
 
-      <failure message="Timed out while waiting for element &lt;#login-button&gt; to be present for 2000 milliseconds.">    at Object.User sign in without credentials (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signin.js:7:8)
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User gets success flash Message when sign in is successful" classname="signin" time="8.275" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Shows `alert error box` when user tries to sign in with invalid credentials" classname="signin" time="15.67" assertions="2">
+
+      <failure message="Timed out while waiting for element &lt;#modal1&gt; to be visible for 2000 milliseconds.">    at Object.Shows `alert error box` when user tries to sign in with invalid credentials (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signin.js:37:8)
     at _combinedTickCallback (internal/process/next_tick.js:73:7)</failure>
 
     
@@ -17,44 +41,7 @@
   
 
   
-    <system-err>
-      ERROR: Unable to locate element: &quot;input[name=username]&quot; using: css selector
-    at Object.Sign up test (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signup.js:6:8)
-    at Module.call (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/lib/runner/module.js:62:34)
-    at /Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/lib/runner/testcase.js:70:29
-    at _fulfilled (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:834:54)
-    at self.promiseDispatch.done (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:863:30)
-    at Promise.promise.promiseDispatch (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:796:13)
-    at /Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:556:49
-    at runSingle (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:137:13)
-    at flush (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:125:13)
-    at _combinedTickCallback (internal/process/next_tick.js:73:7)
-ERROR: Unable to locate element: &quot;input[name=password]&quot; using: css selector
-    at Object.Sign up test (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signup.js:7:8)
-    at Module.call (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/lib/runner/module.js:62:34)
-    at /Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/lib/runner/testcase.js:70:29
-    at _fulfilled (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:834:54)
-    at self.promiseDispatch.done (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:863:30)
-    at Promise.promise.promiseDispatch (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:796:13)
-    at /Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:556:49
-    at runSingle (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:137:13)
-    at flush (/Users/andeladeveloper/Desktop/post-it/node_modules/nightwatch/node_modules/q/q.js:125:13)
-    at _combinedTickCallback (internal/process/next_tick.js:73:7)
-    </system-err>
-  
 
-  
-    
-    <testcase
-      name="User sign in with wrong email" classname="signin">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="User sign in success" classname="signin">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>
