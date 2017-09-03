@@ -5,9 +5,9 @@
 
   <testsuite name="signup"
     errors="0" failures="1" hostname="" id="" package="signup" skipped="0"
-    tests="1" time="20.53" timestamp="Sat, 02 Sep 2017 19:12:31 GMT">
+    tests="1" time="24.07" timestamp="Sun, 03 Sep 2017 15:20:23 GMT">
   
-    <testcase name="A message is shown when there is no credentials supplied to the signup form" classname="signup" time="20.53" assertions="4">
+    <testcase name="A message is shown when there is no credentials supplied to the signup form" classname="signup" time="24.07" assertions="4">
 
     
 

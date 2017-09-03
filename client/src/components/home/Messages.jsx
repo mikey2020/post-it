@@ -164,14 +164,14 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-        { this.props.messages.length > 0 ?
+        { this.props.messages.length > this.state.limit ?
           <div>
             <a
               href=""
               onClick={this.viewArchived}
               className="archived btn light-blue"
             >
-          view archived</a> </div> : <h3 className="white"> No Messages in group yet </h3>
+          view archived</a> </div> : <p>Messages </p>
         }
 
         <div className="all-messages"><ul>{allMessages}</ul></div>

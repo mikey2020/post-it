@@ -94,7 +94,7 @@ export class SignupForm extends React.Component {
         <center>
           <form onSubmit={this.onSubmit}>
             <div className="jumbotron signup-form">
-              <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
+              <span id="signup-header" className="flow-text"><h3> Sign Up </h3></span>
               {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
               <input
                 value={username || googleUsername}

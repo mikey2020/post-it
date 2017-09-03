@@ -30,7 +30,7 @@ export class AddUserPage extends React.Component {
       offset: '',
       pageOfItems: []
     };
-
+    console.log('this props', this.props);
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
   }
@@ -115,7 +115,7 @@ AddUserPage.propTypes = {
 
 const mapStateToProps = state => ({
   users: state.users,
-  groupId: state.currentGroup.id
+  groupId: parseInt(state.currentGroup.id, 10)
 });
 
 export default connect(mapStateToProps,

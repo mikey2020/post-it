@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addUserToGroup } from '../../actions/groupActions';
+import { getMembersOfGroup } from '../../actions/userActions';
 /**
  *  User class component
  * @class
@@ -24,7 +25,19 @@ export class User extends React.Component {
    * @returns {void}
    */
   componentDidMount() {
+    this.props.getMembersOfGroup(this.props.groupId);
     this.checkUserIsMember(this.props.username);
+  }
+
+  /**
+   * @param {object} prevProps - previous props
+   * @returns {void}
+   */
+  componentDidUpdate(prevProps) {
+    if (this.props.groupId !== prevProps.groupId) {
+      const { groupId } = this.props;
+      this.props.getMembersOfGroup(groupId);
+    }
   }
 
   /**
@@ -77,6 +90,7 @@ User.propTypes = {
   username: PropTypes.string.isRequired,
   addUserToGroup: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
+  getMembersOfGroup: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
@@ -86,4 +100,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addUserToGroup })(User);
+export default connect(mapStateToProps, { addUserToGroup, getMembersOfGroup })(User);
