@@ -4,88 +4,14 @@
             tests="3">
 
   <testsuite name="home"
-    errors="0" failures="1" hostname="" id="" package="home" skipped="0"
-    tests="3" time="48.72" timestamp="Sun, 03 Sep 2017 05:21:18 GMT">
+    errors="0" failures="1" hostname="" id="" package="home" skipped="2"
+    tests="3" time="37.14" timestamp="Sun, 03 Sep 2017 15:18:45 GMT">
   
-    <testcase name="User should be able to create a group and add user to the group" classname="home" time="24.25" assertions="19">
+    <testcase name="User should be able to create a group and add user to the group" classname="home" time="37.14" assertions="3">
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="User sees a logout button when he signs in successfully and able to signout" classname="home" time="7.225" assertions="7">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="User should be see the message they posted to a group immediately after posting it" classname="home" time="17.25" assertions="11">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-      <failure message="Timed out while waiting for element &lt;.message&gt; to be present for 3000 milliseconds.">    at Object.User should be see the message they posted to a group immediately after posting it (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/home.js:85:8)
+      <failure message="Timed out while waiting for element &lt;#modal1&gt; to be visible for 3000 milliseconds.">    at Object.User should be able to create a group and add user to the group (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/home.js:8:8)
     at _combinedTickCallback (internal/process/next_tick.js:73:7)</failure>
 
     
@@ -94,6 +20,18 @@
 
   
 
+  
+    
+    <testcase
+      name="User sees a logout button when he signs in successfully and able to signout" classname="home">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="User should be see the message they posted to a group immediately after posting it" classname="home">
+      <skipped />
+    </testcase>
+    
   
   </testsuite>
 </testsuites>

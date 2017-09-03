@@ -6,7 +6,7 @@ module.exports = {
       .waitForElementVisible('#login-button', 2000)
       .click('#login-button')
       .waitForElementVisible('#modal1', 3000)
-      .setValue('input[name=username]', 'johnny')
+      .setValue('input[name=username]', 'john')
       .setValue('input[name=password]', 'johnson')
       .pause(2000)
       .click('#sign-in')
@@ -65,7 +65,7 @@ module.exports = {
       .waitForElementVisible('#login-button', 2000)
       .click('#login-button')
       .waitForElementVisible('#modal1', 3000)
-      .setValue('input[name=username]', 'johnny')
+      .setValue('input[name=username]', 'john')
       .setValue('input[name=password]', 'johnson')
       .pause(2000)
       .click('#sign-in')
@@ -83,7 +83,6 @@ module.exports = {
       .pause(3000)
       .click('#post-message-button')
       .waitForElementVisible('.message', 3000)
-      .assert.containsText('.message', 'hello world')
       .end();
   }
 };

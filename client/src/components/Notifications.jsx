@@ -26,7 +26,9 @@ class Notifications extends React.Component {
    * @returns {void}
    */
   componentDidMount() {
-    this.props.getNotifications();
+    if (this.props.username !== undefined) {
+      this.props.getNotifications();
+    }
   }
     /**
    *

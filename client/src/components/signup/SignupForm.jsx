@@ -75,10 +75,10 @@ export class SignupForm extends React.Component {
     * @param {Object} response
     */
   responseGoogle(response) {
-    const profile = response.getBasicProfile();
+    const profile = response.profileObj;
     const userData = {
-      username: profile.ig,
-      email: profile.U3 };
+      username: profile.name,
+      email: profile.email };
     this.setState({ googleEmail: userData.email,
       googleUsername: userData.username,
       showGoogleButton: true });
@@ -94,7 +94,7 @@ export class SignupForm extends React.Component {
         <center>
           <form onSubmit={this.onSubmit}>
             <div className="jumbotron signup-form">
-              <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
+              <span id="signup-header" className="flow-text"><h3> Sign Up </h3></span>
               {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
               <input
                 value={username || googleUsername}

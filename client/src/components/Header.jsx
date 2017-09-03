@@ -23,22 +23,9 @@ export class Header extends React.Component {
       showNotices: 'false'
     };
 
-    // if (this.props.notifications.length > 0) {
-    //   this.setState({ showNotices: 'true' });
-    // } else {
-    //   this.setState({ showNotices: 'true' });
-    // }
-
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
-  // /**
-  //  * @returns {void}
-  //  */
-  // componentWillMount() {
-  //   this.props.getNotifications();
-  // }
-
   /**
    * @param {Object} nextProps
    * @returns {void}

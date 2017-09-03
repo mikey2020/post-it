@@ -4,10 +4,10 @@
             tests="3">
 
   <testsuite name="signin"
-    errors="0" failures="1" hostname="" id="" package="signin" skipped="0"
-    tests="3" time="33.13" timestamp="Sat, 02 Sep 2017 19:11:58 GMT">
+    errors="0" failures="1" hostname="" id="" package="signin" skipped="1"
+    tests="3" time="59.85" timestamp="Sun, 03 Sep 2017 15:19:23 GMT">
   
-    <testcase name="Shows `error message` when user tries to sign in with invalid username" classname="signin" time="9.183" assertions="4">
+    <testcase name="Shows `error message` when user tries to sign in with invalid username" classname="signin" time="27.05" assertions="4">
 
     
 
@@ -18,22 +18,13 @@
     
     </testcase>
   
-    <testcase name="User gets success flash Message when sign in is successful" classname="signin" time="8.275" assertions="5">
+    <testcase name="User gets success flash Message when sign in is successful" classname="signin" time="32.80" assertions="4">
 
     
 
     
 
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Shows `alert error box` when user tries to sign in with invalid credentials" classname="signin" time="15.67" assertions="2">
-
-      <failure message="Timed out while waiting for element &lt;#modal1&gt; to be visible for 2000 milliseconds.">    at Object.Shows `alert error box` when user tries to sign in with invalid credentials (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signin.js:37:8)
+      <failure message="Timed out while waiting for element &lt;.vertical-menu&gt; to be present for 5000 milliseconds.">    at Object.User gets success flash Message when sign in is successful (/Users/andeladeveloper/Desktop/post-it/client/e2e-tests/signin.js:28:8)
     at _combinedTickCallback (internal/process/next_tick.js:73:7)</failure>
 
     
@@ -42,6 +33,13 @@
 
   
 
+  
+    
+    <testcase
+      name="Shows `alert error box` when user tries to sign in with invalid credentials" classname="signin">
+      <skipped />
+    </testcase>
+    
   
   </testsuite>
 </testsuites>

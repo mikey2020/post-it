@@ -66,11 +66,9 @@ class Unique {
       }
     }).then((message) => {
       const messageNumber = message.count;
-      console.log('this is number of messages', messageNumber);
       if (messageNumber <= req.query.offset) {
         req.query.limit = messageNumber;
         req.query.offset = 0;
-        console.log('offset', req.query.offset);
       }
       next();
     });

@@ -28,7 +28,7 @@ export const AllUsers = (props) => {
 AllUsers.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-  groupId: PropTypes.string.isRequired
+  groupId: PropTypes.number.isRequired
 };
 
 
