@@ -49,7 +49,6 @@ export class CreateGroupForm extends React.Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
       this.props.createGroup(this.state);
-        // this.setState({ name: '' });
     }
   }
    /**

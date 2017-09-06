@@ -17,14 +17,14 @@ const setup = () => {
   return shallow(<Sidebar {...props} />);
 };
 
-const props = {
+const mountProps = {
   groups: [],
   getUserGroups: (() => {}),
   userId: '',
   setCurrentGroup: (() => {})
 };
 
-let wrapper = setup();
+const wrapper = setup();
 
 
 describe('Component', () => {
@@ -39,17 +39,9 @@ describe('Component', () => {
 
     it('calls componentDidMount', () => {
       sinon.spy(Sidebar.prototype, 'componentDidMount');
-      const enzymeWrapper = mount(<Sidebar {...props} />);
+      const enzymeWrapper = mount(<Sidebar {...mountProps} />);
       expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
-      expect(enzymeWrapper.node.props.groups).toEqual([]);
+      expect(enzymeWrapper.node.mountProps.groups).toEqual([]);
     });
-
-    // it('calls componentDidUpdate', () => {
-    //   sinon.spy(Sidebar.prototype, 'componentDidUpdate');
-    //   const enzymeWrapper = mount(<Sidebar {...props} />);
-    //   enzymeWrapper.node.props.groups[0] = { groupname: 'new group' };
-    //   expect(Sidebar.prototype.componentDidUpdate.calledOnce).toBe(true);
-    //   expect(enzymeWrapper.node.props.groups).toEqual([{ groupname: 'new group' }]);
-    // });
   });
 });
