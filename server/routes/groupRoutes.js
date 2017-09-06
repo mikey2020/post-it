@@ -1,4 +1,4 @@
-import GroupController from '../controllers/GroupController';
+import GroupController from '../controllers/groupController';
 import Unique from '../middlewares/unique';
 import Validations from '../middlewares/validations';
 
