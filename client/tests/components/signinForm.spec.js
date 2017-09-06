@@ -29,6 +29,8 @@ describe('Component', () => {
       const mockEvent = {
         preventDefault: () => {},
         addUser: () => {},
+        errors: {},
+        isLoading: true
       };
       wrapper.find('form').simulate('submit', mockEvent);
       expect(wrapper.find('form').props().onSubmit).toBeA('function');
@@ -38,6 +40,12 @@ describe('Component', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
       expect(wrapper.find('.username').props().onChange).toBeA('function');
+    });
+
+    it('calls onBlur', () => {
+      const event = { target: { name: 'bat', value: 'man' } };
+      wrapper.find('.username').simulate('blur', event);
+      expect(wrapper.find('.username').props().onBlur).toBeA('function');
     });
   });
 });

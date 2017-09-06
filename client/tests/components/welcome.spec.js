@@ -8,7 +8,7 @@ const enzymeWrapper = shallow(<Welcome />);
 describe('Components', () => {
   describe('<Welcome/>', () => {
     it('should render self and subcomponents', () => {
-      expect(enzymeWrapper.find('h2').text()).toBe(' Welcome to Post It');
+      expect(enzymeWrapper.find('h1').text()).toBe(' Welcome to Post It');
     });
   });
 });

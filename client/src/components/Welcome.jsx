@@ -1,11 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router';
 /**
  *  Welcome class component
  * @class
  */
 export default () => (
   <div className="landing-page">
-    <h2 className="light-blue darken-4"> Welcome to Post It</h2>
+    <div className="overlay">
+      <h1 className="center welcome"> Welcome to Post It</h1>
+      <p className="center welcome-message"> Get started by signing up here </p>
+      <Link className="center btn home-signup-btn" to="/signup">Sign Up</Link>
+    </div>
   </div>
   );
 

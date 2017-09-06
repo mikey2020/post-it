@@ -10,6 +10,7 @@ const setup = () => {
     messages: [],
     group: {},
     postMessage: (() => {}),
+    addMessage: () => {},
     getGroupMessages: (() => {}),
     username: ''
   };
@@ -23,9 +24,23 @@ describe('Component', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red" />)).toBe(false);
       expect(wrapper.find('ul').exists()).toBe(true);
-      expect(wrapper.find('p').exists()).toBe(false);
+      expect(wrapper.find('p').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
       expect(wrapper.find('form').exists()).toBe(true);
     });
+
+    it('calls onChange', () => {
+      const event = { target: { name: 'name', value: 'manny' }, errors: {}, isLoading: false };
+
+      wrapper.find('.materialize-textarea').simulate('change', event);
+      expect(wrapper.find('.materialize-textarea').props().onChange).toBeA('function');
+    });
+
+    it('calls onSubmit', () => {
+      wrapper.find('.post-message-button').simulate('click');
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+      expect(wrapper.find('form').props().onSubmit).toBeA('function');
+    });
   });
 });
+

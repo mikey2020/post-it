@@ -1,4 +1,4 @@
-import UserController from '../controllers/userController';
+import UserController from '../controllers/UserController';
 
 const userRoutes = (app) => {
   app.post('/api/v1/users', UserController.getUsers);

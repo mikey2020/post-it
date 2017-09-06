@@ -23,22 +23,9 @@ export class Header extends React.Component {
       showNotices: 'false'
     };
 
-    // if (this.props.notifications.length > 0) {
-    //   this.setState({ showNotices: 'true' });
-    // } else {
-    //   this.setState({ showNotices: 'true' });
-    // }
-
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
-  // /**
-  //  * @returns {void}
-  //  */
-  // componentWillMount() {
-  //   this.props.getNotifications();
-  // }
-
   /**
    * @param {Object} nextProps
    * @returns {void}
@@ -49,11 +36,11 @@ export class Header extends React.Component {
     }
   }
   /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  logout(e) {
-    e.preventDefault();
+  logout(event) {
+    event.preventDefault();
     this.props.signout();
     this.context.router.push('/signup');
   }
@@ -78,7 +65,7 @@ export class Header extends React.Component {
     const userLinks = (
       <nav>
         <div className="nav-wrapper">
-          <Link to="/home" className="logo">PostIT</Link>
+          <Link to="/" className="logo">PostIT</Link>
           <ul className="right">
             <div>
               <li>
@@ -109,7 +96,7 @@ export class Header extends React.Component {
     const guestLinks = (
       <nav>
         <div className="nav-wrapper">
-          <Link to="/signup" className="logo">PostIT</Link>
+          <Link to="/" className="logo">PostIT</Link>
           <ul className="right">
             <div>
               <li>

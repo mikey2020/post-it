@@ -1,8 +1,10 @@
 import React from 'react';
 import expect from 'expect';
-import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import { shallow, mount } from 'enzyme';
 import { Sidebar } from '../../src/components/home/Sidebar';
 
+const componentDidMount = sinon.spy();
 
 const setup = () => {
   const props = {
@@ -15,7 +17,14 @@ const setup = () => {
   return shallow(<Sidebar {...props} />);
 };
 
-const wrapper = setup();
+const props = {
+  groups: [],
+  getUserGroups: (() => {}),
+  userId: '',
+  setCurrentGroup: (() => {})
+};
+
+let wrapper = setup();
 
 
 describe('Component', () => {
@@ -28,13 +37,19 @@ describe('Component', () => {
       expect(wrapper.find('ul').exists()).toBe(true);
     });
 
-   /* it('should call component will mount', () => {
-      wrapper.find('form').simulate('submit', { getUserGroups: () => {} });
-      expect(Sidebar.prototype.componentDidMount.callCount).toBe(true);
+    it('calls componentDidMount', () => {
+      sinon.spy(Sidebar.prototype, 'componentDidMount');
+      const enzymeWrapper = mount(<Sidebar {...props} />);
+      expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
+      expect(enzymeWrapper.node.props.groups).toEqual([]);
     });
 
-    it('should call component will receive props mount', () => {
-      expect(Sidebar.prototype.componentDidUpdate.callCount).toBe(true);
-    }); */
+    // it('calls componentDidUpdate', () => {
+    //   sinon.spy(Sidebar.prototype, 'componentDidUpdate');
+    //   const enzymeWrapper = mount(<Sidebar {...props} />);
+    //   enzymeWrapper.node.props.groups[0] = { groupname: 'new group' };
+    //   expect(Sidebar.prototype.componentDidUpdate.calledOnce).toBe(true);
+    //   expect(enzymeWrapper.node.props.groups).toEqual([{ groupname: 'new group' }]);
+    // });
   });
 });

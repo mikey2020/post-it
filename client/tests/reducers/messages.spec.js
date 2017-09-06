@@ -1,7 +1,5 @@
 import expect from 'expect';
-
 import reducer from '../../src/reducers/Messages';
-
 import * as types from '../../src/actions/types';
 
 
@@ -17,6 +15,15 @@ describe('Messages reducer', () => {
 
     })).toEqual(
        [{ id: 1, content: 'tarly house', priority: 'normal', groupId: 3, creator: 'mike', timeCreated: undefined }]
+    );
+  });
+
+  it('should return a new state for case `ADD_MESSAGE`', () => {
+    expect(reducer([], {
+      type: types.ADD_MESSAGE,
+      message: { id: 1, content: 'tarly house', priority: 'normal', groupId: 3, messageCreator: 'mike', timeCreated: undefined }
+    })).toEqual(
+      [{ id: 1, content: 'tarly house', priority: 'normal', groupId: 3, creator: 'mike', timeCreated: undefined }]
     );
   });
 });

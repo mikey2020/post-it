@@ -30,28 +30,27 @@ export class AddUserPage extends React.Component {
       offset: '',
       pageOfItems: []
     };
-
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
   }
  /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
-      this.searchUsers(e);
+      this.searchUsers(event);
     }
   }
   /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  searchUsers(e) {
-    this.setState({ [e.target.name]: e.target.value });
-    const value = e.target.value;
+  searchUsers(event) {
+    this.setState({ [event.target.name]: event.target.value });
+    const value = event.target.value;
     const offsetValue = 5;
     if (value !== '') {
       this.props.getUsers({ username: value, offset: offsetValue });
@@ -79,7 +78,8 @@ export class AddUserPage extends React.Component {
     return (
       <div id="modal3" className="modal adduserpage">
 
-        { errors.message && <div className="alert alert-danger"> {errors.message} </div>}
+        { errors.message &&
+          <div className="alert alert-danger"> {errors.message} </div>}
 
         {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
         <h2 className="addUser-header"> Search for users </h2>
@@ -88,11 +88,12 @@ export class AddUserPage extends React.Component {
             type="text"
             placeholder="Enter username"
             name="username"
+            id="username"
             onChange={this.searchUsers}
-            className=""
+            className="username"
             value={username}
           />
-
+          <i className="material-icons">search</i>
         </form>
         <AllUsers
           users={this.props.users}
@@ -113,7 +114,8 @@ AddUserPage.propTypes = {
 
 const mapStateToProps = state => ({
   users: state.users,
-  groupId: state.currentGroup.id
+  groupId: parseInt(state.currentGroup.id, 10)
 });
 
-export default connect(mapStateToProps, { addUserToGroup, getUsers })(AddUserPage);
+export default connect(mapStateToProps,
+ { addUserToGroup, getUsers })(AddUserPage);

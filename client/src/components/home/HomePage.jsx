@@ -26,11 +26,9 @@ const HomePage = props =>
      </div>
   );
 
-const mapStateToProps = (state) => {
-  return {
-    groupId: state.currentGroup.id
-  };
-};
+const mapStateToProps = state => ({
+  groupId: state.currentGroup.id
+});
 
 HomePage.propTypes = {
   groupId: PropTypes.number.isRequired

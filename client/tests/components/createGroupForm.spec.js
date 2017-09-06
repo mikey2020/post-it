@@ -4,10 +4,13 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { CreateGroupForm } from '../../src/components/home/CreateGroupForm.jsx';
 
+const checkGroupExists = sinon.spy();
 
 const setup = () => {
   const props = {
-    createGroup: (() => {})
+    createGroup: (() => {}),
+    checkGroupExists,
+    groupExists: () => Promise.resolve(1)
   };
 
   return shallow(<CreateGroupForm{...props} />);
@@ -15,17 +18,27 @@ const setup = () => {
 
 const wrapper = setup();
 
-
 describe('Component', () => {
   describe('<CreateGroupForm/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.find('form').exists()).toBe(true);
     });
 
-    /* it('simulates click events', () => {
-      const onButtonClick = sinon.spy();
-      wrapper.find('.btn btn-primary active').simulate('click');
-      expect(onButtonClick.calledOnce).to.equal(true);
-    }); */
+    it('calls onChange', () => {
+      const event = { target: { name: 'name', value: 'manny' }, errors: {}, isLoading: false };
+      wrapper.find('.form-control').simulate('change', event);
+      expect(wrapper.find('.form-control').props().onChange).toBeA('function');
+    });
+
+    it('calls onBlur', () => {
+      wrapper.find('#usr').simulate('blur', { target: { name: 'name', value: 'manny' } });
+      expect(checkGroupExists).toBeA('function');
+    });
+
+    it('calls onSubmit', () => {
+      wrapper.find('#create-group-button').simulate('click');
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+      expect(wrapper.find('form').props().onSubmit).toBeA('function');
+    });
   });
 });

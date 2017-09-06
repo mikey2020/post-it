@@ -1,5 +1,5 @@
 module.exports = {
-  'User sign in without credentials': (browser) => {
+  'Shows `error message` when user tries to sign in with invalid username': (browser) => {
     browser
       .url('http://localhost:3000')
       .waitForElementVisible('body', 5000)
@@ -8,37 +8,38 @@ module.exports = {
       .click('#login-button')
       .pause(1000)
       .waitForElementVisible('#modal1', 2000)
-      .setValue('input[name=username]', '')
-      .setValue('input[name=password]', '')
-      .click('#sign-in')
-      .pause(2000)
+      .setValue('input[name=username]', 'james')
+      .click('.signin-form h3')
+      .pause(3000)
       .waitForElementVisible('.help-block', 5000)
-      .assert.containsText('.help-block', 'Username is required');
+      .end();
   },
-  'User sign in with wrong email': (browser) => {
+  'User gets success flash Message when sign in is successful': (browser) => {
     browser
       .url('http://localhost:3000')
       .waitForElementVisible('body', 5000)
       .waitForElementVisible('#login-button', 2000)
       .click('#login-button')
       .waitForElementVisible('#modal1', 2000)
-      .setValue('input[name=username]', 'wrong username')
-      .setValue('input[name=password]', 'wrong password')
+      .setValue('input[name=username]', 'johnny')
+      .setValue('input[name=password]', 'johnson')
+      .pause(2000)
       .click('#sign-in')
+      .waitForElementVisible('.vertical-menu', 5000)
+      .waitForElementVisible('.sidebar-header', 4000)
       .end();
-      // .waitForElementVisible('.help-block', 5000)
-      // .assert.containsText('.help-block', 'Username is required');
   },
-  'User sign in success': (browser) => {
+  'Shows `alert error box` when user tries to sign in with invalid credentials': (browser) => {
     browser
       .url('http://localhost:3000')
       .waitForElementVisible('body', 5000)
       .click('#login-button')
-      .setValue('input[name=email]', 'flash')
+      .waitForElementVisible('#modal1', 2000)
+      .setValue('input[name=username]', 'flash')
       .setValue('input[name=password]', 'flash')
+      .pause(2000)
       .click('#sign-in')
-      // .waitForElementVisible('#logout-button', 5000)
-      // .assert.urlEquals(`${'http://localhost:3000/home'}`)
+      .waitForElementVisible('.alert', 5000)
       .end();
   },
 };

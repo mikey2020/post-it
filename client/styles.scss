@@ -12,6 +12,27 @@ body {
     color: black !important;
     //background: radial-gradient(circle, #03a9f4, #000);
 }
+.landing-page {
+    background: url('https://thumbs.dreamstime.com/b/message-sending-6834885.jpg');
+    background-size: cover;
+    background-repeat: no-repeat !important;
+    position: relative;
+    bottom: 20px;
+    // background-attachment: center ;
+}
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 610px;
+    width: 100%;
+    margin-top: -20px;
+}
+h1.welcome {
+    color: white;
+    padding-top: 130px;
+    font-size: 90px;
+    font-weight: bold;
+    text-shadow: 1px 2px 3px #03a9f4;
+}
 
 .welcome-text {
     color: white;
@@ -106,19 +127,24 @@ body {
         text-align: left;
         padding-left: 20%;
     }
+    ul{
+        padding-bottom: 30px;
+    }
 }
 
 .vertical-menu a {
-    /*background-color: #eee; /* Grey background color */
-    color: white; 
-    display: block; /* Make the links appear below each other */
-    padding: 3px; /* Add some padding */
-    margin: 20px;
-    text-decoration: none; /* Remove underline from links */
+   color: white;
+    display: block;
+    padding: 3px;
+    /* margin: 13px; */
+    margin-bottom: -5px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-decoration: none;
 }
-
 .vertical-menu a:hover {
-    background-color: #4db6ac ;
+    background-color: #03a9f4 ;
 }
 
 .vertical-menu a.active {
@@ -184,12 +210,19 @@ body {
 }
 
 .adduserpage{
-    width: 60%;
+    width: 50%;
     height: 80% !important;
     max-height: 85%;
-    input{
+    overflow: scroll;
+    border-radius: 10px;
+    color: #000;
+    input[type=text]{
         position: relative;
-        right: -2px;
+        left: 10px;
+        width: 50% !important;
+        border: 4ppx solid;
+        color: #000;
+        padding-left: 200px;
     }
 }
 
@@ -204,15 +237,17 @@ body {
     position: relative ;
     left: 10px;
     margin: 10px;
-    width: 74%;
+    width: 80%;
     height: 60px;
     color: white;
+    background-color: #03a9f4 !important;
     padding: 20px;
 }
 
 .add-user-btn {
     position: relative;
-    left: 300px;
+    left: 310px;
+    background-color: #212121;
 }
 
 .message{
@@ -225,10 +260,6 @@ body {
 .logo{
     font-size: 30px;
     padding-left: 20px;
-}
-
-.links{
-    background-color: #26a69a;
 }
 
 .group-form{
@@ -276,7 +307,7 @@ textarea{
 }
 
 .priority{
-    background-color: #03a9f4;
+    background-color: #03a9f4 !important;
     position: relative;
     left: 85px;
 }
@@ -312,6 +343,7 @@ textarea{
 
 .addUser-header{
     font-size: 20px;
+    padding-left: 100px;
 }
 
 .priority-error {
@@ -319,12 +351,13 @@ textarea{
 }
 
 .user-display{
-    background-color: #03a9f4 ;
+    background-color: #01579b ;
     color: white;
     border: 2px solid;
     position: relative;
     left: -20px;
     top: -8px;
+    padding-bottom: 30px;
     margin-top: 20px;
     
 }
@@ -364,14 +397,13 @@ textarea{
 
 .archived{
     padding-left: 20px;
-    padding-top: 10px;
     margin-top: 23px;
     color: white;
 }
 
 .group-btn{
     text-transform: capitalize;
-    background-color: #03a9f4;
+    background-color: #03a9f4 !important;
 }
 
 .post-message{
@@ -399,7 +431,7 @@ textarea{
 .messageReaders{
     position: relative;
     left: -82px;
-    color: #03a9f4;
+    color: #01579b;
     top: -40px;
     margin-bottom: 20px;
 }
@@ -418,9 +450,9 @@ textarea{
 
 .post-message-button{
     position: relative;
-       top: -60px;
-       left: 750px;
-       background-color: #03a9f4;
+    top: -60px;
+    left: 750px;
+    background-color: #03a9f4 !important;
 }
 .select-group{
     position: relative;
@@ -432,6 +464,7 @@ textarea{
 .help-block{
     color: black;
     padding: 8px;
+    margin: 20px;
     background-color: rgba(0,0,0,0.12);
 }
 
@@ -446,7 +479,7 @@ textarea{
 }
 
 .add_box{
-    background-color: #03a9f4;
+    background-color: #03a9f4 !important;
 }
 
 .message-board{
@@ -457,6 +490,7 @@ textarea{
     top: -10px;
     left: -22px !important;
 }
+
 .alert-danger {
     background-color: #f2dede;
     border-color: #ebcccc;
@@ -480,11 +514,31 @@ textarea{
     position: relative;
     color: white;
     left: 1200px;
-    background-color: #03a9f4;
+    background-color: #03a9f4 !important;
 }
 
 .google-btn{
    position: relative;
    margin-left: 30px;
    background: #e53935;
+}
+
+.notification-header{
+    font-style: italic;
+    background-color: #03a9f4;
+    color: #fff;
+    li{
+        font-size: 10px;
+    }
+}
+
+.home-signup-btn{
+   background-color: #03a9f4 !important;
+   position: relative;
+   left: 580px;
+}
+
+.welcome-message{
+    font-size: 30px;
+    color: white;
 }
