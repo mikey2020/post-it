@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import addUser from '../../actions/signupActions';
 import Validations from '../../../validations';
@@ -20,30 +21,37 @@ export class SignupForm extends React.Component {
     super(props);
     this.state = {
       username: '',
+      googleUsername: '',
+      googleEmail: '',
       email: '',
       phoneNumber: '',
       password: '',
       passwordConfirmation: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      showGoogleButton: false
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
   /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
   /**
-   * @param {object} e - argument
+   * @param {object} event - argument
    * @returns {void}
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
+    if (this.state.googleEmail && this.state.googleUsername) {
+      this.setState({ email: this.state.googleEmail, username: this.state.googleUsername });
+    }
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.addUser(this.state).then(() => {
@@ -64,21 +72,41 @@ export class SignupForm extends React.Component {
 
     return isValid;
   }
+
+  /**
+    * @returns {void}
+    * @param {Object} response
+    */
+  responseGoogle(response) {
+    const profile = response.profileObj;
+    const userData = {
+      username: profile.name,
+      email: profile.email };
+    this.setState({ email: userData.email,
+      username: userData.username,
+      showGoogleButton: true });
+  }
   /**
    *
    * @returns {component} - renders a React component
    */
   render() {
-    const { errors } = this.state;
+    const { errors,
+      username,
+      googleUsername,
+      email,
+      googleEmail,
+      showGoogleButton,
+      phoneNumber } = this.state;
     return (
       <div className="" id="signup-body">
         <center>
           <form onSubmit={this.onSubmit}>
             <div className="jumbotron signup-form">
-              <p id="signup-header" className="flow-text"><h3> Sign Up </h3></p>
+              <span id="signup-header" className="flow-text"><h3> Sign Up </h3></span>
               {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
               <input
-                value={this.state.username}
+                value={username || googleUsername}
                 onChange={this.onChange}
                 type="text"
                 placeholder="username"
@@ -89,7 +117,7 @@ export class SignupForm extends React.Component {
               {errors.email ? <span className="help-block">{errors.email}</span> : <br />}
 
               <input
-                value={this.state.email}
+                value={email || googleEmail}
                 onChange={this.onChange}
                 type="email"
                 placeholder="email"
@@ -102,7 +130,7 @@ export class SignupForm extends React.Component {
                 <span className="help-block">{errors.phoneNumber}</span> : <br />}
 
               <input
-                value={this.state.phoneNumber}
+                value={phoneNumber}
                 onChange={this.onChange}
                 type="text"
                 placeholder="Phone Number"
@@ -146,6 +174,14 @@ export class SignupForm extends React.Component {
                 className="btn waves-effect waves-light light-blue accent-4"
               />
 
+              <GoogleLogin
+                clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
+                buttonText="Sign Up with Google"
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                className="btn  google-btn waves-effect waves-red "
+                disabled={showGoogleButton}
+              />
             </div>
           </form>
         </center>

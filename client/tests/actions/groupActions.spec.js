@@ -26,7 +26,7 @@ describe('Group Actions', () => {
   });
 
   it('gets all groups user is part of successfully', (done) => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { usergroups: [] } }));
+    axios.get = jest.fn(() => Promise.resolve({ data: { usergroups: [] } }));
 
     const store = mockStore([]);
     const expectedActions = [

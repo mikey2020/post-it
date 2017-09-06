@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
  */
 export class Message extends React.Component {
   /**
-   * 
-   * @param {*} props
+   * @constructor
+   * @param {Object} props
    */
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ export class Message extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this);
   }
   /**
-   * @returns void
+   * @returns {void}
    */
   handleOnClick() {
     this.props.getUsersWhoReadMessage(this.props.messageId);
@@ -31,9 +31,12 @@ export class Message extends React.Component {
             <div className="message-box">
               <div
                 className="message"
-              > {this.props.content} <span className="message-time">{this.props.date}</span></div>
+              > {this.props.content}
+                <span className="message-time">{this.props.date}</span>
+              </div>
               { this.props.creator ?
-                <span className="chip user-display"> {this.props.creator}</span> : <br />}
+                <span className="chip user-display">
+                  {this.props.creator}</span> : <br />}
               <span
                 className="badge message-priority"
               >{this.props.priority ? this.props.priority : <p /> }</span>

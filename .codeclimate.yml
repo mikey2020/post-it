@@ -18,6 +18,7 @@ engines:
        enabled: true
 exclude_paths:
 - "templates/"
+- "client/controllers/GroupController.js"
 - "client/"
 - "server/test"
 - "clients/"

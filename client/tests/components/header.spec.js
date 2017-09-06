@@ -1,19 +1,19 @@
-import React from 'react';
 import expect from 'expect';
+import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { Header } from '../../src/components/Header';
-
+import { Header } from '../../src/components/Header.jsx';
 
 const setup = () => {
   const props = {
-    isAuthenticated: false,
+    isAuthenticated: true,
     store: {},
     signout: () => {},
     notifications: [],
     deleteNotification: () => {},
     getNotifications: () => {}
   };
+
 
   return shallow(<Header {...props} />);
 };
@@ -28,10 +28,11 @@ describe('Component', () => {
       expect(wrapper.find('nav').exists()).toBe(true);
       expect(wrapper.find('Link').exists()).toBe(true);
     });
-
-    // it('should call logout', () => {
-    //   wrapper.find('#logout-button').simulate('click');
-    //   expect(wrapper.find('#logout-button').callCount).toEqual(1);
-    // });
   });
+  //   it('should call logout', () => {
+  //     sinon.spy(Header.prototype, 'logout');
+  //     wrapper.find('#logout-button').simulate('click', { preventDefault: () => {} });
+  //     expect(Header.prototype.logout.callCount).toEqual(1);
+  //   });
+  // });
 });

@@ -29,12 +29,6 @@ export class Messages extends React.Component {
       offset: 10
     };
 
-    // if (this.props.messages.length < 10) {
-    //   this.state.offset = 0;
-    // } else {
-    //   this.state.offset = Math.abs(this.props.messages.length - 10);
-    // }
-
     socket.on('new message posted', (message) => {
       this.props.addMessage(message);
     });
@@ -51,9 +45,6 @@ export class Messages extends React.Component {
     const { group } = this.props;
     const { limit, offset } = this.state;
     this.props.getGroupMessages(group.id, limit, offset);
-    this.props.messages.map((message) => {
-      this.props.readMessage(message.id);
-    });
   }
   /**
    * @param {object} prevProps - previous props
@@ -66,6 +57,7 @@ export class Messages extends React.Component {
       this.props.getGroupMessages(group.id, limit + 10, offset);
     } else if (this.props.group.id !== prevProps.group.id) {
       this.props.getGroupMessages(group.id, limit, offset);
+      this.props.messages.map(message => this.props.readMessage(message.id));
     }
   }
    /**
@@ -87,7 +79,9 @@ export class Messages extends React.Component {
     event.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1, offset: 0 });
-      this.props.postMessage(this.state, this.props.group.id);
+      this.props.postMessage(this.state, this.props.group.id).then(() => {
+        this.setState({ message: '' });
+      });
     }
   }
 
@@ -164,14 +158,14 @@ export class Messages extends React.Component {
             </div>
           </nav>
         </div>
-        { this.props.messages.length >= 5 ?
-        <div>
-        <a
-          href=""
-          onClick={this.viewArchived}
-          className="archived btn light-blue"
-        >
-          view archived</a> </div> : <h4 className="archived btn light-blue">All messages</h4>
+        { this.props.messages.length > this.state.limit ?
+          <div>
+            <a
+              href=""
+              onClick={this.viewArchived}
+              className="archived btn light-blue"
+            >
+          view archived</a> </div> : <p>Messages </p>
         }
 
         <div className="all-messages"><ul>{allMessages}</ul></div>
@@ -209,6 +203,7 @@ export class Messages extends React.Component {
               <button
                 className="btn waves-effect waves-light post-message-button"
                 type="submit"
+                id="post-message-button"
                 name="action"
               >Post <i className="material-icons right">send</i>
               </button>

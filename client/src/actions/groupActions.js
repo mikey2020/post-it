@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ADD_USER_GROUPS, ADD_GROUP, ADD_CURRENT_GROUP } from './types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
-import handleErrors from './errorAction';
+import { handleErrors, handleSuccess } from './errorAction';
 
 const addUserGroups = groups => ({
   type: ADD_USER_GROUPS,
@@ -34,20 +34,25 @@ const createGroup = groupname => dispatch => axios.post('/api/v1/group', groupna
            .then((res) => {
              if (res.data.group.message) {
                dispatch(addGroup(res.data.group.data));
+               dispatch(handleSuccess(res.data.group.message, 'ADD_GROUP'));
              } else {
                dispatch(handleErrors(res.data.errors.message, 'ADD_GROUP'));
-               // dispatch(addFlashMessage(createMessage('error', res.data.errors.message)));
              }
+           })
+           .catch(() => {
+             dispatch(handleErrors('Group already exists, please try creating another one', 'ADD_GROUP'));
            });
+
 
 const addUserToGroup = (user, groupId) => dispatch => axios.post(`/api/v1/group/${groupId}/user`, user)
             .then((res) => {
               if (res.data.message) {
-                console.log('am geetting here');
                 dispatch(addFlashMessage(createMessage('success', res.data.message)));
               } else {
                 dispatch(handleErrors(res.data.errors.message));
               }
             });
 
-export { createGroup, getUserGroups, setCurrentGroup, addUserToGroup };
+const groupExists = value => axios.get(`api/group/${value}`);
+
+export { createGroup, getUserGroups, setCurrentGroup, addUserToGroup, groupExists };

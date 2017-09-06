@@ -29,8 +29,8 @@ const getNotifications = () => (dispatch) => {
 
 const deleteNotification = () => (dispatch) => {
   axios.delete('/api/v1/user/delete/notifications')
-    .then((res) => {
-      dispatch(handleSuccess(res.data.message, 'REMOVE_NOTIFICATIONS'));
+    .then(() => {
+      dispatch(handleSuccess(null, 'REMOVE_NOTIFICATIONS'));
     })
     .catch(() => {
       dispatch(handleErrors(null, 'REMOVE_NOTIFICATIONS'));

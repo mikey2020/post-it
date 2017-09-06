@@ -17,7 +17,7 @@ const addUser = user => dispatch => axios.post('/api/v1/user/signup', user).then
      }
    })
    .catch(() => {
-     dispatch(handleErrors('Try signing up again', 'SIGN_UP_FAILED'));
+     dispatch(handleErrors('User already exists, please try signing in', 'SIGN_UP_FAILED'));
    });
 
 export default addUser;

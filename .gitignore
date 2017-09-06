@@ -5,4 +5,5 @@ coverage/
 package-lock.json
 bin/
 selenium-debug-log
-
+dist/
+reports/

@@ -8,6 +8,9 @@ describe('User Model:', () => {
       .then((user) => {
         should.exist(user);
         should.exist(user.username);
+        user.username.should.equal('user');
+        user.phoneNumber.should.equal('09038489099');
+        user.email.should.equal('user@email.com');
       });
     done();
   });

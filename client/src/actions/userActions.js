@@ -29,15 +29,16 @@ const getMembersOfGroup = groupId => dispatch => axios.get(`/api/v1/group/${grou
                });
 const checkUserExists = username => axios.post('/api/v1/user/checkUser', username);
 
-const resetPassword = userData => dispatch => axios.post('/api/v1/user/resetPassword', userData)
+const resetPassword = (userData) => {
+          return dispatch => axios.post('/api/v1/user/resetPassword', userData)
             .then((res) => {
               if (res.data.message) {
                 dispatch(handleSuccess('Verification code sent successfully', 'VERIFICATION_CODE_SENT'));
               }
             });
-
+};
 const verifyCode = userData => (dispatch) => {
-  axios.post('/api/v1/user/verifyCode', userData)
+  return axios.post('/api/v1/user/verifyCode', userData)
     .then((res) => {
       if (res.data.message) {
         dispatch(handleSuccess('Code verification successful, Please login now', 'VERIFY_PASSWORD_RESET_CODE'));

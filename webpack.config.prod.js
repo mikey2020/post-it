@@ -12,7 +12,6 @@ export default {
   target: 'web',
 
   entry: [
-    'webpack-hot-middleware/client',
     path.join(__dirname, '/client/index.jsx'),
     path.join(__dirname, '/client/styles.scss')
   ],
@@ -35,7 +34,6 @@ export default {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('styles.css', { allChunks: true })
   ],
 

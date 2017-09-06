@@ -25,6 +25,14 @@ if (process.env.NODE_ENV === 'development') {
   }));
 
   app.use(webpackHotMiddleware(compiler));
+} else if (process.env.NODE_ENV === 'production') {
+  const compiler = webpack(webpackConfig);
+
+  app.use(webpackMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+  }));
 }
 
 app.use(morgan('dev'));

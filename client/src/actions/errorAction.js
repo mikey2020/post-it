@@ -24,7 +24,9 @@ const handleSuccess = (successMessage, actionName) => (dispatch) => {
 
 const handleErrors = (errorMessage, actionName) => (dispatch) => {
   dispatch(setErrors({ status: true, actionName }));
-  dispatch(addFlashMessage(createMessage('error', errorMessage)));
+  if (errorMessage !== null) {
+    dispatch(addFlashMessage(createMessage('error', errorMessage)));
+  }
 };
 
 

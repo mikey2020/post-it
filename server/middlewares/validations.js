@@ -37,7 +37,7 @@ class Validations {
       this.errors.phoneNumber = 'Phone Number is required';
     }
 
-    if (user.phoneNumber !== undefined) {
+    if (user.phoneNumber !== undefined || user.phoneNumber !== '') {
       if (user.phoneNumber.length > 11 || user.phoneNumber < 11) {
         this.errors.phoneNumber = 'Please enter a valid phone number';
       }

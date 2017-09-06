@@ -1,8 +1,10 @@
 import React from 'react';
 import expect from 'expect';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { AddUserPage } from '../../src/components/home/AddUserPage.jsx';
 
+const getUsers = sinon.spy(() => Promise.resolve());
 
 const setup = () => {
   const props = {
@@ -26,6 +28,19 @@ describe('Component', () => {
       expect(wrapper.find('nav').exists()).toBe(false);
       expect(wrapper.find('Link').exists()).toBe(false);
       expect(wrapper.find('form').exists()).toBe(true);
+    });
+
+    it('should be change on user input', () => {
+      wrapper.find('.username')
+      .simulate('change', { target: { name: 'username', value: 'boruto' } });
+
+      expect(wrapper.find('.username').prop('value')).toEqual('boruto');
+    });
+
+    it('calls onChange', () => {
+      const event = { target: { name: 'username', value: 'man' } };
+      wrapper.find('.username').simulate('change', event);
+      expect(wrapper.find('.username').props().onChange).toBeA('function');
     });
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Validations from '../../../validations';
-import { createGroup } from '../../actions/groupActions';
+import { createGroup, groupExists } from '../../actions/groupActions';
 
 const validate = new Validations();
 /**
@@ -27,6 +27,7 @@ export class CreateGroupForm extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.checkGroupExists = this.checkGroupExists.bind(this);
   }
 
   /**
@@ -48,6 +49,28 @@ export class CreateGroupForm extends React.Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
       this.props.createGroup(this.state);
+    }
+  }
+   /**
+    * @param {Object} event
+    * @returns {void}
+    */
+  checkGroupExists(event) {
+    const field = event.target.name;
+    const value = event.target.value;
+    if (value !== '') {
+      this.props.groupExists(value).then((res) => {
+        const errors = this.state.errors;
+        let invalid;
+        if (res.data.group) {
+          errors[field] = 'Group already exists';
+          invalid = true;
+        } else {
+          errors[field] = '';
+          invalid = false;
+        }
+        this.setState({ errors, invalid });
+      });
     }
   }
 
@@ -73,14 +96,13 @@ export class CreateGroupForm extends React.Component {
         <div className="" >
           {errors.message && <div className="alert alert-danger"> {errors.message} </div>}
 
-          {errors.name ? <span className="help-block">{errors.name}</span> : <br />}
-
           <form className="form-group" onSubmit={this.onSubmit}>
             <input
               type="text"
               placeholder="Enter group name"
               name="name"
               onChange={this.onChange}
+              onBlur={this.checkGroupExists}
               className="form-control"
               value={name}
               id="usr"
@@ -94,7 +116,7 @@ export class CreateGroupForm extends React.Component {
               disabled={isLoading || invalid}
             />
 
-
+            {errors.name ? <span className="help-block">{errors.name}</span> : <br />}
           </form>
         </div>
       </div>
@@ -104,7 +126,8 @@ export class CreateGroupForm extends React.Component {
 
 CreateGroupForm.propTypes = {
   createGroup: PropTypes.func.isRequired,
+  groupExists: PropTypes.func.isRequired
 };
 
 
-export default connect(null, { createGroup })(CreateGroupForm);
+export default connect(null, { createGroup, groupExists })(CreateGroupForm);

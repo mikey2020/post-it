@@ -48,7 +48,8 @@ class GroupController {
         groupCreator: req.decoded.data.username,
         userId: req.decoded.data.id
       }).then(group => group.addUser(req.decoded.data.id).then(() => {
-        res.status(201).json({ group: { message: `${req.body.name} created successfully`, data: group } });
+        res.status(201).json({ group:
+          { message: `${req.body.name} created successfully`, data: group } });
       }))
       .catch(() => {
         res.status(500).json({ error: { message: 'Group already exists' } });
@@ -193,15 +194,16 @@ class GroupController {
         id: req.params.groupId
       }
     }).then((group) => {
-      group.getUsers({ attributes: { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } }).then((users) => {
-        if (users) {
-          req.members = users;
-          req.usersEmails = GroupController.getEmails(users);
-          next();
-        } else {
-          res.status(404).json({ message: 'No user email found' });
-        }
-      });
+      group.getUsers({ attributes:
+        { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } }).then((users) => {
+          if (users) {
+            req.members = users;
+            req.usersEmails = GroupController.getEmails(users);
+            next();
+          } else {
+            res.status(404).json({ message: 'No user email found' });
+          }
+        });
     });
   }
 /**
@@ -214,11 +216,12 @@ class GroupController {
       where: {
         id: req.decoded.data.id
       }
-    }).then(user => user.getGroups({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
-      let userGroups = JSON.stringify(groups);
-      userGroups = JSON.parse(userGroups);
-      res.json({ usergroups: userGroups });
-    }));
+    }).then(user => user.getGroups({ attributes:
+      { exclude: ['createdAt', 'updatedAt'] } }).then((groups) => {
+        let userGroups = JSON.stringify(groups);
+        userGroups = JSON.parse(userGroups);
+        res.json({ usergroups: userGroups });
+      }));
   }
 
   /**
@@ -231,11 +234,12 @@ class GroupController {
       where: {
         id: req.params.messageId
       }
-    }).then(message => message.getUsers({ attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
-      let messageReaders = JSON.stringify(users);
-      messageReaders = JSON.parse(messageReaders);
-      res.json({ users: messageReaders });
-    }));
+    }).then(message => message.getUsers({
+      attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
+        let messageReaders = JSON.stringify(users);
+        messageReaders = JSON.parse(messageReaders);
+        res.json({ users: messageReaders });
+      }));
   }
 
   /**
@@ -310,7 +314,7 @@ class GroupController {
       apiKey: process.env.API_KEY,
       apiSecret: process.env.API_SECRET
     });
-    nexmo.message.sendSms('07014980491', recipient, 'hello', (err, msg) => {
+    nexmo.message.sendSms(process.env.myNumber, recipient, 'hello', (err, msg) => {
       if (err) {
         winston.log(err);
       } else {
@@ -324,7 +328,7 @@ class GroupController {
    * @param {Object} message - message object
    */
   static notificationMessage(message) {
-    return `${message.messageCreator} posted '${message.content}' to a group which you are a member`;
+    return `${message.messageCreator} posted a message to a group which you are a member`;
   }
 
   /**
@@ -402,7 +406,8 @@ class GroupController {
         }
       })
       .then((user) => {
-        user.getMessages({ where: { groupId: req.params.groupId } }).then((readMessages) => {
+        user.getMessages({ where: { groupId: req.params.groupId } })
+        .then((readMessages) => {
           const numberOfReadMessages = readMessages.length;
           const unreadMessages = Math.abs(allMessagesNumber - numberOfReadMessages);
           res.status(200).json({ number: unreadMessages, messages: allMessages });
@@ -432,4 +437,3 @@ class GroupController {
 
 }
 export default GroupController;
-

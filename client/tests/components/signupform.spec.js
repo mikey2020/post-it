@@ -1,7 +1,6 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import { SignupForm } from '../../src/components/signup/SignupForm';
 
 const setup = () => {

@@ -29,7 +29,6 @@ class Members extends React.Component {
    * @returns {component} - renders a React component
    */
   render() {
-    console.log('am getting memebers', this.props.members);
     const allMembers = this.props.members.map(member =>
       <li className="member" key={member.id}> {member.username} </li>
     );

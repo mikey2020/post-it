@@ -48,18 +48,21 @@ class Unique {
     })
     .then((readMessage) => {
       if (readMessage) {
-        return res.status(400).json({ errors: { message: 'user has already read this message' } });
+        return res.json({ errors: { message: 'user has already read this message' } });
       }
       next();
     });
   }
-
+  /**
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   * @param {Obeject} next - next object
+   * @returns {void} - it number of read message by the logged in user
+   */
   static checkMessageNumber(req, res, next) {
-    console.log('=======[[[[[[[[=========--=====-00a====');
     models.Message.findAndCountAll({
       where: {
-        groupId: req.params.groupId,
-        userId: req.decoded.data.id
+        groupId: req.params.groupId
       }
     }).then((message) => {
       const messageNumber = message.count;
