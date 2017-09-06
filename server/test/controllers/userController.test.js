@@ -126,7 +126,7 @@ describe('UserController', () => {
 
     it('should return "password do not match" when password & password confirmation are not equal', (done) => {
       user.post('/api/v1/user/signup')
-      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1' })
+      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1', phoneNumber: '' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
