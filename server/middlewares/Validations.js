@@ -75,89 +75,87 @@ class Validations {
   }
 
   /**
-   * @param {object} req
-   * @param {object} res
+   * @param {object} request
+   * @param {object} response
    * @param {function} next
    * @param {object} user - signup object
    * @returns {object} - errors object if there is any
    */
-  static checkUserIsValid(req, res, next) {
+  static checkUserIsValid(request, response, next) {
     models.User.findOne({
       where: {
-        id: req.body.userId
+        id: request.body.userId
       }
     }).then((validUser) => {
       if (validUser === null) {
-        return res.status(400).json({ errors: { message: 'user does not exist' } });
+        return response.status(400).json({ errors: { message: 'user does not exist' } });
       }
-      req.validUsername = validUser.username;
-      req.validUserId = validUser.id;
+      request.validUsername = validUser.username;
+      request.validUserId = validUser.id;
       next();
     });
   }
 
   /**
-   * @param {object} req - signup object
-   * @param {object} res - errors object if there is any
+   * @param {object} request - signup object
+   * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
    * @returns {object} -returns error if there is any
    */
-  static authenticate(req, res, next) {
-    const authorizationHeader = req.headers.authorization;
+  static authenticate(request, response, next) {
+    const authorizationHeader = request.headers.authorization;
     const token = authorizationHeader || null;
-    // if (authorizationHeader) {
-    //   token = authorizationHeader;
-    // }
+
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });
+          return response.status(401).json({ success: false, message: 'Failed to authenticate token.' });
         }
-        req.decoded = decoded;
+        request.decoded = decoded;
         next();
       });
     } else {
-      return res.status(400).send({
+      return response.status(401).send({
         success: false,
         message: 'No token provided'
       });
     }
   }
   /**
-   * @param {object} req - signup object
-   * @param {object} res - errors object if there is any
+   * @param {object} request - signup object
+   * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
    * @returns {object} -returns error if there is any
    */
-  static isGroupMember(req, res, next) {
+  static isGroupMember(request, response, next) {
     models.UserGroups.findOne({
       where: {
-        userId: req.decoded.data.id,
-        groupId: req.params.groupId
+        userId: request.decoded.data.id,
+        groupId: request.params.groupId
       }
     }).then((user) => {
       if (user) {
         next();
       } else {
-        res.status(400).json({ errors: { message: 'You are not a part of this group' } });
+        response.status(403).json({ errors: { message: 'You are not a part of this group' } });
       }
     });
   }
 
   /**
-   * @param {Object} req - request object
-   * @param {Object} res - response object
-   * @param {Object} next - response object
+   * @param {Object} request - requestuest object
+   * @param {Object} response - responseponse object
+   * @param {Object} next - responseponse object
    * @returns {void}
    */
-  static checkGroupExists(req, res, next) {
+  static checkGroupExists(request, response, next) {
     models.Group.findOne({
       where: {
-        id: req.params.groupId
+        id: request.params.groupId
       }
     }).then((validGroup) => {
       if (validGroup === null) {
-        return res.status(400).json({ errors: { message: 'group does not exist' } });
+        return response.status(404).json({ errors: { message: 'group does not exist' } });
       }
       next();
     });

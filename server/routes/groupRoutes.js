@@ -1,15 +1,13 @@
-import GroupController from '../controllers/groupController';
+import GroupController from '../controllers/GroupController';
 import Unique from '../middlewares/unique';
-import Validations from '../middlewares/validations';
-
-const group = new GroupController();
+import Validations from '../middlewares/Validations';
 
 export default (app) => {
   app.get('/api/v1/group/:groupId/messages', Validations.authenticate, Validations.checkGroupExists, Validations.isGroupMember, Unique.checkMessageNumber, GroupController.getPosts);
 
   app.post('/api/v1/group', Validations.authenticate, GroupController.createGroup);
 
-  app.get('/api/v1/group/:name', Validations.authenticate, group.checkGroupName);
+  app.get('/api/v1/group/:name', Validations.authenticate, GroupController.checkGroupName);
 
   app.post('/api/v1/group/:groupId/user', Validations.authenticate, Validations.checkGroupExists, Validations.checkUserIsValid, Unique.isAlreadyGroupMember, GroupController.addUserToGroup);
 

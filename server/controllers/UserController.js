@@ -26,134 +26,120 @@ class UserController {
   }
 
   /**
-   * @param {Object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  static signup(req, res) {
-    const { errors, isValid } = validate.signup(req.body);
+  static signup(request, response) {
+    const { errors, isValid } = validate.signup(request.body);
     if (!isValid) {
-      res.status(400).json(errors);
+      response.status(400).json(errors);
     } else {
       return User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        phoneNumber: req.body.phoneNumber
+        username: request.body.username,
+        email: request.body.email,
+        password: request.body.password,
+        phoneNumber: request.body.phoneNumber
       })
       .then((user) => {
         let userData = JSON.stringify(user);
         userData = JSON.parse(userData);
         const token = jwt.sign({ data: userData },
         process.env.JWT_SECRET, { expiresIn: '5h' });
-        res.status(201).json({ message: `${req.body.username} successfully added`,
+        response.status(201).json({ message: `${request.body.username} successfully added`,
           userToken: token });
       })
       .catch(() => {
-        res.status(400).json({ errors: { message: 'User already exists' } });
+        response.status(409).json({ errors: { message: 'User already exists' } });
       });
     }
   }
   /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  static signin(req, res) {
+  static signin(request, response) {
     User.findOne({
       where: {
-        username: req.body.username
+        username: request.body.username
       },
       attributes: { exclude: ['createdAt', 'updatedAt', 'verificationCode', 'phoneNumber'] }
     })
      .then((user) => {
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
-       if (req.body.username && req.body.password &&
-         bcrypt.compareSync(req.body.password, userData.password) === true) {
+       if (request.body.username && request.body.password &&
+         bcrypt.compareSync(request.body.password, userData.password) === true) {
          const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '5h' });
-         res.json({ user: { name: req.body.username, message: `${req.body.username} signed in`, userToken: token } });
+         response.json({ user: { name: request.body.username, message: `${request.body.username} signed in`, userToken: token } });
        } else {
-         res.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
+         response.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
        }
      })
      .catch(() => {
-       res.status(400).json({ errors: { form: 'Invalid User' } });
+       response.status(401).json({ errors: { form: 'Invalid User' } });
      });
   }
   /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  static checkUserExists(req, res) {
+  static checkUserExists(request, response) {
     User.findOne({
       where: {
-        username: req.body.username
+        username: request.body.username
       }
     }).then((user) => {
-      res.json({ user });
+      response.json({ user });
+    })
+    .catch(() => {
+      response.status(500).json({ message: 'Internal Server Error' });
     });
   }
 
   /**
-   * @param {string} username
-   * @returns {boolean} - whether true or false
-   */
-  static checkGoogleUserExists(username) {
-    return User.findOne({
-      where: {
-        username
-      }
-    }).then((user) => {
-      if (user !== null) {
-        return true;
-      }
-      return false;
-    });
-  }
-
-  /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  static getUsers(req, res) {
+  static getUsers(request, response) {
     User.findAll({ attributes:
       { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
       where: {
         username: {
-          $iLike: `%${req.body.username}%`
+          $iLike: `%${request.body.username}%`
         }
       } },
-     { offset: req.body.offset, limit: 5 }
+     { offset: request.body.offset, limit: 5 }
      ).then((data) => {
-       res.json({ users: { data } });
+       response.json({ users: { data } });
      }).catch(() => {
-       res.json({ errors: { message: 'something went wrong' } });
+       response.json({ errors: { message: 'something went wrong' } });
      });
   }
 
   /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {object} - if there is no error, it sends (username) created successfully
    */
-  static resetPassword(req, res) {
+  static startResetPassword(request, response) {
     const verificationCode = shortid.generate();
     User.findOne({
       where: {
-        username: req.body.username
+        username: request.body.username
       }
     })
      .then((user) => {
        user.verificationCode = verificationCode;
        user.save().then(() => {});
        UserController.sendVerificationCode(user.email, user.username, verificationCode);
-       res.json({ message: 'Verification code sent' });
+       response.json({ message: 'Verification code sent' });
      })
      .catch(() => {
-       res.status(400).json({ errors: { form: 'Invalid Username' } });
+       response.status(400).json({ errors: { form: 'Invalid Username' } });
      });
   }
   /**
@@ -175,7 +161,7 @@ class UserController {
     const mailOptions = {
       from: 'PostIt',
       to: userEmail,
-      subject: 'Reset password verification code',
+      subject: 'responseet password verification code',
       html: `<div><h2>Hello, ${username}!</h2>
           <p><strong>Your Verification code is:</strong> ${verificationCode}</p>\
           <p><a href="${url}">Update my password</a></p><br /><br />\
@@ -193,30 +179,28 @@ class UserController {
   }
 
   /**
-   * @param {object} req - request object sent to a route
-   * @param {object} res -  response object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @returns {void}
    */
-  static checkVerificationCode(req, res) {
+  static checkVerificationCode(request, response) {
     User.findOne({
       where: {
-        verificationCode: req.body.code
+        verificationCode: request.body.code
       }
     })
     .then((user) => {
-      if (req.body.code === user.verificationCode) {
-        user.password = req.body.newPassword;
-        user.update({ password: req.body.newPassword }).then(() => {
-          res.status(201).json({ message: 'password updated successfully' });
-        })
-        .catch(() => {
+      if (request.body.code === user.verificationCode) {
+        user.password = request.body.newPassword;
+        user.update({ password: request.body.newPassword }).then(() => {
+          response.status(201).json({ message: 'password updated successfully' });
         });
       } else {
-        res.status(400).json({ message: 'Invalid verification code' });
+        response.status(400).json({ message: 'Invalid verification code' });
       }
     })
     .catch(() => {
-      res.status(400).json({ message: 'Invalid verification code' });
+      response.status(400).json({ message: 'Invalid verification code' });
     });
   }
 }
