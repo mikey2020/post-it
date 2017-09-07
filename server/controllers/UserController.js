@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import nodemailer from 'nodemailer';
 import winston from 'winston';
 
-import Validations from '../middlewares/validations';
+import Validations from '../middlewares/Validations';
 import models from '../models';
 
 dotenv.config();
