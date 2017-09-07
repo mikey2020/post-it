@@ -1,5 +1,5 @@
 import should from 'should';
-import Validations from '../../middlewares/validations';
+import Validations from '../../middlewares/Validations';
 
 describe('Validations ', () => {
   describe('Sign up Input validation', () => {
