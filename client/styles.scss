@@ -210,12 +210,13 @@ h1.welcome {
 }
 
 .adduserpage{
-    width: 50%;
+    width: 40%;
     height: 80% !important;
     max-height: 85%;
     overflow: scroll;
     border-radius: 10px;
     color: #000;
+    padding-right: 10px;
     input[type=text]{
         position: relative;
         left: 10px;
@@ -272,6 +273,7 @@ h1.welcome {
         position: relative;
         left: 40px;
         width: 50% !important;
+        top: 50px;
         color: #000;
     }
 }
@@ -470,6 +472,7 @@ textarea{
 #create-group-button{
     position: relative;
     left: 60px;
+    top: 50px;
     background: #263238;
 }
 
