@@ -48,7 +48,7 @@ describe('UserController', () => {
     it('should return "please sign in" when trying to create group', (done) => {
       request(app).post('/api/v1/group')
         .end((err, res) => {
-          res.status.should.equal(400);
+          res.status.should.equal(401);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('No token provided');
           done();
@@ -58,7 +58,7 @@ describe('UserController', () => {
     it('should return "please sign in" when trying to add user ', (done) => {
       request(app).post('/api/v1/group/1/user')
         .end((err, res) => {
-          res.status.should.equal(400);
+          res.status.should.equal(401);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('No token provided');
           done();
@@ -68,7 +68,7 @@ describe('UserController', () => {
     it('should return "please sign in" when trying to post message', (done) => {
       request(app).post('/api/v1/group/1/message')
         .end((err, res) => {
-          res.status.should.equal(400);
+          res.status.should.equal(401);
           res.body.should.have.property('message', res.body.message);
           res.body.message.should.equal('No token provided');
           done();
@@ -126,7 +126,7 @@ describe('UserController', () => {
 
     it('should return "password do not match" when password & password confirmation are not equal', (done) => {
       user.post('/api/v1/user/signup')
-      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1' })
+      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1', phoneNumber: '' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
