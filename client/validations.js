@@ -30,8 +30,16 @@ class Validations {
       this.errors.email = 'Email is required';
     }
 
-    if (user.phoneNumber === null || user.phoneNumber === '') {
-      this.errors.phoneNumber = 'Phone Number is required';
+    if (user.phoneNumber !== null || user.phoneNumber !== '') {
+      if (user.phoneNumber.length > 11 || user.phoneNumber < 11) {
+        this.errors.phoneNumber = 'Please enter a valid phone number';
+      }
+
+      if (Validations.isPhoneNumber(user.phoneNumber) !== true) {
+        this.errors.phoneNumber = 'Please enter a valid phone number';
+      }
+    } else {
+      this.errors.phoneNumber = 'Phone number is required';
     }
 
     if (user.email && !validator.isEmail(user.email)) {
@@ -159,6 +167,23 @@ class Validations {
 
       isValid: isEmpty(errors)
     };
+  }
+
+  /**
+   * @param  {String} userInput
+   * @description checks if the string pass in is a digit. Means all the charcters are digit
+   * @return {boolean} true or false
+   */
+  static isPhoneNumber(userInput) {
+    if (userInput.length === 0) {
+      return false;
+    }
+    for (let i = 0; i < userInput.length; i += 1) {
+      if (/[0-9]/.test(userInput[i]) === false) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 

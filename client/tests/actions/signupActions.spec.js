@@ -9,7 +9,7 @@ import addUser from '../../src/actions/signupActions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const mockData = { username: 'flash', email: 'flash@gmail.com', password: 'flash' };
+const mockData = { username: 'flash', email: 'flash@gmail.com', password: 'flash',  };
 const mockStorage = new MockLocalStorage();
 const token = 'token';
 
