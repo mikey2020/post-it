@@ -199,9 +199,9 @@ export class Messages extends React.Component {
               value={message}
             />
             <br />
-            <div className="col s5 m4 l3">
+            <div className="col s12 m4 l3">
               <button
-                className="btn waves-effect waves-light post-message-button"
+                className="btn waves-effect waves-light post-message-button col push-m6 s12 m6 l6"
                 type="submit"
                 id="post-message-button"
                 name="action"

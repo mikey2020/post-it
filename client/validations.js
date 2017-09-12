@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty';
  * @class
  */
 class Validations {
-
   /**
    * @param {object} user - signup object
    * @returns {object} - errors object if there is any

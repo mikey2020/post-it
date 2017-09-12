@@ -95,7 +95,7 @@
    render() {
      const { errors, username } = this.state;
      return (
-       <div id="modal1" className="modal signin-container">
+       <div id="modal1" className="modal signin-container col push-l4 push-s1 push-m2 s10 m7 l4">
          <div className="signin-form">
            <h3> Sign In </h3>
            {errors.form &&

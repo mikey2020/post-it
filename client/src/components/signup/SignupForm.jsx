@@ -100,7 +100,7 @@ export class SignupForm extends React.Component {
       <div className="" id="signup-body">
         <center>
           <form onSubmit={this.onSubmit}>
-            <div className="jumbotron signup-form">
+            <div className="col s12 m4 l2 signup-form">
               <span id="signup-header" className="flow-text"><h3> Sign Up </h3></span>
               {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
               <input
@@ -162,6 +162,7 @@ export class SignupForm extends React.Component {
                 id="pwd"
               />
 
+              <br />
 
               <input
                 disabled={this.state.isLoading}
@@ -169,12 +170,12 @@ export class SignupForm extends React.Component {
                 id="signup-button"
                 name="sign up"
                 value="Sign Up"
-                className="btn waves-effect waves-light light-blue accent-4"
+                className="btn waves-effect waves-light light-blue accent-4 "
               />
 
               <GoogleLogin
                 clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
-                buttonText="Sign Up with Google"
+                buttonText="Google"
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
                 className="btn  google-btn waves-effect waves-red "

@@ -49,7 +49,8 @@ class UserController {
         response.status(201).json({ message: `${request.body.username} successfully added`,
           userToken: token });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err.errors[0].message);
         response.status(409).json({ errors: { message: 'User already exists' } });
       });
     }

@@ -3,9 +3,7 @@ import jwt from 'jsonwebtoken';
 import { setUser, validateToken } from './signinActions';
 import { handleErrors, handleSuccess } from './errorAction';
 
-const addUser = (user) => {
-  return (dispatch) => {
-    return axios.post('/api/v1/user/signup', user).then(
+const addUser = user => dispatch => axios.post('/api/v1/user/signup', user).then(
     (res) => {
       if (res.data.userToken) {
         const token = res.data.userToken;
@@ -27,6 +25,4 @@ const addUser = (user) => {
         dispatch(handleErrors(err.data.errors.message, 'ADD_USER_FAILED'));
       }
     });
-  };
-};
 export default addUser;

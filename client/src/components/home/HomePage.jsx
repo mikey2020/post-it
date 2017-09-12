@@ -16,10 +16,10 @@ const HomePage = props =>
    */
    (
      <div className="row">
-       <div className="col s4 m4 l3">
+       <div className="col s4 m5 l3">
          <Sidebar />
        </div>
-       <div className="col s8 m8 l9 message-board">
+       <div className="col s8 m7 l9 message-board">
          { props.groupId ? <Messages /> :
          <h2 className="select-group">Please select a group</h2> }
        </div>
