@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Validations from '../../validations';
-import { checkUserExists, resetPassword, verifyCode } from '../actions/userActions';
+import { checkUserExists,
+  resetPassword, verifyCode } from '../actions/userActions';
 
 const validate = new Validations();
 /**
@@ -99,7 +100,8 @@ export class ResetPassword extends React.Component {
       <form className="reset-form" onSubmit={this.verifyCode}>
         <div className="jumbotron signup-form">
           <h3>Enter Verification code </h3>
-          {errors.code ? <span className="help-block">{errors.code}</span> : <br />}
+          {errors.code ? <span className="help-block">
+            {errors.code}</span> : <br />}
           <input
             type="text"
             value={code}
@@ -108,7 +110,8 @@ export class ResetPassword extends React.Component {
             name="code"
           />
 
-          {errors.newPassword ? <span className="help-block">{errors.newPassword}</span> : <br />}
+          {errors.newPassword ? <span className="help-block">
+            {errors.newPassword}</span> : <br />}
           <input
             type="password"
             value={this.state.newPassword}
@@ -117,7 +120,8 @@ export class ResetPassword extends React.Component {
             name="newPassword"
           />
           {errors.newPasswordConfirmation ?
-            <span className="help-block">{errors.newPasswordConfirmation}</span> : <br />}
+            <span className="help-block">
+              {errors.newPasswordConfirmation}</span> : <br />}
           <input
             type="password"
             value={this.state.newPasswordConfirmation}
@@ -126,7 +130,10 @@ export class ResetPassword extends React.Component {
             name="newPasswordConfirmation"
           />
 
-          <input type="submit" className="btn waves-effect waves-light grey darken-4 reset-password" />
+          <input
+            type="submit"
+            className="btn waves-effect waves-light grey darken-4 reset-password"
+          />
         </div>
       </form>
     );
@@ -138,7 +145,8 @@ export class ResetPassword extends React.Component {
           <form onSubmit={this.onSubmit} className="reset-form">
             <div className="jumbotron signup-form">
               <h3 id="signup-header" className="flow-text" >Enter Username</h3>
-              {errors.username ? <span className="help-block">{errors.username}</span> : <br />}
+              {errors.username ? <span className="help-block">
+                {errors.username}</span> : <br />}
               <input
                 value={username}
                 onChange={this.onChange}
@@ -159,7 +167,8 @@ export class ResetPassword extends React.Component {
           </form>
         }
 
-          { status === 'waiting for verification code' && verificationCodeInput }
+          { status === 'waiting for verification code'
+          && verificationCodeInput }
         </center>
       </div>
 

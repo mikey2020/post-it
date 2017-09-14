@@ -15,7 +15,8 @@ const Readers = (props) => {
   return (
     <div id="modal5" className="modal readers">
       <h3> List of users who read Message</h3>
-      { props.readers ? <ul className="collection">{ props.readers.length > 0 && readers}</ul> : 'no-readers' }
+      { props.readers ? <ul className="collection">
+        { props.readers.length > 0 && readers}</ul> : 'no-readers' }
     </div>
   );
 };

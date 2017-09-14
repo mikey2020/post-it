@@ -47,7 +47,8 @@ export class User extends React.Component {
   onClick(event) {
     event.preventDefault();
     this.setState({ userState: 'user added' });
-    this.props.addUserToGroup({ userId: this.props.userId }, this.props.groupId);
+    this.props.addUserToGroup({ userId: this.props.userId },
+    this.props.groupId);
   }
 
   /**
@@ -68,7 +69,8 @@ export class User extends React.Component {
   render() {
     return (
       <div>
-        <li className="collection-item user-btn light-blue flow-text"> {this.props.username}
+        <li className="collection-item user-btn light-blue flow-text">
+          {this.props.username}
           <button
             name="add_user"
             disabled={this.state.userStatus}
@@ -98,4 +100,5 @@ const mapStateToProps = state => ({
   members: state.members
 });
 
-export default connect(mapStateToProps, { addUserToGroup, getMembersOfGroup })(User);
+export default connect(mapStateToProps,
+{ addUserToGroup, getMembersOfGroup })(User);

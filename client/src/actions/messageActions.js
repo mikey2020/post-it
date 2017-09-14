@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { ADD_GROUP_MESSAGES, ADD_MESSAGE, SET_USERS_WHO_READ_MESSAGE, SET_UNREAD_MESSAGES, SET_CURRENT_MESSAGE } from '../actions/types';
+import {
+  ADD_GROUP_MESSAGES,
+  ADD_MESSAGE,
+  SET_USERS_WHO_READ_MESSAGE,
+  SET_UNREAD_MESSAGES
+} from '../actions/types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
 import { handleErrors, handleSuccess } from './errorAction';
 
@@ -23,40 +28,39 @@ const setUnreadMessages = messages => ({
   messages
 });
 
-const setCurrentMessage = message => ({
-  type: SET_CURRENT_MESSAGE,
-  message
-});
+const getGroupMessages = (groupId, limit, offset) =>
+  dispatch =>
+    axios.get(`/api/v1/group/${groupId}/messages
+    ?limit=${limit}&offset=${offset}`)
+      .then((res) => {
+        if (res.data.messages) {
+          dispatch(addGroupMessages(res.data.messages));
+        }
+      })
+      .catch(() => {
+        dispatch(handleErrors(null, 'SET_USERS_WHO_READ_MESSAGE_FAILED'));
+      });
 
-const getGroupMessages = (groupId, limit, offset) => dispatch => {
-  return axios.get(`/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
-            .then((res) => {
-              if (res.data.posts) {
-                dispatch(addGroupMessages(res.data.posts));
-              }
-            });
-}
+const postMessage = (messageData, groupId) =>
+  dispatch => axios.post(`/api/v1/group/${groupId}/message`, messageData)
+    .then((res) => {
+      if (res.data.postedMessage) {
+        dispatch(addMessage(res.data.postedMessage));
+      } else {
+        dispatch(addFlashMessage(createMessage('error', res.data.message)));
+      }
+    });
 
-const postMessage = (messageData, groupId) => (dispatch) => {
-  return axios.post(`/api/v1/group/${groupId}/message`, messageData)
-        .then((res) => {
-          if (res.data.data) {
-            dispatch(addMessage(res.data.data));
-          } else {
-            dispatch(addFlashMessage(createMessage('error', res.data.message)));
-          }
-        });
-};
-
-const readMessage = messageId => dispatch => axios.post(`/api/v1/user/${messageId}/read`)
-              .then((res) => {
-                if (res.data.data) {
-                  dispatch(handleSuccess(null, 'USER_READ_MESSAGE'));
-                }
-              })
-              .catch(() => {
-                dispatch(handleErrors(null, 'USER_READ_MESSAGE_FAILED'));
-              });
+const readMessage = messageId =>
+  dispatch => axios.post(`/api/v1/user/${messageId}/read`)
+    .then((res) => {
+      if (res.data.message) {
+        dispatch(handleSuccess(null, 'USER_READ_MESSAGE'));
+      }
+    })
+    .catch(() => {
+      dispatch(handleErrors(null, 'USER_READ_MESSAGE_FAILED'));
+    });
 
 const getUnreadMessages = groupId => (dispatch) => {
   axios.get(`/api/v1/user/${groupId}/unreadMessages`)
@@ -69,15 +73,24 @@ const getUnreadMessages = groupId => (dispatch) => {
     });
 };
 
-const getUsersWhoReadMessage = messageId => dispatch => axios.get(`/api/v1/message/${messageId}/readers`)
-              .then((res) => {
-                if (res.data.users) {
-                  dispatch(setUsersWhoReadMessage(res.data.users));
-                }
-              })
-              .catch(() => {
-                dispatch(handleErrors(null, 'SET_USERS_WHO_READ_MESSAGE_FAILED'));
-              });
+const getUsersWhoReadMessage = messageId =>
+  dispatch => axios.get(`/api/v1/message/${messageId}/readers`)
+    .then((res) => {
+      if (res.data.users) {
+        dispatch(setUsersWhoReadMessage(res.data.users));
+      }
+    })
+    .catch(() => {
+      dispatch(handleErrors(null,
+        'SET_USERS_WHO_READ_MESSAGE_FAILED'));
+    });
 
-export { getGroupMessages,
-postMessage, addGroupMessages, addMessage, readMessage, getUnreadMessages, getUsersWhoReadMessage };
+export {
+  getGroupMessages,
+  postMessage,
+  addGroupMessages,
+  addMessage,
+  readMessage,
+  getUnreadMessages,
+  getUsersWhoReadMessage
+};

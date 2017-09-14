@@ -64,14 +64,26 @@ export class Sidebar extends React.Component {
 
     return (
       <div>
-        <div>
-          <div className="vertical-menu">
-            <h4 className="sidebar-header">Groups<i className="material-icons add_icon">
-              <a href="#modal2" className="add_box">add_box</a></i></h4>
-            <ul>{allGroups}</ul>
-          </div>
+        {/* <div className="vertical-menu">
+          <h4 className="sidebar-header">Groups
+          <i className="material-icons add_icon">
+            <a href="#modal2" className="add_box">add_box</a></i></h4>
+          <ul>{allGroups}</ul>
+        </div> */}
+        <ul id="slide-out" className="side-nav fixed">
+        <h4 className="sidebar-header">Groups
+          <i className="material-icons add_icon">
+            <a href="#modal2" className="add_box">add_box</a></i></h4>
+        <div className="">
+          {allGroups}
         </div>
-
+        </ul>
+        <a
+          href="#"
+          data-activates="slide-out"
+          className="button-collapse"
+        >
+          <i className="material-icons">menu</i></a>
       </div>
     );
   }
@@ -89,5 +101,6 @@ const mapStateToProps = state => ({
   userId: state.user.user.id
 });
 
-export default connect(mapStateToProps, { getUserGroups, setCurrentGroup })(Sidebar);
+export default connect(mapStateToProps,
+{ getUserGroups, setCurrentGroup })(Sidebar);
 

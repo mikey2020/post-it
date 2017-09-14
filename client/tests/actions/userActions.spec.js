@@ -13,10 +13,11 @@ const mockData = { username: 'mikey' };
 
 describe('User Actions', () => {
   it('creates a success flash message when a user is found', () => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { users: { data: [] } } }));
+    axios.get = jest.fn(() => Promise.resolve({ data: { users: [] } }));
     const store = mockStore([]);
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'user gotten', type: 'success' } }
+      { type: types.ADD_FLASH_MESSAGE,
+        message: { text: 'user gotten', type: 'success' } }
     ];
     store.dispatch(actions.getUsers(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -32,14 +33,16 @@ describe('User Actions', () => {
 
   it('sends verification code for resetting password', () => {
     const store = mockStore([]);
-    axios.post = jest.fn(() => Promise.resolve({ data: { message: 'Verification code sent' } }));
-    store.dispatch(actions.resetPassword(mockData));
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { message: 'Verification code sent' } }));
+    store.dispatch(actions.sendVerificationCode(mockData));
     expect(store.getActions()).toEqual([]);
   });
 
   it('verifies code sent to user for resetting password is successful', () => {
     const store = mockStore([]);
-    axios.post = jest.fn(() => Promise.resolve({ data: { message: 'password updated successfully' } }));
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { message: 'password updated successfully' } }));
     store.dispatch(actions.verifyCode({}));
     expect(store.getActions()).toEqual([]);
   });

@@ -57,7 +57,8 @@ class Validations {
     if (user.password && user.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (user.passwordConfirmation === null || user.passwordConfirmation === '') {
+    if (user.passwordConfirmation === null ||
+    user.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
@@ -88,7 +89,8 @@ class Validations {
       }
     }).then((validUser) => {
       if (validUser === null) {
-        return response.status(400).json({ errors: { message: 'user does not exist' } });
+        return response.status(400).json({ errors:
+          { message: 'user does not exist' } });
       }
       request.validUsername = validUser.username;
       request.validUserId = validUser.id;
@@ -109,7 +111,8 @@ class Validations {
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return response.status(401).json({ success: false, message: 'Failed to authenticate token.' });
+          return response.status(401).json(
+            { success: false, message: 'Failed to authenticate token.' });
         }
         request.decoded = decoded;
         next();
@@ -137,7 +140,8 @@ class Validations {
       if (user) {
         next();
       } else {
-        response.status(403).json({ errors: { message: 'You are not a part of this group' } });
+        response.status(403).json({ errors:
+          { message: 'You are not a part of this group' } });
       }
     });
   }
@@ -151,11 +155,16 @@ class Validations {
   static checkGroupExists(request, response, next) {
     models.Group.findOne({
       where: {
-        id: request.params.groupId
+        $or: [
+          { groupName: request.body.name },
+          { id: request.params.groupId }
+        ]
       }
     }).then((validGroup) => {
       if (validGroup === null) {
-        return response.status(404).json({ errors: { message: 'group does not exist' } });
+        request.existingGroup = false;
+      } else {
+        request.existingGroup = true;
       }
       next();
     });
@@ -163,7 +172,8 @@ class Validations {
 
   /**
    * @param  {String} userInput
-   * @description checks if the string pass in is a digit. Means all the charcters are digit
+   * @description checks if the string passed in is a digit.
+   * which means all the charcters are digit
    * @return {boolean} true or false
    */
   static isPhoneNumber(userInput) {

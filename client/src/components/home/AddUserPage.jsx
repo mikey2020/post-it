@@ -33,10 +33,10 @@ export class AddUserPage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
   }
- /**
-   * @param {object} event - argument
-   * @returns {void}
-   */
+  /**
+    * @param {object} event - argument
+    * @returns {void}
+    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     if (this.isValid()) {
@@ -78,10 +78,11 @@ export class AddUserPage extends React.Component {
     return (
       <div id="modal3" className="modal adduserpage">
 
-        { errors.message &&
+        {errors.message &&
           <div className="alert alert-danger"> {errors.message} </div>}
 
-        {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
+        {errors.input ? <span className="help-block">
+          {errors.input}</span> : <br />}
         <h2 className="addUser-header"> Search for users </h2>
         <form className="input-field" onSubmit={this.onSubmit}>
           <input
@@ -118,4 +119,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
- { addUserToGroup, getUsers })(AddUserPage);
+  { addUserToGroup, getUsers })(AddUserPage);

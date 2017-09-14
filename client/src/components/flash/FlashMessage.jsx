@@ -18,6 +18,7 @@ export class FlashMessage extends React.Component {
   /**
    * @param {Object} event
    * @returns {void}
+   * @description - A function that deletes a flash message
    */
   onClick(event) {
     event.preventDefault();

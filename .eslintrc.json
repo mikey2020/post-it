@@ -19,6 +19,7 @@
    "document": true
   },
   "rules": {
+    "max-len":[2, 80, 2],
     "import/no-named-as-default": 0,
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "one-var": 0,

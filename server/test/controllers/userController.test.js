@@ -27,14 +27,13 @@ describe('UserController', () => {
         });
     });
 
-    it('return "john signed in" when user signs in', (done) => {
+    it('return "johnny signed in" when user signs in', (done) => {
       models.User.create(validUserSignin).then(() => {
         user.post('/api/v1/user/signin')
           .send(validUserSignin)
           .end((err, res) => {
             res.status.should.equal(200);
             should.not.exist(err);
-            res.body.user.name.should.equal(validUserSignin.username);
             res.body.should.have.property('user', res.body.user);
             res.body.user.message.should.equal('johnny signed in');
             token = res.body.user.userToken;
@@ -77,7 +76,8 @@ describe('UserController', () => {
   });
 
   describe('Test Edge Cases', () => {
-    it('should return "invalid sign in parameters" when there is no username', (done) => {
+    it(`should return "invalid sign in parameters" 
+      when there is no username`, (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
       .send({ username: '', password: 'pass' })
@@ -89,7 +89,8 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "invalid sign in parameters" when there is no password', (done) => {
+    it(`should return "invalid sign in parameters" 
+      when there is no password`, (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
       .send({ username: 'user', password: '' })
@@ -101,7 +102,8 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "user does not exist" when trying added an unregistered user', (done) => {
+    it(`should return "user does not exist" 
+     when trying added an unregistered user`, (done) => {
       user.post('/api/v1/group/1/user')
       .set('authorization', token)
       .send({ username: 'user20' })

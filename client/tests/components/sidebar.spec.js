@@ -4,8 +4,6 @@ import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Sidebar } from '../../src/components/home/Sidebar';
 
-const componentDidMount = sinon.spy();
-
 const setup = () => {
   const props = {
     groups: [],

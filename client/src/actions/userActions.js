@@ -12,41 +12,50 @@ const setMembers = members => ({
   members
 });
 
-const getUsers = username => dispatch => axios.post('/api/v1/users', username)
-            .then((res) => {
-              if (res.data.users) {
-                dispatch(setUsers(res.data.users.data));
-              } else {
-                dispatch(handleErrors(res.data.errors.message));
-              }
-            });
-
-const getMembersOfGroup = groupId => dispatch => axios.get(`/api/v1/group/${groupId}/users`)
-               .then((res) => {
-                 if (res.data.members) {
-                   dispatch(setMembers(res.data.members));
-                 }
-               });
-const checkUserExists = username => axios.post('/api/v1/user/checkUser', username);
-
-const resetPassword = (userData) => {
-          return dispatch => axios.post('/api/v1/user/resetPassword', userData)
-            .then((res) => {
-              if (res.data.message) {
-                dispatch(handleSuccess('Verification code sent successfully', 'VERIFICATION_CODE_SENT'));
-              }
-            });
-};
-const verifyCode = userData => (dispatch) => {
-  return axios.post('/api/v1/user/verifyCode', userData)
+const getUsers = username =>
+  dispatch => axios.get(`/api/v1/users?username=${username}`, username)
     .then((res) => {
-      if (res.data.message) {
-        dispatch(handleSuccess('Code verification successful, Please login now', 'VERIFY_PASSWORD_RESET_CODE'));
+      if (res.data.users) {
+        dispatch(setUsers(res.data.users));
       } else {
-        dispatch(handleErrors('Code verification failure', 'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
+        dispatch(handleErrors(res.data.errors.message));
       }
     });
+
+const getMembersOfGroup = groupId =>
+  dispatch => axios.get(`/api/v1/group/${groupId}/users`)
+    .then((res) => {
+      if (res.data.members) {
+        dispatch(setMembers(res.data.members));
+      }
+    });
+const checkUserExists = username =>
+  axios.post('/api/v1/user/checkUser', username);
+
+const sendVerificationCode = userData =>
+  dispatch => axios.post('/api/v1/user/resetPassword', userData)
+    .then((res) => {
+      if (res.data.message) {
+        dispatch(handleSuccess(res.data.message,
+          'VERIFICATION_CODE_SENT'));
+      }
+    });
+const verifyCode = userData =>
+  dispatch => axios.post('/api/v1/user/verifyCode', userData)
+    .then((res) => {
+      if (res.data.message) {
+        dispatch(handleSuccess(`Code verification successful, 
+        Please login now`, 'VERIFY_PASSWORD_RESET_CODE'));
+      } else {
+        dispatch(handleErrors('Code verification failed',
+          'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
+      }
+    });
+
+
+export {
+  getUsers,
+  checkUserExists,
+  sendVerificationCode,
+  getMembersOfGroup, verifyCode
 };
-
-
-export { getUsers, checkUserExists, resetPassword, getMembersOfGroup, verifyCode };

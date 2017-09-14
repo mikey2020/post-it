@@ -228,6 +228,9 @@
             <a href="#installation" class="toc-h1 toc-link" data-title="Installation">Installation</a>
           </li>
           <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
             <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
               <ul class="toc-list-h2">
                   <li>
@@ -315,8 +318,17 @@ Clone the project repository from your terminal <code>git clone https://github.c
 Change directory into the <code>post-it</code> directory
 Run <code>npm install</code> to install the dependencies in the <code>package.json</code> file
 Run <code>npm run dev:server</code> to start the project</p>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Sample</span> <span class="nx">JSON</span> <span class="nx">response</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code>   <span class="p">{</span>
+<h1 id='authentication'>Authentication</h1>
+<p>The application uses <code>username</code> and <code>password</code> to login to allow access to the API protected routes. When a user signs up or login, a token is generated.</p>
+
+<p>The application expects for the token to be included in all API requests to the server in a header that looks like the following:</p>
+
+<p><code>req.headers.Authorization</code>= token</p>
+
+<blockquote>
+<p>Sample JSON response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>   <span class="p">{</span>
      <span class="nl">user</span><span class="p">:</span> <span class="p">{</span>
        <span class="nl">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
        <span class="nx">username</span><span class="p">:</span> <span class="s1">'sasuke'</span><span class="p">,</span>
@@ -329,7 +341,7 @@ Run <code>npm run dev:server</code> to start the project</p>
 <p>To get list of all registered users </p>
 <h3 id='request'>Request</h3>
 <ul>
-<li>Endpoint: POST: api/v1/users</li>
+<li>Endpoint: GET: api/v1/users</li>
 <li>Requires: Authentication</li>
 </ul>
 <h3 id='response'>Response</h3>
@@ -337,7 +349,11 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code>  <span class="nx">List</span> <span class="nx">all</span> <span class="nx">users</span>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
    <span class="p">{</span>
      <span class="s2">"users"</span><span class="p">:</span> <span class="p">[{</span>
        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -350,8 +366,7 @@ Run <code>npm run dev:server</code> to start the project</p>
        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
        <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"naruto@konoha.com"</span>
        <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"03032345676"</span>
-     <span class="p">}],</span>
-     <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"naruto signed in"</span>
+     <span class="p">}]</span>
    <span class="p">}</span>
 </code></pre><h2 id='sign-up-user'>Sign up User</h2>
 <p>To sign up or add user </p>
@@ -365,21 +380,18 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Sign</span> <span class="nx">up</span> <span class="nx">User</span>
-<span class="p">{</span>
-   <span class="nl">signupRequest</span><span class="p">:</span> <span class="p">{</span> 
-    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span>
-    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"boruto@uzumaki.com"</span><span class="p">,</span>
-    <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0930944800"</span><span class="p">,</span>
-    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"sarada"</span><span class="p">,</span>
-    <span class="s2">"passwordConfirmation"</span><span class="p">:</span> <span class="s2">"sarada"</span>
-   <span class="p">}</span>
 
-   <span class="nl">signupResponse</span><span class="p">:</span> <span class="p">{</span> 
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+
+
+   <span class="p">{</span> 
        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto successfully added"</span><span class="p">,</span> 
        <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
     <span class="p">}</span>
-<span class="p">}</span>
+
 
 </code></pre><h2 id='sign-in-user'>Sign in User</h2><h3 id='request-3'>Request</h3>
 <ul>
@@ -391,21 +403,25 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Signin</span> <span class="nx">User</span>
-<span class="p">{</span>
-   <span class="nl">signinRequest</span><span class="p">:</span> <span class="p">{</span> 
+
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="p">{</span> 
     <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span>
     <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"sarada"</span>
-   <span class="p">}</span>
-
-   <span class="nl">signinResponse</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span> 
-            <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
-            <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
-        <span class="p">}</span>
-   <span class="p">}</span>
 <span class="p">}</span>
+
+</code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+    <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
+        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
+        <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
+    <span class="p">}</span>
 
 </code></pre><h2 id='to-verify-a-user-exists'>To verify a User exists</h2><h3 id='request-4'>Request</h3>
 <ul>
@@ -417,23 +433,28 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Request:</p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="nl">checkUserRequest</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
-    <span class="p">}</span>
-
-    <span class="nl">checkUserResponse</span><span class="p">:</span> <span class="p">{</span>
-
-        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span> 
-            <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
-            <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span> 
-        <span class="p">}</span>
-    <span class="p">}</span>
+   <span class="p">{</span>
+    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
+   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Response: </p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"john"</span><span class="p">,</span>
+        <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"john@gmail.com"</span><span class="p">,</span>
+        <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0902345957"</span>
+    <span class="p">}</span>
 </code></pre><h2 id='to-help-user-get-started-with-reseting-password'>To help user get started with reseting password</h2><h3 id='request-5'>Request</h3>
 <ul>
-<li>Endpoint: POST: /api/v1/user/resetPassword</li>
+<li>Endpoint: POST: /api/v1/user/setCode</li>
 <li>Body (application/json)</li>
 </ul>
 <h3 id='response-5'>Response</h3>
@@ -441,24 +462,22 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code>
-<span class="p">{</span>
-    <span class="nl">resetPasswordRequest</span><span class="p">:{</span>
 
-        <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
-
-    <span class="p">}</span>
-
-    <span class="nl">resetPasswordResponse</span><span class="p">:{</span>
-
-       <span class="p">{</span> 
-           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Verification code sent"</span>
-
-        <span class="p">}</span>
-
-    <span class="p">}</span>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+   <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span>
 <span class="p">}</span>
 
+</code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span> 
+        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Verification code sent"</span>
+
+    <span class="p">}</span>
 </code></pre><h2 id='to-verify-code-for-reseting-password-and-update-password'>To verify code for reseting password and update password</h2><h3 id='request-6'>Request</h3>
 <ul>
 <li>Endpoint: POST: /api/v1/user/verifyCode</li>
@@ -469,21 +488,15 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-   <span class="nl">verifyCodeRequest</span><span class="p">:</span> <span class="p">{</span>
 
-        <span class="s2">"code"</span><span class="p">:</span> <span class="s2">"verificationCode"</span><span class="p">,</span>
-
-        <span class="s2">"newPassword"</span><span class="p">:</span> <span class="s2">"myNewPassword"</span>
-    <span class="p">}</span>
-
-    <span class="nl">verifyCodeResponse</span><span class="p">:</span> <span class="p">{</span>
+<blockquote>
+<p>Response: </p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span>
 
        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"password updated successfully"</span>
 
     <span class="p">}</span>
-<span class="p">}</span>
-
 </code></pre><h1 id='groups'>Groups</h1><h2 id='create-a-new-group'>Create a new group</h2><h3 id='request'>Request</h3>
 <ul>
 <li>Endpoint: POST: /api/v1/group</li>
@@ -494,25 +507,27 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code>  <span class="nx">Create</span> <span class="nx">a</span> <span class="nx">group</span>
-   <span class="p">{</span>
-     <span class="nl">request</span><span class="p">:</span> <span class="p">{</span>
-       <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Team 7"</span>
-     <span class="p">}</span>
 
-     <span class="nl">response</span><span class="p">:</span> <span class="p">{</span>
-         <span class="p">{</span> 
-             <span class="s2">"group"</span><span class="p">:</span> 
-             <span class="p">{</span> 
-                 <span class="s2">"message"</span><span class="p">:</span> <span class="s1">'Team 7 created successfully'</span><span class="p">,</span> 
-                 <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                     <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"Team 7"</span><span class="p">,</span>
-                     <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
-                     <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span>
-                 <span class="p">}</span>
-             <span class="p">}</span> 
-         <span class="p">}</span>
-     <span class="p">}</span>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span>
+       <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Team 7"</span>
+    <span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Response: </p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+    <span class="p">{</span>
+        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"konoha created successfully"</span><span class="p">,</span>
+        <span class="s2">"group"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"konoha"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"john"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T00:14:27.970Z"</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T00:14:27.970Z"</span>
+        <span class="p">}</span>
    <span class="p">}</span>
 </code></pre><h2 id='add-user-to-a-group'>Add user to a group</h2><h3 id='request-2'>Request</h3>
 <ul>
@@ -524,17 +539,13 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Add</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
-<span class="p">{</span>
-   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
-      <span class="nl">userId</span><span class="p">:</span> <span class="mi">1</span>
-   <span class="p">}</span>
 
-   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
-       <span class="nl">message</span><span class="p">:</span> <span class="s1">'user added successfully'</span> 
-    <span class="p">}</span>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="nl">message</span><span class="p">:</span> <span class="s1">'user added successfully'</span> 
 <span class="p">}</span>
-
 </code></pre><h2 id='post-message-to-a-group'>Post message to a group</h2><h3 id='request-3'>Request</h3>
 <ul>
 <li>Endpoint: POST: /api/v1/group/:groupId/message</li>
@@ -545,27 +556,23 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 201: CREATED</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Post</span> <span class="nx">message</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
-<span class="p">{</span>
-   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
-      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"how are you?"</span><span class="p">,</span>
-      <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-   <span class="p">}</span>
 
-   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
-       <span class="p">{</span> 
-           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
-           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">15</span>
-                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
-                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
-                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
-           <span class="p">}</span>
-       <span class="p">}</span>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span>
+    <span class="s2">"postedMessage"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome "</span><span class="p">,</span>
+        <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+        <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"critical"</span><span class="p">,</span>
+        <span class="s2">"messageCreator"</span><span class="p">:</span> <span class="s2">" naruto"</span><span class="p">,</span>
+        <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:28:03.447Z"</span><span class="p">,</span>
+        <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:28:03.447Z"</span>
     <span class="p">}</span>
 <span class="p">}</span>
-
 </code></pre><h2 id='get-all-messages-in-a-group'>Get all messages in a group</h2><h3 id='request-4'>Request</h3>
 <ul>
 <li>Endpoint: GET: /api/v1/group/:groupId/messages</li>
@@ -576,34 +583,34 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Get</span> <span class="nx">all</span> <span class="nx">messages</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">group</span>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
-
-   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
-      <span class="nl">posts</span><span class="p">:</span> <span class="p">[</span>
-          <span class="p">{</span> 
-           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
-           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
-                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
-                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
-                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
-           <span class="p">}</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome "</span><span class="p">,</span>
+            <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"critical"</span><span class="p">,</span>
+            <span class="s2">"messageCreator"</span><span class="p">:</span> <span class="s2">" naruto"</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:25:14.106Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:25:14.106Z"</span>
         <span class="p">},</span>
-
-        <span class="p">{</span> 
-           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
-           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
-                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"am fine"</span>
-                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
-                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"blaze"</span>
-           <span class="p">}</span>
-       <span class="p">}</span>
-      <span class="p">]</span>
-    <span class="p">}</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+            <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome "</span><span class="p">,</span>
+            <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"critical"</span><span class="p">,</span>
+            <span class="s2">"messageCreator"</span><span class="p">:</span> <span class="s2">" naruto"</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:28:03.447Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T01:28:03.447Z"</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
 <span class="p">}</span>
 
 </code></pre><h2 id='get-all-group-notifications'>Get all group notifications</h2><h3 id='request-5'>Request</h3>
@@ -616,27 +623,54 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Post</span> <span class="nx">message</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">group</span>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
-   <span class="nl">Request</span><span class="p">:</span> <span class="p">{</span> 
-      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"how are you?"</span><span class="p">,</span>
-      <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-   <span class="p">}</span>
-
-   <span class="nl">Response</span><span class="p">:</span> <span class="p">{</span> 
-       <span class="p">{</span> 
-           <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span> 
-           <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                 <span class="s2">"id"</span><span class="p">:</span> <span class="mi">15</span>
-                 <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span>
-                 <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span>
-                 <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span>
-                 <span class="s2">"creator"</span><span class="p">:</span> <span class="s2">"johnny"</span>
-           <span class="p">}</span>
-       <span class="p">}</span>
-    <span class="p">}</span>
+    <span class="s2">"notices"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.496Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.496Z"</span><span class="p">,</span>
+            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.553Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.553Z"</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.227Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.227Z"</span><span class="p">,</span>
+            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.283Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.283Z"</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.369Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.369Z"</span><span class="p">,</span>
+            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.433Z"</span><span class="p">,</span>
+                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.433Z"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
 <span class="p">}</span>
-
 </code></pre><h2 id='delete-all-notifications'>Delete all notifications</h2><h3 id='request-6'>Request</h3>
 <ul>
 <li>Endpoint: DELETE: /api/v1/user/delete/notifications</li>
@@ -647,9 +681,12 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code><span class="nx">Delete</span> <span class="nx">all</span> <span class="nx">notifications</span>
 
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="p">{</span>
      <span class="nl">message</span><span class="p">:</span> <span class="s1">'All notifications deleted'</span>
 <span class="p">}</span>
 
@@ -664,15 +701,20 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
-    <span class="p">{</span>
-        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"ataksuki"</span><span class="p">,</span>
-        <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"nagato"</span>
+<span class="p">{</span>
+    <span class="s2">"group"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"konoha"</span><span class="p">,</span>
+        <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"john"</span><span class="p">,</span>
+        <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T00:14:27.970Z"</span><span class="p">,</span>
+        <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-13T00:14:27.970Z"</span>
     <span class="p">}</span>
 <span class="p">}</span>
-
 
 </code></pre><h2 id='get-groups-user-is-a-member'>Get groups user is a member</h2><h3 id='request-8'>Request</h3>
 <ul>
@@ -684,8 +726,12 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:{</span>
+<span class="p">{</span>
     <span class="s2">"usergroups"</span><span class="p">:[</span>
         <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -725,10 +771,14 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+<span class="p">{</span>
     <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"user read this mesage"</span><span class="p">,</span>
-    <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"readMessage"</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
         <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"test-post"</span><span class="p">,</span>
         <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span><span class="p">,</span>
@@ -753,8 +803,12 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Response: </p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+<span class="p">{</span>
   <span class="s2">"users"</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -784,8 +838,11 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
-<pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+
+<blockquote>
+<p>Response: </p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
     <span class="s2">"unreadMessages"</span><span class="p">:</span> <span class="mi">1</span>    
 <span class="p">}</span>
 
@@ -800,8 +857,12 @@ Run <code>npm run dev:server</code> to start the project</p>
 <li>Status: 200: OK</li>
 <li>Body (application/json)</li>
 </ul>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-<span class="nl">Response</span><span class="p">:</span> <span class="p">{</span>
+<span class="p">{</span>
     <span class="s2">"members"</span><span class="p">:</span> <span class="p">[</span>
         <span class="s2">"naruto"</span><span class="p">,</span>
         <span class="s2">"bat"</span>

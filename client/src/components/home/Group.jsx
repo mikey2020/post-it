@@ -31,12 +31,10 @@ export class Group extends React.Component {
    */
   render() {
     return (
-      <div>
+      <div className="menu-list">
         <a
-          role="button"
-          tabIndex={0}
           onClick={this.onClick}
-          className="waves-effect waves-light btn group-btn"
+          className="group"
         >
           {this.props.groupname}
         </a>
