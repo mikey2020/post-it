@@ -8,7 +8,7 @@ const checkGroupExists = sinon.spy();
 
 const setup = () => {
   const props = {
-    createGroup: (() => {}),
+    createGroup: (() => Promise.resolve(1)),
     checkGroupExists,
     groupExists: () => Promise.resolve(1)
   };
@@ -25,13 +25,16 @@ describe('Component', () => {
     });
 
     it('calls onChange', () => {
-      const event = { target: { name: 'name', value: 'manny' }, errors: {}, isLoading: false };
+      const event = { target: { name: 'name', value: 'manny' }, 
+        errors: {},
+        isLoading: false };
       wrapper.find('.form-control').simulate('change', event);
       expect(wrapper.find('.form-control').props().onChange).toBeA('function');
     });
 
     it('calls onBlur', () => {
-      wrapper.find('#usr').simulate('blur', { target: { name: 'name', value: 'manny' } });
+      wrapper.find('#usr').simulate('blur',
+       { target: { name: 'name', value: 'manny' } });
       expect(checkGroupExists).toBeA('function');
     });
 

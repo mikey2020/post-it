@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import winston from 'winston';
 
 import models from '../models';
 import returnServerError from '../helpers/returnServerError.js';
+import sendEmail from '../helpers/sendEmail.js';
 
 const Group = models.Group;
 const Message = models.Message;
@@ -27,10 +27,13 @@ class GroupController {
 
   /**
    * @function createGroup
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - response status code and json data
-   * @description it sends (username) created successfully
+   *
+   * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
     if (request.body.name === undefined) {
@@ -55,9 +58,12 @@ class GroupController {
   }
   /**
    * @function addUserToGroup
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - if there is no error, it sends user added successfully
+   *
    * @description - It adds a user to a particular group
    */
   static addUserToGroup(request, response) {
@@ -81,9 +87,12 @@ class GroupController {
 
   /**
    * @function postMessageToGroup
+   *
    * @param {Object} request
    * @param {Object} response
+   *
    * @returns {void} - It allows users post a message to a group
+   *
    * @description - It posts a new message to a group
    */
   static postMessageToGroup(request, response) {
@@ -103,7 +112,8 @@ class GroupController {
             newNotification, request.decoded.data.id);
             request.app.io.emit('new message posted', message);
             if (message.priority === 'urgent') {
-              GroupController.sendEmail(request.usersEmails, newNotification);
+              GroupController.sendNotificationEmail(request.usersEmails,
+              newNotification);
             } else if (message.priority === 'critical') {
               GroupController.sendEmail(request.usersEmails,
               GroupController.notificationMessage(request.decoded.data.username,
@@ -123,9 +133,12 @@ class GroupController {
   }
   /**
    * @function getMessages
+   *
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
+   *
    * @returns {object} - if there is no error, it returns an array of messages
+   *
    * @description - It returns messages posted to a particular group
    */
   static getMessages(request, response) {
@@ -154,9 +167,12 @@ class GroupController {
   }
   /**
    * @function checkGroupName
+   *
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
+   *
    * @returns {void}
+   *
    * @description -  It checks if a group already exists
    */
   static checkGroupName(request, response) {
@@ -179,9 +195,12 @@ class GroupController {
 
   /**
    * @function  getUserGroups
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error,
+   *
+   * @returns {object} - if there is no error
+   *
    * @description it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
@@ -206,10 +225,13 @@ class GroupController {
 
    /**
   * @function getGroupMembers
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    * @param {function} next
+   *
    * @returns {object} - returns an array of users
+   *
    * @description -  it get all members of a group
    */
   static getGroupMembers(request, response, next) {
@@ -236,9 +258,12 @@ class GroupController {
   }
  /**
   * @function getGroupsUserIsMember
+  *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error,
+   *
+   * @returns {object} - if there is no error
+   *
    * @description -  it returns the number of groups a user is part of.
    */
   static getGroupsUserIsMember(request, response) {
@@ -266,7 +291,9 @@ class GroupController {
   /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
+   *
    * @returns {object} - if there is no error, it returns array of users
+   *
    * @description - it returns array of users in a group
    * that have read a message
    */
@@ -293,7 +320,9 @@ class GroupController {
   /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error,
+   *
+   * @returns {object} - if there is no error
+   *
    * @description - it adds user to table signifying
    * that user has read a message
    */
@@ -319,36 +348,21 @@ class GroupController {
   /**
    * @param {array} membersEmails - emails of all members of the group
    * @param {string} message -  notification message to be sent
+   *
    * @returns {void}
+   *
    * @description Sends email to all members of a group
    */
-  static sendEmail(membersEmails, message) {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.Email,
-        pass: process.env.EmailPass
-      }
-    });
-
-    const mailOptions = {
-      from: 'PostIt',
-      to: membersEmails,
-      subject: 'New message notification',
-      text: message
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        winston.log(error);
-      } else {
-        winston.info('Email sent: ', info.response);
-      }
-    });
+  static sendNotificationEmail(membersEmails, message) {
+    const subject = 'New message posted';
+    sendEmail(membersEmails, subject, message);
   }
+
   /**
    * @param {array} group - emails of all members of the group
+   *
    * @returns {void}
+   *
    * @description -  Gets all user emails from an array of groups
    */
   static getEmails(group) {
@@ -360,7 +374,9 @@ class GroupController {
   }
   /**
    * @param {array} recipient - phone number of receiver of the sms
+   *
    * @returns {void}
+   *
    * @description -  Sends sms to a user
    */
   static sendSms(recipient) {
@@ -380,6 +396,7 @@ class GroupController {
 
   /**
    * @returns {String} - it returns a notification message
+   *
    * @param {Object} message - message object
    */
   static notificationMessage(message) {
@@ -389,10 +406,12 @@ class GroupController {
 
   /**
    * @returns {void}
+   *
    * @param {number} id - id that notification belongs to
    * @param {string} notice - event that took place
    * @param {userId} userId
    * @param {string} notification
+   *
    * @description -  Adds a new notification
    */
   static addNotification(id, notice, userId) {
@@ -408,7 +427,9 @@ class GroupController {
    /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error,
+   *
+   * @returns {object} - if there is no error
+   *
    * @description it returns array of users in a group
    */
   static getUserNotifications(request, response) {
@@ -432,8 +453,10 @@ class GroupController {
   }
   /**
    * @returns {void}
+   *
    * @param {object} request
    * @param {object} response
+   *
    * @description Gets all members of a group
    */
   static allGroupMembers(request, response) {
@@ -450,8 +473,10 @@ class GroupController {
 
   /**
    * @returns {void}
+   *
    * @param {Object} request
    * @param {Object} response
+   *
    * @description It gets all user's unread messages from the database
    */
   static getUnreadMessages(request, response) {
@@ -490,7 +515,9 @@ class GroupController {
   /**
    * @param {Object} request
    * @param {Object} response
+   *
    * @returns {void}
+   *
    * @description - deletes all user's notifications from the database
    */
   static deleteNotifications(request, response) {

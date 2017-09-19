@@ -14,6 +14,7 @@ const validate = new Validations();
 export class SignupForm extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -60,7 +61,6 @@ export class SignupForm extends React.Component {
     }
   }
   /**
-   * @param {object} e - argument
    * @returns {void}
    */
   isValid() {
@@ -76,6 +76,7 @@ export class SignupForm extends React.Component {
   /**
     * @returns {void}
     * @param {Object} response
+    * @description - It helps to get data or response from gooogle
     */
   responseGoogle(response) {
     const profile = response.profileObj;
@@ -102,10 +103,10 @@ export class SignupForm extends React.Component {
       showGoogleButton,
       phoneNumber } = this.state;
     return (
-      <div className="" id="signup-body">
+      <div className="row" id="signup-body">
         <center>
           <form onSubmit={this.onSubmit}>
-            <div className="col s12 m4 l2 signup-form">
+            <div className="col s12 m7 l6 push-m2 push-l2 signup-form">
               <span id="signup-header" className="flow-text">
                 <h3> Sign Up </h3></span>
               {errors.username ? <span className="help-block">

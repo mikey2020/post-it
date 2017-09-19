@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { setCurrentGroup } from '../../actions/groupActions';
 
 /**
- * Group component
+ * Group
  * @class
  */
 export class Group extends React.Component {
    /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -18,11 +19,12 @@ export class Group extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
-   * @param {object} e - event
+   * @param {object} event
+   *
    * @returns {void}
    */
-  onClick(e) {
-    e.preventDefault();
+  onClick(event) {
+    event.preventDefault();
     this.props.setCurrentGroup(this.props.group);
   }
    /**
@@ -31,7 +33,7 @@ export class Group extends React.Component {
    */
   render() {
     return (
-      <div className="menu-list">
+      <div className="card">
         <a
           onClick={this.onClick}
           className="group"
