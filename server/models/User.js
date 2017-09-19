@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.beforeCreate((user) => {
     user.password = bcrypt.hashSync(user.password);
+    user.username = user.username.toLowerCase();
   });
 
   User.beforeUpdate((user) => {

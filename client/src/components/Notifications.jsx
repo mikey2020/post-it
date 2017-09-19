@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getNotifications, addNotification } from '../actions/notificationAction';
+import { getNotifications,
+  addNotification } from '../actions/notificationAction';
 
 const socket = io();
 
@@ -18,7 +19,8 @@ class Notifications extends React.Component {
     super(props);
     socket.on('new message posted', (message) => {
       if (this.props.username !== message.messageCreator) {
-        this.props.addNotification(`${message.messageCreator} posted a message to a group which you are a member`);
+        this.props.addNotification(`${message.messageCreator} 
+        posted a message to a group which you are a member`);
       }
     });
   }
@@ -36,7 +38,11 @@ class Notifications extends React.Component {
    */
   render() {
     const allNotifications = this.props.notifications.map(notification =>
-      <li key={notification.id} className="collection-item">{notification.notification}</li>
+      <li
+        key={notification.id}
+        className="collection-item"
+      >
+        {notification.notification}</li>
     );
     return (
       <div id="modal4" className="modal notifications">

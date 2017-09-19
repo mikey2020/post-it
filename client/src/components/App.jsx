@@ -20,9 +20,9 @@ export default props =>
      <div>
        <Header />
        <FlashMessageList />
-       <Notifications />
        <CreateGroupForm />
        <AddUserPage />
+       <Notifications />
        <Readers />
        { props.children }
        <Footer />
