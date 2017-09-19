@@ -69,10 +69,12 @@ The following features make up the PostIt API:
 Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
 
 1. Fork the repository.
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request describing the feature(s) you have added
+6. Please refer to this wiki on how to name your branches, write a good commit message and pull request convention
+[Best Pratices](https://github.com/mikey2020/post-it/wiki)
 
 Ensure your codes follow the [AirBnB Javascript Styles Guide](https://github.com/airbnb/javascript)
 

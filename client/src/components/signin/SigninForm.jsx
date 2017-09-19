@@ -2,6 +2,7 @@
  import { connect } from 'react-redux';
  import { Link } from 'react-router';
  import PropTypes from 'prop-types';
+
  import { validateUser, validateGoogleUser } from '../../actions/signinActions';
  import Validations from '../../../validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
@@ -16,6 +17,7 @@
  export class SigninForm extends React.Component {
    /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
    constructor(props) {
@@ -34,13 +36,17 @@
 
    /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
    onChange(event) {
-     this.setState({ [event.target.name]: event.target.value, invalid: false, errors: {} });
+     this.setState({ [event.target.name]: event.target.value,
+       invalid: false,
+       errors: {} });
    }
    /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
    onSubmit(event) {
@@ -55,6 +61,7 @@
    }
    /**
     * @param {Object} event
+    *
     * @returns {void}
     */
    onBlur(event) {
@@ -75,7 +82,6 @@
      }
    }
      /**
-   * @param {object} e - argument
    * @returns {void}
    */
    isValid() {
@@ -97,43 +103,60 @@
      return (
        <div id="modal1" className="modal signin-container">
          <div className="signin-form">
-           <h3> Sign In </h3>
+           <div className="center">
+             <h3> Sign In </h3>
+           </div>
            {errors.form &&
            <div className="alert alert-danger"> {errors.form} </div>}
-           <form onSubmit={this.onSubmit}>
-             {errors.username ?
-               <span className="help-block red darken-4">{errors.username}</span> : <br />}
-             <input
-               type="text"
-               value={username}
-               onChange={this.onChange}
-               onBlur={this.onBlur}
-               placeholder="username"
-               name="username"
-               className="username"
-             />
-
-             {errors.password ?
-               <span className="help-block">{errors.password}</span> : <br />}
-             <input
-               type="password"
-               value={this.state.password}
-               onChange={this.onChange}
-               placeholder="password"
-               name="password"
-               className="password"
-             />
-             <input
-               type="submit"
-               name="signin"
-               value="Sign In"
-               id="sign-in"
-               disabled={this.state.invalid}
-               className="modal-action modal-close btn waves-effect waves-light light-blue"
-             />
-           </form>
+           <div className="col s12">
+             <form onSubmit={this.onSubmit}>
+               {errors.username ?
+                 <span className="help-block red darken-4">
+                   {errors.username}</span> : <br />}
+               <div className="row">
+                 <div className="col s12">
+                   <input
+                     type="text"
+                     value={username}
+                     onChange={this.onChange}
+                     onBlur={this.onBlur}
+                     placeholder="username"
+                     name="username"
+                     className="username"
+                   />
+                 </div>
+               </div>
+               <div className="row">
+                 <div className="col s12">
+                   {errors.password ?
+                     <span className="help-block">
+                       {errors.password}</span> : <br />}
+                   <input
+                     type="password"
+                     value={this.state.password}
+                     onChange={this.onChange}
+                     placeholder="password"
+                     name="password"
+                     className="password"
+                   />
+                 </div>
+               </div>
+               <div className="row">
+                 <div className="center">
+                   <input
+                     type="submit"
+                     name="signin"
+                     value="Sign In"
+                     id="sign-in"
+                     disabled={this.state.invalid}
+                     className="modal-action modal-close btn waves-effect waves-light light-blue"
+                   />
+                 </div>
+               </div>
+             </form>
+           </div>
            <br />
-           <span><Link to="/reset" > Forgot password? </Link></span>
+           <span className="left"><Link to="/reset" > Forgot password? </Link></span>
            <br />
          </div>
        </div>

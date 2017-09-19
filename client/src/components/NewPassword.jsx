@@ -27,7 +27,8 @@ class NewPassword extends React.Component {
         <center>
           <div className="jumbotron signup-form">
             <h3>Enter New Password</h3>
-            {errors.newPassword ? <span className="help-block">{errors.newPassword}</span> : <br />}
+            {errors.newPassword ?
+              <span className="help-block">{errors.newPassword}</span> : <br />}
             <input
               type="password"
               value={this.state.newPassword}

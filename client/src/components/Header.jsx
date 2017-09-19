@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import SigninForm from './signin/SigninForm.jsx';
 import { signout } from '../actions/signinActions';
-import { getNotifications, deleteNotification } from '../actions/notificationAction';
+import { getNotifications,
+  deleteNotification } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -37,6 +39,7 @@ export class Header extends React.Component {
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   logout(event) {
@@ -46,6 +49,7 @@ export class Header extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
    */
   clearNotifications(event) {
@@ -63,40 +67,79 @@ export class Header extends React.Component {
     const { isAuthenticated } = this.props;
     const { showNotices } = this.state;
     const userLinks = (
-      <nav>
-        <div className="nav-wrapper">
-          <Link to="/" className="logo">PostIT</Link>
-          <ul className="right">
-            <div>
+      <div>
+        <ul id="dropdown1" className="dropdown-content">
+          <li>
+            <a
+              href=""
+              onClick={this.logout}
+              className=""
+              id="logout-button"
+            >Logout</a></li>
+          <li className="divider" />
+        </ul>
+        <ul id="mobile" className="dropdown-content">
+          <li>
+            <a
+              href=""
+              onClick={this.logout}
+              className=""
+              id="logout-button"
+            >Logout</a></li>
+          <li className="divider" />
+        </ul>
+        <nav>
+          <div className="nav-wrapper light-blue">
+            <a href="#!" className="brand-logo hide-on-med-and-down">PostIT</a>
+            <a
+              href="#!"
+              className="brand-logo hide-on-large-only show-on-small new-header"
+            >PostIT</a>
+            <ul className="right hide-on-med-and-down">
               <li>
                 <a href="#modal4" onClick={this.clearNotifications}>
-                  <i className="material-icons modal-trigger">notifications</i></a></li>
+                  <i className="material-icons modal-trigger">
+                  notifications</i></a></li>
               { showNotices === 'true' &&
-                <li><span className="notify"> { this.props.notifications.length } </span></li> }
-              <li>
-                <Link
-                  className=""
-                  to="/home"
-                >
-                Home</Link></li>
+                <li><span className="notify">
+                  { this.props.notifications.length } </span></li> }
               <li>
                 <a
-                  href=""
-                  onClick={this.logout}
-                  className=""
-                  id="logout-button"
-                >Logout</a></li>
-            </div>
-          </ul>
-        </div>
-      </nav>
+                  className="dropdown-button"
+                  href="#!"
+                  data-activates="dropdown1"
+                >
+                  {this.props.username}
+                  <i className="material-icons right">
+                  arrow_drop_down</i></a></li>
+            </ul>
+            <ul className="right hide-on-large-only show-on-small">
+              <li>
+                <a href="#modal4" onClick={this.clearNotifications}>
+                  <i className="material-icons modal-trigger">
+                  notifications</i></a></li>
+              { showNotices === 'true' &&
+                <li><span className="notify">
+                  { this.props.notifications.length } </span></li> }
+              <li>
+                <a
+                  className="dropdown-button"
+                  href="#!"
+                  data-activates="mobile"
+                >{this.props.username}
+                  <i className="material-icons right">
+                  arrow_drop_down</i></a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     );
 
 
     const guestLinks = (
       <nav>
-        <div className="nav-wrapper">
-          <Link to="/" className="logo">PostIT</Link>
+        <div className="nav-wrapper light-blue">
+          <Link to="/" className="brand-logo">PostIT</Link>
           <ul className="right">
             <div>
               <li>
@@ -128,6 +171,7 @@ export class Header extends React.Component {
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired,
   signout: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
   deleteNotification: PropTypes.func.isRequired,
@@ -140,7 +184,9 @@ Header.contextTypes = {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.user.isAuthenticated,
+  username: state.user.user.username,
   notifications: state.notifications
 });
 
-export default connect(mapStateToProps, { signout, deleteNotification, getNotifications })(Header);
+export default connect(mapStateToProps,
+{ signout, deleteNotification, getNotifications })(Header);

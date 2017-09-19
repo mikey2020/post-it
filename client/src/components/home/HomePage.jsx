@@ -7,6 +7,7 @@ import Messages from './Messages.jsx';
 /**
  *  HomePage class component
  * @class
+ *
  * @param {Object} props
  */
 const HomePage = props =>
@@ -16,12 +17,12 @@ const HomePage = props =>
    */
    (
      <div className="row">
-       <div className="col s4 m4 l3">
+       <div className="col s3 m2 l3 my-group">
          <Sidebar />
        </div>
-       <div className="col s8 m8 l9 message-board">
+       <div className="col s9 m10 l8 my-messages">
          { props.groupId ? <Messages /> :
-         <h2 className="select-group">Please select a group</h2> }
+         <h5 className="select-group">Create/Select a group</h5> }
        </div>
      </div>
   );
