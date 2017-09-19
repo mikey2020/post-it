@@ -47,7 +47,7 @@ describe('User Actions', () => {
     expect(store.getActions()).toEqual([]);
   });
 
-  it('verifies code sent to user for resetting password is unsuccessful', () => {
+  it('verifies code  for resetting password is invalid', () => {
     const store = mockStore([]);
     axios.post = jest.fn(() => Promise.resolve({ data: { message: null } }));
     store.dispatch(actions.verifyCode({}));

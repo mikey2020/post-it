@@ -33,7 +33,7 @@ const checkUserExists = username =>
   axios.post('/api/v1/user/checkUser', username);
 
 const sendVerificationCode = userData =>
-  dispatch => axios.post('/api/v1/user/resetPassword', userData)
+  dispatch => axios.post('/api/v1/user/setCode', userData)
     .then((res) => {
       if (res.data.message) {
         dispatch(handleSuccess(res.data.message,

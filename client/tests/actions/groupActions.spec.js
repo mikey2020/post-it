@@ -13,11 +13,14 @@ const resData = { id: 3, groupname: 'fengshui', groupCreator: 'negan' };
 
 describe('Group Actions', () => {
   it('creates a success flash message when a group is created', (done) => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { group: { data: resData, message: 'group created' } } }));
+    axios.post = jest.fn(() =>
+    Promise.resolve(
+      { data: { group: { data: resData, message: 'group created' } } }));
 
     const store = mockStore([]);
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'fengshui created successfully', type: 'success' } }
+      { type: types.ADD_FLASH_MESSAGE,
+        message: { text: 'fengshui created successfully', type: 'success' } }
     ];
     store.dispatch(actions.createGroup(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -30,7 +33,8 @@ describe('Group Actions', () => {
 
     const store = mockStore([]);
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'all groups gotten ', type: 'success' } }
+      { type: types.ADD_FLASH_MESSAGE,
+        message: { text: 'all groups gotten ', type: 'success' } }
     ];
     store.dispatch(actions.getUserGroups()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -39,11 +43,13 @@ describe('Group Actions', () => {
   });
 
   it('should add user to a group successfully', (done) => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { message: 'user added successfully' } }));
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { message: 'user added successfully' } }));
 
     const store = mockStore([]);
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'user added successfully', type: 'success' } }
+      { type: types.ADD_FLASH_MESSAGE,
+        message: { text: 'user added successfully', type: 'success' } }
     ];
     store.dispatch(actions.addUserToGroup()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

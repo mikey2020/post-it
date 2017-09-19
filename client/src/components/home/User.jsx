@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { addUserToGroup } from '../../actions/groupActions';
 import { getMembersOfGroup } from '../../actions/userActions';
 /**
  *  User class component
+ *
  * @class
  */
 export class User extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props - react properties
    */
   constructor(props) {
@@ -31,6 +34,7 @@ export class User extends React.Component {
 
   /**
    * @param {object} prevProps - previous props
+   *
    * @returns {void}
    */
   componentDidUpdate(prevProps) {
@@ -42,6 +46,7 @@ export class User extends React.Component {
 
   /**
    * @returns {void}
+   *
    * @param {object} event  - event object
    */
   onClick(event) {
@@ -53,7 +58,11 @@ export class User extends React.Component {
 
   /**
    * @returns {void}
+   *
    * @param {string} user - registered user in the application
+   *
+   * @description - It compares search results against members of a group,
+   * to see who is member of a group and who is not.
    */
   checkUserIsMember(user) {
     const { members } = this.props;
@@ -68,15 +77,14 @@ export class User extends React.Component {
    */
   render() {
     return (
-      <div>
+      <div className="row">
         <li className="collection-item user-btn light-blue flow-text">
           {this.props.username}
           <button
             name="add_user"
             disabled={this.state.userStatus}
             onClick={this.onClick}
-            id=""
-            className="waves-effect waves-red btn  add-user-btn "
+            className="waves-effect btn add-user-btn col s4 m2 l2 push-s9 push-m10 push-l10"
           > {this.state.userState}
           </button>
         </li>

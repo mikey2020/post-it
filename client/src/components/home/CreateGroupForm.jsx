@@ -55,6 +55,7 @@ export class CreateGroupForm extends React.Component {
   }
    /**
     * @param {Object} event
+    *
     * @returns {void}
     */
   checkGroupExists(event) {
@@ -95,9 +96,12 @@ export class CreateGroupForm extends React.Component {
     const { errors, name, isLoading, invalid } = this.state;
     return (
       <div id="modal2" className="modal group-form">
-        <div className="" >
-
-          <form className="form-group" onSubmit={this.onSubmit}>
+        <div className="center">
+          {errors.name ? <span className="red darken-4">
+            {errors.name}</span> : <br />}
+        </div>
+        <div className="col s12">
+          <form className="form-group my-form" onSubmit={this.onSubmit}>
             <input
               type="text"
               placeholder="Enter group name"
@@ -117,8 +121,6 @@ export class CreateGroupForm extends React.Component {
               disabled={isLoading || invalid}
             />
 
-            {errors.name ? <span className="red darken-4">
-              {errors.name}</span> : <br />}
           </form>
         </div>
       </div>
