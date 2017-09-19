@@ -45,17 +45,20 @@ describe('Message Actions', () => {
 
   it('reads a message successfully', () => {
     axios.post = jest.fn(() =>
-    Promise.resolve({ data: { message: '', readMessage: {} } }));
+    Promise.resolve({ data: { message: 'user read this message',
+      readMessage: {} } }));
     const store = mockStore([]);
-    store.dispatch(actions.readMessage(1));
-    expect(store.getActions()).toEqual([]);
+    store.dispatch(actions.readMessage(1)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
   });
 
   it('get users who read a message', () => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { users: [] } }));
+    axios.get = jest.fn(() => Promise.resolve({ data: { users: [] } }));
     const store = mockStore([]);
-    store.dispatch(actions.getUsersWhoReadMessage(1));
-    expect(store.getActions()).toEqual([]);
+    store.dispatch(actions.getUsersWhoReadMessage(1)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
   });
 
   it('get number of messages user has not read', () => {

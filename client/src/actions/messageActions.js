@@ -5,7 +5,6 @@ import {
   SET_USERS_WHO_READ_MESSAGE,
   SET_UNREAD_MESSAGES
 } from '../actions/types';
-import { addFlashMessage, createMessage } from './flashMessageActions';
 import { handleErrors, handleSuccess } from './errorAction';
 
 const addGroupMessages = messages => ({
@@ -30,8 +29,8 @@ const setUnreadMessages = messages => ({
 
 const getGroupMessages = (groupId, limit, offset) =>
   dispatch =>
-    axios.get(`/api/v1/group/${groupId}/messages
-    ?limit=${limit}&offset=${offset}`)
+    axios.get(
+      `/api/v1/group/${groupId}/messages?limit=${limit}&offset=${offset}`)
       .then((res) => {
         if (res.data.messages) {
           dispatch(addGroupMessages(res.data.messages));
@@ -47,7 +46,7 @@ const postMessage = (messageData, groupId) =>
       if (res.data.postedMessage) {
         dispatch(addMessage(res.data.postedMessage));
       } else {
-        dispatch(addFlashMessage(createMessage('error', res.data.message)));
+        dispatch(handleErrors(null, 'ADD_MESSAGE_FAILED'));
       }
     });
 

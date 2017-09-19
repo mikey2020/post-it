@@ -1,11 +1,10 @@
 import React from 'react';
-import SocketMock from 'socket-io-mock';
 import expect from 'expect';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import { Messages } from '../../src/components/home/Messages.jsx';
 
 const setup = () => {
-
   const props = {
     messages: [],
     group: {},
@@ -26,20 +25,15 @@ describe('Component', () => {
       expect(wrapper.find('ul').exists()).toBe(true);
       expect(wrapper.find('p').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
-      expect(wrapper.find('form').exists()).toBe(true);
+      expect(wrapper.find('form').exists()).toBe(false);
     });
 
-    it('calls onChange', () => {
-      const event = { target: { name: 'name', value: 'manny' }, errors: {}, isLoading: false };
+    it('should call onChange', () => {
+      const event = { target: { name: 'name', value: 'manny' },
+        errors: {},
+        isLoading: false };
 
-      wrapper.find('.materialize-textarea').simulate('change', event);
-      expect(wrapper.find('.materialize-textarea').props().onChange).toBeA('function');
-    });
-
-    it('calls onSubmit', () => {
-      wrapper.find('.post-message-button').simulate('click');
-      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
-      expect(wrapper.find('form').props().onSubmit).toBeA('function');
+      expect(wrapper.instance().onChange).toBeA('function');
     });
   });
 });

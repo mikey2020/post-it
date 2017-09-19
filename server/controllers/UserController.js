@@ -2,11 +2,10 @@ import bcrypt from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import shortid from 'shortid';
-import nodemailer from 'nodemailer';
-import winston from 'winston';
 
 import Validations from '../middlewares/Validations';
 import models from '../models';
+import sendEmail from '../helpers/sendEmail.js';
 import returnServerError from '../helpers/returnServerError.js';
 
 dotenv.config();
@@ -29,7 +28,9 @@ class UserController {
   /**
    * @param {Object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - returns a token and message
+   *
    * @description - it adds a new user to the database
    */
   static signUp(request, response) {
@@ -62,7 +63,9 @@ class UserController {
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - if there is no error, a token and message
+   *
    * @description - it signs in a user by generating a token,
    * that is unique to them
    */
@@ -97,7 +100,9 @@ class UserController {
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - either an error or success object
+   *
    * @description - it helps check whether a user already exists in the database
    */
   static checkUserExists(request, response) {
@@ -122,7 +127,9 @@ class UserController {
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {object} - number of results that match the user's query
+   *
    * @description - it helps a user search for other users
    */
   static getUsers(request, response) {
@@ -148,7 +155,9 @@ class UserController {
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error,
+   *
+   * @returns {object} - if there is no error
+   *
    * @description - It sends a user their verification code
    * and stores it on the user's table
    */
@@ -176,46 +185,24 @@ class UserController {
   }
   /**
    * @returns {void}
+   *
    * @param {Array} userEmail
    * @param {String} username
    * @param {String} verificationCode
    */
   static sendVerificationCode(userEmail, username, verificationCode) {
-    const url = process.env.URL;
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.Email,
-        pass: process.env.EmailPass
-      }
-    });
-
-    const mailOptions = {
-      from: 'PostIt',
-      to: userEmail,
-      subject: 'reset password verification code',
-      html: `<div><h2>Hello, ${username}!</h2>
+    const message = `<div><h2>Hello, ${username}!</h2>
           <p><strong>Your Verification code is:</strong> 
-          ${verificationCode}</p>\
-          <p><a href="${url}">Update my password</a></p><br /><br />\
-          <p>Please use this link to update your password by 
-          inputing your verification code</p>\`
-          <p>You can post messages on 
-          <a href="mike-post.herokuapp.com">POSTIT</a></p></div>`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        winston.log(error);
-      } else {
-        winston.info('Email sent: ', info.response);
-      }
-    });
+          ${verificationCode}</p>`;
+    const subject = 'Reset Password verification code';
+    sendEmail(userEmail, subject, message);
   }
+
 
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {void}
    */
   static checkVerificationCode(request, response) {
@@ -242,7 +229,9 @@ class UserController {
 
   /**
    * @description - It checks if a user already exists
+   *
    * @returns {Boolean} - returns true or false
+   *
    * @param {String} username
    */
   static isAlreadyUser(username) {

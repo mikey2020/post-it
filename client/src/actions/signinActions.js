@@ -13,7 +13,7 @@ const unsetUser = () => ({
   type: UNSET_USER
 });
 
-const signout = () => (dispatch) => {
+const signOut = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
   dispatch(handleSuccess('signout successful', 'SIGNOUT_SUCCESSFUL'));
@@ -48,4 +48,4 @@ const validateUser = userData =>
       dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
     });
 
-export { validateUser, signout, validateToken, setUser, validateGoogleUser };
+export { validateUser, signOut, validateToken, setUser, validateGoogleUser };

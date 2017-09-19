@@ -68,6 +68,7 @@ export class Messages extends React.Component {
   }
    /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onChange(event) {
@@ -81,6 +82,7 @@ export class Messages extends React.Component {
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onSubmit(event) {
@@ -98,7 +100,11 @@ export class Messages extends React.Component {
 
   /**
    * @param {Object} event - Event object
+   *
    * @returns {void}
+   *
+   * @description - It handles the priority level of a
+   * message based on the user's input
    */
   handlePriority(event) {
     event.preventDefault();
@@ -115,7 +121,10 @@ export class Messages extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
+   *
+   * @description - It get a user's archived messages
    */
   viewArchived(event) {
     event.preventDefault();
@@ -126,7 +135,8 @@ export class Messages extends React.Component {
   }
   /**
    * @returns {void}
-   * @description checks if user's input is valid
+   *
+   * @description - It checks if user's input is valid or not
    */
   isValid() {
     const { errors, isValid } = validate.input(this.state);
@@ -160,67 +170,49 @@ export class Messages extends React.Component {
         {errors.priority ?
           <span className="priority-error">{errors.priority}</span> : <br />
         }
-        <div>
-          <nav className="col s12 m12 l12 right-column-header hide-on-med-and-down">
+        <div className="col s12 m12">
+          <nav className="col s12 m12 l10 right-column-header">
             <div className="nav-wrapper">
-              <div className="row">
-                <span className="col s5 m4" id="group-name">
+              <div>
+                <span id="group-name" className="left">
                   {this.props.group.name ?
                   this.props.group.name : 'No Group Selected' }
                 </span>
-                <a href="#modal3" className="">
-                  <i className="material-icons adduser-icon col s3 push-m6 l3">
-                  add_circle_outline</i>
-                </a>
-              </div>
-            </div>
-          </nav>
-
-          <nav className="mobile-column-header hide-on-large-only show-on-small">
-            <div className="nav-wrapper">
-              <div className="row">
-                <span className="col s5 m4" id="group-name">
-                  {this.props.group.name }
-                </span>
-                <a href="#modal3" className="">
-                  <i className="material-icons mobile-adduser-icon">
+                <a className="right" href="#modal3">
+                  <i className="material-icons my-add-user right">
                   add_circle_outline</i>
                 </a>
               </div>
             </div>
           </nav>
         </div>
-        { this.props.messages.length > this.state.limit ?
-          <div>
-            <a
-              href=""
-              onClick={this.viewArchived}
-              className="archived btn light-blue"
-            >
+        <div>
+          { this.props.messages.length > this.state.limit ?
+            <div>
+              <a
+                href=""
+                onClick={this.viewArchived}
+                className="archived btn light-blue"
+              >
           view archived</a> </div> : <p />
         }
-
-        <div className="all-messages"><ul>{allMessages}</ul></div>
-
-        <MessageForm
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          priority={priority}
-          priorityLevel={priorityLevel}
-          handlePriority={this.handlePriority}
-          message={message}
-          className="large-post-message hide-on-med-and-down"
-        />
-
-        <MessageForm
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          priority={priority}
-          priorityLevel={priorityLevel}
-          handlePriority={this.handlePriority}
-          message={message}
-          className="small-post-message show-on-small hide-on-large-only"
-        />
+          <div
+            className="all-messages col s8 m8 l9"
+          >
+            <ul>{allMessages}</ul>
+          </div>
+          <div className="">
+            <MessageForm
+              onChange={this.onChange}
+              onSubmit={this.onSubmit}
+              priority={priority}
+              priorityLevel={priorityLevel}
+              handlePriority={this.handlePriority}
+              message={message}
+              className="post-message"
+            />
+          </div>
+        </div>
       </div>
     );
   }

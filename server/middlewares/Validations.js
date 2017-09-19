@@ -14,10 +14,14 @@ class Validations {
 
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   signup(user) {
     this.errors = {};
+    const space = new RegExp(' ');
+    const usernameContainsSpace = space.test(user.username);
+
     if (user.password) {
       user.password = user.password.trim();
     }
@@ -27,6 +31,10 @@ class Validations {
 
     if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
+    }
+
+    if (usernameContainsSpace === true) {
+      this.errors.username = 'Username should not contain space';
     }
 
     if (user.email === null || user.email === '') {
@@ -62,7 +70,8 @@ class Validations {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
-    if (user.password && !validator.equals(user.password, user.passwordConfirmation)) {
+    if (user.password &&
+    !validator.equals(user.password, user.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
 
@@ -80,6 +89,7 @@ class Validations {
    * @param {object} response
    * @param {function} next
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   static checkUserIsValid(request, response, next) {
@@ -102,6 +112,7 @@ class Validations {
    * @param {object} request - signup object
    * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
+   *
    * @returns {object} -returns error if there is any
    */
   static authenticate(request, response, next) {
@@ -128,6 +139,7 @@ class Validations {
    * @param {object} request - signup object
    * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
+   *
    * @returns {object} -returns error if there is any
    */
   static isGroupMember(request, response, next) {
@@ -150,6 +162,7 @@ class Validations {
    * @param {Object} request - requestuest object
    * @param {Object} response - responseponse object
    * @param {Object} next - responseponse object
+   *
    * @returns {void}
    */
   static checkGroupExists(request, response, next) {
@@ -172,8 +185,10 @@ class Validations {
 
   /**
    * @param  {String} userInput
+   *
    * @description checks if the string passed in is a digit.
    * which means all the charcters are digit
+   *
    * @return {boolean} true or false
    */
   static isPhoneNumber(userInput) {

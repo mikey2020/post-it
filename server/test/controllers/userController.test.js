@@ -103,7 +103,7 @@ describe('UserController', () => {
     });
 
     it(`should return "user does not exist" 
-     when trying added an unregistered user`, (done) => {
+     when trying to add an unregistered user`, (done) => {
       user.post('/api/v1/group/1/user')
       .set('authorization', token)
       .send({ username: 'user20' })
@@ -114,9 +114,15 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "password length too short" when password is less than or equal to 4', (done) => {
+    it('should return "password length too short" when password is equal to 4',
+    (done) => {
       user.post('/api/v1/user/signup')
-      .send({ username: 'test', password: 'pass', phoneNumber: '08123457690', email: 'test-email@yahoo.com', passwordConfirmation: 'pass' })
+      .send(
+        { username: 'test',
+          password: 'pass',
+          phoneNumber: '08123457690',
+          email: 'test-email@yahoo.com',
+          passwordConfirmation: 'pass' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
@@ -126,13 +132,19 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "password do not match" when password & password confirmation are not equal', (done) => {
+    it('should return "passwords do not match" when password confirmation fails',
+    (done) => {
       user.post('/api/v1/user/signup')
-      .send({ username: 'test', password: 'password', email: 'test-email@yahoo.com', passwordConfirmation: 'password1', phoneNumber: '' })
+      .send({ username: 'test',
+        password: 'password',
+        email: 'test-email@yahoo.com',
+        passwordConfirmation: 'password1',
+        phoneNumber: '' })
       .end((err, res) => {
         res.status.should.equal(400);
         should.not.exist(err);
-        res.body.should.have.property('passwordConfirmation', res.body.passwordConfirmation);
+        res.body.should.have.property('passwordConfirmation',
+        res.body.passwordConfirmation);
         res.body.passwordConfirmation.should.equal('Passwords do not match');
         done();
       });

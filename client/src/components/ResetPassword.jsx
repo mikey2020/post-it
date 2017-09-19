@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import Validations from '../../validations';
 import { checkUserExists,
-  resetPassword, verifyCode } from '../actions/userActions';
+  sendVerificationCode, verifyCode } from '../actions/userActions';
 
 const validate = new Validations();
 /**
@@ -38,7 +39,7 @@ export class ResetPassword extends React.Component {
    * @returns {void}
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value, errors: {},  });
+    this.setState({ [event.target.name]: event.target.value, errors: {} });
   }
   /**
    * @param {Object} event
@@ -46,7 +47,7 @@ export class ResetPassword extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.resetPassword(this.state).then(() => {
+    this.props.sendVerificationCode(this.state).then(() => {
       this.setState({ status: 'waiting for verification code' });
     });
   }
@@ -98,7 +99,7 @@ export class ResetPassword extends React.Component {
     const { errors, status, code, username } = this.state;
     const verificationCodeInput = (
       <form className="reset-form" onSubmit={this.verifyCode}>
-        <div className="jumbotron signup-form">
+        <div className="jumbotron signin-container">
           <h3>Enter Verification code </h3>
           {errors.code ? <span className="help-block">
             {errors.code}</span> : <br />}
@@ -143,7 +144,7 @@ export class ResetPassword extends React.Component {
         <center>
           { status === 'enter username' &&
           <form onSubmit={this.onSubmit} className="reset-form">
-            <div className="jumbotron signup-form">
+            <div className="jumbotron signin-container">
               <h3 id="signup-header" className="flow-text" >Enter Username</h3>
               {errors.username ? <span className="help-block">
                 {errors.username}</span> : <br />}
@@ -178,11 +179,12 @@ export class ResetPassword extends React.Component {
 
 ResetPassword.propTypes = {
   verifyCode: PropTypes.func.isRequired,
-  resetPassword: PropTypes.func.isRequired
+  sendVerificationCode: PropTypes.func.isRequired
 };
 
 ResetPassword.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { verifyCode, resetPassword })(ResetPassword);
+export default connect(null,
+{ verifyCode, sendVerificationCode })(ResetPassword);
