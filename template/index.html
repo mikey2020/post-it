@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-		 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Post It</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
@@ -16,7 +15,7 @@
 					<nav>
 					<div class="nav-wrapper red darken-4">
 						<a href="#!" class="brand-logo">  <i class="material-icons">message</i>POST IT</a>
-						<ul class="right hide-on-med-and-down">
+						<ul class="right">
 							<li><a href=""><i class="material-icons">view_module</i></a></li>
 							<li><a href=""><i class="material-icons">refresh</i></a></li>
 							<li><a href=""><i class="material-icons">more_vert</i></a></li>
@@ -46,9 +45,7 @@
 									</div>
 									</form>
 								 </div>
-								
 						       </span>
-								
 							</div>
 						</li>
 						<li>
@@ -75,59 +72,33 @@
 					<div class="col s8 m8 l9">
                 <ul class="collection">
 									<li class="collection-item avatar">
-										 <img src="user.png" alt="" class="circle">
-										<span class="title">Title</span>
-										<p>First Line <br>
-											Second Line
-										</p>
-										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+										message 1
 									</li>
 									<li class="collection-item avatar">
-										<i class="material-icons circle">folder</i>
-										<span class="title">Title</span>
-										<p>First Line <br>
-											Second Line
-										</p>
-										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+										message 2
 									</li>
 									<li class="collection-item avatar">
-										<i class="material-icons circle green">insert_chart</i>
-										<span class="title">Title</span>
-										<p>First Line <br>
-											Second Line
-										</p>
-										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+										message 3
 									</li>
 									<li class="collection-item avatar">
-										<i class="material-icons circle red">play_arrow</i>
-										<span class="title">Title</span>
-										<p>First Line <br>
-											Second Line
-										</p>
-										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+										mesage 4
 									</li>
 								</ul>						
 					</div>
 
 					<div class="row">
-						<form class="col s8 m8 l8 ">
-							<div class="row">
-								<div class="input-field col s12">
-									<i class="material-icons prefix">mode_edit</i>
-									<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-									<label for="icon_prefix2"></label>
-								</div>
+						<div class="message-input">
+							<div class="input-field col s6">
+							<input value="Alvin" id="first_name2" type="text" class="validate">
+							<label class="active" for="first_name2">Message</label>
+						</div>
 
-								<div class="col s5 m4 l3">
-									 <button class="btn waves-effect waves-light red darken-4" type="submit" name="action">Post
-										<i class="material-icons right">send</i>
-									</button>
-								</div>
-							</div>
-						</form>
+						<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+							<i class="material-icons right">send</i>
+						</button>
+                        </div>
 					</div>
-				</div>
-          
+				</div>  
 	    </div>
        <script src="main.js" </script>
     </body>

@@ -47,7 +47,7 @@ describe('Message Actions', () => {
     axios.post = jest.fn(() =>
     Promise.resolve({ data: { message: '', readMessage: {} } }));
     const store = mockStore([]);
-    store.dispatch(actions.readMessage(1));
+    store.dispatch(actions.readMessage());
     expect(store.getActions()).toEqual([]);
   });
 

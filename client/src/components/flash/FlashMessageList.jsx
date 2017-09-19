@@ -6,6 +6,7 @@ import { deleteFlashMessage } from '../../actions/flashMessageActions';
 
 /**
  * @class
+ *
  * @param {Object} props
  */
 const FlashMessagesList = (props) => {

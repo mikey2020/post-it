@@ -16,7 +16,8 @@
    "io": true,
    "window": true,
    "$": true,
-   "document": true
+   "document": true,
+   "Materialize": true
   },
   "rules": {
     "max-len":[2, 80, 2],

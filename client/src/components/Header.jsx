@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import SigninForm from './signin/SigninForm.jsx';
 import { signout } from '../actions/signinActions';
 import { getNotifications,
@@ -38,6 +39,7 @@ export class Header extends React.Component {
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   logout(event) {
@@ -47,6 +49,7 @@ export class Header extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
    */
   clearNotifications(event) {
@@ -87,12 +90,19 @@ export class Header extends React.Component {
         </ul>
         <nav>
           <div className="nav-wrapper light-blue">
-            <a href="#!" className="logo hide-on-med-and-down">PostIT</a>
+            <a href="#!" className="brand-logo hide-on-med-and-down">PostIT</a>
             <a
               href="#!"
               className="brand-logo hide-on-large-only show-on-small new-header"
             >PostIT</a>
             <ul className="right hide-on-med-and-down">
+              <li>
+                <a href="#modal4" onClick={this.clearNotifications}>
+                  <i className="material-icons modal-trigger">
+                  notifications</i></a></li>
+              { showNotices === 'true' &&
+                <li><span className="notify">
+                  { this.props.notifications.length } </span></li> }
               <li>
                 <a
                   className="dropdown-button"
@@ -104,6 +114,13 @@ export class Header extends React.Component {
                   arrow_drop_down</i></a></li>
             </ul>
             <ul className="right hide-on-large-only show-on-small">
+              <li>
+                <a href="#modal4" onClick={this.clearNotifications}>
+                  <i className="material-icons modal-trigger">
+                  notifications</i></a></li>
+              { showNotices === 'true' &&
+                <li><span className="notify">
+                  { this.props.notifications.length } </span></li> }
               <li>
                 <a
                   className="dropdown-button"
@@ -122,7 +139,7 @@ export class Header extends React.Component {
     const guestLinks = (
       <nav>
         <div className="nav-wrapper light-blue">
-          <Link to="/" className="logo">PostIT</Link>
+          <Link to="/" className="brand-logo">PostIT</Link>
           <ul className="right">
             <div>
               <li>
