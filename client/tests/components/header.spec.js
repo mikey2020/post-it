@@ -1,6 +1,5 @@
 import expect from 'expect';
 import React from 'react';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { Header } from '../../src/components/Header.jsx';
 
