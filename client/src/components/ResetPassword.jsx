@@ -14,6 +14,7 @@ const validate = new Validations();
 export class ResetPassword extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -36,6 +37,7 @@ export class ResetPassword extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
    */
   onChange(event) {
@@ -43,6 +45,7 @@ export class ResetPassword extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
    */
   onSubmit(event) {
@@ -84,6 +87,7 @@ export class ResetPassword extends React.Component {
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
    */
   verifyCode(event) {
