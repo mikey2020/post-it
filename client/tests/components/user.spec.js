@@ -49,7 +49,6 @@ describe('Component', () => {
     it('calls onClick', () => {
       wrapper.find('.add-user-btn').simulate('click', { preventDefault: () => {} });
       expect(wrapper.find('.add-user-btn').props().onClick).toBeA('function');
-      // expect(User.prototype.onClick.callCount).toEqual(1);
     });
 
     it('calls componentDidMount', () => {

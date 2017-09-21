@@ -6,9 +6,12 @@ import AddUserPage from './home/AddUserPage.jsx';
 import Footer from './Footer.jsx';
 import Notifications from './Notifications.jsx';
 import Readers from './home/Readers.jsx';
+
 /**
  *  Main App component
+ *
  * @class
+ *
  * @param {Object} props
  */
 export default props =>
@@ -20,9 +23,9 @@ export default props =>
      <div>
        <Header />
        <FlashMessageList />
-       <Notifications />
        <CreateGroupForm />
        <AddUserPage />
+       <Notifications />
        <Readers />
        { props.children }
        <Footer />

@@ -15,8 +15,10 @@ class Unique {
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @param {object} next - response object that sends data to the next middleware
-   * @returns {object} - if there is no error, it returns array of users in a group
+   * @param {object} next
+   * - response object that sends data to the next middleware
+   * @returns {object}
+   * - if there is no error, it returns array of users in a group
    */
   static isAlreadyGroupMember(req, res, next) {
     models.UserGroups.findOne({
@@ -27,7 +29,8 @@ class Unique {
     })
     .then((user) => {
       if (user) {
-        return res.status(400).json({ errors: { message: 'user already added to group' } });
+        return res.status(400).json(
+          { errors: { message: 'user already added to group' } });
       }
       next();
     });
@@ -36,8 +39,11 @@ class Unique {
   /**
    * @param {object} req - request object sent to a route
    * @param {object} res -  response object from the route
-   * @param {object} next - response object that sends data to the next middleware
-   * @returns {object} - if there is no error, it returns array of users in a group
+   * @param {object} next
+   * - response object that sends data to the next middleware
+   *
+   * @returns {object}
+   * - if there is no error, it returns array of users in a group
    */
   static checkMessageRead(req, res, next) {
     models.ReadMessages.findOne({
@@ -48,7 +54,8 @@ class Unique {
     })
     .then((readMessage) => {
       if (readMessage) {
-        return res.json({ errors: { message: 'user has already read this message' } });
+        return res.json(
+          { errors: { message: 'user has already read this message' } });
       }
       next();
     });
@@ -57,6 +64,7 @@ class Unique {
    * @param {Object} req - request object
    * @param {Object} res - response object
    * @param {Obeject} next - next object
+   *
    * @returns {void} - it number of read message by the logged in user
    */
   static checkMessageNumber(req, res, next) {

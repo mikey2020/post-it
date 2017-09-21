@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import shortid from 'shortid';
-import nodemailer from 'nodemailer';
-import winston from 'winston';
 
 import Validations from '../middlewares/Validations';
 import models from '../models';
+import sendEmail from '../helpers/sendEmail.js';
+import returnServerError from '../helpers/returnServerError.js';
 
 dotenv.config();
 const User = models.User;
@@ -28,9 +28,12 @@ class UserController {
   /**
    * @param {Object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   *
+   * @returns {object} - returns a token and message
+   *
+   * @description - it adds a new user to the database
    */
-  static signup(request, response) {
+  static signUp(request, response) {
     const { errors, isValid } = validate.signup(request.body);
     if (!isValid) {
       response.status(400).json(errors);
@@ -46,35 +49,48 @@ class UserController {
         userData = JSON.parse(userData);
         const token = jwt.sign({ data: userData },
         process.env.JWT_SECRET, { expiresIn: '5h' });
-        response.status(201).json({ message: `${request.body.username} successfully added`,
-          userToken: token });
+        response.status(201).json(
+          { message: `${request.body.username} successfully added`,
+            userToken: token });
       })
-      .catch(() => {
-        response.status(409).json({ errors: { message: 'User already exists' } });
+      .catch((error) => {
+        response.status(409)
+        .json({ errors:
+          { message: `${error.errors[0].value} already exists` } });
       });
     }
   }
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   *
+   * @returns {object} - if there is no error, a token and message
+   *
+   * @description - it signs in a user by generating a token,
+   * that is unique to them
    */
-  static signin(request, response) {
+  static signIn(request, response) {
+    const username = request.body.username.toLowerCase();
     User.findOne({
       where: {
-        username: request.body.username
+        username
       },
-      attributes: { exclude: ['createdAt', 'updatedAt', 'verificationCode', 'phoneNumber'] }
+      attributes: { exclude: ['createdAt', 'updatedAt',
+        'verificationCode', 'phoneNumber'] }
     })
      .then((user) => {
        let userData = JSON.stringify(user);
        userData = JSON.parse(userData);
        if (request.body.username && request.body.password &&
-         bcrypt.compareSync(request.body.password, userData.password) === true) {
-         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET, { expiresIn: '5h' });
-         response.json({ user: { name: request.body.username, message: `${request.body.username} signed in`, userToken: token } });
+         bcrypt.compareSync(request.body.password, userData.password)
+         === true) {
+         const token = jwt.sign({ data: userData }, process.env.JWT_SECRET,
+          { expiresIn: '5h' });
+         response.json({ user: { message: `${username} signed in`,
+           userToken: token } });
        } else {
-         response.status(401).json({ errors: { form: 'Invalid Signin Parameters' } });
+         response.status(401).json({ errors:
+           { form: 'Invalid Signin Parameters' } });
        }
      })
      .catch(() => {
@@ -84,103 +100,109 @@ class UserController {
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   *
+   * @returns {object} - either an error or success object
+   *
+   * @description - it helps check whether a user already exists in the database
    */
   static checkUserExists(request, response) {
-    User.findOne({
+    User.findOne({ attributes:
+      { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
       where: {
-        username: request.body.username
+        username: request.body.username,
       }
     }).then((user) => {
-      response.json({ user });
+      if (user) {
+        response.status(200).json({ user });
+      } else {
+        response.status(404).json({ message: 'User does not exist' });
+      }
     })
     .catch(() => {
-      response.status(500).json({ message: 'Internal Server Error' });
+      returnServerError(response);
     });
   }
 
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   *
+   * @returns {object} - number of results that match the user's query
+   *
+   * @description - it helps a user search for other users
    */
   static getUsers(request, response) {
     User.findAll({ attributes:
       { exclude: ['password', 'createdAt', 'updatedAt', 'verificationCode'] },
       where: {
         username: {
-          $iLike: `%${request.body.username}%`
+          $iLike: `%${request.query.username}%`
         }
       } },
-     { offset: request.body.offset, limit: 5 }
-     ).then((data) => {
-       response.json({ users: { data } });
+     { offset: 0, limit: 5 }
+     ).then((users) => {
+       if (typeof users[0] !== 'undefined') {
+         response.status(200).json({ users });
+       } else {
+         response.status(404).json({ message: 'No user found' });
+       }
      }).catch(() => {
-       response.json({ errors: { message: 'something went wrong' } });
+       returnServerError(response);
      });
   }
 
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   *
+   * @returns {object} - if there is no error
+   *
+   * @description - It sends a user their verification code
+   * and stores it on the user's table
    */
-  static startResetPassword(request, response) {
+  static setVerificationCode(request, response) {
     const verificationCode = shortid.generate();
     User.findOne({
-      where: {
-        username: request.body.username
+      username: {
+        $iLike: `%${request.body.username}%`
       }
     })
      .then((user) => {
-       user.verificationCode = verificationCode;
-       user.save().then(() => {});
-       UserController.sendVerificationCode(user.email, user.username, verificationCode);
-       response.json({ message: 'Verification code sent' });
+       if (user) {
+         const { email } = user;
+         user.verificationCode = verificationCode;
+         user.save().then(() => {});
+         UserController.sendVerificationCode(email,
+         user.username, verificationCode);
+         response.json({ message: 'Verification code sent' });
+       } else {
+         response.status(400).json({ errors: { form: 'Invalid Username' } });
+       }
      })
      .catch(() => {
-       response.status(400).json({ errors: { form: 'Invalid Username' } });
+       returnServerError(response);
      });
   }
   /**
    * @returns {void}
+   *
    * @param {Array} userEmail
    * @param {String} username
    * @param {String} verificationCode
    */
   static sendVerificationCode(userEmail, username, verificationCode) {
-    const url = process.env.URL;
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'superdafe@gmail.com',
-        pass: 'odafe2020'
-      }
-    });
-
-    const mailOptions = {
-      from: 'PostIt',
-      to: userEmail,
-      subject: 'reset password verification code',
-      html: `<div><h2>Hello, ${username}!</h2>
-          <p><strong>Your Verification code is:</strong> ${verificationCode}</p>\
-          <p><a href="${url}">Update my password</a></p><br /><br />\
-          <p>Please use this link to update your password by inputing your verification code</p>\`
-          <p>You can post messages on <a href="mike-post.herokuapp.com">POSTIT</a></p></div>`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        winston.log(error);
-      } else {
-        winston.info('Email sent: ', info.response);
-      }
-    });
+    const message = `<div><h2>Hello, ${username}!</h2>
+          <p><strong>Your Verification code is:</strong> 
+          ${verificationCode}</p>`;
+    const subject = 'Reset Password verification code';
+    sendEmail(userEmail, subject, message);
   }
+
 
   /**
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
+   *
    * @returns {void}
    */
   static checkVerificationCode(request, response) {
@@ -193,14 +215,36 @@ class UserController {
       if (request.body.code === user.verificationCode) {
         user.password = request.body.newPassword;
         user.update({ password: request.body.newPassword }).then(() => {
-          response.status(201).json({ message: 'password updated successfully' });
+          response.status(200).json(
+            { message: 'password updated successfully' });
         });
       } else {
         response.status(400).json({ message: 'Invalid verification code' });
       }
     })
     .catch(() => {
-      response.status(400).json({ message: 'Invalid verification code' });
+      returnServerError(response);
+    });
+  }
+
+  /**
+   * @description - It checks if a user already exists
+   *
+   * @returns {Boolean} - returns true or false
+   *
+   * @param {String} username
+   */
+  static isAlreadyUser(username) {
+    models.User.findOne({
+      where: {
+        username
+      }
+    })
+    .then((user) => {
+      if (user) {
+        return true;
+      }
+      return false;
     });
   }
 }

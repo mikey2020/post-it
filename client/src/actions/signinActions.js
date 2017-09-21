@@ -13,7 +13,7 @@ const unsetUser = () => ({
   type: UNSET_USER
 });
 
-const signout = () => (dispatch) => {
+const signOut = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
   dispatch(unsetUser());
   dispatch(handleSuccess('signout successful', 'SIGNOUT_SUCCESSFUL'));
@@ -31,18 +31,21 @@ const validateGoogleUser = userData => (dispatch) => {
   dispatch(addUser(userData));
 };
 
-const validateUser = userData => dispatch => axios.post('/api/v1/user/signin', userData)
-           .then((res) => {
-             if (res.data.user) {
-               const token = res.data.user.userToken;
-               localStorage.setItem('jwtToken', token);
-               validateToken(token);
-               dispatch(setUser(jwt.decode(token).data));
-               dispatch(handleSuccess(`Welcome ${res.data.user.name}`, 'SET_USER_SUCCESS'));
-             }
-           })
-           .catch(() => {
-             dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
-           });
+const validateUser = userData =>
+  dispatch => axios.post('/api/v1/user/signin', userData)
+    .then((res) => {
+      if (res.data.user) {
+        const token = res.data.user.userToken;
+        localStorage.setItem('jwtToken', token);
+        validateToken(token);
+        dispatch(setUser(jwt.decode(token).data));
+        dispatch(handleSuccess(`Welcome 
+               ${jwt.decode(token).data.username}`,
+          'SET_USER_SUCCESS'));
+      }
+    })
+    .catch(() => {
+      dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
+    });
 
-export { validateUser, signout, validateToken, setUser, validateGoogleUser };
+export { validateUser, signOut, validateToken, setUser, validateGoogleUser };

@@ -3,36 +3,47 @@ import Validations from '../../validations';
 
 describe('Test Input Validations Class', () => {
   describe('Sign Up Input validations', () => {
-    it('should return `Username is required` when there is no username provided', (done) => {
+    it(`should return 'Username is required' 
+    when there is no username provided`, (done) => {
       const validate = new Validations();
-      const mockData = { username: '', password: 'pass', email: 'email' };
+      const mockData = { username: '',
+        password: 'pass',
+        email: 'email',
+        phoneNumber: '' };
       const { errors } = validate.signup(mockData);
       errors.username.should.equal('Username is required');
 
       done();
     });
 
-    it('should return `Password is required` when there is no password provided', (done) => {
+    it(`should return 'Password is required' 
+    when there is no password provided`, (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: '', email: 'email' };
+      const mockData = { username: 'user', password: '', email: 'email', phoneNumber: '' };
       const { errors } = validate.signup(mockData);
       errors.password.should.equal('Password is required');
 
       done();
     });
 
-    it('should return `Email is required` when there is no email provided', (done) => {
+    it(`should return 'Email is required' 
+      when there is no email provided`, (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: 'pass', email: '' };
+      const mockData = { username: 'user', password: 'pass', email: '', phoneNumber: '' };
       const { errors } = validate.signup(mockData);
       errors.email.should.equal('Email is required');
 
       done();
     });
 
-    it('should return `Password do not match` when password and password confirmation are not the same', (done) => {
+    it(`should return 'Password do not match' 
+      when password and password confirmation are not the same`, (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: 'pass', email: 'email', passwordConfirmation: 'p' };
+      const mockData = { username: 'user',
+        password: 'pass',
+        email: 'email',
+        passwordConfirmation: 'p',
+        phoneNumber: '' };
       const { errors } = validate.signup(mockData);
       errors.passwordConfirmation.should.equal('Passwords do not match');
 
@@ -41,7 +52,7 @@ describe('Test Input Validations Class', () => {
 
     it('should return `is required for each field` when all required fields are not provided', (done) => {
       const validate = new Validations();
-      const mockData = { username: '', password: '', email: '', passwordConfirmation: '' };
+      const mockData = { username: '', password: '', email: '', passwordConfirmation: '', phoneNumber: '' };
       const { errors } = validate.signup(mockData);
       errors.username.should.equal('Username is required');
       errors.email.should.equal('Email is required');
@@ -93,7 +104,8 @@ describe('Test Input Validations Class', () => {
   });
 
   describe('New password validations', () => {
-    it('should return `please enter verification code` when no verification code is provided ', (done) => {
+    it(`should return 'please enter verification code' 
+    when no verification code is provided `, (done) => {
       const validate = new Validations();
       const mockData = { code: '' };
       const { errors } = validate.newPasswordInputs(mockData);
@@ -102,7 +114,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it('should return `New Password is required` when no new password is provided', (done) => {
+    it(`should return 'New Password is required' 
+    when no new password is provided`, (done) => {
       const validate = new Validations();
       const mockData = { newPassword: '' };
       const { errors } = validate.newPasswordInputs(mockData);
@@ -111,7 +124,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it('should return `Password Confirmation is required` when no new password confirmation is provided', (done) => {
+    it(`should return 'Password Confirmation is required' 
+    when no new password confirmation is provided`, (done) => {
       const validate = new Validations();
       const mockData = { newPasswordConfirmation: '', newPassword: 'data' };
       const { errors } = validate.newPasswordInputs(mockData);

@@ -7,13 +7,15 @@ import isEmpty from 'lodash/isEmpty';
  * @class
  */
 class Validations {
-
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   signup(user) {
     this.errors = {};
+    const space = new RegExp(' ');
+    const usernameContainsSpace = space.test(user.username);
 
     if (user.password) {
       user.password = user.password.trim();
@@ -24,6 +26,10 @@ class Validations {
 
     if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
+    }
+
+    if (usernameContainsSpace === true) {
+      this.errors.username = 'Username should not contain space';
     }
 
     if (user.email === null || user.email === '') {
@@ -52,11 +58,13 @@ class Validations {
     if (user.password && user.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (user.passwordConfirmation === null || user.passwordConfirmation === '') {
+    if (user.passwordConfirmation === null ||
+    user.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
-    if (user.password && !validator.equals(user.password, user.passwordConfirmation)) {
+    if (user.password &&
+    !validator.equals(user.password, user.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
 
@@ -71,6 +79,7 @@ class Validations {
 
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   signin(user) {
@@ -97,6 +106,7 @@ class Validations {
   }
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   input(user) {
@@ -124,6 +134,7 @@ class Validations {
 
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   groupInput(user) {
@@ -144,6 +155,7 @@ class Validations {
 
   /**
    * @param {object} user - signup object
+   *
    * @returns {object} - errors object if there is any
    */
   newPasswordInputs(user) {
@@ -154,7 +166,8 @@ class Validations {
     if (user.newPassword === null || user.newPassword === '') {
       this.errors.newPassword = 'New Password is required';
     }
-    if (user.newPasswordConfirmation === null || user.newPasswordConfirmation === '') {
+    if (user.newPasswordConfirmation === null
+    || user.newPasswordConfirmation === '') {
       this.errors.newPasswordConfirmation = 'Password Confirmation is required';
     }
     if (user.newPasswordConfirmation !== user.newPassword) {
@@ -171,7 +184,10 @@ class Validations {
 
   /**
    * @param  {String} userInput
-   * @description checks if the string pass in is a digit. Means all the charcters are digit
+   *
+   * @description checks if the string pass in is a digit.
+   * Means all the charcters are digit
+   *
    * @return {boolean} true or false
    */
   static isPhoneNumber(userInput) {

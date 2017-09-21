@@ -6,6 +6,7 @@ import { deleteFlashMessage } from '../../actions/flashMessageActions';
 
 /**
  * @class
+ *
  * @param {Object} props
  */
 const FlashMessagesList = (props) => {
@@ -35,4 +36,5 @@ const mapStateToProps = state => ({
   messages: state.flashMessage
 });
 
-export default connect(mapStateToProps, { deleteFlashMessage })(FlashMessagesList);
+export default connect(mapStateToProps,
+{ deleteFlashMessage })(FlashMessagesList);

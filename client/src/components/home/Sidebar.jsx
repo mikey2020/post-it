@@ -6,11 +6,13 @@ import { getUserGroups, setCurrentGroup } from '../../actions/groupActions';
 
 /**
  *  SigninForm class component
+ *
  * @class
  */
 export class Sidebar extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -33,6 +35,7 @@ export class Sidebar extends React.Component {
   }
   /**
    * @param {object} prevProps - previous props
+   *
    * @returns {void}
    */
   componentDidUpdate(prevProps) {
@@ -63,22 +66,24 @@ export class Sidebar extends React.Component {
     );
 
     return (
-      <div>
-        <div>
-          <div className="vertical-menu">
-            <h4 className="sidebar-header">Groups<i className="material-icons add_icon">
-              <a href="#modal2" className="add_box">add_box</a></i></h4>
-            <ul>{allGroups}</ul>
+      <div className="">
+        <ul>
+          <h5 className="center">Groups
+            <i className="material-icons add_icon">
+              <a href="#modal2" className="add_box">add_box</a>
+            </i>
+          </h5>
+          <div>
+            {allGroups}
           </div>
-        </div>
-
+        </ul>
       </div>
     );
   }
 }
 
 Sidebar.propTypes = {
-  groups: PropTypes.array.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.Object).isRequired,
   getUserGroups: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
   setCurrentGroup: PropTypes.func.isRequired
@@ -89,5 +94,6 @@ const mapStateToProps = state => ({
   userId: state.user.user.id
 });
 
-export default connect(mapStateToProps, { getUserGroups, setCurrentGroup })(Sidebar);
+export default connect(mapStateToProps,
+{ getUserGroups, setCurrentGroup })(Sidebar);
 
