@@ -39,13 +39,17 @@ export class SignupForm extends React.Component {
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value, errors: {} });
+    this.setState({ [event.target.name]: event.target.value,
+      errors: {},
+      isLoading: false });
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onSubmit(event) {
@@ -76,7 +80,9 @@ export class SignupForm extends React.Component {
 
   /**
     * @returns {void}
+    *
     * @param {Object} response
+    *
     * @description - It helps to get data or response from gooogle
     */
   responseGoogle(response) {

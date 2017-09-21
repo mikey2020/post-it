@@ -157,7 +157,10 @@
            </div>
            <br />
            <span className="left">
-             <Link to="/reset" > Forgot password? </Link></span>
+             <Link
+               to="/reset"
+               className="forgot"
+             > Forgot password? </Link></span>
            <br />
          </div>
        </div>

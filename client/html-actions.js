@@ -8,6 +8,9 @@
    $('#create-group-button').click(() => {
      $('#modal2').modal('close');
    });
+   $('.forgot').click(() => {
+     $('#modal1').modal('close');
+   });
    $('#priority-level').css('background', 'blue');
    $('.modal').modal();
    $('#textarea1').val('New Text');

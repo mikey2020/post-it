@@ -15,6 +15,7 @@ import { getNotifications,
 export class Header extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -30,6 +31,7 @@ export class Header extends React.Component {
   }
   /**
    * @param {Object} nextProps
+   *
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {

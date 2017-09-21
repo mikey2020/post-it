@@ -21,6 +21,7 @@ const validate = new Validations();
 export class Messages extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -54,6 +55,7 @@ export class Messages extends React.Component {
   }
   /**
    * @param {object} prevProps - previous props
+   *
    * @returns {void}
    */
   componentDidUpdate(prevProps) {
@@ -230,7 +232,7 @@ Messages.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  messages: state.Messages,
+  messages: state.messages,
   group: state.currentGroup,
   username: state.user.user.username,
   userId: state.user.user.id

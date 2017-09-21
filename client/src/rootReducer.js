@@ -3,7 +3,7 @@ import flashMessage from './reducers/flashMessage';
 import user from './reducers/user';
 import users from './reducers/users';
 import groups from './reducers/groups';
-import Messages from './reducers/Messages';
+import messages from './reducers/messages';
 import currentGroup from './reducers/currentGroup';
 import error from './reducers/error';
 import members from './reducers/members';
@@ -15,7 +15,7 @@ export default combineReducers({
   flashMessage,
   user,
   groups,
-  Messages,
+  messages,
   currentGroup,
   members,
   users,

@@ -6,6 +6,7 @@ import { getUserGroups, setCurrentGroup } from '../../actions/groupActions';
 
 /**
  *  SigninForm class component
+ *
  * @class
  */
 export class Sidebar extends React.Component {

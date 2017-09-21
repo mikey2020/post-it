@@ -7,11 +7,13 @@ import { createGroup, groupExists } from '../../actions/groupActions';
 const validate = new Validations();
 /**
  * Create group form component
+ *
  * @class
  */
 export class CreateGroupForm extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -32,6 +34,7 @@ export class CreateGroupForm extends React.Component {
 
   /**
    * @returns {void}
+   *
    * @param {Object} event
    */
   onChange(event) {
@@ -42,6 +45,7 @@ export class CreateGroupForm extends React.Component {
   }
   /**
    * @returns {void}
+   *
    * @param {Object} event
    */
   onSubmit(event) {
