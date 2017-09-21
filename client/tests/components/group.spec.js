@@ -22,12 +22,13 @@ const wrapper = setup();
 describe('Component', () => {
   describe('<Group/>', () => {
     it('should render self and subcomponents', () => {
-      expect(wrapper.find('.group-btn').exists()).toBe(true);
+      expect(wrapper.find('.group').exists()).toBe(true);
     });
 
     it('simulates click events', () => {
-      wrapper.find('.group-btn').simulate('click', { preventDefault: () => {} });
-      expect(wrapper.find('.group-btn').props().onClick).toBeA('function');
+      wrapper.find('.group').simulate('click',
+      { preventDefault: () => {} });
+      expect(wrapper.find('.group').props().onClick).toBeA('function');
     });
   });
 });

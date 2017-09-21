@@ -11,11 +11,13 @@ const validate = new Validations();
 
 /**
  *  AddUserPage class component
+ *
  * @class
  */
 export class AddUserPage extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -33,10 +35,11 @@ export class AddUserPage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
   }
- /**
-   * @param {object} event - argument
-   * @returns {void}
-   */
+  /**
+    * @param {object} event - argument
+    *
+    * @returns {void}
+    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     if (this.isValid()) {
@@ -46,14 +49,14 @@ export class AddUserPage extends React.Component {
   }
   /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   searchUsers(event) {
     this.setState({ [event.target.name]: event.target.value });
     const value = event.target.value;
-    const offsetValue = 5;
     if (value !== '') {
-      this.props.getUsers({ username: value, offset: offsetValue });
+      this.props.getUsers(value);
     }
   }
   /**
@@ -78,12 +81,13 @@ export class AddUserPage extends React.Component {
     return (
       <div id="modal3" className="modal adduserpage">
 
-        { errors.message &&
+        {errors.message &&
           <div className="alert alert-danger"> {errors.message} </div>}
 
-        {errors.input ? <span className="help-block">{errors.input}</span> : <br />}
-        <h2 className="addUser-header"> Search for users </h2>
-        <form className="input-field" onSubmit={this.onSubmit}>
+        {errors.input ? <span className="help-block">
+          {errors.input}</span> : <br />}
+        <h5 className="addUser-header center"> Search for users </h5>
+        <form className="input-field center" onSubmit={this.onSubmit}>
           <input
             type="text"
             placeholder="Enter username"
@@ -100,6 +104,10 @@ export class AddUserPage extends React.Component {
           addUserToGroup={this.props.addUserToGroup}
           groupId={this.props.groupId}
         />
+        <div className="modal-footer">
+          <a className="modal-action modal-close waves-effect btn-flat">
+          Cancel</a>
+        </div>
       </div>
     );
   }
@@ -118,4 +126,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
- { addUserToGroup, getUsers })(AddUserPage);
+  { addUserToGroup, getUsers })(AddUserPage);

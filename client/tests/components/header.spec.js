@@ -1,6 +1,5 @@
 import expect from 'expect';
 import React from 'react';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { Header } from '../../src/components/Header.jsx';
 
@@ -26,13 +25,7 @@ describe('Component', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
       expect(wrapper.find('nav').exists()).toBe(true);
-      expect(wrapper.find('Link').exists()).toBe(true);
+      expect(wrapper.find('Link').exists()).toBe(false);
     });
   });
-  //   it('should call logout', () => {
-  //     sinon.spy(Header.prototype, 'logout');
-  //     wrapper.find('#logout-button').simulate('click', { preventDefault: () => {} });
-  //     expect(Header.prototype.logout.callCount).toEqual(1);
-  //   });
-  // });
 });

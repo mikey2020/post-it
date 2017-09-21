@@ -1,4 +1,4 @@
-#my-header{
+/*#my-header{
 	background-color: #2D3135 ;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .vertical-menu {
-    width: 100%; /* Set a width if you like */
+    width: 100%;
 	position: relative;
 	left: -13px;
     background-color: #201E1D ;
@@ -99,11 +99,10 @@
 }
 
 .vertical-menu a {
-    /*background-color: #eee; /* Grey background color */
     color: black; 
-    display: block; /* Make the links appear below each other */
-    padding: 12px; /* Add some padding */
-    text-decoration: none; /* Remove underline from links */
+    display: block; 
+    padding: 12px; 
+    text-decoration: none; 
 }
 
 .vertical-menu a:hover {
@@ -111,14 +110,11 @@
 }
 
 .vertical-menu a.active {
-    background-color:   ; /* Add a green color to the "active/current" link */
     color: white;
 }
 
 .link{
 	text-align: left;
-	/*position: relative;
-	left: 10px;*/
 	color: white;
 }
 
@@ -143,3 +139,4 @@
    font-size: 30px;
    color: #b71c1c ;
 }
+*/

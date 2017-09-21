@@ -3,12 +3,13 @@
    $('.tap-target').tapTarget('open');
    $('.tap-target').tapTarget('close');
    $('.user-btn').hide();
-   $('.reset-password').click(() => {
-      // $('.new-password').show();
-   });
+   $('.reset-password').click(() => {});
    $('.add-user-btn').click(() => {});
    $('#create-group-button').click(() => {
      $('#modal2').modal('close');
+   });
+   $('.forgot').click(() => {
+     $('#modal1').modal('close');
    });
    $('#priority-level').css('background', 'blue');
    $('.modal').modal();
@@ -28,12 +29,12 @@
    $('.dropdown-button').dropdown({
      inDuration: 300,
      outDuration: 525,
-     constrainWidth: true, // Does not change width of dropdown to that of the activator
-     hover: true, // Activate on hover
-     gutter: 0, // Spacing from edge
-     belowOrigin: false, // Displays dropdown below the button
-     alignment: 'left', // Displays dropdown with edge aligned to the left of button
-     stopPropagation: false // Stops event propagation
+     constrainWidth: true,
+     hover: true,
+     gutter: 0,
+     belowOrigin: false,
+     alignment: 'left',
+     stopPropagation: false
    }
   );
  });
