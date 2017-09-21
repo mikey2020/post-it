@@ -163,8 +163,8 @@ class UserController {
   static setVerificationCode(request, response) {
     const verificationCode = shortid.generate();
     User.findOne({
-      username: {
-        $iLike: `%${request.body.username}%`
+      where: {
+        username: request.body.username
       }
     })
      .then((user) => {
