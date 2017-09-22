@@ -20,7 +20,7 @@ window.localStorage = mockStorage;
 
 describe('Signup actions', () => {
   it('should create a success flash message when user has been signed up ',
-  () => {
+  (done) => {
     const initialState = {
       isAuthenticated: false,
       user: {}
@@ -37,6 +37,7 @@ describe('Signup actions', () => {
     store.dispatch(addUser(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
+    done();
   });
 
   it('should create a error flash message when user already exists', () => {

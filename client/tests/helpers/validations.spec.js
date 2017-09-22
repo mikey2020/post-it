@@ -10,7 +10,7 @@ describe('Test Input Validations Class', () => {
         password: 'pass',
         email: 'email',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.username.should.equal('Username is required');
 
       done();
@@ -19,8 +19,11 @@ describe('Test Input Validations Class', () => {
     it(`should return 'Password is required' 
     when there is no password provided`, (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: '', email: 'email', phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const mockData = { username: 'user',
+        password: '',
+        email: 'email',
+        phoneNumber: '' };
+      const { errors } = validate.signUp(mockData);
       errors.password.should.equal('Password is required');
 
       done();
@@ -29,8 +32,11 @@ describe('Test Input Validations Class', () => {
     it(`should return 'Email is required' 
       when there is no email provided`, (done) => {
       const validate = new Validations();
-      const mockData = { username: 'user', password: 'pass', email: '', phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const mockData = { username: 'user',
+        password: 'pass',
+        email: '',
+        phoneNumber: '' };
+      const { errors } = validate.signUp(mockData);
       errors.email.should.equal('Email is required');
 
       done();
@@ -44,39 +50,60 @@ describe('Test Input Validations Class', () => {
         email: 'email',
         passwordConfirmation: 'p',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.passwordConfirmation.should.equal('Passwords do not match');
 
       done();
     });
 
-    it('should return `is required for each field` when all required fields are not provided', (done) => {
+    it('should return `error message` when all required input are not provided',
+    (done) => {
       const validate = new Validations();
-      const mockData = { username: '', password: '', email: '', passwordConfirmation: '', phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const mockData = { username: '',
+        password: '',
+        email: '',
+        passwordConfirmation: '',
+        phoneNumber: '' };
+      const { errors } = validate.signUp(mockData);
       errors.username.should.equal('Username is required');
       errors.email.should.equal('Email is required');
       errors.password.should.equal('Password is required');
-      errors.passwordConfirmation.should.equal('Password Confirmation is required');
+      errors.passwordConfirmation.should.equal(
+        'Password Confirmation is required');
 
+      done();
+    });
+
+    it('should return `username should not contain space` when username contins space',
+    (done) => {
+      const validate = new Validations();
+      const mockData = { username: 'sasuke uchiha',
+        password: 'uchiha',
+        email: 'sasuke@uchiha.com',
+        passwordConfirmation: 'uchiha',
+        phoneNumber: '09029385838' };
+      const { errors } = validate.signUp(mockData);
+      errors.username.should.equal('Username should not contain space');
       done();
     });
   });
 
   describe('Sign In Input validations', () => {
-    it('should return `Username is required` when username is not provided for signing in', (done) => {
-      const validate = new Validations();
-      const mockData = { username: '', password: 'pass' };
-      const { errors } = validate.signin(mockData);
-      errors.username.should.equal('Username is required');
+    it('should return `Username is required` when username is not provided',
+     (done) => {
+       const validate = new Validations();
+       const mockData = { username: '', password: 'pass' };
+       const { errors } = validate.signIn(mockData);
+       errors.username.should.equal('Username is required');
 
-      done();
-    });
+       done();
+     });
 
-    it('should return `Password is required` when password is not provided for signing in', (done) => {
+    it('should return `Password is required` when password is not provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user', password: '' };
-      const { errors } = validate.signin(mockData);
+      const { errors } = validate.signIn(mockData);
       errors.password.should.equal('Password is required');
 
       done();
@@ -84,7 +111,8 @@ describe('Test Input Validations Class', () => {
   });
 
   describe('Input validations', () => {
-    it('should return `This field is required` when input is not provided', (done) => {
+    it('should return `This field is required` when input is not provided', 
+    (done) => {
       const validate = new Validations();
       const mockData = { input: '' };
       const { errors } = validate.input(mockData);

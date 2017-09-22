@@ -16,7 +16,18 @@ describe('User reducer', () => {
       user: { name: 'mike', message: 'mike signed in' }
 
     })).toEqual(
-       { isAuthenticated: true, user: { message: 'mike signed in', name: 'mike' } }
+      { isAuthenticated: true,
+        user: { message: 'mike signed in', name: 'mike' } }
+    );
+  });
+  it('should return  a new state for case `UNSET_USER` ', () => {
+    expect(reducer({ isAuthenticated: true,
+      user: { message: 'mike signed in', name: 'mike' } }, {
+        type: types.UNSET_USER,
+        user: {}
+      })).toEqual(
+      { isAuthenticated: false,
+        user: {} }
     );
   });
 });

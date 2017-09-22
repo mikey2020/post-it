@@ -33,7 +33,6 @@ describe('Component', () => {
     it('should change on user input', () => {
       wrapper.find('.username')
       .simulate('change', { target: { name: 'username', value: 'boruto' } });
-
       expect(wrapper.find('.username').prop('value')).toEqual('boruto');
       wrapper.instance().isValid();
       expect(AddUserPage.prototype.isValid.calledOnce).toBe(true);

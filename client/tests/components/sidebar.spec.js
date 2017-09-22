@@ -37,8 +37,11 @@ describe('Component', () => {
 
     it('calls componentDidMount', () => {
       sinon.spy(Sidebar.prototype, 'componentDidMount');
+      sinon.spy(Sidebar.prototype, 'componentDidUpdate');
       const enzymeWrapper = mount(<Sidebar {...mountProps} />);
+      enzymeWrapper.instance().componentDidUpdate();
       expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
+      expect(Sidebar.prototype.componentDidUpdate.calledOnce).toBe(true);
     });
   });
 });

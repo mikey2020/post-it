@@ -17,4 +17,14 @@ describe('Groups reducer', () => {
        [{ creator: 'mikey', id: 1, name: 'tarly house' }]
     );
   });
+
+  it('should return  a new state for case `ADD_GROUP` ', () => {
+    expect(reducer([], {
+      type: types.ADD_GROUP,
+      group: { id: 1, groupName: 'tarly house', groupCreator: 'mikey' }
+
+    })).toEqual(
+       [{ creator: 'mikey', id: 1, name: 'tarly house' }]
+    );
+  });
 });

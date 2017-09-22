@@ -85,7 +85,7 @@
    * @returns {void}
    */
    isValid() {
-     const { errors, isValid } = validate.signin(this.state);
+     const { errors, isValid } = validate.signIn(this.state);
 
      if (!isValid) {
        this.setState({ errors });

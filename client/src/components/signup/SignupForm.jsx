@@ -70,7 +70,7 @@ export class SignupForm extends React.Component {
    * @returns {void}
    */
   isValid() {
-    const { errors, isValid } = validate.signup(this.state);
+    const { errors, isValid } = validate.signUp(this.state);
 
     if (!isValid) {
       this.setState({ errors });

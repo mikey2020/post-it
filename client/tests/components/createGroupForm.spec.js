@@ -5,12 +5,13 @@ import sinon from 'sinon';
 import { CreateGroupForm } from '../../src/components/home/CreateGroupForm.jsx';
 
 const checkGroupExists = sinon.spy();
+const groupExists = sinon.spy();
 
 const setup = () => {
   const props = {
     createGroup: (() => Promise.resolve(1)),
     checkGroupExists,
-    groupExists: () => Promise.resolve(1)
+    groupExists
   };
 
   return shallow(<CreateGroupForm{...props} />);
@@ -35,6 +36,9 @@ describe('Component', () => {
     it('calls onBlur', () => {
       wrapper.find('#usr').simulate('blur',
        { target: { name: 'name', value: 'manny' } });
+      wrapper.instance().checkGroupExists();
+      wrapper.props().groupExists();
+      expect(groupExists.calledOnce).toBe(true);
       expect(checkGroupExists).toBeA('function');
     });
 

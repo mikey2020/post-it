@@ -29,7 +29,7 @@ describe('Group Actions', () => {
   });
 
   it('should get all groups user is part of successfully', (done) => {
-    axios.get = jest.fn(() => Promise.resolve({ data: { usergroups: [] } }));
+    axios.get = jest.fn(() => Promise.resolve({ data: { userGroups: [] } }));
 
     const store = mockStore([]);
     const expectedActions = [
@@ -57,6 +57,20 @@ describe('Group Actions', () => {
     done();
   });
 
+  it('should get error message when there is an error add user to a group',
+  (done) => {
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { errors:
+      { message: 'group does not exist ' } } }));
+
+    const store = mockStore([]);
+    const expectedActions = [];
+    store.dispatch(actions.addUserToGroup()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+    done();
+  });
+
   it('should set current group successfully', (done) => {
     const store = mockStore({});
     const expectedActions = [
@@ -64,6 +78,28 @@ describe('Group Actions', () => {
     ];
     store.dispatch(actions.setCurrentGroup(mockData));
     expect(store.getActions()).toEqual(expectedActions);
+    done();
+  });
+
+  it('should catch error when creating of group fails', (done) => {
+    axios.post = jest.fn(() => Promise.resolve(1));
+
+    const store = mockStore([]);
+    const expectedActions = [];
+    store.dispatch(actions.createGroup(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+    done();
+  });
+
+  it('should get error message when there is an error', (done) => {
+    axios.post = jest.fn(() => Promise.resolve({ data: { message: '' } }));
+
+    const store = mockStore([]);
+    const expectedActions = [];
+    store.dispatch(actions.createGroup(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
     done();
   });
 });
