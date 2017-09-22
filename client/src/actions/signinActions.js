@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { SET_USER, UNSET_USER } from './types';
 import { handleErrors, handleSuccess } from './errorAction';
-import addUser from './signupActions';
+import addUser from './addUser';
 
 const setUser = user => ({
   type: SET_USER,

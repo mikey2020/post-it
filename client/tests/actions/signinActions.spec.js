@@ -10,12 +10,11 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const mockData = { username: 'flash', password: 'flash' };
 const mockStorage = new MockLocalStorage();
-const token = 'token';
 
 window.localStorage = mockStorage;
 
 describe('Signin actions', () => {
-  it('creates an error flash message when user is invalid ', () => {
+  it('should create an error flash message when user is invalid ', () => {
     const store = mockStore({ isAuthenticated: false, user: {} });
     const expectedActions = [{ type: 'ADD_FLASH_MESSAGE',
       message: { type: 'error', text: 'Invalid Signin Parameters' } }];
@@ -25,7 +24,7 @@ describe('Signin actions', () => {
     });
   });
 
-  it('creates a success flash message when user is valid ', () => {
+  it('should create a success flash message when user is valid ', () => {
     const store = mockStore({ isAuthenticated: false, user: {} });
     const expectedActions = [];
     axios.post = jest.fn(() => Promise.resolve({ data:
@@ -34,7 +33,7 @@ describe('Signin actions', () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('creates a success flash message when user logs out ', () => {
+  it('should create a success flash message when user logs out ', () => {
     mockStorage.removeItem('jwtToken');
     const store = mockStore({ isAuthenticated: true,
       user: { name: 'negan', message: 'negan signed in' } });

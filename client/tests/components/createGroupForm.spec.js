@@ -25,7 +25,7 @@ describe('Component', () => {
     });
 
     it('calls onChange', () => {
-      const event = { target: { name: 'name', value: 'manny' }, 
+      const event = { target: { name: 'name', value: 'manny' },
         errors: {},
         isLoading: false };
       wrapper.find('.form-control').simulate('change', event);

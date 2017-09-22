@@ -15,7 +15,7 @@ const mockData = { id: 1,
   priority: 'normal' };
 
 describe('Message Actions', () => {
-  it('stores all group messages after action', (done) => {
+  it('should store all group messages after action', (done) => {
     axios.get = jest.fn(() => Promise.resolve({ data: { messages: [{}] } }));
     const store = mockStore([]);
     const expectedActions = [
@@ -27,7 +27,7 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('creates a success flash message when a message has been posted',
+  it('should create a success flash message when a message has been posted',
   (done) => {
     axios.post = jest.fn(() =>
     Promise.resolve({ data: { message: '', postedMessage: mockData } }));
@@ -43,7 +43,7 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('reads a message successfully', () => {
+  it('should mark a message as read successfully', () => {
     axios.post = jest.fn(() =>
     Promise.resolve({ data: { message: 'user read this message',
       readMessage: {} } }));
@@ -53,7 +53,7 @@ describe('Message Actions', () => {
     });
   });
 
-  it('get users who read a message', () => {
+  it('should get users who have read a message', () => {
     axios.get = jest.fn(() => Promise.resolve({ data: { users: [] } }));
     const store = mockStore([]);
     store.dispatch(actions.getUsersWhoReadMessage(1)).then(() => {
@@ -61,7 +61,7 @@ describe('Message Actions', () => {
     });
   });
 
-  it('get number of messages user has not read', () => {
+  it('should get number of messages user has not read', () => {
     axios.get = jest.fn(() => Promise.resolve({ data: { unRead: [] } }));
     const store = mockStore([]);
     store.dispatch(actions.getUnreadMessages(1));

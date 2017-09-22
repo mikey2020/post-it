@@ -6,7 +6,7 @@ import { handleErrors, handleSuccess } from './errorAction';
 const addUser = user =>
 dispatch => axios.post('/api/v1/user/signup', user).then(
     (res) => {
-      if (res.data.userToken) {
+      if (res.status === 200 || res.data.message) {
         const token = res.data.userToken;
         localStorage.setItem('jwtToken', token);
         validateToken(token);
@@ -27,4 +27,5 @@ dispatch => axios.post('/api/v1/user/signup', user).then(
         dispatch(handleErrors(error.data.errors.message, 'ADD_USER_FAILED'));
       }
     });
+
 export default addUser;

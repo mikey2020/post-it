@@ -76,7 +76,7 @@ export class Header extends React.Component {
             <a
               href=""
               onClick={this.logout}
-              className=""
+              className="logout-button"
               id="logout-button"
             >Logout</a></li>
           <li className="divider" />

@@ -30,16 +30,19 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(true);
     });
 
-    it('should be change on user input', () => {
+    it('should change on user input', () => {
       wrapper.find('.username')
       .simulate('change', { target: { name: 'username', value: 'boruto' } });
 
       expect(wrapper.find('.username').prop('value')).toEqual('boruto');
+      wrapper.instance().isValid();
+      expect(AddUserPage.prototype.isValid.calledOnce).toBe(true);
     });
 
-    it('calls onChange', () => {
+    it('should call onChange function', () => {
       const event = { target: { name: 'username', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
+      wrapper.instance().onChange(event);
       expect(wrapper.find('.username').props().onChange).toBeA('function');
     });
   });

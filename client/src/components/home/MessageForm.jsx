@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MessageForm = props => (
+export const MessageForm = props => (
   <div className="row">
     <form
       className={props.className}

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 
-import addUser from '../../actions/signupActions';
+import addUser from '../../actions/addUser';
 import Validations from '../../../validations';
 import { addFlashMessage } from '../../actions/flashMessageActions';
 
 const validate = new Validations();
 /**
- *  SignupForm class component
+ * SignupForm class component
+ *
  * @class
  */
 export class SignupForm extends React.Component {

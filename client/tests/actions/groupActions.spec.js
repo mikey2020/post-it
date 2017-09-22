@@ -12,7 +12,7 @@ const mockData = { name: 'fengshui' };
 const resData = { id: 3, groupname: 'fengshui', groupCreator: 'negan' };
 
 describe('Group Actions', () => {
-  it('creates a success flash message when a group is created', (done) => {
+  it('should create a flash message when a group is created', (done) => {
     axios.post = jest.fn(() =>
     Promise.resolve(
       { data: { message: 'group created', group: resData, } }));
@@ -28,7 +28,7 @@ describe('Group Actions', () => {
     done();
   });
 
-  it('gets all groups user is part of successfully', (done) => {
+  it('should get all groups user is part of successfully', (done) => {
     axios.get = jest.fn(() => Promise.resolve({ data: { usergroups: [] } }));
 
     const store = mockStore([]);

@@ -47,7 +47,8 @@ describe('Component', () => {
     });
 
     it('calls onClick', () => {
-      wrapper.find('.add-user-btn').simulate('click', { preventDefault: () => {} });
+      wrapper.find('.add-user-btn').simulate('click',
+      { preventDefault: () => {} });
       expect(wrapper.find('.add-user-btn').props().onClick).toBeA('function');
     });
 
