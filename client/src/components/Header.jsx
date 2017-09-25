@@ -48,7 +48,7 @@ export class Header extends React.Component {
   logout(event) {
     event.preventDefault();
     this.props.signOut();
-    this.context.router.push('/signup');
+    location.href = '/signup';
   }
   /**
    * @param {Object} event

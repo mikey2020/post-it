@@ -25,7 +25,7 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(true);
     });
 
-    it('calls onChange', () => {
+    it('should call onChange function', () => {
       const event = { target: { name: 'name', value: 'manny' },
         errors: {},
         isLoading: false };
@@ -33,16 +33,17 @@ describe('Component', () => {
       expect(wrapper.find('.form-control').props().onChange).toBeA('function');
     });
 
-    it('calls onBlur', () => {
+    it('should call onBlur function', () => {
+      const event = { target: { name: 'name', value: 'manny' },
+        errors: {},
+        isLoading: false };
       wrapper.find('#usr').simulate('blur',
        { target: { name: 'name', value: 'manny' } });
-      wrapper.instance().checkGroupExists();
-      wrapper.props().groupExists();
-      expect(groupExists.calledOnce).toBe(true);
+      wrapper.instance().checkGroupExists(event);
       expect(checkGroupExists).toBeA('function');
     });
 
-    it('calls onSubmit', () => {
+    it('should call onSubmit function', () => {
       wrapper.find('#create-group-button').simulate('click');
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });
       expect(wrapper.find('form').props().onSubmit).toBeA('function');

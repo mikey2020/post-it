@@ -8,6 +8,7 @@ import SigninForm from './src/components/signin/SigninForm.jsx';
 import HomePage from './src/components/home/HomePage.jsx';
 import Authenticate from './src/components/Authenticate.jsx';
 import ResetPassword from './src/components/ResetPassword.jsx';
+import PageNotFound from './src/components/PageNotFound.jsx'
 
 export default (
   <Route path="/" component={App}>
@@ -16,5 +17,6 @@ export default (
     <Route path="signin" component={SigninForm} />
     <Route path="home" component={Authenticate(HomePage)} />
     <Route path="reset" component={ResetPassword} />
+    <Route path="*" component={PageNotFound} />
   </Route>
 );

@@ -13,13 +13,7 @@ const setup = () => {
     getNotifications: () => {}
   };
 
-  const context = {
-    router: {
-      push: () => Promise.resolve(1)
-    }
-  };
-
-  return shallow(<Header {...props} {...context} />);
+  return shallow(<Header {...props} />);
 };
 
 const wrapper = setup();
@@ -33,15 +27,17 @@ describe('Component', () => {
       expect(wrapper.find('Link').exists()).toBe(false);
     });
 
-    it('should call onClick', () => {
+    it('should call logout function when user clicks logout', () => {
       const event = {
-        preventDefault: () => {}
+        preventDefault: () => {},
       };
+      Object.defineProperty(window.location, 'href', {
+        writable: true,
+        value: '/signup'
+      });
+      wrapper.instance().clearNotifications(event);
       wrapper.find('.logout-button').simulate('click', event);
-      wrapper.instance().logout();
-      wrapper.find('.notify').simulate('click', event);
-      expect(wrapper.instance().clearNotifications(event)).toBe(true);
-      expect(Header.prototype.clearNotifications.calledOnce).toBe(true);
+      wrapper.instance().logout(event);
     });
   });
 });

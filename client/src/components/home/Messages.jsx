@@ -109,7 +109,6 @@ export class Messages extends React.Component {
    * message based on the user's input
    */
   handlePriority(event) {
-    // event.preventDefault();
     if (event.target.value > -1 && event.target.value < 6) {
       this.setState({ [event.target.name]: event.target.value,
         priority: 'normal' });
