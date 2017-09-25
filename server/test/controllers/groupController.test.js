@@ -21,7 +21,7 @@ describe('GroupController', () => {
     done();
   });
 
-  it('should return "naruto signed in" when user signs in', (done) => {
+  it('should return success message when user signs in', (done) => {
     models.User.create(exampleUser).then(() => {
       user.post('/api/v1/user/signin')
           .send(exampleUser)
@@ -36,8 +36,8 @@ describe('GroupController', () => {
     });
   });
 
-  it(`should create "test-group successfully" 
-  when a valid group name is submitted`, (done) => {
+  it(`should return success message when trying to create a group
+  and a valid group name is submitted`, (done) => {
     user.post('/api/v1/group')
             .set('authorization', token)
             .send({ name: 'test-group' })
@@ -50,8 +50,8 @@ describe('GroupController', () => {
             });
   });
 
-  it(`should return "user added successfully" 
-    when a valid username is entered`, (done) => {
+  it(`should return success message
+    when trying to add a user to a group`, (done) => {
     models.User.create({ username: 'bat',
       phoneNumber: '08123457690',
       email: 'batman@email.com',
@@ -71,8 +71,8 @@ describe('GroupController', () => {
     });
   });
 
-  it(`should return "message posted to group" 
-    when all inputs are valid`, (done) => {
+  it(`should return success message
+    when trying to post a message to a group`, (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
         .send({ message: 'This functions is working well', priority: 'normal' })
@@ -87,16 +87,6 @@ describe('GroupController', () => {
           .should.have.property('userId', res.body.postedMessage.userId);
           res.body.message
           .should.equal('message posted to group');
-          done();
-        });
-  });
-
-  it('should return groups created by test-user', (done) => {
-    user.get('/api/v1/groups/user')
-        .set('authorization', token)
-        .end((err, res) => {
-          res.status.should.equal(200);
-          should.not.exist(err);
           done();
         });
   });
