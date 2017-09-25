@@ -73,6 +73,8 @@ class Unique {
         groupId: req.params.groupId
       }
     }).then((message) => {
+      console.log('group id', req.params.groupId);
+      console.log('check messages', message);
       const messageNumber = message.count;
       if (messageNumber <= req.query.offset) {
         req.query.limit = messageNumber;

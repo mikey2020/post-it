@@ -154,6 +154,7 @@ class GroupController {
       limit: request.query.limit
     })
         .then((messages) => {
+          console.log('messages', messages);
           if (typeof messages[0] !== 'undefined') {
             let data = JSON.stringify(messages);
             data = JSON.parse(data);

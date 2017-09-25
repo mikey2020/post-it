@@ -63,7 +63,7 @@ export class Messages extends React.Component {
     const { limit, offset } = this.state;
     if (this.props.messages.length !== prevProps.messages.length) {
       this.props.getGroupMessages(group.id, limit + 10, offset);
-    } else if (this.props.group.id !== prevProps.group.id) {
+    } else if (group.id !== prevProps.group.id) {
       this.props.getGroupMessages(group.id, limit, offset);
       this.props.messages.map(message => this.props.readMessage(message.id));
     }

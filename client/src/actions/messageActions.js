@@ -37,6 +37,7 @@ const getGroupMessages = (groupId, limit, offset) =>
         }
       })
       .catch(() => {
+        dispatch(addGroupMessages([]));
         dispatch(handleErrors(null, 'SET_USERS_WHO_READ_MESSAGE_FAILED'));
       });
 
