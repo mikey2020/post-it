@@ -38,9 +38,13 @@ export class CreateGroupForm extends React.Component {
    * @param {Object} event
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value,
+      isLoading: false,
+      invalid: false });
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
+    } else {
+      this.setState({ isLoading: true });
     }
   }
   /**

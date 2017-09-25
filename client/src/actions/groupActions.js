@@ -42,8 +42,7 @@ const createGroup = groupName =>
       return res;
     })
     .catch((error) => {
-      dispatch(handleErrors(`Group already exists, 
-             please try creating another one`, 'ADD_GROUP'));
+      dispatch(handleErrors(error.data.errors.message, 'ADD_GROUP'));
       return error;
     });
 

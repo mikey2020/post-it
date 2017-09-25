@@ -36,7 +36,8 @@ class GroupController {
    * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
-    if (request.body.name === undefined) {
+    request.body.name = request.body.name.trim();
+    if (request.body.name === undefined || request.body.name === '') {
       response.status(400).json({ errors:
         { message: 'Group name is required' } });
     } else if (request.existingGroup === true) {

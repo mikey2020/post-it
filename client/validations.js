@@ -133,15 +133,15 @@ class Validations {
   }
 
   /**
-   * @param {object} user - signup object
+   * @param {object} group - group object
    *
    * @returns {object} - errors object if there is any
    */
-  groupInput(user) {
+  groupInput(group) {
     this.errors = {};
 
-    if (user.name === null || user.name === '') {
-      this.errors.input = 'This field is required';
+    if (group.name === null || group.name === '') {
+      this.errors.name = 'This field is required';
     }
 
     const errors = this.errors;
