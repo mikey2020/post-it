@@ -43,7 +43,7 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(false);
     });
 
-    it('should call onChange when entering input', () => {
+    it('should call onChange function when entering input', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       const priorityEvent = { target: { priorityLevel: 5, value: 7 } };
       wrapper.find('.post-message').simulate('change', event);
@@ -53,7 +53,7 @@ describe('Component', () => {
       .props().onChange).toBeA('function');
     });
 
-    it('calls onSubmit', () => {
+    it('should call onSubmit function', () => {
       const mockEvent = {
         preventDefault: () => {},
         postMessage: () => {},
@@ -64,7 +64,7 @@ describe('Component', () => {
       expect(wrapper.find('.post-message').props().onSubmit).toBeA('function');
     });
 
-    it('calls viewArchived function', () => {
+    it('should call viewArchived function', () => {
       const viewArchived = sinon.spy();
       wrapper.instance().viewArchived({ preventDefault: () => {} });
       expect(viewArchived.callCount).toEqual(0);

@@ -7,7 +7,7 @@ export const validUserSignup = {
 };
 
 
-export const validUserSignin = {
+export const johnSignin = {
   username: 'johnny',
   email: 'johnson@gmail.com',
   password: 'johnson',

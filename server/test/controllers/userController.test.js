@@ -2,7 +2,7 @@ import should from 'should';
 import request from 'supertest';
 import app from '../../app';
 import models from '../../models';
-import { validUserSignup, validUserSignin } from '../../seeders/user-seeders';
+import { validUserSignup, johnSignin } from '../../seeders/user-seeders';
 
 const user = request.agent(app);
 let token;
@@ -14,7 +14,7 @@ describe('UserController', () => {
   });
 
   describe('should be able to', () => {
-    it('add user to database', (done) => {
+    it('register a new user to the database', (done) => {
       request(app).post('/api/v1/user/signup')
         .send(validUserSignup)
         .end((err, res) => {
@@ -27,10 +27,10 @@ describe('UserController', () => {
         });
     });
 
-    it('return "johnny signed in" when user signs in', (done) => {
-      models.User.create(validUserSignin).then(() => {
+    it('return success message when user signs in', (done) => {
+      models.User.create(johnSignin).then(() => {
         user.post('/api/v1/user/signin')
-          .send(validUserSignin)
+          .send(johnSignin)
           .end((err, res) => {
             res.status.should.equal(200);
             should.not.exist(err);
@@ -44,7 +44,7 @@ describe('UserController', () => {
   });
 
   describe('should not work without signing in', () => {
-    it('should return "please sign in" when trying to create group', (done) => {
+    it('should return error message when trying to create group', (done) => {
       request(app).post('/api/v1/group')
         .end((err, res) => {
           res.status.should.equal(401);
@@ -54,7 +54,7 @@ describe('UserController', () => {
         });
     });
 
-    it('should return "please sign in" when trying to add user ', (done) => {
+    it('should return error message when trying to add user to a group ', (done) => {
       request(app).post('/api/v1/group/1/user')
         .end((err, res) => {
           res.status.should.equal(401);
@@ -64,7 +64,7 @@ describe('UserController', () => {
         });
     });
 
-    it('should return "please sign in" when trying to post message', (done) => {
+    it('should return error message when trying to post message', (done) => {
       request(app).post('/api/v1/group/1/message')
         .end((err, res) => {
           res.status.should.equal(401);
@@ -76,7 +76,7 @@ describe('UserController', () => {
   });
 
   describe('Test Edge Cases', () => {
-    it(`should return "invalid sign in parameters" 
+    it(`should return return error message
       when there is no username`, (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
@@ -89,7 +89,7 @@ describe('UserController', () => {
       });
     });
 
-    it(`should return "invalid sign in parameters" 
+    it(`should return error message 
       when there is no password`, (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
@@ -102,7 +102,7 @@ describe('UserController', () => {
       });
     });
 
-    it(`should return "user does not exist" 
+    it(`should return error message 
      when trying to add an unregistered user`, (done) => {
       user.post('/api/v1/group/1/user')
       .set('authorization', token)
@@ -114,7 +114,7 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "password length too short" when password is equal to 4',
+    it('should return error message when password is equal to 4',
     (done) => {
       user.post('/api/v1/user/signup')
       .send(
@@ -132,7 +132,7 @@ describe('UserController', () => {
       });
     });
 
-    it('should return "passwords do not match" when password confirmation fails',
+    it('should return error message when password confirmation fails',
     (done) => {
       user.post('/api/v1/user/signup')
       .send({ username: 'test',

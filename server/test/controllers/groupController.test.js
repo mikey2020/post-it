@@ -21,7 +21,7 @@ describe('GroupController', () => {
     done();
   });
 
-  it('should return "naruto signed in" when user signs in', (done) => {
+  it('should return success message when user signs in', (done) => {
     models.User.create(exampleUser).then(() => {
       user.post('/api/v1/user/signin')
           .send(exampleUser)
@@ -36,7 +36,7 @@ describe('GroupController', () => {
     });
   });
 
-  it(`should create "test-group successfully" 
+  it(`should return success message
   when a valid group name is submitted`, (done) => {
     user.post('/api/v1/group')
             .set('authorization', token)
@@ -50,7 +50,7 @@ describe('GroupController', () => {
             });
   });
 
-  it(`should return "user added successfully" 
+  it(`should return success message
     when a valid username is entered`, (done) => {
     models.User.create({ username: 'bat',
       phoneNumber: '08123457690',
@@ -71,7 +71,7 @@ describe('GroupController', () => {
     });
   });
 
-  it(`should return "message posted to group" 
+  it(`should return success message
     when all inputs are valid`, (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
@@ -87,16 +87,6 @@ describe('GroupController', () => {
           .should.have.property('userId', res.body.postedMessage.userId);
           res.body.message
           .should.equal('message posted to group');
-          done();
-        });
-  });
-
-  it('should return groups created by test-user', (done) => {
-    user.get('/api/v1/groups/user')
-        .set('authorization', token)
-        .end((err, res) => {
-          res.status.should.equal(200);
-          should.not.exist(err);
           done();
         });
   });

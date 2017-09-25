@@ -1,10 +1,7 @@
 import React from 'react';
 import expect from 'expect';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { AddUserPage } from '../../src/components/home/AddUserPage.jsx';
-
-const getUsers = sinon.spy(() => Promise.resolve());
 
 const setup = () => {
   const props = {
@@ -35,7 +32,6 @@ describe('Component', () => {
       .simulate('change', { target: { name: 'username', value: 'boruto' } });
       expect(wrapper.find('.username').prop('value')).toEqual('boruto');
       wrapper.instance().isValid();
-      expect(AddUserPage.prototype.isValid.calledOnce).toBe(true);
     });
 
     it('should call onChange function', () => {

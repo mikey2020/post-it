@@ -99,14 +99,6 @@ h1.welcome {
     top: 10px;
 }
 
-// .signin-form{
-//     padding: 30px;
-//     input{
-//         border: 10px solid #212121  ;
-//         border-radius: 4px;
-//     }
-// }
-
 .signin-container{
     max-width: 90%;
     max-height: 100%;
@@ -153,39 +145,10 @@ h1.welcome {
     width: 80% !important;
 }
 
-// .link{
-// 	text-align: left;
-// 	/*position: relative;
-// 	left: 10px;*/
-// 	color: white;
-// }
-
 .right-column-header{
     background-color: #03a9f4;
     color: black !important;
 }
-
-// .message-input{
-// 	position: fixed;
-// }
-
-// .add_icon{
-// 	position: relative;
-//     right: -90px;
-//     font-size: 43px; 
-//     top: 8px;
-//     :hover{
-//       background-color: #4db6ac  ;
-//     }
-// }
-// .adduser-icon{
-//     font-size: 40px !important;
-//     color: white;
-// }
-
-//  .add-user-icon{
-//    font-size: 50px;
-//  }
 
 #group-name{
    font-size: 30px;
@@ -212,33 +175,10 @@ h1.welcome {
     }
 }
 
-// .input-field {
-//     input[type=text]:focus {
-//      border-bottom: 1px solid #000;
-//      box-shadow: 0 1px 0 0 #000;
-//     }
-// }
-
-// .user-btn {
-//     position: relative ;
-//     left: 10px;
-//     margin: 10px;
-//     color: white;
-//     background-color: #03a9f4 !important;
-//     padding: 20px;
-// }
-
 .add-user-btn {
     bottom: 8px;
     background-color: #212121;
 }
-
-// .message{
-//     font-size: 20px;
-//     position: relative;
-//     top: 20px;
-//     padding-left: 60px;
-// }
 
 .header-logo{
      position: relative;
@@ -258,19 +198,6 @@ h1.welcome {
     }
 }
 
-// .my-pagination {
-//     position: relative;
-//     top: 30px;
-// }
-
-// .flashmessage{
-//     color: black;
-// }
-
-// .reset-form{
-//     padding: 30px;
-// }
-
 .my-footer{
     position: fixed;
     width: 100%;
@@ -279,14 +206,6 @@ h1.welcome {
     height: 8% !important;
     z-index: 999;
 }
-
-// .sidebar{
-//     position: relative;
-// }
-
-// textarea{
-//     color: white;
-// }
 
 .priority {
     background-color: #03a9f4 !important;
@@ -314,52 +233,6 @@ h1.welcome {
 
 }
 
-// .message-box{
-//     background-color: #fff;
-//     overflow-y: auto;
-//     overflow-x: auto;
-//     color: black;
-//     font: medium -moz-fixed;
-//     padding-left: 20px;
-//     margin-bottom: 5px;
-//     margin-top: 3px;
-//     border: 5px solid #03a9f4;
-// }
-
-// .addUser-header{
-//     font-size: 20px;
-//     padding-left: 100px;
-// }
-
-// .priority-error {
-//     color: white;
-// }
-
-// .user-display{
-//     background-color: #01579b ;
-//     color: white;
-//     border: 2px solid;
-//     position: relative;
-//     left: -20px;
-//     top: -8px;
-//     padding-bottom: 30px;
-//     margin-top: 20px;
-    
-// }
-
-// .message-priority{
-//     position: relative;
-//     top: -20px;
-//     font-size: 10px !important;
-//     color: white !important;
-// }
-
-// .members-dropdown{
-//     margin-top: 15px;
-//     position: relative;
-//     left: 150px !important;
-// }
-
 .notify{
     border-radius: 20px;
     padding-left: 5px;
@@ -371,7 +244,6 @@ h1.welcome {
 }
 
 .all-messages{
-    // overflow: scroll;
     background-color: radial-gradient(circle, #03a9f4, #000) !important;
     height: auto;
     max-height: 300px;
@@ -429,4 +301,16 @@ h1.welcome {
 
 nav .brand-logo{
     padding-left: 10px;
+}
+
+.not-found{
+    text-align: center;
+    i{
+        color: red;
+        margin-top: 70px;
+        font-size: 100px;
+    }
+    h2{
+      font-size: 80px !important;
+    }
 }

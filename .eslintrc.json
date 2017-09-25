@@ -17,7 +17,8 @@
    "window": true,
    "$": true,
    "document": true,
-   "Materialize": true
+   "Materialize": true,
+   "location": true
   },
   "rules": {
     "max-len":[2, 80, 2],

@@ -22,6 +22,15 @@ const mountProps = {
   setCurrentGroup: (() => {})
 };
 
+
+const prevProps = {
+  groups: [],
+  getUserGroups: (() => {}),
+  userId: '',
+  setCurrentGroup: (() => {})
+};
+
+
 const wrapper = setup();
 
 
@@ -35,12 +44,16 @@ describe('Component', () => {
       expect(wrapper.find('ul').exists()).toBe(true);
     });
 
-    it('calls componentDidMount', () => {
+    it('should calls componentDidMount when component is mounted', () => {
       sinon.spy(Sidebar.prototype, 'componentDidMount');
+      const enzymeWrapper = mount(<Sidebar {...mountProps} />);
+      expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
+    });
+
+    it('calls componentDidUpdate', () => {
       sinon.spy(Sidebar.prototype, 'componentDidUpdate');
       const enzymeWrapper = mount(<Sidebar {...mountProps} />);
-      enzymeWrapper.instance().componentDidUpdate();
-      expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
+      enzymeWrapper.instance().componentDidUpdate(prevProps);
       expect(Sidebar.prototype.componentDidUpdate.calledOnce).toBe(true);
     });
   });
