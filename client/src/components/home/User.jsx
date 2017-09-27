@@ -45,6 +45,8 @@ export class User extends React.Component {
   }
 
   /**
+   * @description - It calls addUserToGroup function
+   *
    * @returns {void}
    *
    * @param {object} event  - event object

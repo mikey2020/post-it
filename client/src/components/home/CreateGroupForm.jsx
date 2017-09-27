@@ -33,6 +33,8 @@ export class CreateGroupForm extends React.Component {
   }
 
   /**
+   * @description - It sets state based on user's input
+   *
    * @returns {void}
    *
    * @param {Object} event
@@ -48,6 +50,8 @@ export class CreateGroupForm extends React.Component {
     }
   }
   /**
+   * @description - It calls createGroup function
+   *
    * @returns {void}
    *
    * @param {Object} event
@@ -56,12 +60,17 @@ export class CreateGroupForm extends React.Component {
     event.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
-      this.props.createGroup(this.state).then(() => {
-        this.setState({ name: '' });
+      this.props.createGroup(this.state).then((res) => {
+        if (res.data.group.id !== undefined) {
+          this.setState({ name: '' });
+          $('#modal2').modal('close');
+        }
       });
     }
   }
    /**
+    * @description - It checks if a group exists
+    *
     * @param {Object} event
     *
     * @returns {void}
@@ -86,6 +95,8 @@ export class CreateGroupForm extends React.Component {
   }
 
   /**
+   * @description - checks if user's input is valid
+   *
    * @returns {void}
    */
   isValid() {
@@ -128,7 +139,6 @@ export class CreateGroupForm extends React.Component {
               id="create-group-button"
               disabled={isLoading || invalid}
             />
-
           </form>
         </div>
       </div>

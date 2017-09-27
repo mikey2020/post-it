@@ -10,7 +10,8 @@ const userRoutes = (app) => {
 
   app.post('/api/v1/user/verifyCode', UserController.checkVerificationCode);
 
-  app.post('/api/v1/user/signup', UserController.signUp);
+  app.post('/api/v1/user/signup',
+  UserController.isAlreadyUser, UserController.signUp);
 
   app.post('/api/v1/user/signin', UserController.signIn);
 };

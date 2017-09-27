@@ -4,8 +4,9 @@ import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 
 import addUser from '../../actions/addUser';
+import { checkUserExists } from '../../actions/userActions';
 import Validations from '../../../validations';
-import { addFlashMessage } from '../../actions/flashMessageActions';
+import { handleErrors } from '../../actions/errorAction';
 
 const validate = new Validations();
 /**
@@ -67,6 +68,8 @@ export class SignupForm extends React.Component {
     }
   }
   /**
+   * @description - It checks if a user's input is valid
+   *
    * @returns {void}
    */
   isValid() {
@@ -92,10 +95,19 @@ export class SignupForm extends React.Component {
       username: profile.name,
       email: profile.email
     };
-    this.setState({
-      email: userData.email,
-      username: userData.username,
-      showGoogleButton: true
+    checkUserExists(userData).then((res) => {
+      console.log(res);
+      if (res.data.user) {
+        this.props.handleErrors(
+          'User already exists, Please sign in', 'GOOGLE_SIGN_UP');
+        $('#modal1').modal('open');
+      } else {
+        this.setState({
+          email: userData.email,
+          username: userData.username,
+          showGoogleButton: true
+        });
+      }
     });
   }
   /**
@@ -211,11 +223,12 @@ export class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  addUser: PropTypes.func.isRequired
+  addUser: PropTypes.func.isRequired,
+  handleErrors: PropTypes.func.isRequired
 };
 
 SignupForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { addUser, addFlashMessage })(SignupForm);
+export default connect(null, { addUser, handleErrors })(SignupForm);

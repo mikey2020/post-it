@@ -6,7 +6,7 @@
    $('.reset-password').click(() => {});
    $('.add-user-btn').click(() => {});
    $('#create-group-button').click(() => {
-     $('#modal2').modal('close');
+    //  $('#modal2').modal('close');
    });
    $('.forgot').click(() => {
      $('#modal1').modal('close');

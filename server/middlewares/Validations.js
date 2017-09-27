@@ -13,6 +13,8 @@ dotenv.config();
 class Validations {
 
   /**
+   * @description - validates a user's signUp object
+   *
    * @param {object} user - signup object
    *
    * @returns {object} - errors object if there is any
@@ -85,6 +87,33 @@ class Validations {
   }
 
   /**
+   * @description - validates message input
+   *
+   * @param {string} postedMessage
+   *
+   * @returns {object} - errors object if there is any
+   */
+  message(postedMessage) {
+    this.errors = {};
+    if (postedMessage.content === undefined || postedMessage.content === '') {
+      this.errors.message = 'message is required';
+    }
+    if (postedMessage.priority === undefined || postedMessage.priority === '') {
+      this.errors.priority = 'message priority is required';
+    }
+
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
+
+  /**
+   * @description - checks if a user is valid
+   *
    * @param {object} request
    * @param {object} response
    * @param {function} next
@@ -93,9 +122,19 @@ class Validations {
    * @returns {object} - errors object if there is any
    */
   static checkUserIsValid(request, response, next) {
+    const { username, userId } = request.body;
+    if (username === undefined && userId === undefined) {
+      return response.status(400).json(
+        { message: 'username or userId is required' });
+    }
     models.User.findOne({
       where: {
-        id: request.body.userId
+        $or: [
+            { id: userId },
+          { username: {
+            $iLike: username
+          } }
+        ]
       }
     }).then((validUser) => {
       if (validUser === null) {
@@ -109,6 +148,8 @@ class Validations {
   }
 
   /**
+   * @description - It verifies a user by accessing the user's token
+   *
    * @param {object} request - signup object
    * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
@@ -136,6 +177,8 @@ class Validations {
     }
   }
   /**
+   * @description - It checks if a user is a member of a group
+   *
    * @param {object} request - signup object
    * @param {object} response - errors object if there is any
    * @param {object} next - returns user to next middleware
@@ -159,6 +202,8 @@ class Validations {
   }
 
   /**
+   * @description - It checks if a group exists
+   *
    * @param {Object} request - requestuest object
    * @param {Object} response - responseponse object
    * @param {Object} next - responseponse object

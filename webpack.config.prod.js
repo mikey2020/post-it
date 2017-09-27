@@ -26,17 +26,6 @@ export default {
     filename: 'bundle.js'
   },
 
-  plugins: [
-
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new ExtractTextPlugin('styles.css', { allChunks: true })
-  ],
-
   module: {
     loaders: [
       {
@@ -70,6 +59,17 @@ export default {
 
     ]
   },
+
+  plugins: [
+
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new ExtractTextPlugin('styles.css', { allChunks: true })
+  ],
 
   node: {
     net: 'empty',

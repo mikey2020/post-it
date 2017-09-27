@@ -76,23 +76,23 @@ describe('UserController', () => {
     });
   });
 
-  describe('should return return error message', () => {
-    it('when trying to signin without username', (done) => {
+  describe('should return an error message', () => {
+    it('when trying to sign in without a username', (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
       .send({ username: '', password: 'pass' })
       .end((err, res) => {
         res.status.should.equal(401);
         res.body.should.have.property('errors', res.body.errors);
-        res.body.errors.form.should.equal('Invalid Signin Parameters');
+        res.body.errors.form.should.equal('Invalid User');
         done();
       });
     });
 
-    it('when trying to signin without password', (done) => {
+    it('when trying to sign in without password', (done) => {
       user.post('/api/v1/user/signin')
       .set('authorization', token)
-      .send({ username: 'user', password: '' })
+      .send({ username: 'naruto', password: '' })
       .end((err, res) => {
         res.status.should.equal(401);
         res.body.should.have.property('errors', res.body.errors);
@@ -112,7 +112,7 @@ describe('UserController', () => {
       });
     });
 
-    it('when trying to signup and password length is equal to 4',
+    it('when trying to sign up and length of password is equal to 4',
     (done) => {
       user.post('/api/v1/user/signup')
       .send(
@@ -130,7 +130,7 @@ describe('UserController', () => {
       });
     });
 
-    it('when trying signup and password confirmation fails',
+    it('when trying sign up and password confirmation fails',
     (done) => {
       user.post('/api/v1/user/signup')
       .send({ username: 'test',

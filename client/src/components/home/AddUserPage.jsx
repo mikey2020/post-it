@@ -36,6 +36,8 @@ export class AddUserPage extends React.Component {
     this.searchUsers = this.searchUsers.bind(this);
   }
   /**
+   * @description - It updates state based on user's input
+   *
     * @param {object} event - argument
     *
     * @returns {void}
@@ -48,6 +50,8 @@ export class AddUserPage extends React.Component {
     }
   }
   /**
+   * @description - It sets local state and calls getUsers function
+   *
    * @param {object} event - argument
    *
    * @returns {void}
@@ -60,6 +64,7 @@ export class AddUserPage extends React.Component {
     }
   }
   /**
+   * @description - checks if user's input is valid
    *
    * @returns {void}
    */

@@ -62,7 +62,7 @@ app.use((req, res) => {
 });
 
 
-httpApp.listen(port, () => {});
+httpApp.listen(port || 3000, () => {});
 
 
 export default app;

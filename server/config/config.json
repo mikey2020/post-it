@@ -4,11 +4,8 @@
     "use_env_variable": "DATABASE_URL"
   },
   "test": {
-    "host": "localhost",
-    "database": "post-it-test",
-    "username": "postgres",
-    "password": "dafe",
-   "dialect": "postgres"
+    "dialect": "postgres",
+    "use_env_variable": "DATABASE_TEST_URL"
   },
   "production": {
     "dialect": "postgres",

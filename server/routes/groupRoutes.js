@@ -6,7 +6,7 @@ export default (app) => {
   app.get('/api/v1/group/:groupId/messages', Validations.authenticate,
   Validations.checkGroupExists,
   Validations.isGroupMember,
-  Unique.checkMessageNumber, GroupController.getMessages);
+  Unique.setNumberOfMessages, GroupController.getMessages);
 
   app.post('/api/v1/group',
   Validations.authenticate,
@@ -24,7 +24,7 @@ export default (app) => {
   GroupController.getGroupMembers, GroupController.postMessageToGroup);
 
   app.get('/api/v1/group/:groupId/users', Validations.checkGroupExists,
-  GroupController.getGroupMembers, GroupController.allGroupMembers);
+  GroupController.getGroupMembers, GroupController.getAllGroupMembers);
 
   app.get('/api/v1/message/:messageId/readers',
   GroupController.getUsersWhoReadMessage);

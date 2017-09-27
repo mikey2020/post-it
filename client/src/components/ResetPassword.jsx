@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import NewPassword from './NewPassword.jsx';
 import Validations from '../../validations';
 import { checkUserExists,
   sendVerificationCode, verifyCode } from '../actions/userActions';
@@ -93,55 +94,19 @@ export class ResetPassword extends React.Component {
   verifyCode(event) {
     event.preventDefault();
     if (this.isValid()) {
-      this.props.verifyCode(this.state);
+      this.props.verifyCode(this.state).then((res) => {
+        if (res.data.message === 'password updated successfully'){
+          $('#modal1').modal('open');
+        }
+      });
     }
   }
   /**
    * @returns {void}
    */
   render() {
-    const { errors, status, code, username } = this.state;
-    const verificationCodeInput = (
-      <form className="reset-form" onSubmit={this.verifyCode}>
-        <div className="jumbotron signin-container">
-          <h3>Enter Verification code </h3>
-          {errors.code ? <span className="help-block">
-            {errors.code}</span> : <br />}
-          <input
-            type="text"
-            value={code}
-            placeholder="Enter verification code"
-            onChange={this.onChange}
-            name="code"
-          />
-
-          {errors.newPassword ? <span className="help-block">
-            {errors.newPassword}</span> : <br />}
-          <input
-            type="password"
-            value={this.state.newPassword}
-            placeholder="Enter New Password"
-            onChange={this.onChange}
-            name="newPassword"
-          />
-          {errors.newPasswordConfirmation ?
-            <span className="help-block">
-              {errors.newPasswordConfirmation}</span> : <br />}
-          <input
-            type="password"
-            value={this.state.newPasswordConfirmation}
-            placeholder="Confirm New Password"
-            onChange={this.onChange}
-            name="newPasswordConfirmation"
-          />
-
-          <input
-            type="submit"
-            className="btn waves-effect waves-light grey darken-4 reset-password"
-          />
-        </div>
-      </form>
-    );
+    const { errors, status, code,
+      username, newPassword, newPasswordConfirmation } = this.state;
 
     return (
       <div className="" id="signup-body">
@@ -173,7 +138,14 @@ export class ResetPassword extends React.Component {
         }
 
           { status === 'waiting for verification code'
-          && verificationCodeInput }
+          && <NewPassword
+            onChange={this.onChange}
+            code={code}
+            verifyCode={this.verifyCode}
+            errors={errors}
+            newPassword={newPassword}
+            newPasswordConfirmation={newPasswordConfirmation}
+          /> }
         </center>
       </div>
 

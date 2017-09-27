@@ -16,6 +16,9 @@ export class Message extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this);
   }
   /**
+   * @description - It handles click event by calling,
+   * getUsersWhoReadMessage function
+   *
    * @returns {void}
    *
    * @description - handles onClick event when user views/reads a message

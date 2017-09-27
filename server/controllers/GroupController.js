@@ -1,13 +1,16 @@
 import dotenv from 'dotenv';
 import Nexmo from 'nexmo';
 import winston from 'winston';
+import isEmpty from 'lodash/isEmpty';
 
 import models from '../models';
-import returnServerError from '../helpers/returnServerError.js';
-import sendEmail from '../helpers/sendEmail.js';
+import returnServerError from '../helpers/returnServerError';
+import sendEmail from '../helpers/sendEmail';
+import Validations from '../middlewares/Validations';
 
 const Group = models.Group;
 const Message = models.Message;
+const validate = new Validations();
 
 dotenv.config();
 /**
@@ -36,8 +39,11 @@ class GroupController {
    * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
-    request.body.name = request.body.name.trim();
-    if (request.body.name === undefined || request.body.name === '') {
+    let { name } = request.body;
+    if (request.body.name !== undefined) {
+      name = name.trim();
+    }
+    if (name === undefined || name === '') {
       response.status(400).json({ errors:
         { message: 'Group name is required' } });
     } else if (request.existingGroup === true) {
@@ -45,7 +51,7 @@ class GroupController {
           { message: 'Group already exists' } });
     } else {
       Group.create({
-        groupName: request.body.name,
+        groupName: name,
         groupCreator: request.decoded.data.username,
         userId: request.decoded.data.id
       }).then(group => group.addUser(request.decoded.data.id).then(() => {
@@ -97,6 +103,10 @@ class GroupController {
    * @description - It posts a new message to a group
    */
   static postMessageToGroup(request, response) {
+    const { errors, isValid } = validate.message(request.body);
+    if (!isValid) {
+      return response.status(400).json({ errors });
+    }
     Message.create({
       content: request.body.message,
       groupId: request.params.groupId,
@@ -105,7 +115,7 @@ class GroupController {
       messageCreator: request.decoded.data.username
     })
       .then((message) => {
-        if (message !== null) {
+        if (!isEmpty(message)) {
           return message.addUser(request.decoded.data.id).then(() => {
             const newNotification =
             GroupController.notificationMessage(message);
@@ -116,9 +126,10 @@ class GroupController {
               GroupController.sendNotificationEmail(request.usersEmails,
               newNotification);
             } else if (message.priority === 'critical') {
-              GroupController.sendEmail(request.usersEmails,
+              GroupController.sendNotificationEmail(request.usersEmails,
+              newNotification);
               GroupController.notificationMessage(request.decoded.data.username,
-              message.messageCreator));
+              message.messageCreator);
             }
             response.status(201).json({ message: 'message posted to group',
               postedMessage: message });
@@ -154,11 +165,10 @@ class GroupController {
       limit: request.query.limit
     })
         .then((messages) => {
-          console.log('messages', messages);
           if (typeof messages[0] !== 'undefined') {
             let data = JSON.stringify(messages);
             data = JSON.parse(data);
-            response.json({ messages: data });
+            response.status(200).json({ messages: data });
           } else {
             response.status(404).json({ message: 'no message found' });
           }
@@ -245,7 +255,7 @@ class GroupController {
       group.getUsers({ attributes:
         { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } })
         .then((users) => {
-          if (users) {
+          if (!isEmpty(users)) {
             request.members = users;
             request.usersEmails = GroupController.getEmails(users);
             next();
@@ -274,7 +284,8 @@ class GroupController {
         id: request.decoded.data.id
       }
     }).then(user => user.getGroups({ attributes:
-      { exclude: ['createdAt', 'updatedAt'] } })
+      { exclude: ['createdAt', 'updatedAt'] },
+      joinTableAttributes: [] })
       .then((groups) => {
         if (typeof groups[0] !== 'undefined') {
           let userGroups = JSON.stringify(groups);
@@ -305,15 +316,17 @@ class GroupController {
         id: request.params.messageId
       }
     }).then(message => message.getUsers({
-      attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
-        if (!users) {
-          response.status(404).json({ message: 'No user found' });
-        } else {
-          let messageReaders = JSON.stringify(users);
-          messageReaders = JSON.parse(messageReaders);
-          response.status(200).json({ users: messageReaders });
-        }
-      }))
+      attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      joinTableAttributes: []
+    }).then((users) => {
+      if (!users) {
+        response.status(404).json({ message: 'No user found' });
+      } else {
+        let messageReaders = JSON.stringify(users);
+        messageReaders = JSON.parse(messageReaders);
+        response.status(200).json({ users: messageReaders });
+      }
+    }))
       .catch(() => {
         returnServerError(response);
       });
@@ -357,7 +370,9 @@ class GroupController {
    */
   static sendNotificationEmail(membersEmails, message) {
     const subject = 'New message posted';
-    sendEmail(membersEmails, subject, message);
+    Object.keys(membersEmails).forEach((memberEmail) => {
+      sendEmail(membersEmails[memberEmail], subject, message);
+    });
   }
 
   /**
@@ -441,13 +456,16 @@ class GroupController {
       }
     })
     .then((user) => {
-      user.getNotifications().then((notices) => {
-        if (typeof notices[0] !== 'undefined') {
-          response.status(200).json({ notices });
-        } else {
-          response.status(404).json({ message: 'No notification found' });
-        }
-      });
+      user.getNotifications({ attributes:
+        { exclude: ['createdAt', 'updatedAt', 'UserNotification'] },
+        joinTableAttributes: [] })
+        .then((notices) => {
+          if (typeof notices[0] !== 'undefined') {
+            response.status(200).json({ notices });
+          } else {
+            response.status(404).json({ message: 'No notification found' });
+          }
+        });
     })
     .catch(() => {
       returnServerError(response);
@@ -461,7 +479,7 @@ class GroupController {
    *
    * @description Gets all members of a group
    */
-  static allGroupMembers(request, response) {
+  static getAllGroupMembers(request, response) {
     const allMembers = [];
     Object.keys(request.members).forEach((member) => {
       allMembers.push(request.members[member].username);
@@ -502,7 +520,7 @@ class GroupController {
           const numberOfReadMessages = readMessages.length;
           const unreadMessages = Math.abs(
             allMessagesNumber - numberOfReadMessages);
-          response.status(200).json({ number: unreadMessages,
+          response.status(200).json({ unReadMessagesNumber: unreadMessages,
             messages: allMessages });
         })
         .catch(() => {

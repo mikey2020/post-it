@@ -20,6 +20,8 @@ export class Group extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
+   * @description - It calls setCurrentGroup function
+   *
    * @param {object} event
    *
    * @returns {void}
@@ -34,16 +36,18 @@ export class Group extends React.Component {
    */
   render() {
     return (
-      <div className="card">
-        <a
-          role="button"
-          tabIndex={0}
-          onClick={this.onClick}
-          className="group"
-        >
-          {this.props.groupname}
-        </a>
-        <br />
+      <div className="row">
+        <div className="btn card col s11 m12 l12">
+          <a
+            role="button"
+            tabIndex={0}
+            onClick={this.onClick}
+            className="group"
+          >
+            {this.props.groupname}
+          </a>
+          <br />
+        </div>
       </div>
     );
   }

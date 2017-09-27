@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import FlashMessage from './FlashMessage.jsx';
 import { deleteFlashMessage } from '../../actions/flashMessageActions';
 
-/**
- * @class
- *
- * @param {Object} props
- */
+
 const FlashMessagesList = (props) => {
   const messages = props.messages.map(message =>
     (<FlashMessage

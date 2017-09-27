@@ -1,11 +1,11 @@
 .my-group {
     background-color: #394A5D;
-    height: 189vh;
+    height: 100vh;
     margin-top: -20px;
 }
 .my-messages {
     background-color: #fff;
-    height: 109vh;
+    height: 100vh;
     margin-top: -24px;
 }
 
@@ -133,6 +133,7 @@ h1.welcome {
 }
 .card{
     background-color: transparent !important;
+    text-align: left;
     :hover{
         background-color: #03a9f4;
     }
@@ -313,4 +314,15 @@ nav .brand-logo{
     h2{
       font-size: 80px !important;
     }
+}
+
+.cancel{
+    margin-top: 100px;
+    font-size: 25px;
+    color: #039be5;
+}
+
+.message-info{
+    font-size: 50px;
+    text-align: center;
 }

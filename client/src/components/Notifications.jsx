@@ -38,11 +38,11 @@ class Notifications extends React.Component {
    */
   render() {
     const allNotifications = this.props.notifications.map(notification =>
-      <li
+      (<li
         key={notification.id}
         className="collection-item"
       >
-        {notification.notification}</li>
+        {notification.notification}</li>)
     );
     return (
       <div id="modal4" className="modal notifications">
@@ -66,4 +66,5 @@ const mapStateToProps = state => ({
   username: state.user.user.username
 });
 
-export default connect(mapStateToProps, { getNotifications, addNotification })(Notifications);
+export default connect(mapStateToProps,
+{ getNotifications, addNotification })(Notifications);

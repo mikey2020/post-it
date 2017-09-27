@@ -41,6 +41,8 @@ export class Header extends React.Component {
     }
   }
   /**
+   * @description - It calls signOut function, that allows user's logout
+   *
    * @param {object} event - argument
    *
    * @returns {void}
@@ -51,6 +53,8 @@ export class Header extends React.Component {
     location.href = '/signup';
   }
   /**
+   * @description - It clears a user notifications
+   *
    * @param {Object} event
    *
    * @returns {void}

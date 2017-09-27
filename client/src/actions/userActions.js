@@ -30,7 +30,9 @@ const getMembersOfGroup = groupId =>
       }
     });
 const checkUserExists = username =>
-  axios.post('/api/v1/user/checkUser', username);
+  axios.post('/api/v1/user/checkUser', username)
+  .then(res => res)
+  .catch(error => error);
 
 const sendVerificationCode = userData =>
   dispatch => axios.post('/api/v1/user/setCode', userData)
@@ -50,6 +52,12 @@ const verifyCode = userData =>
         dispatch(handleErrors('Code verification failed',
           'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
       }
+      return res;
+    })
+    .catch((error) => {
+      dispatch(handleErrors('Code verification failed',
+          'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
+      return error;
     });
 
 

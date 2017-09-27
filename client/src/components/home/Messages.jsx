@@ -83,6 +83,8 @@ export class Messages extends React.Component {
     }
   }
   /**
+   * @description - It calls postMessage function
+   *
    * @param {object} event - argument
    *
    * @returns {void}
@@ -197,11 +199,12 @@ export class Messages extends React.Component {
               >
           view archived</a> </div> : <p />
         }
-          <div
+          {this.props.messages.length > 0 ? <div
             className="all-messages col s8 m8 l9"
           >
             <ul>{allMessages}</ul>
-          </div>
+          </div> : <p className="message-info col s8 m6 l9">
+          No messages yet </p>}
           <div className="">
             <MessageForm
               onChange={this.onChange}

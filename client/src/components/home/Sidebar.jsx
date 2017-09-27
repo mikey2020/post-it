@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import Group from './Group.jsx';
 import { getUserGroups, setCurrentGroup } from '../../actions/groupActions';
 
@@ -47,6 +48,7 @@ export class Sidebar extends React.Component {
 
   /**
    * @returns {void}
+   * @description - It calls setCurrentGroup function
    */
   setGroup() {
     this.props.setCurrentGroup(this.state.group);

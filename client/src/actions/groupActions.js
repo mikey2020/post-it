@@ -33,7 +33,7 @@ const getUserGroups = () => dispatch => axios.get('/api/v1/user/groups')
 const createGroup = groupName =>
   dispatch => axios.post('/api/v1/group', groupName)
     .then((res) => {
-      if (res.data.message) {
+      if (res.data.message !== undefined) {
         dispatch(addGroup(res.data.group));
         dispatch(handleSuccess(res.data.message, 'ADD_GROUP'));
       } else {
@@ -42,7 +42,8 @@ const createGroup = groupName =>
       return res;
     })
     .catch((error) => {
-      dispatch(handleErrors(error.data.errors.message, 'ADD_GROUP'));
+      console.log(error);
+      dispatch(handleErrors(error.data.error.message, 'ADD_GROUP'));
       return error;
     });
 

@@ -382,14 +382,23 @@ Run <code>npm run dev:server</code> to start the project</p>
 </ul>
 
 <blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span>
+       <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"boruto"</span><span class="p">,</span>
+       <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"boruto@gmail.com"</span><span class="p">,</span>
+       <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"09012345678"</span><span class="p">,</span>
+       <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"sarada"</span><span class="p">,</span>
+       <span class="s2">"passwordConfirmation"</span><span class="p">:</span> <span class="s2">"sarada"</span>
+    <span class="p">}</span>
+</code></pre>
+<blockquote>
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code>
-
-
    <span class="p">{</span> 
        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto successfully added"</span><span class="p">,</span> 
-       <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
+       <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjozLCJ1c2VybmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5AZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkNzY4bmU2ZGNZb0hDbkppTzFmTXBzT2Fzay84WUllUmhjZHpCYm9CckV4bzdnai8vY3lzYjIifSwiaWF0IjoxNTA2NTE4MDgyLJleHAiOjE1MDY1O6fdjd8DJ9.XfyI43gONIb3hMBtFHheejKlihZWSnlwbygDAMp4EXk"</span>
     <span class="p">}</span>
 
 
@@ -420,7 +429,7 @@ Run <code>npm run dev:server</code> to start the project</p>
 <pre class="highlight javascript tab-javascript"><code>
     <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span> 
         <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"boruto signed in"</span><span class="p">,</span> 
-        <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"token"</span>
+        <span class="s2">"userToken"</span><span class="p">:</span> <span class="s2">"ey4hbuciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjozLCJ1c2VybmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5AZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkNzY4bmU2ZGNZb0hDbkppTzFmTXBzT2Fzay84WUllUmhjZHpCYm9CckV4bzdnai8vY3lzYjIifSwiaWF0IjoxNTA2NTE4MDgyLCJleHAiOjE1MDY1OTAwODJ9.XfyI43gONIb3hMBtFHheejKlihZWSnlwbygDAMp4EXk"</span>
     <span class="p">}</span>
 
 </code></pre><h2 id='to-verify-a-user-exists'>To verify a User exists</h2><h3 id='request-4'>Request</h3>
@@ -490,6 +499,13 @@ Run <code>npm run dev:server</code> to start the project</p>
 </ul>
 
 <blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span>
+       <span class="s2">"code"</span><span class="p">:</span> <span class="s2">"84bjfn"</span>
+    <span class="p">}</span>
+</code></pre>
+<blockquote>
 <p>Response: </p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code>    <span class="p">{</span>
@@ -541,6 +557,13 @@ Run <code>npm run dev:server</code> to start the project</p>
 </ul>
 
 <blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -558,13 +581,20 @@ Run <code>npm run dev:server</code> to start the project</p>
 </ul>
 
 <blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome"</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
     <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"message posted to group"</span><span class="p">,</span>
     <span class="s2">"postedMessage"</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome "</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"justice league is here  and it going to be awesome"</span><span class="p">,</span>
         <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
         <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
         <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"critical"</span><span class="p">,</span>
@@ -630,44 +660,20 @@ Run <code>npm run dev:server</code> to start the project</p>
 <pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
     <span class="s2">"notices"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
-            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.496Z"</span><span class="p">,</span>
-            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.496Z"</span><span class="p">,</span>
-            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.553Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T05:23:30.553Z"</span>
-            <span class="p">}</span>
+         <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"michael posted a message to a group which you are a member"</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
             <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
-            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.227Z"</span><span class="p">,</span>
-            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.227Z"</span><span class="p">,</span>
-            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.283Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-10T10:15:20.283Z"</span>
-            <span class="p">}</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
             <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span><span class="p">,</span>
-            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.369Z"</span><span class="p">,</span>
-            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.369Z"</span><span class="p">,</span>
-            <span class="s2">"UserNotification"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"notificationId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.433Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-12T14:45:15.433Z"</span>
-            <span class="p">}</span>
+            <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"john posted a message to a group which you are a member"</span>
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">}</span>
@@ -732,30 +738,32 @@ Run <code>npm run dev:server</code> to start the project</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
-    <span class="s2">"usergroups"</span><span class="p">:[</span>
+    <span class="s2">"userGroups"</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"bad guys"</span><span class="p">,</span>
-            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"menma"</span><span class="p">,</span>
-            <span class="s2">"UserGroups"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:07:25.240Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:07:25.240Z"</span>
-            <span class="p">}</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"test-group"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"good guys "</span><span class="p">,</span>
-            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
-            <span class="s2">"UserGroups"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T17:13:16.157Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T17:13:16.157Z"</span>
-            <span class="p">}</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"uchiha"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"sasuke"</span>
         <span class="p">},</span>
-
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"wick"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"john"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"bad guys"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"naruto"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="s2">"groupName"</span><span class="p">:</span> <span class="s2">"new group"</span><span class="p">,</span>
+            <span class="s2">"groupCreator"</span><span class="p">:</span> <span class="s2">"john"</span>
+        <span class="p">}</span>
     <span class="p">]</span>
 
 <span class="p">}</span>
@@ -810,19 +818,19 @@ Run <code>npm run dev:server</code> to start the project</p>
 <pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
   <span class="s2">"users"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
+       <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
             <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
             <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"naruto@konoha.com"</span><span class="p">,</span>
-            <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"$2a$10$oBa5iH8tGO8JeeKTLCogTOM8/43bEZ4ZROTQpqLTEcJ3OFfhlJx2i"</span><span class="p">,</span>
             <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0902345957"</span><span class="p">,</span>
-            <span class="s2">"verificationCode"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-            <span class="s2">"ReadMessages"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"messageId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:43.722Z"</span><span class="p">,</span>
-                <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-08-30T12:05:43.722Z"</span>
-            <span class="p">}</span>
+            <span class="s2">"verificationCode"</span><span class="p">:</span> <span class="kc">null</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"john"</span><span class="p">,</span>
+            <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"john@gmail.com"</span><span class="p">,</span>
+            <span class="s2">"phoneNumber"</span><span class="p">:</span> <span class="s2">"0902345957"</span><span class="p">,</span>
+            <span class="s2">"verificationCode"</span><span class="p">:</span> <span class="kc">null</span>
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">}</span>
@@ -830,7 +838,7 @@ Run <code>npm run dev:server</code> to start the project</p>
 
 </code></pre><h2 id='get-the-number-of-unread-messages'>Get the number of unread messages</h2><h3 id='request-11'>Request</h3>
 <ul>
-<li>Endpoint: POST:  /api/v1/user/:groupId/unreadMessages</li>
+<li>Endpoint: GET:  /api/v1/user/:groupId/unreadMessages</li>
 <li>Requires: Authentication </li>
 </ul>
 <h3 id='response-11'>Response</h3>
@@ -843,10 +851,20 @@ Run <code>npm run dev:server</code> to start the project</p>
 <p>Response: </p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"unreadMessages"</span><span class="p">:</span> <span class="mi">1</span>    
+    <span class="s2">"unReadMessagesNumber"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"sup"</span><span class="p">,</span>
+            <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"normal"</span><span class="p">,</span>
+            <span class="s2">"messageCreator"</span><span class="p">:</span> <span class="s2">"john"</span><span class="p">,</span>
+            <span class="s2">"groupId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-09-25T18:39:51.178Z"</span><span class="p">,</span>
+            <span class="s2">"updatedAt"</span><span class="p">:</span> <span class="s2">"2017-09-25T18:39:51.178Z"</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
 <span class="p">}</span>
-
-
 </code></pre><h2 id='get-all-members-of-a-group'>Get all members of a group</h2><h3 id='request-12'>Request</h3>
 <ul>
 <li>Endpoint: GET:  /api/v1/group/:groupId/users</li>

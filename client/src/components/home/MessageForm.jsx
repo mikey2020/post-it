@@ -7,7 +7,7 @@ export const MessageForm = props => (
       className={props.className}
       onSubmit={props.onSubmit}
     >
-      <div className="col s12">
+      <div className="col s10 m12 l12">
         <label
           htmlFor="priority level"
           className="flow-text priority-label left"
@@ -19,6 +19,7 @@ export const MessageForm = props => (
           name="priorityLevel"
           min="0"
           max="15"
+          step="7"
           value={props.priorityLevel}
           onChange={props.handlePriority}
         />

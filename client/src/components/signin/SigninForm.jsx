@@ -53,13 +53,18 @@
      event.preventDefault();
      if (this.isValid()) {
        this.setState({ errors: {}, isLoading: true });
-       this.props.validateUser(this.state).then(() => {
-         this.context.router.push('/home');
-         this.setState({ errors: {}, username: '', password: '' });
+       this.props.validateUser(this.state).then((res) => {
+         if (res.data.user.userToken) {
+           this.context.router.push('/home');
+           this.setState({ errors: {}, username: '', password: '' });
+           $('#modal1').modal('close');
+         }
        });
      }
    }
    /**
+    * @description - It calls a function,
+    *  that checks if user exists in the database
     * @param {Object} event
     *
     * @returns {void}
@@ -149,7 +154,7 @@
                      value="Sign In"
                      id="sign-in"
                      disabled={this.state.invalid}
-                     className="modal-action modal-close btn waves-effect waves-light light-blue"
+                     className="modal-action btn waves-effect waves-light light-blue"
                    />
                  </div>
                </div>

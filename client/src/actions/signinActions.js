@@ -42,10 +42,12 @@ const validateUser = userData =>
         dispatch(handleSuccess(`Welcome 
                ${jwt.decode(token).data.username}`,
           'SET_USER_SUCCESS'));
+        return res;
       }
     })
-    .catch(() => {
+    .catch((error) => {
       dispatch(handleErrors('Invalid Signin Parameters', 'SET_USER'));
+      return error;
     });
 
 export { validateUser, signOut, validateToken, setUser, validateGoogleUser };
