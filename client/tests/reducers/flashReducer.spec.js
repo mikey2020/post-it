@@ -2,7 +2,6 @@ import expect from 'expect';
 import reducer from '../../src/reducers/flashMessage';
 import * as types from '../../src/actions/types';
 
-
 describe('Flash message reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual([]);

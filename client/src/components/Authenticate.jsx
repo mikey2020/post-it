@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 export default (ComposedComponent) => {
   /**
- *  SigninForm class component
+ *  Authenticate class component
+ *
  * @class
  */
   class Authenticate extends React.Component {

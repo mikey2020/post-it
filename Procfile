@@ -1,1 +1,1 @@
-web: npm run db:migrate && babel-node client/buildServer.js 
+web: npm run build

@@ -1,4 +1,4 @@
-export const validUserSignup = {
+export const johnSignup = {
   username: 'john',
   email: 'john@gmail.com',
   password: 'johnson',
@@ -7,7 +7,7 @@ export const validUserSignup = {
 };
 
 
-export const validUserSignin = {
+export const johnnySignin = {
   username: 'johnny',
   email: 'johnson@gmail.com',
   password: 'johnson',

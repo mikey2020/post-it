@@ -8,11 +8,15 @@ import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const mockData = { id: 1, content: 'hello world', messageCreator: 'flash', userId: 1, priority: 'normal' };
+const mockData = { id: 1,
+  content: 'hello world',
+  messageCreator: 'flash',
+  userId: 1,
+  priority: 'normal' };
 
 describe('Message Actions', () => {
-  it('stores all group messages after action', (done) => {
-    axios.get = jest.fn(() => Promise.resolve({ data: { posts: [{}] } }));
+  it('should store all group messages after action', (done) => {
+    axios.get = jest.fn(() => Promise.resolve({ data: { messages: [{}] } }));
     const store = mockStore([]);
     const expectedActions = [
       { type: types.ADD_GROUP_MESSAGES, messages: mockData }
@@ -23,11 +27,14 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('creates a success flash message when a message has been posted', (done) => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { data: mockData } }));
+  it('should create a success flash message when a message has been posted',
+  (done) => {
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { message: '', postedMessage: mockData } }));
     const store = mockStore([]);
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE, message: { text: 'message posted to group', type: 'success' } },
+      { type: types.ADD_FLASH_MESSAGE,
+        message: { text: 'message posted to group', type: 'success' } },
       { type: types.ADD_MESSAGE, message: mockData }
     ];
     store.dispatch(actions.postMessage(mockData)).then(() => {
@@ -36,21 +43,25 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('reads a message successfully', () => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { data: {} } }));
+  it('should mark a message as read successfully', () => {
+    axios.post = jest.fn(() =>
+    Promise.resolve({ data: { message: 'user read this message',
+      readMessage: {} } }));
     const store = mockStore([]);
-    store.dispatch(actions.readMessage(1));
-    expect(store.getActions()).toEqual([]);
+    store.dispatch(actions.readMessage(1)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
   });
 
-  it('get users who read a message', () => {
-    axios.post = jest.fn(() => Promise.resolve({ data: { users: [] } }));
+  it('should get users who have read a message', () => {
+    axios.get = jest.fn(() => Promise.resolve({ data: { users: [] } }));
     const store = mockStore([]);
-    store.dispatch(actions.getUsersWhoReadMessage(1));
-    expect(store.getActions()).toEqual([]);
+    store.dispatch(actions.getUsersWhoReadMessage(1)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
   });
 
-  it('get number of messages user has not read', () => {
+  it('should get number of messages user has not read', () => {
     axios.get = jest.fn(() => Promise.resolve({ data: { unRead: [] } }));
     const store = mockStore([]);
     store.dispatch(actions.getUnreadMessages(1));

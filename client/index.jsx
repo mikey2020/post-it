@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 
 import rootReducer from './src/rootReducer';
 import routes from './routes';
-import js from './html-actions.js';
+import htmlActions from './htmlActions.js';
 import { validateToken, setUser } from './src/actions/signinActions';
 
 const socket = io();

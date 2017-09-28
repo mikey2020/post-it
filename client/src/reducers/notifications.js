@@ -1,4 +1,5 @@
-import { REMOVE_NOTIFICATIONS, ADD_NOTIFICATION, SET_NOTIFICATIONS } from '../actions/types';
+import { REMOVE_NOTIFICATIONS,
+  ADD_NOTIFICATION, SET_NOTIFICATIONS } from '../actions/types';
 
 export default (state = [], action) => {
   switch (action.type) {

@@ -1,11 +1,16 @@
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import winston from 'winston';
+import isEmpty from 'lodash/isEmpty';
+
 import models from '../models';
+import returnServerError from '../helpers/returnServerError';
+import sendEmail from '../helpers/sendEmail';
+import Validations from '../middlewares/Validations';
 
 const Group = models.Group;
 const Message = models.Message;
+const validate = new Validations();
 
 dotenv.config();
 /**
@@ -24,39 +29,49 @@ class GroupController {
   }
 
   /**
-   * @param {object} response -  responseponse object from an endpoint
-   * @returns {object} - message to notify user something is wrong
-   */
-  static serverError(response) {
-    return response.status(500).json({ message: 'Internal Server Error' });
-  }
-
-  /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it sends (username) created successfully
+   * @function createGroup
+   *
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
+   *
+   * @returns {object} - response status code and json data
+   *
+   * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
-    if (request.body.name === undefined) {
-      response.status(400).json({ errors: { message: 'Group name is requestuired' } });
+    let { name } = request.body;
+    if (request.body.name !== undefined) {
+      name = name.trim();
+    }
+    if (name === undefined || name === '') {
+      response.status(400).json({ errors:
+        { message: 'Group name is required' } });
+    } else if (request.existingGroup === true) {
+      response.status(409).json({ error:
+          { message: 'Group already exists' } });
     } else {
       Group.create({
-        groupName: request.body.name,
+        groupName: name,
         groupCreator: request.decoded.data.username,
         userId: request.decoded.data.id
       }).then(group => group.addUser(request.decoded.data.id).then(() => {
-        response.status(201).json({ group:
-          { message: `${request.body.name} created successfully`, data: group } });
+        response.status(201).json(
+          { message: `${request.body.name} created successfully`, group });
       }))
       .catch(() => {
-        response.status(409).json({ error: { message: 'Group already exists' } });
+        returnServerError(response);
       });
     }
   }
   /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @function addUserToGroup
+   *
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
+   *
    * @returns {object} - if there is no error, it sends user added successfully
+   *
+   * @description - It adds a user to a particular group
    */
   static addUserToGroup(request, response) {
     models.Group.findOne({
@@ -65,23 +80,33 @@ class GroupController {
       }
     }).then(group => group.addUser(request.validUserId)
         .then(() => {
-          response.json({ message: 'user added successfully' });
+          response.status(200).json({ message: 'user added successfully' });
         })
         .catch(() => {
-          GroupController.serverError(response);
+          response.status(404).json({ error:
+          { message: 'Group does not exist' } });
         })
       ).catch(() => {
-        response.status(404).json({ error: { message: 'Group does not exist' } });
+        returnServerError(response);
       });
   }
 
 
   /**
+   * @function postMessageToGroup
+   *
    * @param {Object} request
    * @param {Object} response
+   *
    * @returns {void} - It allows users post a message to a group
+   *
+   * @description - It posts a new message to a group
    */
   static postMessageToGroup(request, response) {
+    const { errors, isValid } = validate.message(request.body);
+    if (!isValid) {
+      return response.status(400).json({ errors });
+    }
     Message.create({
       content: request.body.message,
       groupId: request.params.groupId,
@@ -90,7 +115,7 @@ class GroupController {
       messageCreator: request.decoded.data.username
     })
       .then((message) => {
-        if (message !== null) {
+        if (!isEmpty(message)) {
           return message.addUser(request.decoded.data.id).then(() => {
             const newNotification =
             GroupController.notificationMessage(message);
@@ -98,26 +123,37 @@ class GroupController {
             newNotification, request.decoded.data.id);
             request.app.io.emit('new message posted', message);
             if (message.priority === 'urgent') {
-              GroupController.sendEmail(request.usersEmails, newNotification);
+              GroupController.sendNotificationEmail(request.usersEmails,
+              newNotification);
             } else if (message.priority === 'critical') {
-              GroupController.sendEmail(request.usersEmails,
+              GroupController.sendNotificationEmail(request.usersEmails,
+              newNotification);
               GroupController.notificationMessage(request.decoded.data.username,
-              message.messageCreator));
+              message.messageCreator);
             }
-            response.json({ message: 'message posted to group', data: message });
+            response.status(201).json({ message: 'message posted to group',
+              postedMessage: message });
           });
+        } else if (request.existingGroup === false) {
+          return response.status(404).json({ errors:
+          { message: 'Group does not exist' } });
         }
       })
       .catch(() => {
-        GroupController.serverError(response);
+        returnServerError(response);
       });
   }
   /**
+   * @function getMessages
+   *
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
+   *
    * @returns {object} - if there is no error, it returns an array of messages
+   *
+   * @description - It returns messages posted to a particular group
    */
-  static getPosts(request, response) {
+  static getMessages(request, response) {
     Message.findAll({
       where: {
         groupId: request.params.groupId
@@ -128,19 +164,28 @@ class GroupController {
       offset: request.query.offset,
       limit: request.query.limit
     })
-        .then((posts) => {
-          let data = JSON.stringify(posts);
-          data = JSON.parse(data);
-          response.json({ posts: data });
+        .then((messages) => {
+          if (typeof messages[0] !== 'undefined') {
+            let data = JSON.stringify(messages);
+            data = JSON.parse(data);
+            response.status(200).json({ messages: data });
+          } else {
+            response.status(404).json({ message: 'no message found' });
+          }
         })
         .catch(() => {
-          GroupController.serverError(response);
+          returnServerError(response);
         });
   }
   /**
+   * @function checkGroupName
+   *
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
+   *
    * @returns {void}
+   *
+   * @description -  It checks if a group already exists
    */
   static checkGroupName(request, response) {
     Group.findOne({
@@ -149,17 +194,26 @@ class GroupController {
       }
     })
       .then((group) => {
-        response.json({ group });
+        if (group) {
+          response.status(200).json({ group });
+        } else {
+          response.status(404).json({ message: 'GroupName does not exist' });
+        }
       })
       .catch(() => {
-        GroupController.serverError(response);
+        returnServerError(response);
       });
   }
 
   /**
-   * @param {object} request - requestuest object sent to a route
+   * @function  getUserGroups
+   *
+   * @param {object} request - request object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it returns an array of groups a user has created
+   *
+   * @returns {object} - if there is no error
+   *
+   * @description it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
     Group.findAll({
@@ -168,20 +222,29 @@ class GroupController {
       }
     })
       .then((groups) => {
-        let data = JSON.stringify(groups);
-        data = JSON.parse(data);
-        response.json(data);
+        if (typeof groups[0] !== 'undefined') {
+          let data = JSON.stringify(groups);
+          data = JSON.parse(data);
+          response.status(200).json(data);
+        } else {
+          response.status(404).json({ message: 'No groups found' });
+        }
       })
       .catch(() => {
-        GroupController.serverError(response);
+        returnServerError(response);
       });
   }
 
    /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+  * @function getGroupMembers
+   *
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    * @param {function} next
-   * @returns {object} - if there is no error, it returns array of users in a group
+   *
+   * @returns {object} - returns an array of users
+   *
+   * @description -  it get all members of a group
    */
   static getGroupMembers(request, response, next) {
     Group.findOne({
@@ -192,7 +255,7 @@ class GroupController {
       group.getUsers({ attributes:
         { exclude: ['UserGroups', 'createdAt', 'updatedAt'] } })
         .then((users) => {
-          if (users) {
+          if (!isEmpty(users)) {
             request.members = users;
             request.usersEmails = GroupController.getEmails(users);
             next();
@@ -201,14 +264,19 @@ class GroupController {
           }
         })
         .catch(() => {
-          GroupController.serverError(response);
+          returnServerError(response);
         });
     });
   }
-/**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it returns array of users in a group
+ /**
+  * @function getGroupsUserIsMember
+  *
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
+   *
+   * @returns {object} - if there is no error
+   *
+   * @description -  it returns the number of groups a user is part of.
    */
   static getGroupsUserIsMember(request, response) {
     models.User.findOne({
@@ -216,21 +284,31 @@ class GroupController {
         id: request.decoded.data.id
       }
     }).then(user => user.getGroups({ attributes:
-      { exclude: ['createdAt', 'updatedAt'] } })
+      { exclude: ['createdAt', 'updatedAt'] },
+      joinTableAttributes: [] })
       .then((groups) => {
-        let userGroups = JSON.stringify(groups);
-        userGroups = JSON.parse(userGroups);
-        response.json({ usergroups: userGroups });
+        if (typeof groups[0] !== 'undefined') {
+          let userGroups = JSON.stringify(groups);
+          userGroups = JSON.parse(userGroups);
+          response.status(200).json({ userGroups });
+        } else {
+          response.status(404).json(
+            { message: 'You are not part of any group' });
+        }
       }))
       .catch(() => {
-        GroupController.serverError(response);
+        returnServerError(response);
       });
   }
 
   /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it returns array of users in a group
+   *
+   * @returns {object} - if there is no error, it returns array of users
+   *
+   * @description - it returns array of users in a group
+   * that have read a message
    */
   static getUsersWhoReadMessage(request, response) {
     models.Message.findOne({
@@ -238,20 +316,30 @@ class GroupController {
         id: request.params.messageId
       }
     }).then(message => message.getUsers({
-      attributes: { exclude: ['createdAt', 'updatedAt'] } }).then((users) => {
+      attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      joinTableAttributes: []
+    }).then((users) => {
+      if (!users) {
+        response.status(404).json({ message: 'No user found' });
+      } else {
         let messageReaders = JSON.stringify(users);
         messageReaders = JSON.parse(messageReaders);
-        response.json({ users: messageReaders });
-      }))
+        response.status(200).json({ users: messageReaders });
+      }
+    }))
       .catch(() => {
-        GroupController.serverError(response);
+        returnServerError(response);
       });
   }
 
   /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it returns array of users in a group
+   *
+   * @returns {object} - if there is no error
+   *
+   * @description - it adds user to table signifying
+   * that user has read a message
    */
   static readMessage(request, response) {
     models.Message.findOne({
@@ -261,48 +349,38 @@ class GroupController {
     }).then((message) => {
       if (request.decoded.data.id !== message.userId) {
         message.addUser(request.decoded.data.id).then(() => {
-          response.status(201).json({ message: 'user read this message', data: message });
+          response.status(200).json({ message: 'user read this message',
+            readMessage: message });
         });
       } else {
         response.status(404).json({ message: 'Cannot find message' });
       }
     })
     .catch(() => {
-      GroupController.serverError(response);
+      returnServerError(response);
     });
   }
   /**
    * @param {array} membersEmails - emails of all members of the group
    * @param {string} message -  notification message to be sent
+   *
    * @returns {void}
+   *
+   * @description Sends email to all members of a group
    */
-  static sendEmail(membersEmails, message) {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.Email,
-        pass: process.env.EmailPass
-      }
-    });
-
-    const mailOptions = {
-      from: 'PostIt',
-      to: membersEmails,
-      subject: 'New message notification',
-      text: message
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        winston.log(error);
-      } else {
-        winston.info('Email sent: ', info.responseponse);
-      }
+  static sendNotificationEmail(membersEmails, message) {
+    const subject = 'New message posted';
+    Object.keys(membersEmails).forEach((memberEmail) => {
+      sendEmail(membersEmails[memberEmail], subject, message);
     });
   }
+
   /**
    * @param {array} group - emails of all members of the group
+   *
    * @returns {void}
+   *
+   * @description -  Gets all user emails from an array of groups
    */
   static getEmails(group) {
     const emails = [];
@@ -313,36 +391,45 @@ class GroupController {
   }
   /**
    * @param {array} recipient - phone number of receiver of the sms
+   *
    * @returns {void}
+   *
+   * @description -  Sends sms to a user
    */
   static sendSms(recipient) {
     const nexmo = new Nexmo({
       apiKey: process.env.API_KEY,
       apiSecret: process.env.API_SECRET
     });
-    nexmo.message.sendSms(process.env.myNumber, recipient, 'hello', (err, msg) => {
-      if (err) {
-        winston.log(err);
-      } else {
-        winston.log(msg);
-      }
-    });
+    nexmo.message.sendSms(
+      process.env.myNumber, recipient, 'hello', (err, msg) => {
+        if (err) {
+          winston.log(err);
+        } else {
+          winston.log(msg);
+        }
+      });
   }
 
   /**
    * @returns {String} - it returns a notification message
+   *
    * @param {Object} message - message object
    */
   static notificationMessage(message) {
-    return `${message.messageCreator} posted a message to a group which you are a member`;
+    return `${message.messageCreator} 
+    posted a message to a group which you are a member`;
   }
 
   /**
    * @returns {void}
+   *
    * @param {number} id - id that notification belongs to
    * @param {string} notice - event that took place
    * @param {userId} userId
    * @param {string} notification
+   *
+   * @description -  Adds a new notification
    */
   static addNotification(id, notice, userId) {
     models.Notification.create({
@@ -357,7 +444,10 @@ class GroupController {
    /**
    * @param {object} request - requestuest object sent to a route
    * @param {object} response -  responseponse object from the route
-   * @returns {object} - if there is no error, it returns array of users in a group
+   *
+   * @returns {object} - if there is no error
+   *
+   * @description it returns array of users in a group
    */
   static getUserNotifications(request, response) {
     models.User.findOne({
@@ -366,26 +456,36 @@ class GroupController {
       }
     })
     .then((user) => {
-      user.getNotifications().then((notices) => {
-        response.json({ notices });
-      });
+      user.getNotifications({ attributes:
+        { exclude: ['createdAt', 'updatedAt', 'UserNotification'] },
+        joinTableAttributes: [] })
+        .then((notices) => {
+          if (typeof notices[0] !== 'undefined') {
+            response.status(200).json({ notices });
+          } else {
+            response.status(404).json({ message: 'No notification found' });
+          }
+        });
     })
     .catch(() => {
-      response.status(404).json({ message: 'You have no notification' });
+      returnServerError(response);
     });
   }
   /**
    * @returns {void}
+   *
    * @param {object} request
    * @param {object} response
+   *
+   * @description Gets all members of a group
    */
-  static allGroupMembers(request, response) {
+  static getAllGroupMembers(request, response) {
     const allMembers = [];
     Object.keys(request.members).forEach((member) => {
       allMembers.push(request.members[member].username);
     });
     if (allMembers.length > 0) {
-      response.json({ members: allMembers });
+      response.status(200).json({ members: allMembers });
     } else {
       response.status(404).json({ message: 'No members in this group' });
     }
@@ -393,8 +493,11 @@ class GroupController {
 
   /**
    * @returns {void}
+   *
    * @param {Object} request
    * @param {Object} response
+   *
+   * @description It gets all user's unread messages from the database
    */
   static getUnreadMessages(request, response) {
     models.Message.findAndCountAll({
@@ -415,32 +518,44 @@ class GroupController {
         user.getMessages({ where: { groupId: request.params.groupId } })
         .then((readMessages) => {
           const numberOfReadMessages = readMessages.length;
-          const unreadMessages = Math.abs(allMessagesNumber - numberOfReadMessages);
-          response.status(200).json({ number: unreadMessages, messages: allMessages });
+          const unreadMessages = Math.abs(
+            allMessagesNumber - numberOfReadMessages);
+          response.status(200).json({ unReadMessagesNumber: unreadMessages,
+            messages: allMessages });
+        })
+        .catch(() => {
+          response.status(404).json({ message: 'no message found' });
         });
       });
     })
     .catch(() => {
-      response.status(404).json({ message: 'no message found' });
+      returnServerError(response);
     });
   }
   /**
    * @param {Object} request
    * @param {Object} response
+   *
    * @returns {void}
+   *
+   * @description - deletes all user's notifications from the database
    */
   static deleteNotifications(request, response) {
     models.UserNotification.destroy({
       where: {
         userId: request.decoded.data.id
       }
-    }).then(() => {
-      response.json({
-        message: 'All notifications deleted'
-      });
+    }).then((notification) => {
+      if (!notification) {
+        response.status(404).json({ message: 'No notification found' });
+      } else {
+        response.status(200).json({
+          message: 'All notifications deleted'
+        });
+      }
     })
     .catch(() => {
-      GroupController.serverError(response);
+      returnServerError(response);
     });
   }
 

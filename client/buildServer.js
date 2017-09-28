@@ -27,7 +27,7 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build/index.html'));
 });
 
-httpApp.listen(port, (err) => {
+httpApp.listen(port || 3000, (err) => {
   if (err) {
     console.log(err);
   } else {
