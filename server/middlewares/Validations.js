@@ -95,7 +95,7 @@ class Validations {
    */
   message(postedMessage) {
     this.errors = {};
-    if (postedMessage.content === undefined || postedMessage.content === '') {
+    if (postedMessage.message === undefined || postedMessage.message === '') {
       this.errors.message = 'message is required';
     }
     if (postedMessage.priority === undefined || postedMessage.priority === '') {
