@@ -37,20 +37,19 @@ const wrapper = setup();
 describe('Component', () => {
   describe('<Sidebar/>', () => {
     it('should render self and subcomponents', () => {
-      expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
       expect(wrapper.find('nav').exists()).toBe(false);
       expect(wrapper.find('h5').exists()).toBe(true);
       expect(wrapper.find('Link').exists()).toBe(false);
       expect(wrapper.find('ul').exists()).toBe(true);
     });
 
-    it('should calls componentDidMount when component is mounted', () => {
+    it('should call componentDidMount when component is mounted', () => {
       sinon.spy(Sidebar.prototype, 'componentDidMount');
       const enzymeWrapper = mount(<Sidebar {...mountProps} />);
       expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
     });
 
-    it('calls componentDidUpdate', () => {
+    it('should call componentDidUpdate when there is a change in props', () => {
       sinon.spy(Sidebar.prototype, 'componentDidUpdate');
       const enzymeWrapper = mount(<Sidebar {...mountProps} />);
       enzymeWrapper.instance().componentDidUpdate(prevProps);

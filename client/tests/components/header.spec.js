@@ -22,12 +22,12 @@ const wrapper = setup();
 describe('Component', () => {
   describe('<Header/>', () => {
     it('should render self and subcomponents', () => {
-      expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
+      expect(wrapper.find('.brand-logo').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
       expect(wrapper.find('Link').exists()).toBe(false);
     });
 
-    it('should call logout function when user clicks logout', () => {
+    it('should call logout function when user clicks logout button', () => {
       const event = {
         preventDefault: () => {},
       };

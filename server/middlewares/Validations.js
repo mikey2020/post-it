@@ -19,7 +19,7 @@ class Validations {
    *
    * @returns {object} - errors object if there is any
    */
-  signup(user) {
+  signUp(user) {
     this.errors = {};
     const space = new RegExp(' ');
     const usernameContainsSpace = space.test(user.username);

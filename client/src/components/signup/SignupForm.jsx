@@ -96,7 +96,6 @@ export class SignupForm extends React.Component {
       email: profile.email
     };
     checkUserExists(userData).then((res) => {
-      console.log(res);
       if (res.data.user) {
         this.props.handleErrors(
           'User already exists, Please sign in', 'GOOGLE_SIGN_UP');

@@ -1,10 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import { Group } from '../../src/components/home/Group';
-
-const setCurrentGroup = sinon.spy();
 
 const setup = () => {
   const props = {
@@ -25,7 +22,7 @@ describe('Component', () => {
       expect(wrapper.find('.group').exists()).toBe(true);
     });
 
-    it('simulates click events', () => {
+    it('should call onClick function when button with classname group is clicked', () => {
       wrapper.find('.group').simulate('click',
       { preventDefault: () => {} });
       expect(wrapper.find('.group').props().onClick).toBeA('function');

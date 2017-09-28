@@ -35,7 +35,7 @@
      * @description - it adds a new user to the database
      */
     static signUp(request, response) {
-      const { errors, isValid } = validate.signup(request.body);
+      const { errors, isValid } = validate.signUp(request.body);
       if (!isValid) {
         response.status(400).json(errors);
       } else if (request.userAlreadyExists === true) {

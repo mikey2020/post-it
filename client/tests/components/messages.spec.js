@@ -1,7 +1,6 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import { Messages } from '../../src/components/home/Messages.jsx';
 import { MessageForm } from '../../src/components/home/MessageForm.jsx';
 
@@ -37,7 +36,7 @@ describe('Component', () => {
   describe('<Messages/>', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.contains(<div className="red" />)).toBe(false);
-      expect(wrapper.find('ul').exists()).toBe(true);
+      expect(wrapper.find('.nav-wrapper').exists()).toBe(true);
       expect(wrapper.find('p').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
       expect(wrapper.find('form').exists()).toBe(false);
@@ -53,7 +52,8 @@ describe('Component', () => {
       .props().onChange).toBeA('function');
     });
 
-    it('should call onSubmit function', () => {
+    it('should call onSubmit function when button with class name `post-message` is clicked',
+    () => {
       const mockEvent = {
         preventDefault: () => {},
         postMessage: () => {},
@@ -61,13 +61,8 @@ describe('Component', () => {
         isLoading: true
       };
       wrapper.find('.post-message').simulate('submit', mockEvent);
-      expect(wrapper.find('.post-message').props().onSubmit).toBeA('function');
-    });
-
-    it('should call viewArchived function', () => {
-      const viewArchived = sinon.spy();
       wrapper.instance().viewArchived({ preventDefault: () => {} });
-      expect(viewArchived.callCount).toEqual(0);
+      expect(wrapper.find('.post-message').props().onSubmit).toBeA('function');
     });
   });
 });

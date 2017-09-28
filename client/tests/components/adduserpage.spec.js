@@ -34,7 +34,7 @@ describe('Component', () => {
       wrapper.instance().isValid();
     });
 
-    it('should call onChange function', () => {
+    it('should call onChange function when user`s input changes', () => {
       const event = { target: { name: 'username', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
       wrapper.instance().onChange(event);
