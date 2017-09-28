@@ -23,10 +23,12 @@ export default (app) => {
   Validations.checkGroupExists, Validations.isGroupMember,
   GroupController.getGroupMembers, GroupController.postMessageToGroup);
 
-  app.get('/api/v1/group/:groupId/users', Validations.checkGroupExists,
+  app.get('/api/v1/group/:groupId/users', Validations.authenticate,
+  Validations.checkGroupExists,
   GroupController.getGroupMembers, GroupController.getAllGroupMembers);
 
   app.get('/api/v1/message/:messageId/readers',
+  Validations.authenticate,
   GroupController.getUsersWhoReadMessage);
 
   app.get('/api/v1/user/groups', Validations.authenticate,

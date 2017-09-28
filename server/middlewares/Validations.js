@@ -3,7 +3,9 @@ import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+
 import models from '../models';
+import handleInvalidNumber from '../helpers/handleInvalidNumber';
 
 dotenv.config();
 /**
@@ -15,9 +17,9 @@ class Validations {
   /**
    * @description - validates a user's signUp object
    *
-   * @param {object} user - signup object
+   * @param {Object} user - signup object
    *
-   * @returns {object} - errors object if there is any
+   * @returns {Object} - errors object if there is any
    */
   signUp(user) {
     this.errors = {};
@@ -91,7 +93,7 @@ class Validations {
    *
    * @param {string} postedMessage
    *
-   * @returns {object} - errors object if there is any
+   * @returns {Object} - errors object if there is any
    */
   message(postedMessage) {
     this.errors = {};
@@ -114,12 +116,12 @@ class Validations {
   /**
    * @description - checks if a user is valid
    *
-   * @param {object} request
-   * @param {object} response
+   * @param {Object} request
+   * @param {Object} response
    * @param {function} next
-   * @param {object} user - signup object
+   * @param {Object} user - signup object
    *
-   * @returns {object} - errors object if there is any
+   * @returns {Object} - errors object if there is any
    */
   static checkUserIsValid(request, response, next) {
     const { username, userId } = request.body;
@@ -150,11 +152,11 @@ class Validations {
   /**
    * @description - It verifies a user by accessing the user's token
    *
-   * @param {object} request - signup object
-   * @param {object} response - errors object if there is any
-   * @param {object} next - returns user to next middleware
+   * @param {Object} request - signup object
+   * @param {Object} response - errors object if there is any
+   * @param {Object} next - returns user to next middleware
    *
-   * @returns {object} -returns error if there is any
+   * @returns {Object} -returns error if there is any
    */
   static authenticate(request, response, next) {
     const authorizationHeader = request.headers.authorization;
@@ -179,11 +181,11 @@ class Validations {
   /**
    * @description - It checks if a user is a member of a group
    *
-   * @param {object} request - signup object
-   * @param {object} response - errors object if there is any
-   * @param {object} next - returns user to next middleware
+   * @param {Object} request - signup object
+   * @param {Object} response - errors object if there is any
+   * @param {Object} next - returns user to next middleware
    *
-   * @returns {object} -returns error if there is any
+   * @returns {Object} -returns error if there is any
    */
   static isGroupMember(request, response, next) {
     models.UserGroups.findOne({
@@ -211,6 +213,8 @@ class Validations {
    * @returns {void}
    */
   static checkGroupExists(request, response, next) {
+    const groupId = request.params.groupId;
+    handleInvalidNumber(groupId, response);
     models.Group.findOne({
       where: {
         $or: [

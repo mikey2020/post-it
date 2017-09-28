@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import models from '../models';
 import returnServerError from '../helpers/returnServerError';
 import sendEmail from '../helpers/sendEmail';
+import handleInvalidNumber from '../helpers/handleInvalidNumber';
 import Validations from '../middlewares/Validations';
 
 const Group = models.Group;
@@ -342,6 +343,8 @@ class GroupController {
    * that user has read a message
    */
   static readMessage(request, response) {
+    const messageId = request.params.messageId;
+    handleInvalidNumber(messageId, response);
     models.Message.findOne({
       where: {
         id: request.params.messageId
@@ -500,9 +503,11 @@ class GroupController {
    * @description It gets all user's unread messages from the database
    */
   static getUnreadMessages(request, response) {
+    const groupId = request.params.groupId;
+    handleInvalidNumber(groupId, response);
     models.Message.findAndCountAll({
       where: {
-        groupId: request.params.groupId,
+        groupId,
         userId: request.decoded.data.id
       }
     })
@@ -515,7 +520,7 @@ class GroupController {
         }
       })
       .then((user) => {
-        user.getMessages({ where: { groupId: request.params.groupId } })
+        user.getMessages({ where: { groupId } })
         .then((readMessages) => {
           const numberOfReadMessages = readMessages.length;
           const unreadMessages = Math.abs(

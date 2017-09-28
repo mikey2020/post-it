@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Header from './Header.jsx';
 import FlashMessageList from './flash/FlashMessageList.jsx';
 import CreateGroupForm from './home/CreateGroupForm.jsx';
