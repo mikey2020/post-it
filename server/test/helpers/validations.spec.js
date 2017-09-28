@@ -10,7 +10,7 @@ describe('Validations ', () => {
         password: 'pass',
         email: 'email',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.username.should.equal('Username is required');
 
       done();
@@ -23,7 +23,7 @@ describe('Validations ', () => {
         password: '',
         email: 'email',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.password.should.equal('Password is required');
 
       done();
@@ -35,7 +35,7 @@ describe('Validations ', () => {
         password: 'pass',
         email: '',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.email.should.equal('Email is required');
 
       done();
@@ -49,7 +49,7 @@ describe('Validations ', () => {
         email: 'email',
         passwordConfirmation: 'p',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.passwordConfirmation.should.equal('Passwords do not match');
 
       done();
@@ -63,7 +63,7 @@ describe('Validations ', () => {
         email: '',
         passwordConfirmation: '',
         phoneNumber: '' };
-      const { errors } = validate.signup(mockData);
+      const { errors } = validate.signUp(mockData);
       errors.username.should.equal('Username is required');
       errors.email.should.equal('Email is required');
       errors.password.should.equal('Password is required');
