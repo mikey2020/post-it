@@ -2,7 +2,6 @@ import path from 'path';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -39,13 +38,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: true
-}));
-
-
 userRoutes(app);
 groupRoutes(app);
 
@@ -60,7 +52,6 @@ app.get('/*', (req, res) => {
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 });
-
 
 httpApp.listen(port || 3000, () => {});
 
