@@ -77,7 +77,6 @@ describe('GroupController', () => {
         .set('authorization', token)
         .send({ message: 'This functions is working well', priority: 'normal' })
         .end((err, res) => {
-          console.log(res.body);
           res.status.should.equal(201);
           should.not.exist(err);
           res.body.postedMessage.content

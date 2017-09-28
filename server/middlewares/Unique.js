@@ -14,12 +14,12 @@ class Unique {
 
   /** @description - checks if a user has already been added to a group
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
-   * @param {object} next
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
+   * @param {Function} next
    * - response object that sends data to the next middleware
    *
-   * @returns {object}
+   * @returns {Object}
    * - if there is no error, it returns array of users in a group
    */
   static isAlreadyGroupMember(request, response, next) {
@@ -40,12 +40,12 @@ class Unique {
 
   /** @description - checks if message has already been read by a user
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
-   * @param {object} next
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
+   * @param {Object} next
    * - response object that sends data to the next middleware
    *
-   * @returns {object}
+   * @returns {Object}
    * - if there is no error, it returns array of users in a group
    */
   static checkReadMessages(request, response, next) {

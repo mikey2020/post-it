@@ -32,10 +32,10 @@ class GroupController {
   /**
    * @function createGroup
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
    *
-   * @returns {object} - response status code and json data
+   * @returns {Object} - response status code and json data
    *
    * @description - it sends (username) created successfully
    */
@@ -67,10 +67,10 @@ class GroupController {
   /**
    * @function addUserToGroup
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
    *
-   * @returns {object} - if there is no error, it sends user added successfully
+   * @returns {Object} - if there is no error, it sends user added successfully
    *
    * @description - It adds a user to a particular group
    */
@@ -147,10 +147,11 @@ class GroupController {
   /**
    * @function getMessages
    *
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
    *
-   * @returns {object} - if there is no error, it returns an array of messages
+   * @returns {Object} - if there is no error, it returns response object
+   * containing an array of messages
    *
    * @description - It returns messages posted to a particular group
    */
@@ -181,10 +182,10 @@ class GroupController {
   /**
    * @function checkGroupName
    *
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
    *
-   * @returns {void}
+   * @returns {Object} - response object
    *
    * @description -  It checks if a group already exists
    */
@@ -209,12 +210,12 @@ class GroupController {
   /**
    * @function  getUserGroups
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
    *
-   * @returns {object} - if there is no error
+   * @returns {Object} - returns response object containing array of groups
    *
-   * @description it returns an array of groups a user has created
+   * @description -  it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
     Group.findAll({
@@ -239,11 +240,11 @@ class GroupController {
    /**
   * @function getGroupMembers
    *
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
-   * @param {function} next
+   * @param {Object} request - request object sent to a route
+   * @param {Object} response -  response object from the route
+   * @param {Function} next
    *
-   * @returns {object} - returns an array of users
+   * @returns {Object} - response object containing array of users
    *
    * @description -  it get all members of a group
    */
@@ -303,8 +304,8 @@ class GroupController {
   }
 
   /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    *
    * @returns {object} - if there is no error, it returns array of users
    *
@@ -334,8 +335,8 @@ class GroupController {
   }
 
   /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    *
    * @returns {object} - if there is no error
    *
@@ -445,8 +446,8 @@ class GroupController {
     });
   }
    /**
-   * @param {object} request - requestuest object sent to a route
-   * @param {object} response -  responseponse object from the route
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
    *
    * @returns {object} - if there is no error
    *

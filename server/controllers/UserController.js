@@ -28,9 +28,9 @@
 
     /**
      * @param {Object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} response -  response object from the route
      *
-     * @returns {object} - returns a token and message
+     * @returns {Object} - returns a token and message
      *
      * @description - it adds a new user to the database
      */
@@ -64,10 +64,10 @@
       }
     }
     /**
-     * @param {object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} request - request object sent to a route
+     * @param {Object} response -  response object from the route
      *
-     * @returns {object} - if there is no error, a token and message
+     * @returns {Object} - if there is no error, a token and message
      *
      * @description - it signs in a user by generating a token,
      * that is unique to them
@@ -105,10 +105,10 @@
       });
     }
     /**
-     * @param {object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} request - request object sent to a route
+     * @param {Object} response -  response object from the route
      *
-     * @returns {object} - either an error or success object
+     * @returns {Object} - either an error or success object
      *
      * @description - it helps check whether a user,
      *  already exists in the database
@@ -138,10 +138,10 @@
     }
 
     /**
-     * @param {object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} request - request object sent to a route
+     * @param {Object} response -  response object from the route
      *
-     * @returns {object} - number of results that match the user's query
+     * @returns {Object} - number of results that match the user's query
      *
      * @description - it helps a user search for other users
      */
@@ -166,10 +166,10 @@
     }
 
     /**
-     * @param {object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} request - request object sent to a route
+     * @param {Object} response -  response object from the route
      *
-     * @returns {object} - if there is no error
+     * @returns {Object} - if there is no error
      *
      * @description - It sends a user their verification code
      * and stores it on the user's table
@@ -216,8 +216,8 @@
 
 
     /**
-     * @param {object} request - request object sent to a route
-     * @param {object} response -  response object from the route
+     * @param {Object} request - request object sent to a route
+     * @param {Object} response -  response object from the route
      *
      * @returns {void}
      */
@@ -254,7 +254,7 @@
      *
      * @param {Object} request - request object
      * @param {Object} response - response object
-     * @param {Object} next
+     * @param {Function} next
      */
     static isAlreadyUser(request, response, next) {
       const { username, email } = request.body;

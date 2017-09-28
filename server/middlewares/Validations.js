@@ -17,7 +17,7 @@ class Validations {
   /**
    * @description - validates a user's signUp object
    *
-   * @param {Object} user - signup object
+   * @param {Object} user - sign up object
    *
    * @returns {Object} - errors object if there is any
    */
@@ -91,7 +91,7 @@ class Validations {
   /**
    * @description - validates message input
    *
-   * @param {string} postedMessage
+   * @param {String} postedMessage
    *
    * @returns {Object} - errors object if there is any
    */
@@ -118,7 +118,7 @@ class Validations {
    *
    * @param {Object} request
    * @param {Object} response
-   * @param {function} next
+   * @param {Function} next
    * @param {Object} user - signup object
    *
    * @returns {Object} - errors object if there is any
@@ -154,7 +154,7 @@ class Validations {
    *
    * @param {Object} request - signup object
    * @param {Object} response - errors object if there is any
-   * @param {Object} next - returns user to next middleware
+   * @param {Function} next - returns user to next middleware
    *
    * @returns {Object} -returns error if there is any
    */
@@ -183,7 +183,7 @@ class Validations {
    *
    * @param {Object} request - signup object
    * @param {Object} response - errors object if there is any
-   * @param {Object} next - returns user to next middleware
+   * @param {Function} next - returns user to next middleware
    *
    * @returns {Object} -returns error if there is any
    */
@@ -206,15 +206,17 @@ class Validations {
   /**
    * @description - It checks if a group exists
    *
-   * @param {Object} request - requestuest object
-   * @param {Object} response - responseponse object
-   * @param {Object} next - responseponse object
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   * @param {Function} next - response object
    *
    * @returns {void}
    */
   static checkGroupExists(request, response, next) {
     const groupId = request.params.groupId;
-    handleInvalidNumber(groupId, response);
+    if (groupId !== undefined) {
+      handleInvalidNumber(groupId, response);
+    }
     models.Group.findOne({
       where: {
         $or: [
