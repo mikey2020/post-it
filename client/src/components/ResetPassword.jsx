@@ -95,8 +95,11 @@ export class ResetPassword extends React.Component {
     event.preventDefault();
     if (this.isValid()) {
       this.props.verifyCode(this.state).then((res) => {
-        if (res.data.message === 'password updated successfully'){
+        if (res.data.message === 'password updated successfully') {
           $('#modal1').modal('open');
+          this.setState({ code: '',
+            newPassword: '',
+            newPasswordConfirmation: '' });
         }
       });
     }

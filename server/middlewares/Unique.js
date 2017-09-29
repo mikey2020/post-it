@@ -70,7 +70,7 @@ class Unique {
    * @param {Object} response - response object
    * @param {Obeject} next - next object
    *
-   * @returns {void} - it number of read message by the logged in user
+   * @returns {void}
    */
   static setNumberOfMessages(request, response, next) {
     models.Message.findAndCountAll({

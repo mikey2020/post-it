@@ -35,7 +35,7 @@ class GroupController {
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
-   * @returns {Object} - response status code and json data
+   * @returns {void}
    *
    * @description - it sends (username) created successfully
    */
@@ -70,7 +70,7 @@ class GroupController {
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
-   * @returns {Object} - if there is no error, it sends user added successfully
+   * @returns {void}
    *
    * @description - It adds a user to a particular group
    */
@@ -99,7 +99,7 @@ class GroupController {
    * @param {Object} request
    * @param {Object} response
    *
-   * @returns {void} - It allows users post a message to a group
+   * @returns {void}
    *
    * @description - It posts a new message to a group
    */
@@ -150,8 +150,7 @@ class GroupController {
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
-   * @returns {Object} - if there is no error, it returns response object
-   * containing an array of messages
+   * @returns {void}
    *
    * @description - It returns messages posted to a particular group
    */
@@ -185,7 +184,7 @@ class GroupController {
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
-   * @returns {Object} - response object
+   * @returns {void}
    *
    * @description -  It checks if a group already exists
    */
@@ -213,7 +212,7 @@ class GroupController {
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
-   * @returns {Object} - returns response object containing array of groups
+   * @returns {void}
    *
    * @description -  it returns an array of groups a user has created
    */
@@ -244,7 +243,7 @@ class GroupController {
    * @param {Object} response -  response object from the route
    * @param {Function} next
    *
-   * @returns {Object} - response object containing array of users
+   * @returns {void}
    *
    * @description -  it get all members of a group
    */
@@ -276,7 +275,7 @@ class GroupController {
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
-   * @returns {object} - if there is no error
+   * @returns {void}
    *
    * @description -  it returns the number of groups a user is part of.
    */
@@ -307,7 +306,7 @@ class GroupController {
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
-   * @returns {object} - if there is no error, it returns array of users
+   * @returns {void}
    *
    * @description - it returns array of users in a group
    * that have read a message
@@ -338,7 +337,7 @@ class GroupController {
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
-   * @returns {object} - if there is no error
+   * @returns {void}
    *
    * @description - it adds user to table signifying
    * that user has read a message
@@ -382,7 +381,7 @@ class GroupController {
   /**
    * @param {array} group - emails of all members of the group
    *
-   * @returns {void}
+   * @returns {Array} - returns an array containing user's emails
    *
    * @description -  Gets all user emails from an array of groups
    */
@@ -449,7 +448,7 @@ class GroupController {
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
-   * @returns {object} - if there is no error
+   * @returns {void}
    *
    * @description it returns array of users in a group
    */

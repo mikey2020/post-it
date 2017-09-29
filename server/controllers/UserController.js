@@ -67,7 +67,7 @@
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
-     * @returns {Object} - if there is no error, a token and message
+     * @returns {void}
      *
      * @description - it signs in a user by generating a token,
      * that is unique to them
@@ -108,7 +108,7 @@
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
-     * @returns {Object} - either an error or success object
+     * @returns {void}
      *
      * @description - it helps check whether a user,
      *  already exists in the database
@@ -141,7 +141,7 @@
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
-     * @returns {Object} - number of results that match the user's query
+     * @returns {void}
      *
      * @description - it helps a user search for other users
      */
@@ -169,7 +169,7 @@
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
-     * @returns {Object} - if there is no error
+     * @returns {void}
      *
      * @description - It sends a user their verification code
      * and stores it on the user's table
