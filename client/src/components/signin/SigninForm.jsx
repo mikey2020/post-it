@@ -4,7 +4,7 @@
  import PropTypes from 'prop-types';
 
  import { validateUser } from '../../actions/signinActions';
- import Validations from '../../../validations';
+ import Validations from '../../../Validations';
  import { addFlashMessage } from '../../actions/flashMessageActions';
  import { checkUserExists } from '../../actions/userActions';
 

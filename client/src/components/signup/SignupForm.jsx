@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import addUser from '../../actions/addUser';
 import { checkUserExists } from '../../actions/userActions';
-import Validations from '../../../validations';
+import Validations from '../../../Validations';
 import { handleErrors } from '../../actions/errorAction';
 
 const validate = new Validations();

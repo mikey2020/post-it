@@ -1,5 +1,5 @@
 import should from 'should';
-import Validations from '../../validations';
+import Validations from '../../Validations';
 
 describe('Test Input Validations Class', () => {
   describe('Sign Up Input validations', () => {

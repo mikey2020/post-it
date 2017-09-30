@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import NewPassword from './NewPassword.jsx';
-import Validations from '../../validations';
+import Validations from '../../Validations';
 import { checkUserExists,
   sendVerificationCode, verifyCode } from '../actions/userActions';
 

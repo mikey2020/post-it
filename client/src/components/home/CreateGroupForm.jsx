@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Validations from '../../../validations';
+import Validations from '../../../Validations';
 import { createGroup, groupExists } from '../../actions/groupActions';
 
 const validate = new Validations();
