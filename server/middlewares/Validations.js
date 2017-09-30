@@ -3,7 +3,9 @@ import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+
 import models from '../models';
+import handleInvalidNumber from '../helpers/handleInvalidNumber';
 
 dotenv.config();
 /**
@@ -13,11 +15,17 @@ dotenv.config();
 class Validations {
 
   /**
-   * @param {object} user - signup object
-   * @returns {object} - errors object if there is any
+   * @description - validates a user's signUp object
+   *
+   * @param {Object} user - sign up object
+   *
+   * @returns {Object} - errors object if there is any
    */
-  signup(user) {
+  signUp(user) {
     this.errors = {};
+    const space = new RegExp(' ');
+    const usernameContainsSpace = space.test(user.username);
+
     if (user.password) {
       user.password = user.password.trim();
     }
@@ -27,6 +35,10 @@ class Validations {
 
     if (user.username === null || user.username === '') {
       this.errors.username = 'Username is required';
+    }
+
+    if (usernameContainsSpace === true) {
+      this.errors.username = 'Username should not contain space';
     }
 
     if (user.email === null || user.email === '') {
@@ -57,11 +69,13 @@ class Validations {
     if (user.password && user.password.length <= 4) {
       this.errors.password = 'Password length too short';
     }
-    if (user.passwordConfirmation === null || user.passwordConfirmation === '') {
+    if (user.passwordConfirmation === null ||
+    user.passwordConfirmation === '') {
       this.errors.passwordConfirmation = 'Password Confirmation is required';
     }
 
-    if (user.password && !validator.equals(user.password, user.passwordConfirmation)) {
+    if (user.password &&
+    !validator.equals(user.password, user.passwordConfirmation)) {
       this.errors.passwordConfirmation = 'Passwords do not match';
     }
 
@@ -75,20 +89,59 @@ class Validations {
   }
 
   /**
-   * @param {object} request
-   * @param {object} response
-   * @param {function} next
-   * @param {object} user - signup object
-   * @returns {object} - errors object if there is any
+   * @description - validates message input
+   *
+   * @param {String} postedMessage
+   *
+   * @returns {Object} - errors object if there is any
+   */
+  message(postedMessage) {
+    this.errors = {};
+    if (postedMessage.message === undefined || postedMessage.message === '') {
+      this.errors.message = 'message is required';
+    }
+    if (postedMessage.priority === undefined || postedMessage.priority === '') {
+      this.errors.priority = 'message priority is required';
+    }
+
+    const errors = this.errors;
+
+    return {
+      errors,
+
+      isValid: isEmpty(errors)
+    };
+  }
+
+  /**
+   * @description - checks if a user is valid
+   *
+   * @param {Object} request
+   * @param {Object} response
+   * @param {Function} next
+   * @param {Object} user - signup object
+   *
+   * @returns {Object} - errors object if there is any
    */
   static checkUserIsValid(request, response, next) {
+    const { username, userId } = request.body;
+    if (username === undefined && userId === undefined) {
+      return response.status(400).json(
+        { message: 'username or userId is required' });
+    }
     models.User.findOne({
       where: {
-        id: request.body.userId
+        $or: [
+            { id: userId },
+          { username: {
+            $iLike: username
+          } }
+        ]
       }
     }).then((validUser) => {
       if (validUser === null) {
-        return response.status(400).json({ errors: { message: 'user does not exist' } });
+        return response.status(400).json({ errors:
+          { message: 'user does not exist' } });
       }
       request.validUsername = validUser.username;
       request.validUserId = validUser.id;
@@ -97,10 +150,13 @@ class Validations {
   }
 
   /**
-   * @param {object} request - signup object
-   * @param {object} response - errors object if there is any
-   * @param {object} next - returns user to next middleware
-   * @returns {object} -returns error if there is any
+   * @description - It verifies a user by accessing the user's token
+   *
+   * @param {Object} request - signup object
+   * @param {Object} response - errors object if there is any
+   * @param {Function} next - returns user to next middleware
+   *
+   * @returns {Object} -returns error if there is any
    */
   static authenticate(request, response, next) {
     const authorizationHeader = request.headers.authorization;
@@ -109,7 +165,8 @@ class Validations {
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return response.status(401).json({ success: false, message: 'Failed to authenticate token.' });
+          return response.status(401).json(
+            { success: false, message: 'Failed to authenticate token.' });
         }
         request.decoded = decoded;
         next();
@@ -122,10 +179,13 @@ class Validations {
     }
   }
   /**
-   * @param {object} request - signup object
-   * @param {object} response - errors object if there is any
-   * @param {object} next - returns user to next middleware
-   * @returns {object} -returns error if there is any
+   * @description - It checks if a user is a member of a group
+   *
+   * @param {Object} request - signup object
+   * @param {Object} response - errors object if there is any
+   * @param {Function} next - returns user to next middleware
+   *
+   * @returns {Object} -returns error if there is any
    */
   static isGroupMember(request, response, next) {
     models.UserGroups.findOne({
@@ -137,25 +197,40 @@ class Validations {
       if (user) {
         next();
       } else {
-        response.status(403).json({ errors: { message: 'You are not a part of this group' } });
+        response.status(403).json({ errors:
+          { message: 'You are not a part of this group' } });
       }
     });
   }
 
   /**
-   * @param {Object} request - requestuest object
-   * @param {Object} response - responseponse object
-   * @param {Object} next - responseponse object
+   * @description - It checks if a group exists
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   * @param {Function} next - response object
+   *
    * @returns {void}
    */
   static checkGroupExists(request, response, next) {
+    const groupId = request.params.groupId;
+    if (groupId !== undefined) {
+      handleInvalidNumber(groupId, response);
+    }
     models.Group.findOne({
       where: {
-        id: request.params.groupId
+        $or: [
+          { groupName: {
+            $iLike: request.body.name
+          } },
+          { id: request.params.groupId }
+        ]
       }
     }).then((validGroup) => {
       if (validGroup === null) {
-        return response.status(404).json({ errors: { message: 'group does not exist' } });
+        request.existingGroup = false;
+      } else {
+        request.existingGroup = true;
       }
       next();
     });
@@ -163,7 +238,10 @@ class Validations {
 
   /**
    * @param  {String} userInput
-   * @description checks if the string pass in is a digit. Means all the charcters are digit
+   *
+   * @description checks if the string passed in is a digit.
+   * which means all the charcters are digit
+   *
    * @return {boolean} true or false
    */
   static isPhoneNumber(userInput) {

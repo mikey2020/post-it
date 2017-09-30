@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { setCurrentGroup } from '../../actions/groupActions';
 
 /**
- * Group component
+ * Group
+ *
  * @class
  */
 export class Group extends React.Component {
    /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -18,11 +21,14 @@ export class Group extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
-   * @param {object} e - event
+   * @description - It calls setCurrentGroup function
+   *
+   * @param {object} event
+   *
    * @returns {void}
    */
-  onClick(e) {
-    e.preventDefault();
+  onClick(event) {
+    event.preventDefault();
     this.props.setCurrentGroup(this.props.group);
   }
    /**
@@ -31,16 +37,18 @@ export class Group extends React.Component {
    */
   render() {
     return (
-      <div>
-        <a
-          role="button"
-          tabIndex={0}
-          onClick={this.onClick}
-          className="waves-effect waves-light btn group-btn"
-        >
-          {this.props.groupname}
-        </a>
-        <br />
+      <div className="row">
+        <div className="btn card col s11 m12 l12">
+          <a
+            role="button"
+            tabIndex={0}
+            onClick={this.onClick}
+            className="group"
+          >
+            {this.props.groupname}
+          </a>
+          <br />
+        </div>
       </div>
     );
   }

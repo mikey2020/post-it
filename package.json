@@ -18,7 +18,7 @@
     "db:refresh": "npm run undo:tests && npm run db:migrate",
     "undo:tests": "cd server && ../node_modules/.bin/sequelize db:migrate:undo:all",
     "delete-build": "rm -r client/build",
-    "clean-build": "npm run delete-build && mkdir client/build",
+    "clean-build": "mkdir client/build",
     "undo:db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate:undo:all",
     "db:migrate": "cd server && ../node_modules/.bin/sequelize db:migrate",
     "client-tests": "jest --coverage client/tests",
@@ -28,7 +28,8 @@
     "build": "babel-node client/build.js",
     "postbuild": "babel-node client/buildServer.js",
     "dist-build": "babel server -d dist --presets es2015,stage-2",
-    "test-e2e": "nightwatch"
+    "test-e2e": "nightwatch",
+    "prod-build": "npm run db:migrate && npm run build"
   },
   "repository": {
     "type": "git",
@@ -53,7 +54,6 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "expect": "^1.20.2",
-    "extract-text-webpack-plugin": "^1.0.1",
     "istanbul": "^0.4.5",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
@@ -94,8 +94,10 @@
     "debug": "^2.6.8",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "extract-text-webpack-plugin": "^1.0.1",
     "express-session": "^1.15.3",
     "jsonwebtoken": "^7.4.2",
+    "lodash": "^4.17.4",
     "mock-localstorage": "^0.1.3",
     "nexmo": "^2.0.2",
     "nodemailer": "^4.0.1",

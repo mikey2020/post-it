@@ -4,7 +4,7 @@ import '../../app';
 
 
 describe('UserGroup Model:', () => {
-  it('should be created successfully', (done) => {
+  it('should be able to add a new user group to the database', (done) => {
     models.UserGroups.create({ userId: 1, groupId: 3 })
     .then((usergroup) => {
       should.exist(usergroup);

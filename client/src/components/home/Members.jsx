@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { getMembersOfGroup } from '../../actions/userActions';
 
 /**
@@ -16,6 +17,7 @@ class Members extends React.Component {
   }
   /**
    * @param {object} prevProps - previous props
+   *
    * @returns {void}
    */
   componentDidUpdate(prevProps) {

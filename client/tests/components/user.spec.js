@@ -40,19 +40,21 @@ const wrapper = setup();
 describe('Component', () => {
   describe('<User/>', () => {
     it('should render self and subcomponents', () => {
-      expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
+      expect(wrapper.find('.user-btn').exists()).toBe(true);
       expect(wrapper.find('li').exists()).toBe(true);
       expect(wrapper.find('Link').exists()).toBe(false);
       expect(wrapper.find('button').exists()).toBe(true);
     });
 
-    it('calls onClick', () => {
-      wrapper.find('.add-user-btn').simulate('click', { preventDefault: () => {} });
+    it('should call onClick function when button with class name `add-user-btn` is clicked',
+    () => {
+      wrapper.find('.add-user-btn').simulate('click',
+      { preventDefault: () => {} });
       expect(wrapper.find('.add-user-btn').props().onClick).toBeA('function');
-      // expect(User.prototype.onClick.callCount).toEqual(1);
     });
 
-    it('calls componentDidMount', () => {
+    it('should call componentDidMount function when component is mounted',
+    () => {
       sinon.spy(User.prototype, 'componentDidMount');
       const checkUserIsMember = sinon.spy();
       const enzymeWrapper = mount(<User {...props} />);

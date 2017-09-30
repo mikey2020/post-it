@@ -1,3 +1,18 @@
+.my-group {
+    background-color: #394A5D;
+    height: 100vh;
+    margin-top: -20px;
+}
+.my-messages {
+    background-color: #fff;
+    height: 100vh;
+    margin-top: -24px;
+}
+
+i.my-add-user {
+    display: inline !important;
+}
+
 header, main, footer {
    padding-left: 300px;
 }
@@ -6,10 +21,16 @@ header, main, footer {
     color: black;
 }
 
-// #app{
-//     height: 100%;
-//     width: 100%;
-// }
+#app {
+    width: 100%;
+    height: 100%;
+}
+          
+#slide-out {
+    background-color: #394A5D;
+    margin-top: 64px !important;
+    width: 260px;
+}
 
 body {
    // background-image: url('http://madinkagency.com/wp-content/uploads/2013/11/Vector-speech-bubblesMEDIUM.jpg');
@@ -23,6 +44,7 @@ body {
     background-repeat: no-repeat !important;
     position: relative;
     bottom: 20px;
+    color: #fff;
     // background-attachment: center ;
 }
 .overlay {
@@ -52,7 +74,6 @@ h1.welcome {
 }
 
 #landing-page1{
-
     background-color: black;
 }
 
@@ -63,7 +84,7 @@ h1.welcome {
     height: 85%;
     padding-left: 20px;
     padding-right: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 20px !important;
     padding-top: 10px;
     color: black;
     input[type=text],input[type=email],input[type=password]{
@@ -71,11 +92,6 @@ h1.welcome {
         margin-right: 20px !important;
         width: 90% !important;
     }
-    // form{
-    //   padding-left: 20px;
-    //   padding-right: 20px;
-    //   margin: 20px;
-    // }
 }
 
 .signup-button{
@@ -83,36 +99,21 @@ h1.welcome {
     top: 10px;
 }
 
-.signin-form{
-    padding: 30px;
-    input{
-        border: 10px solid #212121  ;
-        border-radius: 4px;
-    }
-}
-
 .signin-container{
     max-width: 90%;
     max-height: 100%;
-    width: 40%;
+    width: 45%;
     padding: 20px 20px;
     top: 70px;
     color: black;
     background-color: white;
     border-radius: 10px;
     height: 60%;
-    // display: -webkit-flex;
-    // display: flex;
     input[type=submit]{
       text-align: left;
     }
-    // input[type=text], input[type=password]{
-    //     width: 100px;
-    //     height: 100px;
-    //     margin: 10px;
-    // }
 }
-
+ 
 .signin-form1{
     position: relative;
     top: 30px;
@@ -122,107 +123,39 @@ h1.welcome {
     }
 }
 
-.vertical-menu {
-    color: white;
-    width: 100%;
-    position: relative;
-    left: -13px;
-    top: -19px;
-    height: auto !important;
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: scroll;
-    //border: 5px solid #37474f;
-    p{
-        color: white;
-        display: block;
-        padding: 3px;
-        margin: 20px;
-        background-color: #03a9f4;
-        text-decoration: none;
-        text-align: left;
-        padding-left: 20%;
-    }
-    ul{
-        padding-bottom: 30px;
-    }
-}
-
-.vertical-menu a {
-   color: white;
-    display: block;
-    padding: 3px;
-    /* margin: 13px; */
-    margin-bottom: -5px;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    text-decoration: none;
-}
-.vertical-menu a:hover {
-    background-color: #03a9f4 ;
-}
-
-.vertical-menu a.active {
-    color: white;
-}
-
-.link{
-	text-align: left;
-	/*position: relative;
-	left: 10px;*/
-	color: white;
-}
-
-.right-column-header{
-	width: 800px;
-	position: relative;
-    top: -21.5px;
-	left: 200px; 
+.my-sidenav {
+    margin-top: 50px;
     background-color: #03a9f4;
-    color: black !important;
+}
+
+.add_box{
+    padding: 10px;
+}
+.card{
+    background-color: transparent !important;
+    text-align: left;
+    :hover{
+        background-color: #03a9f4;
+    }
 }
 
 .message-input{
-	position: fixed;
+    border: 5px solid #394A5D !important;
+    border-radius: 10px !important;
+    margin-top: 30px !important;
+    width: 80% !important;
 }
 
-.add_icon{
-	position: relative;
-    right: -90px;
-    font-size: 43px; 
-    top: 8px;
-    :hover{
-      background-color: #4db6ac  ;
-    }
+.right-column-header{
+    background-color: #03a9f4;
+    color: black !important;
 }
-.adduser-icon{
-    position: relative;
-    top: 1px;
-    left: 450px !important;
-    font-size: 40px !important;
-    //color: #263238;
-    color: white;
-}
-
- .add-user-icon{
-   font-size: 50px;
- }
 
 #group-name{
    font-size: 30px;
    color: #212121;
    text-transform: capitalize;
    color: white;
-}
-
-.sidebar-header{
-    color: black;
-    padding-left: 10px;
-    margin-top: 0px;
-    margin-bottom: 10px;
-    margin-left: 0px;
-    margin-right: 0px;
 }
 
 .adduserpage{
@@ -239,49 +172,21 @@ h1.welcome {
         width: 50% !important;
         border: 4ppx solid;
         color: #000;
-        padding-left: 200px;
+        padding-left: 50px;
     }
-}
-
-.input-field {
-    input[type=text]:focus {
-     border-bottom: 1px solid #000;
-     box-shadow: 0 1px 0 0 #000;
-    }
-}
-
-.user-btn {
-    position: relative ;
-    left: 10px;
-    margin: 10px;
-    width: 80%;
-    height: 60px;
-    color: white;
-    background-color: #03a9f4 !important;
-    padding: 20px;
 }
 
 .add-user-btn {
-    position: relative;
-    left: 310px;
+    bottom: 8px;
     background-color: #212121;
 }
 
-.message{
-    font-size: 20px;
-    position: relative;
-    top: 20px;
-    padding-left: 60px;
-}
-
-.logo{
-    font-size: 30px;
-    padding-left: 20px;
+.header-logo{
+     position: relative;
+     padding-left: -13px;
 }
 
 .group-form{
-    width: 55%;
-    height: 30% !important;
     overflow: scroll;
     border-radius: 10px;
     color: #fff;
@@ -294,40 +199,23 @@ h1.welcome {
     }
 }
 
-.my-pagination {
-    position: relative;
-    top: 30px;
-}
-
-.flashmessage{
-    color: black;
-}
-
-.reset-form{
-    padding: 30px;
-}
-
 .my-footer{
     position: fixed;
     width: 100%;
     bottom: 0;
     background-color: #03a9f4;
-    z-index: 100;
     height: 8% !important;
+    z-index: 999;
 }
 
-.sidebar{
-    position: relative;
-}
-
-textarea{
-    color: white;
-}
-
-.priority{
+.priority {
     background-color: #03a9f4 !important;
     position: relative;
     left: 85px;
+}
+
+.my-form {
+    height: 120px;
 }
 
 .thumb{
@@ -335,61 +223,15 @@ textarea{
 }
 
 .priority-label {
-    color: white;
+    position: relative;
+    left: 10px;
 }
 .priority-level{
-  width: 30% !important;
+  width: 30% !important; 
   position: relative;
   left: 60px;
   top: -5px;
 
-}
-
-.message-box{
-    overflow-y: auto;
-    overflow-x: auto;
-    color: black;
-    font: medium -moz-fixed;
-    padding-left: 20px;
-    margin-bottom: 5px;
-    margin-top: 3px;
-    background: radial-gradient(circle, #03a9f4, #000);
-    width: max-content;
-    border-radius: 6px;
-}
-
-.addUser-header{
-    font-size: 20px;
-    padding-left: 100px;
-}
-
-.priority-error {
-    color: white;
-}
-
-.user-display{
-    background-color: #01579b ;
-    color: white;
-    border: 2px solid;
-    position: relative;
-    left: -20px;
-    top: -8px;
-    padding-bottom: 30px;
-    margin-top: 20px;
-    
-}
-
-.message-priority{
-    position: relative;
-    top: -20px;
-    font-size: 10px !important;
-    color: white !important;
-}
-
-.members-dropdown{
-    margin-top: 15px;
-    position: relative;
-    left: 150px !important;
 }
 
 .notify{
@@ -402,80 +244,11 @@ textarea{
     left: -25px;
 }
 
-.member{
-    color: black;
-}
-.message-time{
-    font-size: 8px;
-    position: relative;
-    top: 35px;
-    right: 12px;
-}
-
-.archived{
-    padding-left: 20px;
-    margin-top: 23px;
-    color: white;
-}
-
-.group-btn{
-    text-transform: capitalize;
-    background-color: #03a9f4 !important;
-}
-
-.post-message{
-    position: fixed;
-    bottom: 9%;
-    left: 23.3% !important;
-    width: 74.9% !important;
-    height: 20% !important;
-    background: #394A5D !important;
-    textarea.materialize-textarea {
-        width: 80%;
-    }
-    input[type=text]{
-        width: 80% !important;
-        background-color: #fff;
-        border: 1px solid #fff;
-        border-radius: 5px;
-        padding-bottom: 20px;
-        font-size: 1rem;
-        position: relative;
-        top: 15px;
-    }
-}
-
-.messageReaders{
-    position: relative;
-    left: -74px;
-    color: #01579b;
-    top: -40px;
-    margin-bottom: 20px;
-}
-
 .all-messages{
-    // overflow: scroll;
     background-color: radial-gradient(circle, #03a9f4, #000) !important;
     height: auto;
     max-height: 300px;
     overflow-y: scroll;
-}
-
-.collection{
-    border: none !important;
-}
-
-.post-message-button{
-    position: relative;
-    top: -60px;
-    left: 750px;
-    background-color: #03a9f4 !important;
-}
-.select-group{
-    position: relative;
-    top: 80px;
-    left: 70px;
-    color: black;
 }
 
 .help-block{
@@ -490,33 +263,6 @@ textarea{
     left: 60px;
     top: 50px;
     background: #263238;
-}
-
-.nav-wrapper{
-//    position: relative !important;
-//    height: 0 !important;
-//    width: 100% !important;
-   background-color: #03a9f4 !important;
-}
-
-nav .nav-wrapper {
-    position: fixed;
-    width: 100%;
-    height: 10% !important;
-}
-
-
-.add_box{
-    background-color: #03a9f4 !important;
-}
-
-.message-board{
-    margin-right: -20px !important;
-    // background: radial-gradient(circle, #03a9f4, #000);
-    position: relative;
-    height: auto;
-    top: -10px;
-    left: -22px !important;
 }
 
 .alert-danger {
@@ -539,9 +285,6 @@ nav .nav-wrapper {
 
 .close {
     font-size: 20px !important;
-    position: relative;
-    color: white;
-    left: 1200px;
     background-color: #03a9f4 !important;
 }
 
@@ -551,28 +294,35 @@ nav .nav-wrapper {
    background: #e53935 !important;
 }
 
-.notification-header{
-    font-style: italic;
-    background-color: #03a9f4;
-    color: #fff;
-    li{
-        font-size: 10px;
+.group {
+    color: white !important;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+nav .brand-logo{
+    padding-left: 10px;
+}
+
+.not-found{
+    text-align: center;
+    i{
+        color: red;
+        margin-top: 70px;
+        font-size: 100px;
+    }
+    h2{
+      font-size: 80px !important;
     }
 }
 
-.home-signup-btn{
-   background-color: #03a9f4 !important;
-   position: relative;
-   left: 580px;
+.cancel{
+    margin-top: 100px;
+    font-size: 25px;
+    color: #039be5;
 }
 
-.welcome-message{
-    font-size: 30px;
-    color: white;
-}
-
-#signup-body{
-  form{
-      max-width: 600px;
-  }
+.message-info{
+    font-size: 50px;
+    text-align: center;
 }

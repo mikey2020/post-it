@@ -21,7 +21,7 @@ describe('GroupController', () => {
     done();
   });
 
-  it('return "naruto signed in" when user signs in', (done) => {
+  it('should return success message when user signs in', (done) => {
     models.User.create(exampleUser).then(() => {
       user.post('/api/v1/user/signin')
           .send(exampleUser)
@@ -29,7 +29,6 @@ describe('GroupController', () => {
             res.status.should.equal(200);
             should.not.exist(err);
             res.body.should.have.property('user', res.body.user);
-            res.body.user.name.should.equal(exampleUser.username);
             res.body.user.message.should.equal('naruto signed in');
             token = res.body.user.userToken;
             done();
@@ -37,21 +36,28 @@ describe('GroupController', () => {
     });
   });
 
-  it('should create "test-group successfully" ', (done) => {
+  it(`should return success message when trying to create a group
+  and a valid group name is submitted`, (done) => {
     user.post('/api/v1/group')
             .set('authorization', token)
             .send({ name: 'test-group' })
             .end((err, res) => {
               res.status.should.equal(201);
-              res.body.group.data.groupName.should.equal('test-group');
+              res.body.group.groupName.should.equal('test-group');
               should.not.exist(err);
-              groupId = res.body.group.data.id;
+              groupId = res.body.group.id;
               done();
             });
   });
 
-  it('should return "user added to group" ', (done) => {
-    models.User.create({ username: 'bat', phoneNumber: '08123457690', email: 'batman@email.com', password: 'pass', passwordConfirmation: 'pass' }).then((newUser) => {
+  it(`should return success message
+    when trying to add a user to a group`, (done) => {
+    models.User.create({ username: 'bat',
+      phoneNumber: '08123457690',
+      email: 'batman@email.com',
+      password: 'pass',
+      passwordConfirmation: 'pass'
+    }).then((newUser) => {
       user.post('/api/v1/group/1/user')
         .set('authorization', token)
         .send({ userId: newUser.id })
@@ -65,28 +71,22 @@ describe('GroupController', () => {
     });
   });
 
-  it('should return "message posted to group" ', (done) => {
+  it(`should return success message
+    when trying to post a message to a group`, (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
         .send({ message: 'This functions is working well', priority: 'normal' })
         .end((err, res) => {
-          res.status.should.equal(200);
+          res.status.should.equal(201);
           should.not.exist(err);
-          res.body.data.content.should.equal('This functions is working well');
-          res.body.data.priority.should.equal('normal');
-          res.body.data.messageCreator.should.equal('naruto');
-          res.body.should.have.property('message', res.body.message);
-          res.body.message.should.equal('message posted to group');
-          done();
-        });
-  });
-
-  it('should return groups created by test-user', (done) => {
-    user.get('/api/v1/groups/user')
-        .set('authorization', token)
-        .end((err, res) => {
-          res.status.should.equal(200);
-          should.not.exist(err);
+          res.body.postedMessage.content
+          .should.equal('This functions is working well');
+          res.body.postedMessage.priority.should.equal('normal');
+          res.body.postedMessage.messageCreator.should.equal('naruto');
+          res.body.postedMessage
+          .should.have.property('userId', res.body.postedMessage.userId);
+          res.body.message
+          .should.equal('message posted to group');
           done();
         });
   });
@@ -97,7 +97,8 @@ describe('GroupController', () => {
         .end((err, res) => {
           res.status.should.equal(200);
           should.not.exist(err);
-          should.exist(res.body.posts);
+          should.exist(res.body.messages);
+          res.body.should.have.property('messages', res.body.messages);
           done();
         });
   });

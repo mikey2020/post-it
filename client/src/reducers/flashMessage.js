@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import shortid from 'shortid';
 import findIndex from 'lodash/findIndex';
 import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from '../actions/types';
@@ -25,7 +26,7 @@ export default (state = [], action = {}) => {
 
         ];
       }
-      return state;
+
     default: return state;
   }
 };

@@ -1,6 +1,5 @@
 import expect from 'expect';
 import React from 'react';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { Header } from '../../src/components/Header.jsx';
 
@@ -8,12 +7,11 @@ const setup = () => {
   const props = {
     isAuthenticated: true,
     store: {},
-    signout: () => {},
+    signOut: () => {},
     notifications: [],
     deleteNotification: () => {},
     getNotifications: () => {}
   };
-
 
   return shallow(<Header {...props} />);
 };
@@ -24,15 +22,22 @@ const wrapper = setup();
 describe('Component', () => {
   describe('<Header/>', () => {
     it('should render self and subcomponents', () => {
-      expect(wrapper.contains(<div className="red darken-4" />)).toBe(false);
+      expect(wrapper.find('.brand-logo').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
-      expect(wrapper.find('Link').exists()).toBe(true);
+      expect(wrapper.find('Link').exists()).toBe(false);
+    });
+
+    it('should call logout function when user clicks logout button', () => {
+      const event = {
+        preventDefault: () => {},
+      };
+      Object.defineProperty(window.location, 'href', {
+        writable: true,
+        value: '/signup'
+      });
+      wrapper.instance().clearNotifications(event);
+      wrapper.find('.logout-button').simulate('click', event);
+      wrapper.instance().logout(event);
     });
   });
-  //   it('should call logout', () => {
-  //     sinon.spy(Header.prototype, 'logout');
-  //     wrapper.find('#logout-button').simulate('click', { preventDefault: () => {} });
-  //     expect(Header.prototype.logout.callCount).toEqual(1);
-  //   });
-  // });
 });

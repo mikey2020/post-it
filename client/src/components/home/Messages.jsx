@@ -2,9 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
-import Validations from '../../../validations';
-import { postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage } from '../../actions/messageActions';
+
+import Validations from '../../../Validations';
+import { postMessage,
+  getGroupMessages,
+  readMessage,
+  addMessage,
+  getUsersWhoReadMessage } from '../../actions/messageActions';
 import Message from './Message.jsx';
+import MessageForm from './MessageForm.jsx';
 
 const socket = io();
 const validate = new Validations();
@@ -15,6 +21,7 @@ const validate = new Validations();
 export class Messages extends React.Component {
   /**
    * @constructor
+   *
    * @param {object} props -  inherit props from react class
    */
   constructor(props) {
@@ -22,7 +29,7 @@ export class Messages extends React.Component {
     this.state = {
       message: '',
       errors: {},
-      priority: '',
+      priority: 'normal',
       priorityLevel: 0,
       creator: '',
       limit: 10,
@@ -48,6 +55,7 @@ export class Messages extends React.Component {
   }
   /**
    * @param {object} prevProps - previous props
+   *
    * @returns {void}
    */
   componentDidUpdate(prevProps) {
@@ -55,30 +63,39 @@ export class Messages extends React.Component {
     const { limit, offset } = this.state;
     if (this.props.messages.length !== prevProps.messages.length) {
       this.props.getGroupMessages(group.id, limit + 10, offset);
-    } else if (this.props.group.id !== prevProps.group.id) {
+    } else if (group.id !== prevProps.group.id) {
       this.props.getGroupMessages(group.id, limit, offset);
       this.props.messages.map(message => this.props.readMessage(message.id));
     }
   }
    /**
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
 
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false, creator: this.props.username });
+      this.setState({ errors: {},
+        isLoading: false,
+        creator: this.props.username });
     }
   }
   /**
+   * @description - It calls postMessage function
+   *
    * @param {object} event - argument
+   *
    * @returns {void}
    */
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: false, limit: this.state.limit + 1, offset: 0 });
+      this.setState({ errors: {},
+        isLoading: false,
+        limit: this.state.limit + 1,
+        offset: 0 });
       this.props.postMessage(this.state, this.props.group.id).then(() => {
         this.setState({ message: '' });
       });
@@ -87,21 +104,30 @@ export class Messages extends React.Component {
 
   /**
    * @param {Object} event - Event object
+   *
    * @returns {void}
+   *
+   * @description - It handles the priority level of a
+   * message based on the user's input
    */
   handlePriority(event) {
-    event.preventDefault();
     if (event.target.value > -1 && event.target.value < 6) {
-      this.setState({ [event.target.name]: event.target.value, priority: 'normal' });
+      this.setState({ [event.target.name]: event.target.value,
+        priority: 'normal' });
     } else if (event.target.value > 5 && event.target.value < 11) {
-      this.setState({ [event.target.name]: event.target.value, priority: 'urgent' });
+      this.setState({ [event.target.name]: event.target.value,
+        priority: 'urgent' });
     } else if (event.target.value > 10 && event.target.value < 16) {
-      this.setState({ [event.target.name]: event.target.value, priority: 'critical' });
+      this.setState({ [event.target.name]: event.target.value,
+        priority: 'critical' });
     }
   }
   /**
    * @param {Object} event
+   *
    * @returns {void}
+   *
+   * @description - It get a user's archived messages
    */
   viewArchived(event) {
     event.preventDefault();
@@ -109,11 +135,11 @@ export class Messages extends React.Component {
     const { limit, offset } = this.state;
     this.setState({ limit: limit + 5, offset: 0 });
     this.props.getGroupMessages(group.id, limit + 5, offset);
-    // this.setState({ limit: 10 });
   }
   /**
-   * @param {object} e - argument
    * @returns {void}
+   *
+   * @description - It checks if user's input is valid or not
    */
   isValid() {
     const { errors, isValid } = validate.input(this.state);
@@ -139,6 +165,7 @@ export class Messages extends React.Component {
         getUsersWhoReadMessage={this.props.getUsersWhoReadMessage}
       />)
     );
+
     const { priority, errors, message, priorityLevel } = this.state;
 
     return (
@@ -146,70 +173,49 @@ export class Messages extends React.Component {
         {errors.priority ?
           <span className="priority-error">{errors.priority}</span> : <br />
         }
-        <div>
-          <nav className="col s12 m12 l12 right-column-header">
+        <div className="col s12 m12">
+          <nav className="col s12 m12 l10 right-column-header">
             <div className="nav-wrapper">
-              <div className="row">
-                <span className="col s5 m5" id="group-name">{this.props.group.name ? this.props.group.name : 'No Group Selected' }</span>
-                <a href="#modal3" className="col s3 m3 l3">
-                  <i className="material-icons adduser-icon">add_circle_outline</i>
+              <div>
+                <span id="group-name" className="left">
+                  {this.props.group.name ?
+                  this.props.group.name : 'No Group Selected' }
+                </span>
+                <a className="right" href="#modal3">
+                  <i className="material-icons my-add-user right">
+                  add_circle_outline</i>
                 </a>
               </div>
             </div>
           </nav>
         </div>
-        { this.props.messages.length > this.state.limit ?
-          <div>
-            <a
-              href=""
-              onClick={this.viewArchived}
-              className="archived btn light-blue"
-            >
-          view archived</a> </div> : <p>Messages </p>
+        <div>
+          { this.props.messages.length > this.state.limit ?
+            <div>
+              <a
+                href=""
+                onClick={this.viewArchived}
+                className="archived btn light-blue"
+              >
+          view archived</a> </div> : <p />
         }
-
-        <div className="all-messages"><ul>{allMessages}</ul></div>
-
-        <div className="row">
-          <form className="col s12 m12 l12 form-group post-message" onSubmit={this.onSubmit}>
-            <label
-              htmlFor="priority level"
-              className="flow-text priority-label"
-            >Priority level:</label>
-            <input
-              className="priority-level"
-              id="priority-level"
-              type="range"
-              name="priorityLevel"
-              min="0"
-              max="15"
-              value={priorityLevel}
-              onChange={this.handlePriority}
-            />
-            <button
-              className="btn waves-effect waves-light priority"
-            > {priority} </button>
-            <input
-              id=""
-              type="text"
-              name="message"
+          {this.props.messages.length > 0 ? <div
+            className="all-messages col s8 m8 l9"
+          >
+            <ul>{allMessages}</ul>
+          </div> : <p className="message-info col s8 m6 l9">
+          No messages yet </p>}
+          <div className="">
+            <MessageForm
               onChange={this.onChange}
-              className="materialize-textarea"
-              rows="5"
-              value={message}
+              onSubmit={this.onSubmit}
+              priority={priority}
+              priorityLevel={priorityLevel}
+              handlePriority={this.handlePriority}
+              message={message}
+              className="post-message"
             />
-            <br />
-            <div className="col s12 m4 l3">
-              <button
-                className="btn waves-effect waves-light post-message-button col push-m6 s12 m6 l6"
-                type="submit"
-                id="post-message-button"
-                name="action"
-              >Post <i className="material-icons right">send</i>
-              </button>
-              <span className="thumb active" />
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     );
@@ -228,7 +234,7 @@ Messages.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  messages: state.Messages,
+  messages: state.messages,
   group: state.currentGroup,
   username: state.user.user.username,
   userId: state.user.user.id
@@ -236,4 +242,9 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps,
-{ postMessage, getGroupMessages, readMessage, addMessage, getUsersWhoReadMessage })(Messages);
+  {
+    postMessage,
+    getGroupMessages,
+    readMessage,
+    addMessage,
+    getUsersWhoReadMessage })(Messages);

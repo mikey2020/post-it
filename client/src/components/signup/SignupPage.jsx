@@ -1,7 +1,7 @@
 import React from 'react';
 import SignupForm from './SignupForm.jsx';
 /**
- *  SignupPage class component
+ *  SignupPage component
  * @class
  */
 export default () => (
