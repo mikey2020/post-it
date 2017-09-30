@@ -220,7 +220,9 @@ class Validations {
     models.Group.findOne({
       where: {
         $or: [
-          { groupName: request.body.name },
+          { groupName: {
+            $iLike: request.body.name
+          } },
           { id: request.params.groupId }
         ]
       }
