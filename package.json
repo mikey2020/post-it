@@ -26,7 +26,7 @@
     "build:html": "babel-node client/buildHtml.js",
     "prebuild":"npm-run-all clean-build build:html",
     "build": "babel-node client/build.js",
-    "heroku-postbuild": "npm run prebuild && npm run build",
+    "heroku-postbuild": "npm run prebuild && babel-node client/build.js",
     "postbuild":"babel-node client/buildServer.js",
     "dist-build": "babel server -d dist --presets es2015,stage-2",
     "test-e2e": "nightwatch",
