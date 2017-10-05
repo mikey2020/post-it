@@ -25,8 +25,8 @@
    });
    $('.dropdown-button').dropdown({
      inDuration: 300,
-     outDuration: 525,
-     constrainWidth: true,
+     outDuration: 225,
+     constrainWidth: false,
      hover: true,
      gutter: 0,
      belowOrigin: false,

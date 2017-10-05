@@ -29,21 +29,6 @@ export class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
-  /**
-   * @returns {void}
-   */
-  componentDidMount() {
-    $('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 525,
-      constrainWidth: true,
-      hover: true,
-      gutter: 0,
-      belowOrigin: false,
-      alignment: 'left',
-      stopPropagation: false
-    });
-  }
 
   /**
    * @param {Object} nextProps
