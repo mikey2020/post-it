@@ -38,31 +38,6 @@ class Unique {
     });
   }
 
-  /** @description - checks if message has already been read by a user
-   *
-   * @param {Object} request - request object sent to a route
-   * @param {Object} response -  response object from the route
-   * @param {Object} next
-   * - response object that sends data to the next middleware
-   *
-   * @returns {Object}
-   * - if there is no error, it returns array of users in a group
-   */
-  static checkReadMessages(request, response, next) {
-    models.ReadMessages.findOne({
-      where: {
-        messageId: request.params.messageId,
-        userId: request.decoded.data.id
-      }
-    })
-    .then((readMessage) => {
-      if (readMessage) {
-        return response.json(
-          { errors: { message: 'user has already read this message' } });
-      }
-      next();
-    });
-  }
   /** @description - check number of messages a group has,
    * so as to determine the limit and offset being sent out
    *

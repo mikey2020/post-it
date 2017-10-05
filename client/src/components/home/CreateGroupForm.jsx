@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import Validations from '../../../Validations';
 import { createGroup, groupExists } from '../../actions/groupActions';
 
@@ -61,11 +62,12 @@ export class CreateGroupForm extends React.Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: false });
       this.props.createGroup(this.state).then((res) => {
-        if (res.data.group.id !== undefined) {
+        if (res.data.group !== undefined) {
           this.setState({ name: '' });
           $('#modal2').modal('close');
         }
-      });
+      })
+      .catch(error => ({ error }));
     }
   }
    /**
@@ -90,7 +92,8 @@ export class CreateGroupForm extends React.Component {
           invalid = false;
         }
         this.setState({ errors, invalid });
-      });
+      })
+      .catch(error => ({ error }));
     }
   }
 
@@ -119,26 +122,29 @@ export class CreateGroupForm extends React.Component {
           {errors.name ? <span className="red darken-4">
             {errors.name}</span> : <br />}
         </div>
-        <div className="col s12">
+        <div className="row">
           <form className="form-group my-form" onSubmit={this.onSubmit}>
-            <input
-              type="text"
-              placeholder="Enter group name"
-              name="name"
-              onChange={this.onChange}
-              onBlur={this.checkGroupExists}
-              className="form-control"
-              value={name}
-              id="usr"
-            />
-
-            <input
-              type="submit"
-              className="btn btn-primary active"
-              value="Create Group"
-              id="create-group-button"
-              disabled={isLoading || invalid}
-            />
+            <div className="col s11 create-group-form">
+              <input
+                type="text"
+                placeholder="Enter group name"
+                name="name"
+                onChange={this.onChange}
+                onBlur={this.checkGroupExists}
+                className="form-control"
+                value={name}
+                id="usr"
+              />
+            </div>
+            <div className="col s1 pull-s6">
+              <input
+                type="submit"
+                className="btn btn-primary active"
+                value="Create Group"
+                id="create-group-button"
+                disabled={isLoading || invalid}
+              />
+            </div>
           </form>
         </div>
       </div>

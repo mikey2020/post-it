@@ -3,51 +3,55 @@ import PropTypes from 'prop-types';
 
 export const MessageForm = props => (
   <div className="row">
-    <form
-      className={props.className}
-      onSubmit={props.onSubmit}
-    >
-      <div className="col s10 m12 l12">
-        <label
-          htmlFor="priority level"
-          className="flow-text priority-label left"
-        >Priority level:</label>
-        <input
-          className="priority-level"
-          id="priority-level"
-          type="range"
-          name="priorityLevel"
-          min="0"
-          max="15"
-          step="7"
-          value={props.priorityLevel}
-          onChange={props.handlePriority}
-        />
-        <span
-          className="btn waves-effect waves-light priority"
-        > {props.priority} </span>
-      </div>
-      <input
-        id=""
-        type="text"
-        name="message"
-        onChange={props.onChange}
-        className="input-field message-input"
-        rows="5"
-        value={props.message}
-      />
-      <br />
-      <div className="col s5 m6 l7">
-        <button
-          className="btn waves-effect light-blue"
-          type="submit"
-          id="post-message-button"
-          name="action"
-        >Post <i className="material-icons right">send</i>
-        </button>
-        <span className="thumb active" />
-      </div>
-    </form>
+    <div className="col m12 push-m0.5">
+      <form
+        className={props.className}
+        onSubmit={props.onSubmit}
+      >
+        <div className="col s11 m10 l12">
+          <label
+            htmlFor="priority level"
+            className="flow-text priority-label left"
+          >Priority level:</label>
+          <input
+            className="priority-level"
+            id="priority-level"
+            type="range"
+            name="priorityLevel"
+            min="0"
+            max="6"
+            step="3"
+            value={props.priorityLevel}
+            onChange={props.handlePriority}
+          />
+          <span
+            className="btn flow-text waves-effect waves-light priority"
+          > {props.priority} </span>
+        </div>
+        <div className="col s12 m12  push-m0.5">
+          <input
+            id=""
+            type="text"
+            name="message"
+            onChange={props.onChange}
+            className="input-field message-input"
+            rows="5"
+            value={props.message}
+          />
+        </div>
+        <br />
+        <div className="col s5 m6 l7 push-s1">
+          <button
+            className="btn waves-effect light-blue"
+            type="submit"
+            id="post-message-button"
+            name="action"
+          >Post <i className="material-icons right">send</i>
+          </button>
+          <span className="thumb active" />
+        </div>
+      </form>
+    </div>
   </div>
 );
 

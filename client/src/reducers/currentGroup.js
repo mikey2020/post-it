@@ -7,6 +7,14 @@ const initialState = {
   creator: ''
 };
 
+/**
+ * @description - It add current group to the store
+ *
+ * @param {Object} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case ADD_CURRENT_GROUP:

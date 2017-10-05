@@ -1,6 +1,14 @@
 
 import { SET_USERS_WHO_READ_MESSAGE } from '../actions/types';
 
+/**
+ * @description - It updates the store with a list of users who read a message
+ *
+ * @param {Array} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = [], action) => {
   switch (action.type) {
     case SET_USERS_WHO_READ_MESSAGE:

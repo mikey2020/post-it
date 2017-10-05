@@ -1,5 +1,13 @@
 import { ADD_USER_GROUPS, ADD_GROUP } from '../actions/types';
 
+/**
+ * @description - It adds a user's group to the store
+ *
+ * @param {Array} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_USER_GROUPS:

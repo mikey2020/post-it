@@ -54,7 +54,7 @@
      if (this.isValid()) {
        this.setState({ errors: {}, isLoading: true });
        this.props.validateUser(this.state).then((res) => {
-         if (res.data.user.userToken) {
+         if (res.data.message && res.data.userToken) {
            this.context.router.push('/home');
            this.setState({ errors: {}, username: '', password: '' });
            $('#modal1').modal('close');
@@ -86,16 +86,14 @@
        });
      }
    }
-     /**
+  /**
    * @returns {void}
    */
    isValid() {
      const { errors, isValid } = validate.signIn(this.state);
-
      if (!isValid) {
        this.setState({ errors });
      }
-
      return isValid;
    }
 

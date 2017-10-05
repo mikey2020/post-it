@@ -14,8 +14,8 @@ describe('UserController', () => {
   });
 
   describe('should', () => {
-    it(`return success message after
-    successfully registering a new user to the database`, (done) => {
+    it('return a token after successfully registering a new user to the database',
+    (done) => {
       request(app).post('/api/v1/user/signup')
         .send(johnSignup)
         .end((err, res) => {
@@ -28,16 +28,16 @@ describe('UserController', () => {
         });
     });
 
-    it('return success message when a user signs in', (done) => {
+    it('return a token when a user signs in', (done) => {
       models.User.create(johnnySignin).then(() => {
         user.post('/api/v1/user/signin')
           .send(johnnySignin)
           .end((err, res) => {
             res.status.should.equal(200);
             should.not.exist(err);
-            res.body.should.have.property('user', res.body.user);
-            res.body.user.message.should.equal('johnny signed in');
-            token = res.body.user.userToken;
+            res.body.should.have.property('userToken', res.body.userToken);
+            res.body.message.should.equal('johnny signed in');
+            token = res.body.userToken;
             done();
           });
       });

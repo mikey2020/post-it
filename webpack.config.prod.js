@@ -7,13 +7,13 @@ export default {
 
   noInfo: false,
 
-  debug: true,
+  debug: false,
 
   target: 'web',
 
   entry: [
     path.join(__dirname, '/client/index.jsx'),
-    path.join(__dirname, '/client/styles.scss')
+    path.join(__dirname, '/client/styles/styles.scss')
   ],
 
   devServer: {

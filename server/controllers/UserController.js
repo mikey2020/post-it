@@ -1,5 +1,4 @@
   import bcrypt from 'bcrypt-nodejs';
-  import jwt from 'jsonwebtoken';
   import dotenv from 'dotenv';
   import shortid from 'shortid';
   import isEmpty from 'lodash/isEmpty';
@@ -8,6 +7,7 @@
   import models from '../models';
   import sendEmail from '../helpers/sendEmail.js';
   import returnServerError from '../helpers/returnServerError.js';
+  import generateToken from '../helpers/generateToken.js';
 
   dotenv.config();
   const User = models.User;
@@ -36,6 +36,7 @@
      */
     static signUp(request, response) {
       const { errors, isValid } = validate.signUp(request.body);
+      const { username, email, password, phoneNumber } = request.body;
       if (!isValid) {
         response.status(400).json(errors);
       } else if (request.userAlreadyExists === true) {
@@ -44,16 +45,15 @@
             { message: 'User already exists' } });
       } else {
         return User.create({
-          username: request.body.username,
-          email: request.body.email,
-          password: request.body.password,
-          phoneNumber: request.body.phoneNumber
+          username,
+          email,
+          password,
+          phoneNumber
         })
         .then((user) => {
           let userData = JSON.stringify(user);
           userData = JSON.parse(userData);
-          const token = jwt.sign({ data: userData },
-          process.env.JWT_SECRET, { expiresIn: '20h' });
+          const token = generateToken(userData);
           response.status(201).json(
             { message: `${request.body.username} successfully added`,
               userToken: token });
@@ -74,6 +74,7 @@
      */
     static signIn(request, response) {
       const username = request.body.username.toLowerCase();
+      const { password } = request.body;
       User.findOne({
         where: {
           username
@@ -85,13 +86,11 @@
         if (!isEmpty(user)) {
           let userData = JSON.stringify(user);
           userData = JSON.parse(userData);
-          if (request.body.username && request.body.password &&
-          bcrypt.compareSync(request.body.password, userData.password)
-          === true) {
-            const token = jwt.sign({ data: userData }, process.env.JWT_SECRET,
-            { expiresIn: '20h' });
-            response.json({ user: { message: `${username} signed in`,
-              userToken: token } });
+          if (username && password &&
+            bcrypt.compareSync(password, userData.password) === true) {
+            const token = generateToken(userData);
+            response.json({ message: `${username} signed in`,
+              userToken: token });
           } else {
             response.status(401).json({ errors:
             { form: 'Invalid Signin Parameters' } });
@@ -152,8 +151,7 @@
           username: {
             $iLike: `%${request.query.username}%`
           }
-        } },
-      { offset: 0, limit: 5 }
+        } }
       ).then((users) => {
         if (typeof users[0] !== 'undefined') {
           response.status(200).json({ users });
@@ -188,8 +186,9 @@
           const { email } = user;
           user.verificationCode = verificationCode;
           user.save().then(() => {});
+          const subject = 'Reset Password verification code';
           UserController.sendVerificationCode(email,
-          user.username, verificationCode);
+          user.username, verificationCode, subject);
           response.json({ message: 'Verification code sent' });
         } else {
           response.status(400).json({ errors: { form: 'Invalid Username' } });
@@ -205,12 +204,13 @@
      * @param {Array} userEmail
      * @param {String} username
      * @param {String} verificationCode
+     * @param {String} subject
      */
-    static sendVerificationCode(userEmail, username, verificationCode) {
+    static sendVerificationCode(userEmail, username,
+      verificationCode, subject) {
       const message = `<div><h2>Hello, ${username}!</h2>
             <p><strong>Your Verification code is:</strong> 
             ${verificationCode}</p>`;
-      const subject = 'Reset Password verification code';
       sendEmail(userEmail, subject, message);
     }
 
@@ -248,33 +248,77 @@
     }
 
     /**
-     * @description - It checks if a user already exists
-     *
-     * @returns {Boolean} - returns true or false
-     *
-     * @param {Object} request - request object
-     * @param {Object} response - response object
-     * @param {Function} next
-     */
-    static isAlreadyUser(request, response, next) {
-      const { username, email } = request.body;
+   * @param {object} request - request object sent to a route
+   * @param {object} response -  response object from the route
+   *
+   * @returns {void}
+   *
+   * @description it returns array of users in a group
+   */
+    static getUserNotifications(request, response) {
       models.User.findOne({
         where: {
-          $or: [
-            { username },
-            { email }
-          ]
+          id: request.decoded.data.id
         }
       })
-      .then((user) => {
-        if (isEmpty(user) === true) {
-          request.userAlreadyExists = false;
-        } else {
-          request.userAlreadyExists = true;
-        }
-        next();
-      });
+    .then((user) => {
+      user.getNotifications({ attributes:
+        { exclude: ['createdAt', 'updatedAt', 'UserNotification'] },
+        joinTableAttributes: [] })
+        .then((notices) => {
+          if (typeof notices[0] !== 'undefined') {
+            response.status(200).json({ notices });
+          } else {
+            response.status(404).json({ message: 'No notification found' });
+          }
+        });
+    })
+    .catch(() => {
+      returnServerError(response);
+    });
     }
+
+    /**
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   *
+   * @description - deletes all user's notifications from the database
+   */
+    static deleteNotifications(request, response) {
+      models.UserNotification.destroy({
+        where: {
+          userId: request.decoded.data.id
+        }
+      }).then((notification) => {
+        if (!notification) {
+          response.status(404).json({ message: 'No notification found' });
+        } else {
+          response.status(200).json({
+            message: 'All notifications deleted'
+          });
+        }
+      })
+    .catch(() => {
+      returnServerError(response);
+    });
+    }
+
+  /**
+   * @description - It verifies user's token on the front end
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+    static verifyToken(request, response) {
+      if (request.decoded !== undefined) {
+        response.status(200).json({ message: 'User is valid' });
+      }
+    }
+
   }
 
   export default UserController;

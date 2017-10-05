@@ -33,16 +33,12 @@ describe('Signin actions', () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('should create a success flash message when user logs out ', () => {
+  it('should create a success flash message when user signs out ', () => {
     mockStorage.removeItem('jwtToken');
     const store = mockStore({ isAuthenticated: true,
       user: { name: 'negan', message: 'negan signed in' } });
 
-    const expectedActions = [{ type: 'UNSET_USER' },
-      { type: 'ACTION_SUCCESS',
-        payload: { status: false, actionName: 'SIGNOUT_SUCCESSFUL' } },
-      { type: 'ADD_FLASH_MESSAGE',
-        message: { type: 'success', text: 'signout successful' } }];
+    const expectedActions = [{ type: 'UNSET_USER' }];
 
     store.dispatch(actions.signOut());
     expect(store.getActions()).toEqual(expectedActions);

@@ -3,8 +3,8 @@ import Validations from '../../middlewares/Validations';
 
 describe('Validations ', () => {
   describe('Sign up Input validation', () => {
-    it(`should return 'Username is require' 
-    when no username is given`, (done) => {
+    it('should return `Username is require` when no username is given',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: '',
         password: 'pass',
@@ -16,8 +16,8 @@ describe('Validations ', () => {
       done();
     });
 
-    it(`should return 'Password is required' 
-    when no password is given `, (done) => {
+    it('should return `Password is required` when no password is given',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
         password: '',
@@ -41,8 +41,8 @@ describe('Validations ', () => {
       done();
     });
 
-    it(`should return 'Password do not match' 
-    when no password is given`, (done) => {
+    it('should return `Password do not match` when no password is given',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
         password: 'pass',
@@ -55,8 +55,8 @@ describe('Validations ', () => {
       done();
     });
 
-    it(`should return 'is required for each field' 
-    when all parameters are null or empty`, (done) => {
+    it('should return `is required for each field` when all parameters are null or empty',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: '',
         password: '',
@@ -69,7 +69,6 @@ describe('Validations ', () => {
       errors.password.should.equal('Password is required');
       errors.passwordConfirmation.should.equal(
         'Password Confirmation is required');
-
       done();
     });
   });

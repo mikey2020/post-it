@@ -206,7 +206,7 @@ export class SignupForm extends React.Component {
 
               <GoogleLogin
                 clientId="790869526222-at6a80ovm0nkjgpgr0d6mih6jdt4af3n.apps.googleusercontent.com"
-                buttonText="Google"
+                buttonText="Google Sign up"
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
                 className="btn  google-btn waves-effect waves-red "

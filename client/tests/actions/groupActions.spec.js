@@ -57,7 +57,7 @@ describe('Group Actions', () => {
     done();
   });
 
-  it('should get error message when there is an error add user to a group',
+  it('should get error message when adding user to a group fails',
   (done) => {
     axios.post = jest.fn(() =>
     Promise.resolve({ data: { errors:

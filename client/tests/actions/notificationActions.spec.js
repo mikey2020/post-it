@@ -14,8 +14,13 @@ describe('Notification actions', () => {
   it('should get all user notifications successfully', () => {
     const store = mockStore([]);
     const expectedActions = [{ type: types.SET_NOTIFICATIONS,
-      notiifcations: {} }];
-    axios.get = jest.fn(() => Promise.resolve({ data: { userNotices: [] } }));
+      notiifcations: ['naruto posted a message to a group which you are a member']
+    }];
+    axios.get = jest.fn(() => Promise.resolve({ data: { notices: [{
+      id: 1,
+      groupId: 1,
+      event: 'naruto posted a message to a group which you are a member'
+    }] } }));
     store.dispatch(actions.getNotifications()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -47,7 +52,7 @@ describe('Notification actions', () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('should not delete all user notifications ', () => {
+  it('should not delete all user notifications successfully', () => {
     const store = mockStore([]);
     const expectedActions = [];
     store.dispatch(actions.deleteNotification());

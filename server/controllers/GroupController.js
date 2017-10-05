@@ -198,7 +198,7 @@ class GroupController {
         if (group) {
           response.status(200).json({ group });
         } else {
-          response.status(404).json({ message: 'GroupName does not exist' });
+          response.status(404).json({ message: 'Group name does not exist' });
         }
       })
       .catch(() => {
@@ -237,7 +237,7 @@ class GroupController {
   }
 
    /**
-  * @function getGroupMembers
+  * @function getMembers
    *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
@@ -245,9 +245,9 @@ class GroupController {
    *
    * @returns {void}
    *
-   * @description -  it get all members of a group
+   * @description -  it gets emails of members in a group
    */
-  static getGroupMembers(request, response, next) {
+  static getMembers(request, response, next) {
     Group.findOne({
       where: {
         id: request.params.groupId
@@ -270,7 +270,7 @@ class GroupController {
     });
   }
  /**
-  * @function getGroupsUserIsMember
+  * @function getGroups
   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
@@ -279,7 +279,7 @@ class GroupController {
    *
    * @description -  it returns the number of groups a user is part of.
    */
-  static getGroupsUserIsMember(request, response) {
+  static getGroups(request, response) {
     models.User.findOne({
       where: {
         id: request.decoded.data.id
@@ -294,7 +294,7 @@ class GroupController {
           response.status(200).json({ userGroups });
         } else {
           response.status(404).json(
-            { message: 'You are not part of any group' });
+            { message: 'You are not a memeber of any group' });
         }
       }))
       .catch(() => {
@@ -311,7 +311,7 @@ class GroupController {
    * @description - it returns array of users in a group
    * that have read a message
    */
-  static getUsersWhoReadMessage(request, response) {
+  static getReaders(request, response) {
     models.Message.findOne({
       where: {
         id: request.params.messageId
@@ -444,36 +444,6 @@ class GroupController {
       });
     });
   }
-   /**
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
-   *
-   * @returns {void}
-   *
-   * @description it returns array of users in a group
-   */
-  static getUserNotifications(request, response) {
-    models.User.findOne({
-      where: {
-        id: request.decoded.data.id
-      }
-    })
-    .then((user) => {
-      user.getNotifications({ attributes:
-        { exclude: ['createdAt', 'updatedAt', 'UserNotification'] },
-        joinTableAttributes: [] })
-        .then((notices) => {
-          if (typeof notices[0] !== 'undefined') {
-            response.status(200).json({ notices });
-          } else {
-            response.status(404).json({ message: 'No notification found' });
-          }
-        });
-    })
-    .catch(() => {
-      returnServerError(response);
-    });
-  }
   /**
    * @returns {void}
    *
@@ -482,7 +452,7 @@ class GroupController {
    *
    * @description Gets all members of a group
    */
-  static getAllGroupMembers(request, response) {
+  static getGroupMembers(request, response) {
     const allMembers = [];
     Object.keys(request.members).forEach((member) => {
       allMembers.push(request.members[member].username);
@@ -532,32 +502,6 @@ class GroupController {
           response.status(404).json({ message: 'no message found' });
         });
       });
-    })
-    .catch(() => {
-      returnServerError(response);
-    });
-  }
-  /**
-   * @param {Object} request
-   * @param {Object} response
-   *
-   * @returns {void}
-   *
-   * @description - deletes all user's notifications from the database
-   */
-  static deleteNotifications(request, response) {
-    models.UserNotification.destroy({
-      where: {
-        userId: request.decoded.data.id
-      }
-    }).then((notification) => {
-      if (!notification) {
-        response.status(404).json({ message: 'No notification found' });
-      } else {
-        response.status(200).json({
-          message: 'All notifications deleted'
-        });
-      }
     })
     .catch(() => {
       returnServerError(response);

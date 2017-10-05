@@ -9,7 +9,7 @@ import handleInvalidNumber from '../helpers/handleInvalidNumber';
 
 dotenv.config();
 /**
- *  All Validations
+ * All Validations
  * @class
  */
 class Validations {
@@ -123,7 +123,7 @@ class Validations {
    *
    * @returns {Object} - errors object if there is any
    */
-  static checkUserIsValid(request, response, next) {
+  static IsValidUser(request, response, next) {
     const { username, userId } = request.body;
     if (username === undefined && userId === undefined) {
       return response.status(400).json(
@@ -156,11 +156,11 @@ class Validations {
    * @param {Object} response - errors object if there is any
    * @param {Function} next - returns user to next middleware
    *
-   * @returns {Object} -returns error if there is any
+   * @returns {Object} - returns error if there is any
    */
   static authenticate(request, response, next) {
     const authorizationHeader = request.headers.authorization;
-    const token = authorizationHeader || null;
+    const token = authorizationHeader || request.body.token || null;
 
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
@@ -185,7 +185,7 @@ class Validations {
    * @param {Object} response - errors object if there is any
    * @param {Function} next - returns user to next middleware
    *
-   * @returns {Object} -returns error if there is any
+   * @returns {Object} - returns error if there is any
    */
   static isGroupMember(request, response, next) {
     models.UserGroups.findOne({
@@ -255,6 +255,36 @@ class Validations {
     }
     return true;
   }
+
+  /**
+     * @description - It checks if a user already exists
+     *
+     * @returns {Boolean} - returns true or false
+     *
+     * @param {Object} request - request object
+     * @param {Object} response - response object
+     * @param {Function} next
+     */
+  static isAlreadyUser(request, response, next) {
+    const { username, email } = request.body;
+    models.User.findOne({
+      where: {
+        $or: [
+            { username },
+            { email }
+        ]
+      }
+    })
+      .then((user) => {
+        if (isEmpty(user) === true) {
+          request.userAlreadyExists = false;
+        } else {
+          request.userAlreadyExists = true;
+        }
+        next();
+      });
+  }
+
 }
 
 

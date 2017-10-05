@@ -4,6 +4,15 @@ import winston from 'winston';
 
 dotenv.config();
 
+/**
+ * @description - It sends email
+ *
+ * @param {String} userEmail
+ * @param {String} subject
+ * @param {String} message
+ *
+ * @returns {void}
+ */
 const sendEmail = (userEmail, subject, message) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

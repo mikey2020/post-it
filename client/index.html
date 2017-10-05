@@ -4,7 +4,7 @@
 	<title>Post It</title>
 	<meta charset="utf-8">
 	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Post It</title>
+		<title>Post It</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,23 +16,23 @@
 </head>
 <body>
 	<div id="app"></div>
+	<script>
+		$(document).ready(function(){
+		 $('.modal').modal();
+		 $(".button-collapse").sideNav();
+		 $('.dropdown-button').dropdown({
+			  inDuration: 300,
+			  outDuration: 525,
+			  constrainWidth: true,
+			  hover: true,
+			  gutter: 0,
+			  belowOrigin: false,
+			  alignment: 'left',
+			  stopPropagation: false
+		});
+		});
+	 </script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="bundle.js"></script>
-	<script>
-	   $(document).ready(function(){
-		$('.modal').modal();
-		$(".button-collapse").sideNav();
-		$('.dropdown-button').dropdown({
-			inDuration: 300,
-			outDuration: 525,
-			constrainWidth: true,
-			hover: true,
-			gutter: 0, 
-			belowOrigin: false,
-			alignment: 'left',
-			stopPropagation: false
-		});
-	   });
-	</script>
 </body>
 </html>

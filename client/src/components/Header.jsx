@@ -29,6 +29,22 @@ export class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
   }
+  // /**
+  //  * @returns {void}
+  //  */
+  // componentDidMount() {
+  //   $('.dropdown-button').dropdown({
+  //     inDuration: 300,
+  //     outDuration: 225,
+  //     constrainWidth: false,
+  //     hover: true, // Activate on hover
+  //     gutter: 0, // Spacing from edge
+  //     belowOrigin: false, // Displays dropdown below the button
+  //     alignment: 'left',
+  //     stopPropagation: false // Stops event propagation
+  //   }
+  // );
+  // }
 
   /**
    * @param {Object} nextProps
@@ -81,7 +97,6 @@ export class Header extends React.Component {
               href=""
               onClick={this.logout}
               className="logout-button"
-              id="logout-button"
             >Logout</a></li>
           <li className="divider" />
         </ul>
@@ -91,7 +106,6 @@ export class Header extends React.Component {
               href=""
               onClick={this.logout}
               className=""
-              id="logout-button"
             >Logout</a></li>
           <li className="divider" />
         </ul>
@@ -115,7 +129,9 @@ export class Header extends React.Component {
                   className="dropdown-button"
                   href="#!"
                   data-activates="dropdown1"
+                  id="logout-button"
                 >
+                
                   {this.props.username}
                   <i className="material-icons right">
                   arrow_drop_down</i></a></li>
@@ -133,6 +149,7 @@ export class Header extends React.Component {
                   className="dropdown-button"
                   href="#!"
                   data-activates="mobile"
+                  id="logout-button"
                 >{this.props.username}
                   <i className="material-icons right">
                   arrow_drop_down</i></a></li>

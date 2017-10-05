@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import isEmpty from 'lodash/isEmpty';
 import { createStore, applyMiddleware, compose } from 'redux';
 
 import rootReducer from './src/rootReducer';
@@ -23,11 +24,10 @@ const store = createStore(
 );
 
 if (localStorage.jwtToken) {
-  validateToken(localStorage.jwtToken);
-  store.dispatch(setUser(jwt.decode(localStorage.jwtToken).data));
+  validateToken(localStorage.jwtToken, store.dispatch);
+} else {
+  localStorage.removeItem('jwtToken');
 }
-
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />

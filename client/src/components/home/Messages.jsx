@@ -111,13 +111,13 @@ export class Messages extends React.Component {
    * message based on the user's input
    */
   handlePriority(event) {
-    if (event.target.value > -1 && event.target.value < 6) {
+    if (event.target.value > -1 && event.target.value < 3) {
       this.setState({ [event.target.name]: event.target.value,
         priority: 'normal' });
-    } else if (event.target.value > 5 && event.target.value < 11) {
+    } else if (event.target.value > 2 && event.target.value < 6) {
       this.setState({ [event.target.name]: event.target.value,
         priority: 'urgent' });
-    } else if (event.target.value > 10 && event.target.value < 16) {
+    } else if (event.target.value > 4 && event.target.value < 7) {
       this.setState({ [event.target.name]: event.target.value,
         priority: 'critical' });
     }
@@ -177,7 +177,7 @@ export class Messages extends React.Component {
           <nav className="col s12 m12 l10 right-column-header">
             <div className="nav-wrapper">
               <div>
-                <span id="group-name" className="left">
+                <span id="group-name" className="left flow-text">
                   {this.props.group.name ?
                   this.props.group.name : 'No Group Selected' }
                 </span>
@@ -203,8 +203,8 @@ export class Messages extends React.Component {
             className="all-messages col s8 m8 l9"
           >
             <ul>{allMessages}</ul>
-          </div> : <p className="message-info col s8 m6 l9">
-          No messages yet </p>}
+          </div> : <p className="message-info col s8 m6 l9 push-s1">
+          No message yet </p>}
           <div className="">
             <MessageForm
               onChange={this.onChange}

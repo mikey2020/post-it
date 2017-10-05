@@ -15,7 +15,7 @@ const mockData = { id: 1,
   priority: 'normal' };
 
 describe('Message Actions', () => {
-  it('should store all group messages after action', (done) => {
+  it('should get all group messages after action is dispatched', (done) => {
     axios.get = jest.fn(() => Promise.resolve({ data: { messages: [{}] } }));
     const store = mockStore([]);
     const expectedActions = [
@@ -27,7 +27,7 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('should create a success flash message when a message has been posted',
+  it('should return a message object when a message has been posted',
   (done) => {
     axios.post = jest.fn(() =>
     Promise.resolve({ data: { message: '', postedMessage: mockData } }));

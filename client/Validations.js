@@ -3,7 +3,7 @@ import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 
 /**
- *  All Validations
+ * All Validations
  * @class
  */
 class Validations {
@@ -140,7 +140,7 @@ class Validations {
   groupInput(group) {
     this.errors = {};
 
-    if (group.name === null || group.name === '') {
+    if (group.name.trim() === null || group.name.trim() === '') {
       this.errors.name = 'This field is required';
     }
 
