@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './src/components/App.jsx';
 import Welcome from './src/components/Welcome.jsx';
+import About from './src/components/About.jsx';
 import SignupPage from './src/components/signup/SignupPage.jsx';
 import SigninForm from './src/components/signin/SigninForm.jsx';
 import HomePage from './src/components/home/HomePage.jsx';
@@ -16,6 +17,7 @@ export default (
     <Route path="signup" component={Authenticate(SignupPage)} />
     <Route path="signin" component={SigninForm} />
     <Route path="home" component={Authenticate(HomePage)} />
+    <Route path="about" component={About} />
     <Route path="reset" component={ResetPassword} />
     <Route path="*" component={PageNotFound} />
   </Route>
