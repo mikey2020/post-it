@@ -6,7 +6,7 @@ fs.readFile('client/index.html', 'utf8', (err, markup) => {
   if (err) {
     return console.log(err);
   }
-  console.log(markup);
+
   const $ = cheerio.load(markup);
   $('head').prepend('<link rel="stylesheet" href="styles.css" />');
 
