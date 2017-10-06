@@ -1,5 +1,6 @@
 import should from 'should';
 import request from 'supertest';
+
 import app from '../../app';
 import models from '../../models';
 
@@ -102,7 +103,7 @@ describe('GroupController', () => {
           should.exist(res.body.messages);
           res.body.should.have.property('messages', res.body.messages);
           res.body.messages[0].content.should.be.eql(
-            'This functions is working well');
+            'These functions are working well');
           res.body.messages[0].id.should.be.eql(1);
           res.body.messages[0].priority.should.be.eql('normal');
           res.body.messages[0].messageCreator.should.be.eql('naruto');

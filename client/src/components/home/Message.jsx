@@ -47,11 +47,6 @@ export class Message extends React.Component {
               <span
                 className="badge"
               >{this.props.priority ? this.props.priority : <p /> }</span>
-              <a
-                href="#modal5"
-                className=""
-                onClick={this.handleOnClick}
-              ><i className="material-icons">report</i></a>
             </div>
           </ul>
         </div>

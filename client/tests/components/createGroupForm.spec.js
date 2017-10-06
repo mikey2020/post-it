@@ -2,6 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+
 import { CreateGroupForm } from '../../src/components/home/CreateGroupForm.jsx';
 
 const checkGroupExists = sinon.spy();
@@ -44,7 +45,7 @@ describe('Component', () => {
       expect(checkGroupExists).toBeA('function');
     });
 
-    it('should call onSubmit function when button with id #create-group-button is clicked on',
+    it('should call onSubmit function when button with id `#create-group-button` is clicked on',
     () => {
       wrapper.find('#create-group-button').simulate('click');
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });

@@ -1,5 +1,6 @@
 import should from 'should';
 import request from 'supertest';
+
 import app from '../../app';
 import models from '../../models';
 import { johnSignup, johnnySignin } from '../../seeders/user-seeders';
@@ -65,7 +66,7 @@ describe('UserController', () => {
         });
     });
 
-    it('when trying to post message', (done) => {
+    it('when trying to post a message', (done) => {
       request(app).post('/api/v1/group/1/message')
         .end((err, res) => {
           res.status.should.equal(401);

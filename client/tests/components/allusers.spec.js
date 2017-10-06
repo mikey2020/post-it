@@ -1,5 +1,6 @@
 import React from 'react';
 import expect from 'expect';
+
 import { shallow } from 'enzyme';
 import { AllUsers } from '../../src/components/home/AllUsers.jsx';
 

@@ -12,9 +12,13 @@ describe('Message Model:', () => {
     .then((post) => {
       should.exist(post);
       should.exist(post.content);
+      should.exist(post.groupId);
+      should.exist(post.userId);
       post.content.should.equal('test-post');
       post.priority.should.equal('normal');
       post.messageCreator.should.equal('johnny');
+      post.groupId.should.equal(1);
+      post.userId.should.equal(1);
       done();
     });
   });

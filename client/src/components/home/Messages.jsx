@@ -190,15 +190,6 @@ export class Messages extends React.Component {
           </nav>
         </div>
         <div>
-          { this.props.messages.length > this.state.limit ?
-            <div>
-              <a
-                href=""
-                onClick={this.viewArchived}
-                className="archived btn light-blue"
-              >
-          view archived</a> </div> : <p />
-        }
           {this.props.messages.length > 0 ? <div
             className="all-messages col s8 m8 l9"
           >

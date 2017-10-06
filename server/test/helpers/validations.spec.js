@@ -2,8 +2,8 @@ import should from 'should';
 import Validations from '../../middlewares/Validations';
 
 describe('Validations ', () => {
-  describe('Sign up Input validation', () => {
-    it('should return `Username is require` when no username is given',
+  describe('Sign up input validation', () => {
+    it('should return `Username is required` when no username is given',
     (done) => {
       const validate = new Validations();
       const mockData = { username: '',
@@ -41,7 +41,7 @@ describe('Validations ', () => {
       done();
     });
 
-    it('should return `Password do not match` when no password is given',
+    it('should return `Password do not match` when password and password confirmation do not match',
     (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
