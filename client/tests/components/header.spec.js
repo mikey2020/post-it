@@ -24,7 +24,7 @@ describe('Component', () => {
     it('should render self and subcomponents', () => {
       expect(wrapper.find('.brand-logo').exists()).toBe(true);
       expect(wrapper.find('nav').exists()).toBe(true);
-      expect(wrapper.find('Link').exists()).toBe(false);
+      expect(wrapper.find('Link').exists()).toBe(true);
     });
 
     it('should call logout function when user clicks logout button', () => {

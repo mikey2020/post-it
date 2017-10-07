@@ -8,7 +8,7 @@ describe('Groups reducer', () => {
     expect(reducer(undefined, {})).toEqual([]);
   });
 
-  it('should return  a new state for case `ADD_USER_GROUPS` ', () => {
+  it('should return a new state for case `ADD_USER_GROUPS` ', () => {
     expect(reducer([], {
       type: types.ADD_USER_GROUPS,
       groups: [{ id: 1, groupName: 'tarly house', groupCreator: 'mikey', }]
@@ -18,7 +18,7 @@ describe('Groups reducer', () => {
     );
   });
 
-  it('should return  a new state for case `ADD_GROUP` ', () => {
+  it('should return a new state for case `ADD_GROUP` ', () => {
     expect(reducer([], {
       type: types.ADD_GROUP,
       group: { id: 1, groupName: 'tarly house', groupCreator: 'mikey' }

@@ -278,7 +278,7 @@
     });
     }
 
-    /**
+  /**
    * @param {Object} request
    * @param {Object} response
    *

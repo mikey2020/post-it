@@ -3,7 +3,9 @@ import Unique from '../middlewares/Unique';
 import Validations from '../middlewares/Validations';
 
 export default (app) => {
-  app.get('/api/v1/group/:groupId/messages', Validations.authenticate,
+  app.get(
+    '/api/v1/group/:groupId/messages',
+    Validations.authenticate,
   Validations.checkGroupExists,
   Validations.isGroupMember,
   Unique.setNumberOfMessages, GroupController.getMessages);

@@ -207,14 +207,14 @@ class GroupController {
   }
 
   /**
-   * @function  getUserGroups
+   * @function getUserGroups
    *
    * @param {Object} request - request object sent to a route
-   * @param {Object} response -  response object from the route
+   * @param {Object} response - response object from the route
    *
    * @returns {void}
    *
-   * @description -  it returns an array of groups a user has created
+   * @description - it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
     Group.findAll({
@@ -226,7 +226,7 @@ class GroupController {
         if (typeof groups[0] !== 'undefined') {
           let data = JSON.stringify(groups);
           data = JSON.parse(data);
-          response.status(200).json(data);
+          response.status(200).json({ groups: data });
         } else {
           response.status(404).json({ message: 'No groups found' });
         }

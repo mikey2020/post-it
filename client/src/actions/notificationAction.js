@@ -44,8 +44,8 @@ const removeNotifications = () => ({
 const getNotifications = () =>
 dispatch => axios.get('/api/v1/user/notifications')
     .then((res) => {
-      if (res.data.userNotices) {
-        dispatch(setNotifications(res.data.userNotices));
+      if (res.data.notices) {
+        dispatch(setNotifications(res.data.notices));
       } else {
         dispatch(handleErrors(null, 'SET_NOTIFICATIONS'));
       }

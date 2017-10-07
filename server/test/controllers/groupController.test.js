@@ -78,12 +78,12 @@ describe('GroupController', () => {
   (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
-        .send({ message: 'This functions is working well', priority: 'normal' })
+        .send({ message: 'These functions are working well', priority: 'normal' })
         .end((err, res) => {
           res.status.should.equal(201);
           should.not.exist(err);
           res.body.postedMessage.content
-          .should.equal('This functions is working well');
+          .should.equal('These functions are working well');
           res.body.postedMessage.priority.should.equal('normal');
           res.body.postedMessage.messageCreator.should.equal('naruto');
           res.body.postedMessage
