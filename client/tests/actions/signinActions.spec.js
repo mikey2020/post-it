@@ -44,7 +44,15 @@ describe('Sign in actions', () => {
         user: {}
       }
     );
-    const expectedActions = [];
+    const expectedActions = [
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'success',
+          text: 'Welcome flash'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
       Promise.resolve({
         data:

@@ -60,7 +60,12 @@ describe('Notification actions', () => {
   });
 
   it('should delete all user notifications successfully ', () => {
-    const store = mockStore({});
+    const store = mockStore({
+      notifications: [
+        'naruto posted a message to a group which you are a member',
+        'sasuke posted a message to a group which you are a member'
+      ]
+    });
     const expectedActions = [];
     axios.delete = jest.fn(() =>
       Promise.resolve({

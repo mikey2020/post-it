@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { getMembersOfGroup } from '../../actions/userActions';
 
 /**
- *  Members class component
+ * Members class component
+ *
  * @class
  */
 class Members extends React.Component {

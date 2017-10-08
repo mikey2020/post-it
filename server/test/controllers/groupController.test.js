@@ -53,7 +53,7 @@ describe('GroupController', () => {
             });
   });
 
-  it('should return a message when adding a user to a group is successful',
+  it('should return a success message when adding a user to a group is successful',
   (done) => {
     models.User.create({ username: 'bat',
       phoneNumber: '08123457690',
@@ -74,7 +74,7 @@ describe('GroupController', () => {
     });
   });
 
-  it('should return a message object when posting message to a group is successful',
+  it('should return a message object and a success message when posting message to a group is successful',
   (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
@@ -94,7 +94,7 @@ describe('GroupController', () => {
         });
   });
 
-  it('should return all messages posted to a particular group ', (done) => {
+  it('should return all messages posted to a particular group', (done) => {
     user.get(`/api/v1/group/${groupId}/messages`)
         .set('authorization', token)
         .end((err, res) => {

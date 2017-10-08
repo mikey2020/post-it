@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 /**
- *  Welcome class component
- * @class
+ * Welcome component
+ *
+ * @description - It renders a landing page
+ *
+ * @returns {component} - It returns a react component
  */
 export default () => (
   <div className="landing-page row">

@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * @description - It renders a form for posting a message
+ *
+ * @param {Object} props
+ *
+ * @returns {component} - It returns a react component
+ */
 export const MessageForm = props => (
   <div className="row">
     <div className="col m12 push-m0.5">

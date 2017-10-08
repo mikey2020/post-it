@@ -113,7 +113,7 @@ describe('UserController', () => {
       });
     });
 
-    it('when trying to sign up and length of password is equal to 4',
+    it('when trying to sign up and the password length is equal to 4',
     (done) => {
       user.post('/api/v1/user/signup')
       .send(

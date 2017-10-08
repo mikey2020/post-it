@@ -6,8 +6,11 @@ import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
 
 /**
- *  HomePage class component
- * @class
+ * HomePage component
+ *
+ * @description - It renders the homepage
+ *
+ * @returns {component} - It returns a react component
  *
  * @param {Object} props
  */

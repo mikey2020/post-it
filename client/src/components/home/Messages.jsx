@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import io from 'socket.io-client';
 
 import Validations from '../../../Validations';
-import { postMessage,
+import {
+  postMessage,
   getGroupMessages,
   readMessage,
   addMessage,
