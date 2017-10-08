@@ -46,7 +46,7 @@ describe('UserController', () => {
   });
 
   describe('should return an error message without a valid token', () => {
-    it('when trying to create group', (done) => {
+    it('when trying to create a group', (done) => {
       request(app).post('/api/v1/group')
         .end((err, res) => {
           res.status.should.equal(401);
@@ -131,7 +131,7 @@ describe('UserController', () => {
       });
     });
 
-    it('when trying sign up and password confirmation fails',
+    it('when trying to sign up and password confirmation fails',
     (done) => {
       user.post('/api/v1/user/signup')
       .send({ username: 'test',

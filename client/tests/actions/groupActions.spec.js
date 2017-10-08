@@ -13,7 +13,7 @@ const mockData = { name: 'fengshui' };
 const resData =
   {
     id: 3,
-    groupname: 'fengshui',
+    groupName: 'fengshui',
     groupCreator: 'negan'
   };
 
@@ -36,7 +36,7 @@ describe('Group Actions', () => {
         type: 'ADD_GROUP',
         group: {
           id: 3,
-          groupname: 'fengshui',
+          groupName: 'fengshui',
           groupCreator: 'negan'
         }
       },
@@ -60,7 +60,7 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should get all groups user is part of successfully', () => {
+  it('should get all groups a user is part of successfully', () => {
     axios.get = jest.fn(() =>
       Promise.resolve({
         data: {

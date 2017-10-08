@@ -38,6 +38,7 @@ const signOut = () => (dispatch) => {
  * @description - It validates a user's authorization token
  *
  * @param {String} token
+ * @param {Object} dispatch
  *
  * @returns {void}
  */

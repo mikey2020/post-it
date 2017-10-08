@@ -89,7 +89,8 @@
           if (username && password &&
             bcrypt.compareSync(password, userData.password) === true) {
             const token = generateToken(userData);
-            response.json({ message: `${username} signed in`,
+            response.status(200).json({
+              message: `${username} signed in`,
               userToken: token });
           } else {
             response.status(401).json({ errors:
@@ -189,7 +190,7 @@
           const subject = 'Reset Password verification code';
           UserController.sendVerificationCode(email,
           user.username, verificationCode, subject);
-          response.json({ message: 'Verification code sent' });
+          response.status(200).json({ message: 'Verification code sent' });
         } else {
           response.status(400).json({ errors: { form: 'Invalid Username' } });
         }

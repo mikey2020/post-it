@@ -14,8 +14,8 @@ const mockStorage = new MockLocalStorage();
 
 window.localStorage = mockStorage;
 
-describe('Signin actions', () => {
-  it('should create an error flash message when user is invalid ', () => {
+describe('Sign in actions', () => {
+  it('should create an error flash message when user is invalid', () => {
     const store = mockStore(
       {
         isAuthenticated: false,
@@ -37,7 +37,7 @@ describe('Signin actions', () => {
     });
   });
 
-  it('should create a success flash message when user is valid ', () => {
+  it('should create a success flash message when user is valid', () => {
     const store = mockStore(
       {
         isAuthenticated: false,
@@ -47,19 +47,19 @@ describe('Signin actions', () => {
     const expectedActions = [];
     axios.post = jest.fn(() =>
       Promise.resolve({
-        data: {
-          user: {
-            name: 'flash',
-            message: 'flash signed in'
-          }
+        data:
+        {
+          userToken: 'myMockToken',
+          message: 'flash signed in'
         }
       })
     );
-    store.dispatch(actions.validateUser(mockData));
-    expect(store.getActions()).toEqual(expectedActions);
+    store.dispatch(actions.validateUser(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
-  it('should create a success flash message when user signs out ', () => {
+  it('should dispatch action type `UNSET_USER` when user signs out', () => {
     mockStorage.removeItem('jwtToken');
     const store = mockStore(
       {

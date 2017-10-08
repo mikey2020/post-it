@@ -4,7 +4,7 @@ import * as actions from '../../src/actions/flashMessageActions';
 import * as types from '../../src/actions/types';
 
 describe('Flash Message action', () => {
-  it('should create an action to add a flash message', () => {
+  it('should dispatch an action to add a flash message', () => {
     const message = {
       type: 'success',
       text: 'you are signed in'

@@ -19,8 +19,8 @@ class Unique {
    * @param {Function} next
    * - response object that sends data to the next middleware
    *
-   * @returns {Object}
-   * - if there is no error, it returns array of users in a group
+   * @returns {Object} - if there is an error,
+   * it returns response object containing an error message
    */
   static isAlreadyGroupMember(request, response, next) {
     models.UserGroups.findOne({

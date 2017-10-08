@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import expect from 'expect';
+
 import * as actions from '../../src/actions/notificationAction';
 import * as types from '../../src/actions/types';
 
@@ -38,12 +39,18 @@ describe('Notification actions', () => {
   it('should get no notifications', () => {
     const store = mockStore({});
     const expectedActions = [];
-    axios.get = jest.fn(() => Promise.resolve({ data: { message: {} } }));
+    axios.get = jest.fn(() => Promise.resolve(
+      {
+        data: {
+          message: 'No notification found'
+        }
+      }
+    ));
     store.dispatch(actions.getNotifications());
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('should get user notifications unsuccessfully', () => {
+  it('should get no user notifications when api call fails', () => {
     const store = mockStore({});
     const expectedActions = [];
     axios.get = jest.fn(() => Promise.resolve(1));

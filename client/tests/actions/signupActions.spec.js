@@ -21,18 +21,33 @@ const token = 'token';
 window.localStorage = mockStorage;
 
 describe('Signup actions', () => {
-  it('should create a success flash message when user has been signed up ',
+  it('should create a success flash message when user has been signed up',
   (done) => {
     const initialState = {
       isAuthenticated: false,
       user: {}
     };
     const store = mockStore(initialState);
-    const expectedActions = [{}];
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'ADD_USER'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'success',
+          text: 'flash successfully added'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
       Promise.resolve({
         data: {
-          message: 'flash signed up successfully',
+          message: 'flash uccessfully added',
           userToken: token
         }
       }
@@ -48,7 +63,7 @@ describe('Signup actions', () => {
   });
 
   it('should create a error flash message when user already exists', () => {
-    const store = mockStore([]);
+    const store = mockStore({});
     axios.post = jest.fn(() =>
     Promise.resolve({
       data: {

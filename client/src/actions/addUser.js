@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+
 import { setUser, validateToken } from './signinActions';
 import { handleErrors, handleSuccess } from './errorAction';
 
@@ -13,7 +14,7 @@ import { handleErrors, handleSuccess } from './errorAction';
 const addUser = user =>
 dispatch => axios.post('/api/v1/user/signup', user).then(
   (res) => {
-    if (res.status === 200 || res.data.message) {
+    if (res.data.userToken && res.data.message) {
       const token = res.data.userToken;
       localStorage.setItem('jwtToken', token);
       validateToken(token);
@@ -26,7 +27,7 @@ dispatch => axios.post('/api/v1/user/signup', user).then(
     }
   })
     .catch((error) => {
-      if (error.data.phoneNumber) {
+      if (error.data.phoneNumber !== undefined) {
         dispatch(handleErrors(error.data.phoneNumber, 'ADD_USER_FAILED'));
       } else if (error.data.email) {
         dispatch(handleErrors(error.data.email, 'ADD_USER_FAILED'));

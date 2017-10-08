@@ -28,7 +28,8 @@ describe('Message Actions', () => {
     );
     const store = mockStore({});
     const expectedActions = [
-      { type: types.ADD_GROUP_MESSAGES,
+      {
+        type: types.ADD_GROUP_MESSAGES,
         messages: [mockData]
       }
     ];
@@ -66,7 +67,8 @@ describe('Message Actions', () => {
     done();
   });
 
-  it('should mark a message as read successfully', () => {
+  it('should return a success message and a message object when a message has been read',
+  () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
         data: {
@@ -122,7 +124,7 @@ describe('Message Actions', () => {
     });
   });
 
-  it('should get number of messages user has not read', () => {
+  it('should get number of messages a user has not read', () => {
     axios.get = jest.fn(() =>
       Promise.resolve({
         data:
