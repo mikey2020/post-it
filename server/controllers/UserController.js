@@ -40,9 +40,14 @@
       if (!isValid) {
         response.status(400).json(errors);
       } else if (request.userAlreadyExists === true) {
-        response.status(409)
-          .json({ errors:
-            { message: 'User already exists' } });
+        response.status(409).json(
+          {
+            errors:
+            {
+              message: 'User already exists'
+            }
+          }
+        );
       } else {
         return User.create({
           username,
@@ -55,8 +60,11 @@
           userData = JSON.parse(userData);
           const token = generateToken(userData);
           response.status(201).json(
-            { message: `${request.body.username} successfully added`,
-              userToken: token });
+            {
+              message: `${request.body.username} successfully added`,
+              userToken: token
+            }
+          );
         })
         .catch(() => {
           returnServerError(response);
@@ -93,8 +101,14 @@
               message: `${username} signed in`,
               userToken: token });
           } else {
-            response.status(401).json({ errors:
-            { form: 'Invalid Signin Parameters' } });
+            response.status(401).json(
+              {
+                errors:
+                {
+                  form: 'Invalid Signin Parameters'
+                }
+              }
+            );
           }
         } else {
           response.status(401).json({ errors: { form: 'Invalid User' } });
@@ -129,7 +143,11 @@
         if (!isEmpty(user)) {
           response.status(200).json({ user });
         } else {
-          response.status(404).json({ message: 'User does not exist' });
+          response.status(404).json(
+            {
+              message: 'User does not exist'
+            }
+          );
         }
       })
       .catch(() => {
@@ -157,7 +175,11 @@
         if (typeof users[0] !== 'undefined') {
           response.status(200).json({ users });
         } else {
-          response.status(404).json({ message: 'No user found' });
+          response.status(404).json(
+            {
+              message: 'No user found'
+            }
+          );
         }
       }).catch(() => {
         returnServerError(response);
@@ -185,14 +207,25 @@
       .then((user) => {
         if (!isEmpty(user)) {
           const { email } = user;
+          const subject = 'Reset Password verification code';
           user.verificationCode = verificationCode;
           user.save().then(() => {});
-          const subject = 'Reset Password verification code';
           UserController.sendVerificationCode(email,
           user.username, verificationCode, subject);
-          response.status(200).json({ message: 'Verification code sent' });
+          response.status(200).json(
+            {
+              message: 'Verification code sent'
+            }
+          );
         } else {
-          response.status(400).json({ errors: { form: 'Invalid Username' } });
+          response.status(400).json(
+            {
+              errors:
+              {
+                form: 'Invalid Username'
+              }
+            }
+          );
         }
       })
       .catch(() => {
@@ -234,13 +267,24 @@
             user.password = request.body.newPassword;
             user.update({ password: request.body.newPassword }).then(() => {
               response.status(200).json(
-                { message: 'password updated successfully' });
+                {
+                  message: 'password updated successfully'
+                }
+              );
             });
           } else {
-            response.status(400).json({ message: 'Invalid verification code' });
+            response.status(400).json(
+              {
+                message: 'Invalid verification code'
+              }
+            );
           }
         } else {
-          request.status(404).json({ message: 'Invalid user' });
+          request.status(404).json(
+            {
+              message: 'Invalid user'
+            }
+          );
         }
       })
       .catch(() => {
@@ -270,7 +314,11 @@
           if (typeof notices[0] !== 'undefined') {
             response.status(200).json({ notices });
           } else {
-            response.status(404).json({ message: 'No notification found' });
+            response.status(404).json(
+              {
+                message: 'No notification found'
+              }
+            );
           }
         });
     })
@@ -294,11 +342,17 @@
         }
       }).then((notification) => {
         if (!notification) {
-          response.status(404).json({ message: 'No notification found' });
+          response.status(404).json(
+            {
+              message: 'No notification found'
+            }
+          );
         } else {
-          response.status(200).json({
-            message: 'All notifications deleted'
-          });
+          response.status(200).json(
+            {
+              message: 'All notifications deleted'
+            }
+          );
         }
       })
     .catch(() => {
@@ -316,7 +370,11 @@
    */
     static verifyToken(request, response) {
       if (request.decoded !== undefined) {
-        response.status(200).json({ message: 'User is valid' });
+        response.status(200).json(
+          {
+            message: 'User is valid'
+          }
+        );
       }
     }
 

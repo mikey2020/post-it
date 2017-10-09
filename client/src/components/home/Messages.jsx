@@ -9,7 +9,8 @@ import {
   getGroupMessages,
   readMessage,
   addMessage,
-  getUsersWhoReadMessage } from '../../actions/messageActions';
+  getUsersWhoReadMessage
+} from '../../actions/messageActions';
 import Message from './Message.jsx';
 import MessageForm from './MessageForm.jsx';
 
@@ -33,8 +34,8 @@ export class Messages extends React.Component {
       priority: 'normal',
       priorityLevel: 0,
       creator: '',
-      limit: 10,
-      offset: 10
+      limit: 50,
+      offset: 0
     };
 
     socket.on('new message posted', (message) => {
@@ -54,21 +55,7 @@ export class Messages extends React.Component {
     const { limit, offset } = this.state;
     this.props.getGroupMessages(group.id, limit, offset);
   }
-  /**
-   * @param {object} prevProps - previous props
-   *
-   * @returns {void}
-   */
-  componentDidUpdate(prevProps) {
-    const { group } = this.props;
-    const { limit, offset } = this.state;
-    if (this.props.messages.length !== prevProps.messages.length) {
-      this.props.getGroupMessages(group.id, limit + 10, offset);
-    } else if (group.id !== prevProps.group.id) {
-      this.props.getGroupMessages(group.id, limit, offset);
-      this.props.messages.map(message => this.props.readMessage(message.id));
-    }
-  }
+
    /**
    * @param {object} event - argument
    *
@@ -78,9 +65,13 @@ export class Messages extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
     if (this.isValid()) {
-      this.setState({ errors: {},
-        isLoading: false,
-        creator: this.props.username });
+      this.setState(
+        {
+          errors: {},
+          isLoading: false,
+          creator: this.props.username
+        }
+      );
     }
   }
   /**
@@ -93,10 +84,14 @@ export class Messages extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
-      this.setState({ errors: {},
-        isLoading: false,
-        limit: this.state.limit + 1,
-        offset: 0 });
+      this.setState(
+        {
+          errors: {},
+          isLoading: false,
+          limit: this.state.limit + 1,
+          offset: 0
+        }
+      );
       this.props.postMessage(this.state, this.props.group.id).then(() => {
         this.setState({ message: '' });
       });
@@ -191,6 +186,15 @@ export class Messages extends React.Component {
           </nav>
         </div>
         <div>
+          { this.props.messages.length > this.state.limit ?
+            <div>
+              <a
+                href=""
+                onClick={this.viewArchived}
+                className="archived btn light-blue"
+              >
+          view archived</a> </div> : <p />
+        }
           {this.props.messages.length > 0 ? <div
             className="all-messages col s8 m8 l9"
           >

@@ -15,7 +15,7 @@ export const MessageForm = props => (
         className={props.className}
         onSubmit={props.onSubmit}
       >
-        <div className="col s11 m10 l12">
+        <div className="col s11 m10 l12 pull-s1">
           <label
             htmlFor="priority level"
             className="flow-text priority-label left"

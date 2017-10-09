@@ -123,5 +123,6 @@ export {
   getUsers,
   checkUserExists,
   sendVerificationCode,
-  getMembersOfGroup, verifyCode
+  getMembersOfGroup,
+  verifyCode
 };
