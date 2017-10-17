@@ -18,7 +18,7 @@ const mockData = {
 };
 
 describe('Message Actions', () => {
-  it('should get all group messages after action is dispatched', () => {
+  it('should dispatch appropriate action after getting group messages', () => {
     axios.get = jest.fn(() =>
       Promise.resolve({ data:
       {
@@ -38,7 +38,7 @@ describe('Message Actions', () => {
     });
   });
 
-  it('should return a message object when a message has been posted',
+  it('should dispatch appropriate action when a message is posted to a group',
   () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
@@ -60,7 +60,7 @@ describe('Message Actions', () => {
     });
   });
 
-  it('should return a success message and a message object when a message has been read',
+  it('should dispatch appropriate action when a message is read by a user',
   () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
@@ -92,7 +92,8 @@ describe('Message Actions', () => {
     });
   });
 
-  it('should get users who have read a message', () => {
+  it('should dispatch appropriate action after getting users who have read a message',
+  () => {
     axios.get = jest.fn(() =>
       Promise.resolve({
         data: {
@@ -126,7 +127,8 @@ describe('Message Actions', () => {
     });
   });
 
-  it('should get number of messages a user has not read', () => {
+  it('should dispatch appropriate action when getting the number of unread messages',
+  () => {
     const expectedActions = [
       {
         type: 'ACTION_SUCCESS',

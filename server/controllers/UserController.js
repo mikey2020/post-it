@@ -264,28 +264,38 @@
     /**
      * @description - It checks or verifies user's verification code
      * and allows user update their password
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {void}
      */
     static checkVerificationCode(request, response) {
+      const { code, newPassword } = request.body;
       User.findOne({
         where: {
-          verificationCode: request.body.code
+          verificationCode: code
         }
       })
       .then((user) => {
         if (!isEmpty(user)) {
-          if (request.body.code === user.verificationCode) {
-            user.password = request.body.newPassword;
-            user.update({ password: request.body.newPassword }).then(() => {
-              response.status(200).json(
+          if (code === user.verificationCode) {
+            if (newPassword !== undefined && newPassword.trim() !== '') {
+              user.password = newPassword;
+              user.update({ password: newPassword }).then(() => {
+                response.status(200).json(
+                  {
+                    message: 'password updated successfully'
+                  }
+                );
+              });
+            } else {
+              response.status(400).json(
                 {
-                  message: 'password updated successfully'
+                  message: 'New password is required'
                 }
               );
-            });
+            }
           } else {
             response.status(400).json(
               {

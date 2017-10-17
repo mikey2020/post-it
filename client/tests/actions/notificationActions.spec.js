@@ -12,7 +12,8 @@ const mockStore = configureMockStore(middlewares);
 
 
 describe('Notification actions', () => {
-  it('should get all user notifications successfully', () => {
+  it('should dispatch appropriate action when getting user`s notifications',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {
@@ -38,7 +39,8 @@ describe('Notification actions', () => {
     });
   });
 
-  it('should get no notifications', () => {
+  it('should dispatch appropriate action when no notification is gotten',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {
@@ -61,7 +63,8 @@ describe('Notification actions', () => {
     });
   });
 
-  it('should get no user notification when api call fails', () => {
+  it('should dispatch appropriate action when there is an error getting notifications',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {
@@ -78,7 +81,7 @@ describe('Notification actions', () => {
     });
   });
 
-  it('should delete all user notifications successfully ', () => {
+  it('should dispatch appropriate action when all user notifications are deleted', () => {
     const store = mockStore({
       notifications: [
         'naruto posted a message to a group which you are a member',
@@ -106,7 +109,8 @@ describe('Notification actions', () => {
     });
   });
 
-  it('should not delete all user notifications successfully', () => {
+  it('should dispatch appropriate action when there is an error deleting user notifications',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {

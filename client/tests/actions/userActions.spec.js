@@ -48,7 +48,8 @@ describe('User Actions', () => {
     });
   });
 
-  it('should send a verification code for resetting password', () => {
+  it('should dispatch appropriate action when a verification code is sent',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {
@@ -80,7 +81,7 @@ describe('User Actions', () => {
     });
   });
 
-  it('should update user password and return success message',
+  it('should dispatch appropriate action when user`s password has been updated',
   () => {
     const store = mockStore({});
     const expectedActions = [
@@ -113,7 +114,8 @@ describe('User Actions', () => {
     });
   });
 
-  it('should verify code for resetting password is invalid', () => {
+  it('should dispatch appropriate action when user`s verification code is invalid',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {
@@ -143,7 +145,8 @@ describe('User Actions', () => {
     });
   });
 
-  it('should get members of a group', () => {
+  it('should dispatch appropriate action when getting members of a group',
+  () => {
     const store = mockStore({});
     const expectedActions = [
       {

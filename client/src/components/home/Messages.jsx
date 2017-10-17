@@ -17,7 +17,7 @@ import MessageForm from './MessageForm.jsx';
 const socket = io();
 const validate = new Validations();
 /**
- *  Messages class component
+ * Messages class component
  * @class
  */
 export class Messages extends React.Component {
@@ -54,6 +54,22 @@ export class Messages extends React.Component {
     const { group } = this.props;
     const { limit, offset } = this.state;
     this.props.getGroupMessages(group.id, limit, offset);
+  }
+
+  /**
+   * @param {object} prevProps - previous props
+   *
+   * @returns {void}
+   */
+  componentDidUpdate(prevProps) {
+    const { group } = this.props;
+    const { limit, offset } = this.state;
+    if (this.props.messages.length !== prevProps.messages.length) {
+      this.props.getGroupMessages(group.id, limit + 10, offset);
+    } else if (group.id !== prevProps.group.id) {
+      this.props.getGroupMessages(group.id, limit, offset);
+      this.props.messages.map(message => this.props.readMessage(message.id));
+    }
   }
 
    /**

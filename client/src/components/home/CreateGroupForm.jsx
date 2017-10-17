@@ -110,7 +110,7 @@ export class CreateGroupForm extends React.Component {
     return isValid;
   }
 
-   /**
+  /**
    *
    * @returns {component} - renders a React component
    */

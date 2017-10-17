@@ -15,7 +15,7 @@ const mockStorage = new MockLocalStorage();
 window.localStorage = mockStorage;
 
 describe('Sign in actions', () => {
-  it('should create an error flash message when user is not valid', () => {
+  it('should dispatch appropriate action when user is not valid', () => {
     const store = mockStore(
       {
         isAuthenticated: false,
@@ -43,7 +43,7 @@ describe('Sign in actions', () => {
     });
   });
 
-  it('should create a success flash message when user is valid', () => {
+  it('should dispatch appropriate action when user is valid', () => {
     const store = mockStore(
       {
         isAuthenticated: false,
@@ -73,7 +73,7 @@ describe('Sign in actions', () => {
     });
   });
 
-  it('should dispatch action type `UNSET_USER` when user signs out', () => {
+  it('should dispatch appropriate action when user signs out', () => {
     mockStorage.removeItem('jwtToken');
     const store = mockStore(
       {

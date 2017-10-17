@@ -7,7 +7,7 @@ import { handleErrors, handleSuccess } from './verifyAction';
 /**
  * @description - signs up a user, adds a user to the database
  *
- * @param {Object} user - signup object
+ * @param {Object} user - sign up object
  *
  * @returns {void}
  */

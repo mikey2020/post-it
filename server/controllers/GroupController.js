@@ -42,7 +42,7 @@ class GroupController {
    */
   static createGroup(request, response) {
     let { name } = request.body;
-    if (request.body.name !== undefined) {
+    if (name !== undefined) {
       name = name.trim();
     }
     if (name === undefined || name === '') {

@@ -10,12 +10,12 @@
 
 
  const validate = new Validations();
- /**
- *  SigninForm class component
+/**
+ * SigninForm class component
  * @class
  */
  export class SigninForm extends React.Component {
-   /**
+  /**
    * @constructor
    *
    * @param {object} props -  inherit props from react class
@@ -34,7 +34,7 @@
      this.onBlur = this.onBlur.bind(this);
    }
 
-   /**
+  /**
    * @param {object} event - argument
    *
    * @returns {void}
@@ -42,7 +42,8 @@
    onChange(event) {
      this.setState({ [event.target.name]: event.target.value,
        invalid: false,
-       errors: {} });
+       errors: {}
+     });
    }
    /**
    * @param {object} event - argument
@@ -64,7 +65,8 @@
    }
    /**
     * @description - It calls a function,
-    *  that checks if user exists in the database
+    * that checks if user exists in the database
+    *
     * @param {Object} event
     *
     * @returns {void}
@@ -87,6 +89,8 @@
      }
    }
   /**
+   * @description - It validates user's input
+   *
    * @returns {void}
    */
    isValid() {

@@ -21,7 +21,7 @@ const token = 'token';
 window.localStorage = mockStorage;
 
 describe('Signup actions', () => {
-  it('should create a success flash message when user has been signed up',
+  it('should dispatch appropriate actions when a user signs up',
   (done) => {
     const initialState = {
       isAuthenticated: false,
@@ -62,7 +62,7 @@ describe('Signup actions', () => {
     done();
   });
 
-  it('should create a error flash message when user already exists', () => {
+  it('should dispatch appropriate action when a user already exists', () => {
     const store = mockStore({});
     axios.post = jest.fn(() =>
     Promise.resolve({

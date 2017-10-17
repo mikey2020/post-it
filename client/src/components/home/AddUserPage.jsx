@@ -38,10 +38,10 @@ export class AddUserPage extends React.Component {
   /**
    * @description - It updates state based on user's input
    *
-    * @param {object} event - argument
-    *
-    * @returns {void}
-    */
+   * @param {object} event - argument
+   *
+   * @returns {void}
+   */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     if (this.isValid()) {

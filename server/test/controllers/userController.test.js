@@ -78,7 +78,7 @@ describe('UserController', () => {
     });
 
 
-  it('should return an error message when trying to sign in without a username', (done) => {
+  it('should return an error message when trying to sign in without a valid username', (done) => {
     user.post('/api/v1/user/signin')
         .set('authorization', token)
         .send({ username: '', password: 'pass' })
@@ -109,6 +109,10 @@ describe('UserController', () => {
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.have.property('errors', res.body.errors);
+          res.body.errors.should.have.property(
+            'message', res.body.errors.message
+          );
+          res.body.errors.message.should.equal('user does not exist');
           done();
         });
   });

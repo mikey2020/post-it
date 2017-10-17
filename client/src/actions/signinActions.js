@@ -50,6 +50,9 @@ const validateToken = (token, dispatch) => {
       if (res.data.message === 'User is valid') {
         dispatch(setUser(jwt.decode(localStorage.jwtToken).data));
       }
+    })
+    .catch(() => {
+      dispatch(handleErrors('Session expired, please sign in', 'VERIFY_TOKEN'));
     });
   } else {
     delete axios.defaults.headers.common.authorization;

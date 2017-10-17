@@ -18,7 +18,7 @@ const resData =
   };
 
 describe('Group Actions', () => {
-  it('should create a success flash message and return group details when a group is created',
+  it('should dispatch appropriate actions when a group is created',
   () => {
     axios.post = jest.fn(() =>
       Promise.resolve(
@@ -61,7 +61,8 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should get all groups a user is part of successfully', () => {
+  it('should dispatch appropriate actions when all user`s groups are added',
+  () => {
     axios.get = jest.fn(() =>
       Promise.resolve({
         data: {
@@ -94,7 +95,7 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should return success message when a user is added to a group',
+  it('should dispatch appropriate action when a user is added to a group',
   (done) => {
     axios.post = jest.fn(() =>
     Promise.resolve({
@@ -120,7 +121,7 @@ describe('Group Actions', () => {
     done();
   });
 
-  it('should get error message when adding user to a group and group does not exist',
+  it('should dispatch appropriate actions when adding user to an unexisting group',
   () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
@@ -155,7 +156,7 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should set current group successfully', () => {
+  it('should dispatch appropriate action when a group is selected', () => {
     const expectedActions = {
       type: 'ADD_CURRENT_GROUP',
       group: {
@@ -166,7 +167,7 @@ describe('Group Actions', () => {
     expect(actions.addCurrentGroup(mockData)).toEqual(expectedActions);
   });
 
-  it('should get error message when trying to create a group and it already exists',
+  it('should dispatch appropriate actions when trying to create an already existing group',
   () => {
     axios.post = jest.fn(() => Promise.resolve({
       data: {
@@ -198,7 +199,7 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should get error message when trying to create a group and group name is not supplied',
+  it('should dispatch appropriate actions when creating a group with an invalid group name',
   () => {
     mockData = { name: '' };
     axios.post = jest.fn(() =>

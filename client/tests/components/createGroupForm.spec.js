@@ -26,7 +26,7 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(true);
     });
 
-    it('should call onChange function when user`s input changes', () => {
+    it('should call onChange function when user input changes', () => {
       const event = { target: { name: 'name', value: 'manny' },
         errors: {},
         isLoading: false };
@@ -34,7 +34,7 @@ describe('Component', () => {
       expect(wrapper.find('.form-control').props().onChange).toBeA('function');
     });
 
-    it('should call onBlur function when user`s moves away from input field',
+    it('should call onBlur function when user`s input loses focus',
     () => {
       const event = { target: { name: 'name', value: 'manny' },
         errors: {},
@@ -45,7 +45,7 @@ describe('Component', () => {
       expect(checkGroupExists).toBeA('function');
     });
 
-    it('should call onSubmit function when button with id `#create-group-button` is clicked on',
+    it('should call onSubmit function when button with id `#create-group-button` is clicked',
     () => {
       wrapper.find('#create-group-button').simulate('click');
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });

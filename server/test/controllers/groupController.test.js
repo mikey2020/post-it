@@ -22,7 +22,7 @@ describe('GroupController', () => {
     done();
   });
 
-  it('should return a token when user signs in', (done) => {
+  it('should return a token when a user signs in', (done) => {
     models.User.create(exampleUser).then(() => {
       user.post('/api/v1/user/signin')
           .send(exampleUser)
@@ -38,7 +38,7 @@ describe('GroupController', () => {
     });
   });
 
-  it('should create a group successfully when a valid group name is submitted',
+  it('should create a group when a valid group name is submitted',
   (done) => {
     user.post('/api/v1/group')
             .set('authorization', token)
@@ -53,7 +53,7 @@ describe('GroupController', () => {
             });
   });
 
-  it('should return a success message when adding a user to a group is successful',
+  it('should return a success message when a user has been added to a group',
   (done) => {
     models.User.create({ username: 'bat',
       phoneNumber: '08123457690',
@@ -74,7 +74,7 @@ describe('GroupController', () => {
     });
   });
 
-  it('should return a message object and a success message when posting message to a group is successful',
+  it('should return a message object and a success message when message has been posted to a group',
   (done) => {
     user.post(`/api/v1/group/${groupId}/message`)
         .set('authorization', token)
