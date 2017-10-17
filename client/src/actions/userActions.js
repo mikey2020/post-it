@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SET_USERS, SET_MEMBERS } from './types';
-import { handleErrors, handleSuccess } from './errorAction';
+import { handleErrors, handleSuccess } from './verifyAction';
 
 /**
  * @description - It set list of users that match a user's search
@@ -88,7 +88,7 @@ const sendVerificationCode = userData =>
     .then((res) => {
       if (res.data.message) {
         dispatch(handleSuccess(res.data.message,
-          'VERIFICATION_CODE_SENT'));
+          'SEND_VERIFICATION_CODE'));
       }
     })
     .catch(error => ({ error }));
@@ -104,11 +104,12 @@ const verifyCode = userData =>
   dispatch => axios.post('/api/v1/user/verify-code', userData)
     .then((res) => {
       if (res.data.message) {
-        dispatch(handleSuccess(`Code verification successful, 
-        Please login now`, 'VERIFY_PASSWORD_RESET_CODE'));
+        dispatch(handleSuccess(
+          'Code verification successful, Please login now', 'VERIFY_PASSWORD_RESET_CODE'
+        ));
       } else {
         dispatch(handleErrors('Code verification failed',
-          'VERIFY_PASSWORD_RESET_CODE_FAILURE'));
+          'VERIFY_PASSWORD_RESET_CODE'));
       }
       return res;
     })

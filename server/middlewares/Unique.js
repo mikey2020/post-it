@@ -16,8 +16,8 @@ class Unique {
    *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
-   * @param {Function} next
-   * - response object that sends data to the next middleware
+   * @param {Function} next -
+   * response object that sends data to the next middleware
    *
    * @returns {Object} - if there is an error,
    * it returns response object containing an error message

@@ -32,12 +32,13 @@ class GroupController {
   /**
    * @function createGroup
    *
+   * @description - it sends (username) created successfully
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
     let { name } = request.body;
@@ -56,7 +57,7 @@ class GroupController {
     } else if (request.existingGroup === true) {
       response.status(409).json(
         {
-          error:
+          errors:
           {
             message: 'Group already exists'
           }
@@ -83,12 +84,13 @@ class GroupController {
   /**
    * @function addUserToGroup
    *
+   * @description - It adds a user to a particular group
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - It adds a user to a particular group
    */
   static addUserToGroup(request, response) {
     models.Group.findOne({
@@ -118,12 +120,14 @@ class GroupController {
   /**
    * @function postMessageToGroup
    *
+   * @description - It posts a new message to a group
+   *
    * @param {Object} request
    * @param {Object} response
    *
-   * @returns {void}
+   * @returns {Object} - If no error, it returns an object
+   * containing message details
    *
-   * @description - It posts a new message to a group
    */
   static postMessageToGroup(request, response) {
     const { errors, isValid } = validate.message(request.body);
@@ -179,12 +183,13 @@ class GroupController {
   /**
    * @function getMessages
    *
+   * @description - It returns messages posted to a particular group
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - It returns messages posted to a particular group
    */
   static getMessages(request, response) {
     Message.findAll({
@@ -221,12 +226,13 @@ class GroupController {
   /**
    * @function checkGroupName
    *
+   * @description -  It checks if a group already exists
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description -  It checks if a group already exists
    */
   static checkGroupName(request, response) {
     Group.findOne({
@@ -253,12 +259,13 @@ class GroupController {
   /**
    * @function getUserGroups
    *
+   * @description - it returns an array of groups a user has created
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response - response object from the route
    *
    * @returns {void}
    *
-   * @description - it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
     Group.findAll({
@@ -289,7 +296,9 @@ class GroupController {
   }
 
    /**
-  * @function getMembers
+   * @function getMembers
+   *
+   * @description -  it gets emails of members in a group
    *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
@@ -297,7 +306,6 @@ class GroupController {
    *
    * @returns {void}
    *
-   * @description -  it gets emails of members in a group
    */
   static getMembers(request, response, next) {
     Group.findOne({
@@ -325,15 +333,16 @@ class GroupController {
         });
     });
   }
- /**
-  * @function getGroups
-  *
+  /**
+   * @function getGroups
+   *
+   * @description -  it returns the number of groups a user is part of.
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description -  it returns the number of groups a user is part of.
    */
   static getGroups(request, response) {
     models.User.findOne({
@@ -362,13 +371,14 @@ class GroupController {
   }
 
   /**
+   * @description - it returns array of users in a group
+   * that have read a message
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - it returns array of users in a group
-   * that have read a message
    */
   static getReaders(request, response) {
     models.Message.findOne({
@@ -401,6 +411,9 @@ class GroupController {
   }
 
   /**
+   * @description - it adds user to table signifying
+   * that user has read a message
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
@@ -439,12 +452,13 @@ class GroupController {
     });
   }
   /**
+   * @description Sends email to all members of a group
+   *
    * @param {array} membersEmails - emails of all members of the group
    * @param {string} message -  notification message to be sent
    *
    * @returns {void}
    *
-   * @description Sends email to all members of a group
    */
   static sendNotificationEmail(membersEmails, message) {
     const subject = 'New message posted';
@@ -454,11 +468,12 @@ class GroupController {
   }
 
   /**
+   * @description -  Gets all user emails from an array of groups
+   *
    * @param {array} group - emails of all members of the group
    *
    * @returns {Array} - returns an array containing user's emails
    *
-   * @description -  Gets all user emails from an array of groups
    */
   static getEmails(group) {
     const emails = [];
@@ -468,11 +483,12 @@ class GroupController {
     return emails;
   }
   /**
+   * @description -  Sends sms to a user
+   *
    * @param {array} recipient - phone number of receiver of the sms
    *
    * @returns {void}
    *
-   * @description -  Sends sms to a user
    */
   static sendSms(recipient) {
     const nexmo = new Nexmo({
@@ -490,6 +506,8 @@ class GroupController {
   }
 
   /**
+   * @description - It helps create a notification message
+   *
    * @returns {String} - it returns a notification message
    *
    * @param {Object} message - message object
@@ -500,6 +518,8 @@ class GroupController {
   }
 
   /**
+   * @description -  Adds a new notification
+   *
    * @returns {void}
    *
    * @param {number} id - id that notification belongs to
@@ -507,7 +527,6 @@ class GroupController {
    * @param {userId} userId
    * @param {string} notification
    *
-   * @description -  Adds a new notification
    */
   static addNotification(id, notice, userId) {
     models.Notification.create({
@@ -520,12 +539,13 @@ class GroupController {
     });
   }
   /**
+   * @description Gets all members of a group
+   *
    * @returns {void}
    *
    * @param {object} request
    * @param {object} response
    *
-   * @description Gets all members of a group
    */
   static getGroupMembers(request, response) {
     const allMembers = [];
@@ -548,12 +568,13 @@ class GroupController {
   }
 
   /**
+   * @description It gets all user's unread messages from the database
+   *
    * @returns {void}
    *
    * @param {Object} request
    * @param {Object} response
    *
-   * @description It gets all user's unread messages from the database
    */
   static getUnreadMessages(request, response) {
     const groupId = request.params.groupId;

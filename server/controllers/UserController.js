@@ -14,7 +14,7 @@
   const validate = new Validations();
 
   /**
-   *  All user actions
+   * All user actions
    * @class
    */
   class UserController {
@@ -27,12 +27,13 @@
     }
 
     /**
+     * @description - it adds a new user to the database
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {Object} - returns a token and message
      *
-     * @description - it adds a new user to the database
      */
     static signUp(request, response) {
       const { errors, isValid } = validate.signUp(request.body);
@@ -72,13 +73,15 @@
       }
     }
     /**
+     * @description - it signs in a user by generating a token,
+     * that is unique to them
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {void}
      *
-     * @description - it signs in a user by generating a token,
-     * that is unique to them
+     *
      */
     static signIn(request, response) {
       const username = request.body.username.toLowerCase();
@@ -111,7 +114,11 @@
             );
           }
         } else {
-          response.status(401).json({ errors: { form: 'Invalid User' } });
+          response.status(401).json({
+            errors: {
+              form: 'Invalid User'
+            }
+          });
         }
       })
       .catch(() => {
@@ -119,13 +126,14 @@
       });
     }
     /**
+     * @description - it helps check whether a user,
+     *  already exists in the database
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {void}
      *
-     * @description - it helps check whether a user,
-     *  already exists in the database
      */
     static checkUserExists(request, response) {
       const { username, email } = request.body;
@@ -156,12 +164,13 @@
     }
 
     /**
+     * @description - it helps a user search for other users
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {void}
      *
-     * @description - it helps a user search for other users
      */
     static getUsers(request, response) {
       User.findAll({ attributes:
@@ -187,13 +196,14 @@
     }
 
     /**
+     * @description - It sends a user their verification code
+     * and stores it on the user's table
+     *
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
      * @returns {void}
      *
-     * @description - It sends a user their verification code
-     * and stores it on the user's table
      */
     static setVerificationCode(request, response) {
       const verificationCode = shortid.generate();
@@ -233,12 +243,14 @@
       });
     }
     /**
-     * @returns {void}
+     * @description - It sends a verification code to a user
      *
      * @param {Array} userEmail
      * @param {String} username
      * @param {String} verificationCode
      * @param {String} subject
+     *
+     * @returns {void}
      */
     static sendVerificationCode(userEmail, username,
       verificationCode, subject) {
@@ -250,6 +262,8 @@
 
 
     /**
+     * @description - It checks or verifies user's verification code
+     * and allows user update their password
      * @param {Object} request - request object sent to a route
      * @param {Object} response -  response object from the route
      *
@@ -292,13 +306,14 @@
       });
     }
 
-    /**
+  /**
+   * @description it returns array of users in a group
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description it returns array of users in a group
    */
     static getUserNotifications(request, response) {
       models.User.findOne({
@@ -328,12 +343,13 @@
     }
 
   /**
+   * @description - deletes all user's notifications from the database
+   *
    * @param {Object} request
    * @param {Object} response
    *
    * @returns {void}
    *
-   * @description - deletes all user's notifications from the database
    */
     static deleteNotifications(request, response) {
       models.UserNotification.destroy({

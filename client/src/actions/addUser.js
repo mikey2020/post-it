@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
 import { setUser, validateToken } from './signinActions';
-import { handleErrors, handleSuccess } from './errorAction';
+import { handleErrors, handleSuccess } from './verifyAction';
 
 /**
  * @description - signs up a user, adds a user to the database

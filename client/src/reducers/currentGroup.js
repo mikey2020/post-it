@@ -1,4 +1,3 @@
-
 import { ADD_CURRENT_GROUP } from '../actions/types';
 
 const initialState = {

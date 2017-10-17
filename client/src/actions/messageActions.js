@@ -5,7 +5,7 @@ import {
   SET_USERS_WHO_READ_MESSAGE,
   SET_UNREAD_MESSAGES
 } from '../actions/types';
-import { handleErrors, handleSuccess } from './errorAction';
+import { handleErrors, handleSuccess } from './verifyAction';
 
 /**
  * @description - It adds a group's messages
@@ -79,7 +79,8 @@ const getGroupMessages = (groupId, limit, offset) =>
       });
 
 /**
- * @description - It makes a call to add a new message to the database
+ * @description - It makes a call to add a new message to the database and also
+ * updates the store
  *
  * @param {Object} messageData
  * @param {Number} groupId
@@ -106,7 +107,7 @@ const postMessage = (messageData, groupId) =>
 const readMessage = messageId =>
   dispatch => axios.post(`/api/v1/user/${messageId}/read`)
     .then((res) => {
-      if (res.data.message) {
+      if (res.data.message && res.data.readMessage) {
         dispatch(handleSuccess(null, 'USER_READ_MESSAGE'));
       }
     })
@@ -121,8 +122,8 @@ const readMessage = messageId =>
  *
  * @returns {void}
  */
-const getUnreadMessages = groupId => (dispatch) => {
-  axios.get(`/api/v1/user/${groupId}/unreadMessages`)
+const getUnreadMessages = groupId => dispatch =>
+axios.get(`/api/v1/user/${groupId}/unreadMessages`)
     .then((res) => {
       dispatch(handleSuccess(null, 'SET_UNREAD_MESSAGES'));
       dispatch(setUnreadMessages(res.data.messages));
@@ -130,7 +131,6 @@ const getUnreadMessages = groupId => (dispatch) => {
     .catch(() => {
       dispatch(handleErrors(null, 'SET_UNREAD_MESSAGES_FAILED'));
     });
-};
 
 /**
  * @description - It gets users who read a message

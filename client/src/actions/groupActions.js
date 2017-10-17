@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { ADD_USER_GROUPS, ADD_GROUP, ADD_CURRENT_GROUP } from './types';
 import { addFlashMessage, createMessage } from './flashMessageActions';
-import { handleErrors, handleSuccess } from './errorAction';
+import { handleErrors, handleSuccess } from './verifyAction';
 
 /**
  * @description - It add user's groups to the store
@@ -41,7 +41,7 @@ const addCurrentGroup = group => ({
 });
 
 /**
- * @description - It dispatches addCurentGroup function
+ * @description - It dispatches addCurentGroup action
  *
  * @param {Object} group
  *
@@ -52,7 +52,7 @@ const setCurrentGroup = group => (dispatch) => {
 };
 
 /**
- * @description - It makes a call to /api/v1/user/groups api endpoint
+ * @description - It gets all of a user's groups
  *
  * @returns {void}
  */
@@ -67,7 +67,8 @@ const getUserGroups = () => dispatch => axios.get('/api/v1/user/groups')
   });
 
 /**
- * @description - It makes a call to /api/v1/group api endpoint
+ * @description - It creates a group and adds the new group to
+ * the store
  *
  * @param {String} groupName
  *
@@ -85,7 +86,7 @@ const createGroup = groupName =>
       return res;
     })
     .catch((error) => {
-      dispatch(handleErrors(error.data.error.message, 'ADD_GROUP'));
+      dispatch(handleErrors(error.data.errors.message, 'ADD_GROUP'));
       return error;
     });
 
@@ -104,23 +105,27 @@ const addUserToGroup = (user, groupId) =>
         dispatch(addFlashMessage(createMessage('success',
           res.data.message)));
       } else {
-        dispatch(handleErrors(res.data.errors.message));
+        dispatch(handleErrors(res.data.errors.message, 'ADD_USER_TO_GROUP'));
       }
     })
     .catch((error) => {
-      dispatch(handleErrors(error.data.errors.message));
+      dispatch(handleErrors(error.data.errors.message, 'ADD_USER_TO_GROUP'));
     });
 
 /**
  * @description - It makes an api call to check if a group already exists
  *
- * @param {String} value
+ * @param {String} groupName
  *
  * @returns {void}
  */
-const groupExists = value => axios.get(`/api/v1/group/${value}`);
+const groupExists = groupName => axios.get(`/api/v1/group/${groupName}`);
 
 export {
   createGroup,
-  getUserGroups, setCurrentGroup, addUserToGroup, groupExists
+  getUserGroups,
+  setCurrentGroup,
+  addUserToGroup,
+  addCurrentGroup,
+  groupExists
 };

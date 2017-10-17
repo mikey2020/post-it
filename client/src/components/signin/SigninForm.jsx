@@ -181,4 +181,5 @@
 
 
  export default connect(null, {
-   validateUser, addFlashMessage })(SigninForm);
+   validateUser, addFlashMessage
+ })(SigninForm);

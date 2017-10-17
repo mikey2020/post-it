@@ -17,7 +17,9 @@ describe('Notification actions', () => {
     const expectedActions = [
       {
         type: types.SET_NOTIFICATIONS,
-        notiifcations: ['naruto posted a message to a group which you are a member']
+        notiifcations: [
+          'naruto posted a message to a group which you are a member'
+        ]
       }
     ];
     axios.get = jest.fn(() =>
@@ -38,7 +40,15 @@ describe('Notification actions', () => {
 
   it('should get no notifications', () => {
     const store = mockStore({});
-    const expectedActions = [];
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'SET_NOTIFICATIONS'
+        }
+      }
+    ];
     axios.get = jest.fn(() => Promise.resolve(
       {
         data: {
@@ -46,15 +56,24 @@ describe('Notification actions', () => {
         }
       }
     ));
-    store.dispatch(actions.getNotifications());
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(actions.getNotifications()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
-  it('should get no user notifications when api call fails', () => {
+  it('should get no user notification when api call fails', () => {
     const store = mockStore({});
-    const expectedActions = [];
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'SET_NOTIFICATIONS'
+        }
+      }
+    ];
     axios.get = jest.fn(() => Promise.resolve(1));
-    store.dispatch(actions.getNotifications()).then(() => {
+    return store.dispatch(actions.getNotifications()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -66,22 +85,41 @@ describe('Notification actions', () => {
         'sasuke posted a message to a group which you are a member'
       ]
     });
-    const expectedActions = [];
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'REMOVE_NOTIFICATIONS'
+        }
+      }
+    ];
     axios.delete = jest.fn(() =>
       Promise.resolve({
         data: {
-          message: 'notifications deleted'
+          message: 'All notifications deleted'
         }
       })
     );
-    store.dispatch(actions.deleteNotification());
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(actions.deleteNotification()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should not delete all user notifications successfully', () => {
     const store = mockStore({});
-    const expectedActions = [];
-    store.dispatch(actions.deleteNotification());
-    expect(store.getActions()).toEqual(expectedActions);
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'REMOVE_NOTIFICATIONS'
+        }
+      }
+    ];
+    axios.delete = jest.fn(() => Promise.resolve(1));
+    return store.dispatch(actions.deleteNotification()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 });

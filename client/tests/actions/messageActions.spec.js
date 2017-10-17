@@ -33,38 +33,31 @@ describe('Message Actions', () => {
         messages: [mockData]
       }
     ];
-    return store.dispatch(actions.getGroupMessages()).then(() => {
+    return store.dispatch(actions.getGroupMessages(1, 10, 5)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('should return a message object when a message has been posted',
-  (done) => {
+  () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
         data: {
-          message: '',
+          message: 'message posted to group',
           postedMessage: mockData
         }
       })
     );
     const store = mockStore({});
     const expectedActions = [
-      { type: types.ADD_FLASH_MESSAGE,
-        message: {
-          text: 'message posted to group',
-          type: 'success'
-        }
-      },
       {
-        type: types.ADD_MESSAGE,
+        type: 'ADD_MESSAGE',
         message: mockData
       }
     ];
-    store.dispatch(actions.postMessage(mockData)).then(() => {
+    return store.dispatch(actions.postMessage(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-    done();
   });
 
   it('should return a success message and a message object when a message has been read',
@@ -85,8 +78,17 @@ describe('Message Actions', () => {
       })
     );
     const store = mockStore({});
-    store.dispatch(actions.readMessage(1)).then(() => {
-      expect(store.getActions()).toEqual([]);
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'USER_READ_MESSAGE'
+        }
+      }
+    ];
+    return store.dispatch(actions.readMessage(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
@@ -125,16 +127,52 @@ describe('Message Actions', () => {
   });
 
   it('should get number of messages a user has not read', () => {
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'SET_UNREAD_MESSAGES'
+        }
+      },
+      {
+        type: 'SET_UNREAD_MESSAGES',
+        messages: [
+          {
+            id: 4,
+            content: 'sup',
+            priority: 'normal',
+            messageCreator: 'john',
+            groupId: 1,
+            userId: 3,
+            createdAt: '2017-09-25T18:39:51.178Z',
+            updatedAt: '2017-09-25T18:39:51.178Z'
+          }
+        ]
+      }
+    ];
     axios.get = jest.fn(() =>
       Promise.resolve({
         data:
         {
-          unRead: []
+          messages: [
+            {
+              id: 4,
+              content: 'sup',
+              priority: 'normal',
+              messageCreator: 'john',
+              groupId: 1,
+              userId: 3,
+              createdAt: '2017-09-25T18:39:51.178Z',
+              updatedAt: '2017-09-25T18:39:51.178Z'
+            }
+          ]
         }
       })
     );
     const store = mockStore({});
-    store.dispatch(actions.getUnreadMessages(1));
-    expect(store.getActions()).toEqual([]);
+    return store.dispatch(actions.getUnreadMessages(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 });

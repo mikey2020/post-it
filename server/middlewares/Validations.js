@@ -237,10 +237,10 @@ class Validations {
   }
 
   /**
-   * @param  {String} userInput
-   *
    * @description checks if the string passed in is a digit.
    * which means all the charcters are digit
+   *
+   * @param  {String} userInput
    *
    * @return {boolean} true or false
    */
@@ -256,14 +256,15 @@ class Validations {
     return true;
   }
 
-  /**
+   /**
      * @description - It checks if a user already exists
      *
-     * @returns {Boolean} - returns true or false
      *
      * @param {Object} request - request object
      * @param {Object} response - response object
      * @param {Function} next
+     *
+     * @returns {Boolean} - returns true or false
      */
   static isAlreadyUser(request, response, next) {
     const { username, email } = request.body;

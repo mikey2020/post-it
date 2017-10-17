@@ -9,7 +9,7 @@ import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const mockData = { name: 'fengshui' };
+let mockData = { name: 'fengshui' };
 const resData =
   {
     id: 3,
@@ -18,7 +18,8 @@ const resData =
   };
 
 describe('Group Actions', () => {
-  it('should create a flash message when a group is created', () => {
+  it('should create a success flash message and return group details when a group is created',
+  () => {
     axios.post = jest.fn(() =>
       Promise.resolve(
         {
@@ -93,9 +94,14 @@ describe('Group Actions', () => {
     });
   });
 
-  it('should add user to a group successfully', (done) => {
+  it('should return success message when a user is added to a group',
+  (done) => {
     axios.post = jest.fn(() =>
-    Promise.resolve({ data: { message: 'user added successfully' } }));
+    Promise.resolve({
+      data: {
+        message: 'user added successfully'
+      }
+    }));
 
     const store = mockStore({});
     const expectedActions = [
@@ -114,67 +120,116 @@ describe('Group Actions', () => {
     done();
   });
 
-  it('should get error message when adding user to a group fails',
-  (done) => {
+  it('should get error message when adding user to a group and group does not exist',
+  () => {
     axios.post = jest.fn(() =>
       Promise.resolve({
         data:
         {
           errors: {
-            message: 'group does not exist '
+            message: 'group does not exist'
           }
         }
       })
     );
 
     const store = mockStore({});
-    const expectedActions = [];
-    store.dispatch(actions.addUserToGroup()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-    done();
-  });
-
-  it('should set current group successfully', (done) => {
-    const store = mockStore({});
     const expectedActions = [
       {
-        type: types.ADD_CURRENT_GROUP,
-        group: {
-          name: 'fengshui'
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'ADD_USER_TO_GROUP'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'error',
+          text: 'group does not exist'
         }
       }
     ];
-    store.dispatch(actions.setCurrentGroup(mockData));
-    expect(store.getActions()).toEqual(expectedActions);
-    done();
-  });
-
-  it('should catch error when creating of group fails', (done) => {
-    axios.post = jest.fn(() => Promise.resolve(1));
-
-    const store = mockStore({});
-    const expectedActions = [];
-    store.dispatch(actions.createGroup(mockData)).then(() => {
+    return store.dispatch(actions.addUserToGroup()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-    done();
   });
 
-  it('should get error message when there is an error', (done) => {
+  it('should set current group successfully', () => {
+    const expectedActions = {
+      type: 'ADD_CURRENT_GROUP',
+      group: {
+        name: 'fengshui'
+      }
+    };
+
+    expect(actions.addCurrentGroup(mockData)).toEqual(expectedActions);
+  });
+
+  it('should get error message when trying to create a group and it already exists',
+  () => {
+    axios.post = jest.fn(() => Promise.resolve({
+      data: {
+        errors: {
+          message: 'Group already exists'
+        }
+      }
+    }));
+
+    const store = mockStore({});
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'ADD_GROUP'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'error',
+          text: 'Group already exists'
+        }
+      }
+    ];
+    return store.dispatch(actions.createGroup(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should get error message when trying to create a group and group name is not supplied',
+  () => {
+    mockData = { name: '' };
     axios.post = jest.fn(() =>
       Promise.resolve({
         data: {
-          message: ''
+          errors: {
+            message: 'Group name is required'
+          }
         }
       })
     );
 
     const store = mockStore({});
-    const expectedActions = [];
-    store.dispatch(actions.createGroup(mockData)).then(() => {
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'ADD_GROUP'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'error',
+          text: 'Group name is required'
+        }
+      }
+    ];
+    return store.dispatch(actions.createGroup(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-    done();
   });
 });

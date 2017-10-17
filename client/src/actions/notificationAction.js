@@ -3,7 +3,7 @@ import {
   SET_NOTIFICATIONS,
   REMOVE_NOTIFICATIONS, ADD_NOTIFICATION
 } from './types';
-import { handleErrors, handleSuccess } from './errorAction';
+import { handleErrors, handleSuccess } from './verifyAction';
 
 /**
  * @description - It adds all user's notifications to the store
@@ -60,15 +60,16 @@ dispatch => axios.get('/api/v1/user/notifications')
  *
  * @returns {void}
  */
-const deleteNotification = () => (dispatch) => {
-  axios.delete('/api/v1/user/delete/notifications')
-    .then(() => {
-      dispatch(handleSuccess(null, 'REMOVE_NOTIFICATIONS'));
+const deleteNotification = () => dispatch =>
+axios.delete('/api/v1/user/delete/notifications')
+    .then((res) => {
+      if (res.data.message === 'All notifications deleted') {
+        dispatch(handleSuccess(null, 'REMOVE_NOTIFICATIONS'));
+      }
     })
     .catch(() => {
       dispatch(handleErrors(null, 'REMOVE_NOTIFICATIONS'));
     });
-};
 
 
 export {

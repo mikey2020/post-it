@@ -15,7 +15,7 @@ const mockStorage = new MockLocalStorage();
 window.localStorage = mockStorage;
 
 describe('Sign in actions', () => {
-  it('should create an error flash message when user is invalid', () => {
+  it('should create an error flash message when user is not valid', () => {
     const store = mockStore(
       {
         isAuthenticated: false,
@@ -31,8 +31,14 @@ describe('Sign in actions', () => {
         }
       }
     ];
-    axios.post = jest.fn(() => Promise.resolve(1));
-    store.dispatch(actions.validateUser()).then(() => {
+    axios.post = jest.fn(() => Promise.resolve({
+      data: {
+        errors: {
+          form: 'Invalid User'
+        }
+      }
+    }));
+    store.dispatch(actions.validateUser(mockData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

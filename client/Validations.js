@@ -8,6 +8,8 @@ import isEmpty from 'lodash/isEmpty';
  */
 class Validations {
   /**
+   * @description - It validates user's sign up input
+   *
    * @param {object} user - signup object
    *
    * @returns {object} - errors object if there is any
@@ -78,6 +80,8 @@ class Validations {
   }
 
   /**
+   * @description - It checks user's sign in input
+   *
    * @param {object} user - signup object
    *
    * @returns {object} - errors object if there is any
@@ -105,6 +109,8 @@ class Validations {
     };
   }
   /**
+   * @description - It checks user's message input
+   *
    * @param {object} user - signup object
    *
    * @returns {object} - errors object if there is any
@@ -133,6 +139,8 @@ class Validations {
   }
 
   /**
+   * @description - It checks user's group name input
+   *
    * @param {object} group - group object
    *
    * @returns {object} - errors object if there is any
@@ -154,6 +162,8 @@ class Validations {
   }
 
   /**
+   * @description - It checks user's new password input
+   *
    * @param {object} user - signup object
    *
    * @returns {object} - errors object if there is any
@@ -183,10 +193,10 @@ class Validations {
   }
 
   /**
-   * @param  {String} userInput
+   * @description checks if the string pass in is a digit and
+   * is a valid phone number
    *
-   * @description checks if the string pass in is a digit.
-   * Means all the charcters are digit
+   * @param  {String} userInput
    *
    * @return {boolean} true or false
    */

@@ -48,15 +48,25 @@ describe('User Actions', () => {
     });
   });
 
-  it('should check if a user already exists in the database', () => {
-    const store = mockStore({});
-    axios.post = jest.fn(() => Promise.resolve(1));
-    actions.checkUserExists(mockData);
-    expect(store.getActions()).toEqual([]);
-  });
-
   it('should send a verification code for resetting password', () => {
     const store = mockStore({});
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'SEND_VERIFICATION_CODE'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message:
+        {
+          type: 'success',
+          text: 'Verification code sent'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
       Promise.resolve({
         data:
@@ -65,13 +75,30 @@ describe('User Actions', () => {
         }
       })
     );
-    store.dispatch(actions.sendVerificationCode(mockData));
-    expect(store.getActions()).toEqual([]);
+    return store.dispatch(actions.sendVerificationCode(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
-  it('should verify code sent to user for resetting password is successful',
+  it('should update user password and return success message',
   () => {
     const store = mockStore({});
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'VERIFY_PASSWORD_RESET_CODE'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'success',
+          text: 'Code verification successful, Please login now'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
       Promise.resolve(
         {
@@ -81,12 +108,29 @@ describe('User Actions', () => {
           }
         }
     ));
-    store.dispatch(actions.verifyCode({}));
-    expect(store.getActions()).toEqual([]);
+    return store.dispatch(actions.verifyCode(mockData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should verify code for resetting password is invalid', () => {
     const store = mockStore({});
+    const expectedActions = [
+      {
+        type: 'ACTION_FAILED',
+        payload: {
+          status: true,
+          actionName: 'VERIFY_PASSWORD_RESET_CODE'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'error',
+          text: 'Code verification failed'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
       Promise.resolve({
         data: {
@@ -94,8 +138,9 @@ describe('User Actions', () => {
         }
       }
     ));
-    store.dispatch(actions.verifyCode({}));
-    expect(store.getActions()).toEqual([]);
+    return store.dispatch(actions.verifyCode({})).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should get members of a group', () => {

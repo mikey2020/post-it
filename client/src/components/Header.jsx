@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import SigninForm from './signin/SigninForm.jsx';
 import { signOut } from '../actions/signinActions';
-import { getNotifications,
-  deleteNotification } from '../actions/notificationAction';
+import { deleteNotification } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -195,8 +194,7 @@ Header.propTypes = {
   username: PropTypes.string.isRequired,
   signOut: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
-  deleteNotification: PropTypes.func.isRequired,
-  getNotifications: PropTypes.func.isRequired
+  deleteNotification: PropTypes.func.isRequired
 };
 
 Header.contextTypes = {
@@ -210,4 +208,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
-{ signOut, deleteNotification, getNotifications })(Header);
+{ signOut, deleteNotification })(Header);
