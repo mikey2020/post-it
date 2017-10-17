@@ -9,27 +9,49 @@ import addUser from '../../src/actions/addUser';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const mockData = { username: 'flash',
+const mockData = {
+  username: 'flash',
   email: 'flash@gmail.com',
   phoneNumber: '09012345678',
-  password: 'flash' };
+  password: 'flash'
+};
 const mockStorage = new MockLocalStorage();
 const token = 'token';
 
 window.localStorage = mockStorage;
 
 describe('Signup actions', () => {
-  it('should create a success flash message when user has been signed up ',
+  it('should dispatch appropriate actions when a user signs up',
   (done) => {
     const initialState = {
       isAuthenticated: false,
       user: {}
     };
     const store = mockStore(initialState);
-    const expectedActions = [{}];
+    const expectedActions = [
+      {
+        type: 'ACTION_SUCCESS',
+        payload: {
+          status: false,
+          actionName: 'ADD_USER'
+        }
+      },
+      {
+        type: 'ADD_FLASH_MESSAGE',
+        message: {
+          type: 'success',
+          text: 'flash successfully added'
+        }
+      }
+    ];
     axios.post = jest.fn(() =>
-    Promise.resolve({ data: { message: 'flash signed up successfully',
-      userToken: token } }));
+      Promise.resolve({
+        data: {
+          message: 'flash uccessfully added',
+          userToken: token
+        }
+      }
+    ));
     Object.defineProperty(window.location, 'assign', {
       writable: true,
       value: '/home'
@@ -40,10 +62,17 @@ describe('Signup actions', () => {
     done();
   });
 
-  it('should create a error flash message when user already exists', () => {
-    const store = mockStore([]);
+  it('should dispatch appropriate action when a user already exists', () => {
+    const store = mockStore({});
     axios.post = jest.fn(() =>
-    Promise.resolve({ data: { errors: { message: 'user already exists' } } }));
+    Promise.resolve({
+      data: {
+        errors:
+        {
+          message: 'user already exists'
+        }
+      }
+    }));
     store.dispatch(addUser(mockData));
     expect(store.getActions()).toEqual([]);
   });

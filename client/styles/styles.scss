@@ -322,7 +322,95 @@ nav .brand-logo{
     color: #039be5;
 }
 
+.archived{
+    margin-left: 12px;
+}
+
 .message-info{
-    font-size: 50px;
+    font-size: 30px;
     text-align: center;
+}
+
+@media only screen and (max-width: 400px){
+    .google-btn{
+        position: relative;
+        margin-left: 12px;
+        background: #e53935 !important;
+        margin-top: 10px;
+    }
+
+    nav .brand-logo {
+        padding-left: 10px;
+        margin-left: -118px;
+    }
+
+    #group-name{
+        font-size: 26px !important;
+    }
+
+}
+
+@media only screen and (max-width: 355px){
+    .row {
+        .card {
+            .group {
+                font-size: 11.5px !important;
+            }
+        }
+    }
+
+    #group-name{
+        font-size: 22px !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .signin-container{
+       width: 62% !important;
+    }
+
+    .adduserpage{
+        width: 50%;
+    }
+
+    .priority{
+        left: 44px;
+    }
+
+    .my-messages{
+        margin-left: 0 !important;
+    }
+
+    .my-group {
+        width: 25%;
+
+        h5 {
+            &.center {
+                font-size: 21px;
+            }
+        }
+
+        .btn {
+            box-shadow: none;
+        }
+
+        .row {
+            margin-bottom: 2px;
+            .card {
+                .group {
+                    display: inline-block;
+                    margin-left: -8px;
+                    font-size: 14px;
+                    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 2588px) and (min-width: 993px) {
+    .my-messages{
+        margin-left: 45px !important;
+    }
+
 }

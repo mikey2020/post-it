@@ -3,7 +3,9 @@ import Unique from '../middlewares/Unique';
 import Validations from '../middlewares/Validations';
 
 export default (app) => {
-  app.get('/api/v1/group/:groupId/messages', Validations.authenticate,
+  app.get(
+    '/api/v1/group/:groupId/messages',
+    Validations.authenticate,
   Validations.checkGroupExists,
   Validations.isGroupMember,
   Unique.setNumberOfMessages, GroupController.getMessages);
@@ -16,29 +18,23 @@ export default (app) => {
   GroupController.checkGroupName);
 
   app.post('/api/v1/group/:groupId/user', Validations.authenticate,
-  Validations.checkGroupExists, Validations.checkUserIsValid,
+  Validations.checkGroupExists, Validations.IsValidUser,
   Unique.isAlreadyGroupMember, GroupController.addUserToGroup);
 
   app.post('/api/v1/group/:groupId/message', Validations.authenticate,
   Validations.checkGroupExists, Validations.isGroupMember,
-  GroupController.getGroupMembers, GroupController.postMessageToGroup);
+  GroupController.getMembers, GroupController.postMessageToGroup);
 
   app.get('/api/v1/group/:groupId/users', Validations.authenticate,
   Validations.checkGroupExists,
-  GroupController.getGroupMembers, GroupController.getAllGroupMembers);
+  GroupController.getMembers, GroupController.getGroupMembers);
 
   app.get('/api/v1/message/:messageId/readers',
   Validations.authenticate,
-  GroupController.getUsersWhoReadMessage);
+  GroupController.getReaders);
 
   app.get('/api/v1/user/groups', Validations.authenticate,
-  GroupController.getGroupsUserIsMember);
-
-  app.get('/api/v1/user/notifications', Validations.authenticate,
-  GroupController.getUserNotifications);
-
-  app.delete('/api/v1/user/delete/notifications', Validations.authenticate,
-  GroupController.deleteNotifications);
+  GroupController.getGroups);
 
   app.post('/api/v1/user/:messageId/read', Validations.authenticate,
   GroupController.readMessage);

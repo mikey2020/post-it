@@ -32,24 +32,37 @@ class GroupController {
   /**
    * @function createGroup
    *
+   * @description - it sends (username) created successfully
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - it sends (username) created successfully
    */
   static createGroup(request, response) {
     let { name } = request.body;
-    if (request.body.name !== undefined) {
+    if (name !== undefined) {
       name = name.trim();
     }
     if (name === undefined || name === '') {
-      response.status(400).json({ errors:
-        { message: 'Group name is required' } });
+      response.status(400).json(
+        {
+          errors:
+          {
+            message: 'Group name is required'
+          }
+        }
+      );
     } else if (request.existingGroup === true) {
-      response.status(409).json({ error:
-          { message: 'Group already exists' } });
+      response.status(409).json(
+        {
+          errors:
+          {
+            message: 'Group already exists'
+          }
+        }
+      );
     } else {
       Group.create({
         groupName: name,
@@ -57,7 +70,11 @@ class GroupController {
         userId: request.decoded.data.id
       }).then(group => group.addUser(request.decoded.data.id).then(() => {
         response.status(201).json(
-          { message: `${request.body.name} created successfully`, group });
+          {
+            group,
+            message: `${request.body.name} created successfully`
+          }
+        );
       }))
       .catch(() => {
         returnServerError(response);
@@ -67,12 +84,13 @@ class GroupController {
   /**
    * @function addUserToGroup
    *
+   * @description - It adds a user to a particular group
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - It adds a user to a particular group
    */
   static addUserToGroup(request, response) {
     models.Group.findOne({
@@ -84,8 +102,14 @@ class GroupController {
           response.status(200).json({ message: 'user added successfully' });
         })
         .catch(() => {
-          response.status(404).json({ error:
-          { message: 'Group does not exist' } });
+          response.status(404).json(
+            {
+              error:
+              {
+                message: 'Group does not exist'
+              }
+            }
+          );
         })
       ).catch(() => {
         returnServerError(response);
@@ -96,12 +120,14 @@ class GroupController {
   /**
    * @function postMessageToGroup
    *
+   * @description - It posts a new message to a group
+   *
    * @param {Object} request
    * @param {Object} response
    *
-   * @returns {void}
+   * @returns {Object} - If no error, it returns an object
+   * containing message details
    *
-   * @description - It posts a new message to a group
    */
   static postMessageToGroup(request, response) {
     const { errors, isValid } = validate.message(request.body);
@@ -132,12 +158,22 @@ class GroupController {
               GroupController.notificationMessage(request.decoded.data.username,
               message.messageCreator);
             }
-            response.status(201).json({ message: 'message posted to group',
-              postedMessage: message });
+            response.status(201).json(
+              {
+                message: 'message posted to group',
+                postedMessage: message
+              }
+            );
           });
         } else if (request.existingGroup === false) {
-          return response.status(404).json({ errors:
-          { message: 'Group does not exist' } });
+          return response.status(404).json(
+            {
+              errors:
+              {
+                message: 'Group does not exist'
+              }
+            }
+          );
         }
       })
       .catch(() => {
@@ -147,12 +183,13 @@ class GroupController {
   /**
    * @function getMessages
    *
+   * @description - It returns messages posted to a particular group
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - It returns messages posted to a particular group
    */
   static getMessages(request, response) {
     Message.findAll({
@@ -169,9 +206,17 @@ class GroupController {
           if (typeof messages[0] !== 'undefined') {
             let data = JSON.stringify(messages);
             data = JSON.parse(data);
-            response.status(200).json({ messages: data });
+            response.status(200).json(
+              {
+                messages: data
+              }
+            );
           } else {
-            response.status(404).json({ message: 'no message found' });
+            response.status(404).json(
+              {
+                message: 'no message found'
+              }
+            );
           }
         })
         .catch(() => {
@@ -181,12 +226,13 @@ class GroupController {
   /**
    * @function checkGroupName
    *
+   * @description -  It checks if a group already exists
+   *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description -  It checks if a group already exists
    */
   static checkGroupName(request, response) {
     Group.findOne({
@@ -198,7 +244,11 @@ class GroupController {
         if (group) {
           response.status(200).json({ group });
         } else {
-          response.status(404).json({ message: 'GroupName does not exist' });
+          response.status(404).json(
+            {
+              message: 'Group name does not exist'
+            }
+          );
         }
       })
       .catch(() => {
@@ -207,14 +257,15 @@ class GroupController {
   }
 
   /**
-   * @function  getUserGroups
+   * @function getUserGroups
+   *
+   * @description - it returns an array of groups a user has created
    *
    * @param {Object} request - request object sent to a route
-   * @param {Object} response -  response object from the route
+   * @param {Object} response - response object from the route
    *
    * @returns {void}
    *
-   * @description -  it returns an array of groups a user has created
    */
   static getUserGroups(request, response) {
     Group.findAll({
@@ -226,9 +277,17 @@ class GroupController {
         if (typeof groups[0] !== 'undefined') {
           let data = JSON.stringify(groups);
           data = JSON.parse(data);
-          response.status(200).json(data);
+          response.status(200).json(
+            {
+              groups: data
+            }
+          );
         } else {
-          response.status(404).json({ message: 'No groups found' });
+          response.status(404).json(
+            {
+              message: 'No groups found'
+            }
+          );
         }
       })
       .catch(() => {
@@ -237,7 +296,9 @@ class GroupController {
   }
 
    /**
-  * @function getGroupMembers
+   * @function getMembers
+   *
+   * @description -  it gets emails of members in a group
    *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
@@ -245,9 +306,8 @@ class GroupController {
    *
    * @returns {void}
    *
-   * @description -  it get all members of a group
    */
-  static getGroupMembers(request, response, next) {
+  static getMembers(request, response, next) {
     Group.findOne({
       where: {
         id: request.params.groupId
@@ -261,7 +321,11 @@ class GroupController {
             request.usersEmails = GroupController.getEmails(users);
             next();
           } else {
-            response.status(404).json({ message: 'No user email found' });
+            response.status(404).json(
+              {
+                message: 'No user email found'
+              }
+            );
           }
         })
         .catch(() => {
@@ -269,17 +333,18 @@ class GroupController {
         });
     });
   }
- /**
-  * @function getGroupsUserIsMember
-  *
+  /**
+   * @function getGroups
+   *
+   * @description -  it returns the number of groups a user is part of.
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description -  it returns the number of groups a user is part of.
    */
-  static getGroupsUserIsMember(request, response) {
+  static getGroups(request, response) {
     models.User.findOne({
       where: {
         id: request.decoded.data.id
@@ -294,7 +359,10 @@ class GroupController {
           response.status(200).json({ userGroups });
         } else {
           response.status(404).json(
-            { message: 'You are not part of any group' });
+            {
+              message: 'You are not a memeber of any group'
+            }
+          );
         }
       }))
       .catch(() => {
@@ -303,15 +371,16 @@ class GroupController {
   }
 
   /**
+   * @description - it returns array of users in a group
+   * that have read a message
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
    * @returns {void}
    *
-   * @description - it returns array of users in a group
-   * that have read a message
    */
-  static getUsersWhoReadMessage(request, response) {
+  static getReaders(request, response) {
     models.Message.findOne({
       where: {
         id: request.params.messageId
@@ -321,11 +390,19 @@ class GroupController {
       joinTableAttributes: []
     }).then((users) => {
       if (!users) {
-        response.status(404).json({ message: 'No user found' });
+        response.status(404).json(
+          {
+            message: 'No user found'
+          }
+        );
       } else {
         let messageReaders = JSON.stringify(users);
         messageReaders = JSON.parse(messageReaders);
-        response.status(200).json({ users: messageReaders });
+        response.status(200).json(
+          {
+            users: messageReaders
+          }
+        );
       }
     }))
       .catch(() => {
@@ -334,6 +411,9 @@ class GroupController {
   }
 
   /**
+   * @description - it adds user to table signifying
+   * that user has read a message
+   *
    * @param {object} request - request object sent to a route
    * @param {object} response -  response object from the route
    *
@@ -352,11 +432,19 @@ class GroupController {
     }).then((message) => {
       if (request.decoded.data.id !== message.userId) {
         message.addUser(request.decoded.data.id).then(() => {
-          response.status(200).json({ message: 'user read this message',
-            readMessage: message });
+          response.status(200).json(
+            {
+              message: 'user read this message',
+              readMessage: message
+            }
+          );
         });
       } else {
-        response.status(404).json({ message: 'Cannot find message' });
+        response.status(404).json(
+          {
+            message: 'Cannot find message'
+          }
+        );
       }
     })
     .catch(() => {
@@ -364,12 +452,13 @@ class GroupController {
     });
   }
   /**
+   * @description Sends email to all members of a group
+   *
    * @param {array} membersEmails - emails of all members of the group
    * @param {string} message -  notification message to be sent
    *
    * @returns {void}
    *
-   * @description Sends email to all members of a group
    */
   static sendNotificationEmail(membersEmails, message) {
     const subject = 'New message posted';
@@ -379,11 +468,12 @@ class GroupController {
   }
 
   /**
+   * @description -  Gets all user emails from an array of groups
+   *
    * @param {array} group - emails of all members of the group
    *
    * @returns {Array} - returns an array containing user's emails
    *
-   * @description -  Gets all user emails from an array of groups
    */
   static getEmails(group) {
     const emails = [];
@@ -393,11 +483,12 @@ class GroupController {
     return emails;
   }
   /**
+   * @description -  Sends sms to a user
+   *
    * @param {array} recipient - phone number of receiver of the sms
    *
    * @returns {void}
    *
-   * @description -  Sends sms to a user
    */
   static sendSms(recipient) {
     const nexmo = new Nexmo({
@@ -415,6 +506,8 @@ class GroupController {
   }
 
   /**
+   * @description - It helps create a notification message
+   *
    * @returns {String} - it returns a notification message
    *
    * @param {Object} message - message object
@@ -425,6 +518,8 @@ class GroupController {
   }
 
   /**
+   * @description -  Adds a new notification
+   *
    * @returns {void}
    *
    * @param {number} id - id that notification belongs to
@@ -432,7 +527,6 @@ class GroupController {
    * @param {userId} userId
    * @param {string} notification
    *
-   * @description -  Adds a new notification
    */
   static addNotification(id, notice, userId) {
     models.Notification.create({
@@ -444,63 +538,43 @@ class GroupController {
       });
     });
   }
-   /**
-   * @param {object} request - request object sent to a route
-   * @param {object} response -  response object from the route
-   *
-   * @returns {void}
-   *
-   * @description it returns array of users in a group
-   */
-  static getUserNotifications(request, response) {
-    models.User.findOne({
-      where: {
-        id: request.decoded.data.id
-      }
-    })
-    .then((user) => {
-      user.getNotifications({ attributes:
-        { exclude: ['createdAt', 'updatedAt', 'UserNotification'] },
-        joinTableAttributes: [] })
-        .then((notices) => {
-          if (typeof notices[0] !== 'undefined') {
-            response.status(200).json({ notices });
-          } else {
-            response.status(404).json({ message: 'No notification found' });
-          }
-        });
-    })
-    .catch(() => {
-      returnServerError(response);
-    });
-  }
   /**
+   * @description Gets all members of a group
+   *
    * @returns {void}
    *
    * @param {object} request
    * @param {object} response
    *
-   * @description Gets all members of a group
    */
-  static getAllGroupMembers(request, response) {
+  static getGroupMembers(request, response) {
     const allMembers = [];
     Object.keys(request.members).forEach((member) => {
       allMembers.push(request.members[member].username);
     });
     if (allMembers.length > 0) {
-      response.status(200).json({ members: allMembers });
+      response.status(200).json(
+        {
+          members: allMembers
+        }
+      );
     } else {
-      response.status(404).json({ message: 'No members in this group' });
+      response.status(404).json(
+        {
+          message: 'No members in this group'
+        }
+      );
     }
   }
 
   /**
+   * @description It gets all user's unread messages from the database
+   *
    * @returns {void}
    *
    * @param {Object} request
    * @param {Object} response
    *
-   * @description It gets all user's unread messages from the database
    */
   static getUnreadMessages(request, response) {
     const groupId = request.params.groupId;
@@ -525,39 +599,17 @@ class GroupController {
           const numberOfReadMessages = readMessages.length;
           const unreadMessages = Math.abs(
             allMessagesNumber - numberOfReadMessages);
-          response.status(200).json({ unReadMessagesNumber: unreadMessages,
-            messages: allMessages });
+          response.status(200).json(
+            {
+              unReadMessagesNumber: unreadMessages,
+              messages: allMessages
+            }
+          );
         })
         .catch(() => {
           response.status(404).json({ message: 'no message found' });
         });
       });
-    })
-    .catch(() => {
-      returnServerError(response);
-    });
-  }
-  /**
-   * @param {Object} request
-   * @param {Object} response
-   *
-   * @returns {void}
-   *
-   * @description - deletes all user's notifications from the database
-   */
-  static deleteNotifications(request, response) {
-    models.UserNotification.destroy({
-      where: {
-        userId: request.decoded.data.id
-      }
-    }).then((notification) => {
-      if (!notification) {
-        response.status(404).json({ message: 'No notification found' });
-      } else {
-        response.status(200).json({
-          message: 'All notifications deleted'
-        });
-      }
     })
     .catch(() => {
       returnServerError(response);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { setCurrentGroup } from '../../actions/groupActions';
 
 /**
- * Group
+ * Group component
  *
  * @class
  */

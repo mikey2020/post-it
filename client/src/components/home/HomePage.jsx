@@ -6,8 +6,11 @@ import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
 
 /**
- *  HomePage class component
- * @class
+ * HomePage component
+ *
+ * @description - It renders the homepage
+ *
+ * @returns {component} - It returns a react component
  *
  * @param {Object} props
  */
@@ -18,10 +21,10 @@ const HomePage = props =>
    */
    (
      <div className="row">
-       <div className="col s3 m2 l3 my-group">
+       <div className="col s4 m4 l3 my-group">
          <Sidebar />
        </div>
-       <div className="col s9 m10 l8 my-messages">
+       <div className="col s8 m8 l8 my-messages">
          { props.groupId ? <Messages /> :
          <h5 className="select-group">Create/Select a group</h5> }
        </div>

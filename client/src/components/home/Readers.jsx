@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsersWhoReadMessage } from '../../actions/messageActions';
 
+/**
+ * @description - It renders a list of users who read a message
+ *
+ * @param {Object} props
+ *
+ * @returns {component} - It returns a react component
+ */
 const Readers = (props) => {
   const readers = props.readers.map(reader =>
     (<p

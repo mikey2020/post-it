@@ -5,7 +5,13 @@ import PropTypes from 'prop-types';
 import FlashMessage from './FlashMessage.jsx';
 import { deleteFlashMessage } from '../../actions/flashMessageActions';
 
-
+/**
+ * @description - It renders a list of flash messages
+ *
+ * @returns {component} - It returns a react component
+ *
+ * @param {Object} props
+ */
 const FlashMessagesList = (props) => {
   const messages = props.messages.map(message =>
     (<FlashMessage

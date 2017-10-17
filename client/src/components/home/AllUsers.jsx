@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { addUserToGroup } from '../../actions/groupActions';
 import User from './User.jsx';
 
-
+/**
+ * @description - It renders a list of users
+ *
+ * @param {Object} props
+ *
+ * @returns {component} - It returns a react component
+ */
 export const AllUsers = (props) => {
   const allResults = props.users.map(user =>
     (<User

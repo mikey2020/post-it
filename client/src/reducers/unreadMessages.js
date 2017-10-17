@@ -1,5 +1,13 @@
 import { SET_UNREAD_MESSAGES } from '../actions/types';
 
+/**
+ * @description - It updates the store with all unread messages
+ *
+ * @param {Array} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = [], action = {}) => {
   switch (action.type) {
     case SET_UNREAD_MESSAGES:

@@ -7,6 +7,14 @@ const initialState = {
   user: {}
 };
 
+/*
+ * @description - It updates the store with a logged in user's data
+ *
+ * @param {Object} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_USER:

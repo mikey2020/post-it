@@ -33,7 +33,7 @@ describe('Component', () => {
       expect(wrapper.find('form').props().onSubmit).toBeA('function');
     });
 
-    it('should call onChange function when user`s input changes', () => {
+    it('should call onChange function when user input changes', () => {
       const event = { target: { name: 'super', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
       expect(wrapper.find('.username').props().onChange).toBeA('function');

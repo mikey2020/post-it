@@ -7,7 +7,7 @@ export default {
   entry: [
     'webpack-hot-middleware/client',
     path.join(__dirname, '/client/index.jsx'),
-    path.join(__dirname, '/client/styles.scss')
+    path.join(__dirname, '/client/styles/styles.scss')
   ],
   output: {
     path: path.join(__dirname, 'client/dist'),

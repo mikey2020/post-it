@@ -2,6 +2,14 @@
 import { ADD_GROUP_MESSAGES, ADD_MESSAGE } from '../actions/types';
 
 
+/**
+ * @description - It updates the store with all messages belonging to a group
+ *
+ * @param {Array} state
+ * @param {Object} action
+ *
+ * @returns {Object} - current state
+ */
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_GROUP_MESSAGES:

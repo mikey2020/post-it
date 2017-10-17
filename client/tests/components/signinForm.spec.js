@@ -36,13 +36,13 @@ describe('Component', () => {
       expect(wrapper.find('form').props().onSubmit).toBeA('function');
     });
 
-    it('should call onChange function when user`s input changes', () => {
+    it('should call onChange function when user input changes', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       wrapper.find('.username').simulate('change', event);
       expect(wrapper.find('.username').props().onChange).toBeA('function');
     });
 
-    it('should call onBlur function when user`s hovers away from input', () => {
+    it('should call onBlur function when user input loses focus', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       wrapper.find('.username').simulate('blur', event);
       expect(wrapper.find('.username').props().onBlur).toBeA('function');
