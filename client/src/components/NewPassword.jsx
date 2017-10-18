@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * @description - It renders a form for updating user's password
+ *
+ * @param {Object} props
+ *
+ * @returns {component} - It returns a react component
+ */
 const NewPassword = props => (
   <form className="reset-form" onSubmit={props.verifyCode}>
     <div className="jumbotron signin-container">

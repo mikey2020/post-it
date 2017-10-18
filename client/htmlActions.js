@@ -5,9 +5,6 @@
    $('.user-btn').hide();
    $('.reset-password').click(() => {});
    $('.add-user-btn').click(() => {});
-   $('#create-group-button').click(() => {
-    //  $('#modal2').modal('close');
-   });
    $('.forgot').click(() => {
      $('#modal1').modal('close');
    });
@@ -26,15 +23,4 @@
        $('#priority-level').css('color', 'red');
      }
    });
-   $('.dropdown-button').dropdown({
-     inDuration: 300,
-     outDuration: 525,
-     constrainWidth: true,
-     hover: true,
-     gutter: 0,
-     belowOrigin: false,
-     alignment: 'left',
-     stopPropagation: false
-   }
-  );
  });

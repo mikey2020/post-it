@@ -10,6 +10,8 @@ describe('UserGroup Model:', () => {
       should.exist(usergroup);
       should.exist(usergroup.userId);
       should.exist(usergroup.groupId);
+      usergroup.userId.should.equal(1);
+      usergroup.groupId.should.equal(3);
       done();
     });
   });

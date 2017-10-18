@@ -6,7 +6,7 @@ import Group from './Group.jsx';
 import { getUserGroups, setCurrentGroup } from '../../actions/groupActions';
 
 /**
- *  SigninForm class component
+ * SigninForm class component
  *
  * @class
  */

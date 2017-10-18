@@ -45,7 +45,7 @@ describe('Component', () => {
 
     it('should call componentDidMount when component is mounted', () => {
       sinon.spy(Sidebar.prototype, 'componentDidMount');
-      const enzymeWrapper = mount(<Sidebar {...mountProps} />);
+      mount(<Sidebar {...mountProps} />);
       expect(Sidebar.prototype.componentDidMount.calledOnce).toBe(true);
     });
 

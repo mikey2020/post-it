@@ -27,7 +27,7 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(true);
     });
 
-    it('should change on user input', () => {
+    it('should update props on user input', () => {
       wrapper.find('.username')
       .simulate('change', { target: { name: 'username', value: 'boruto' } });
       expect(wrapper.find('.username').prop('value')).toEqual('boruto');

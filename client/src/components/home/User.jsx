@@ -53,8 +53,15 @@ export class User extends React.Component {
    */
   onClick(event) {
     event.preventDefault();
-    this.setState({ userState: 'user added' });
-    this.props.addUserToGroup({ userId: this.props.userId },
+    this.setState(
+      {
+        userState: 'user added'
+      }
+    );
+    this.props.addUserToGroup(
+      {
+        userId: this.props.userId
+      },
     this.props.groupId);
   }
 
@@ -70,7 +77,12 @@ export class User extends React.Component {
     const { members } = this.props;
     Object.keys(members).forEach((member) => {
       if (members[member].username === user) {
-        this.setState({ userState: 'member', userStatus: true });
+        this.setState(
+          {
+            userState: 'member',
+            userStatus: true
+          }
+        );
       }
     });
   }

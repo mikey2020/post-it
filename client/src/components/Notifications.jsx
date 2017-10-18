@@ -7,12 +7,14 @@ import { getNotifications,
 const socket = io();
 
 /**
- * Create group form component
+ * Notifications component
+ *
  * @class
  */
 class Notifications extends React.Component {
     /**
      * @constructor
+     *
      * @param {Object} props
      */
   constructor(props) {
@@ -24,7 +26,7 @@ class Notifications extends React.Component {
       }
     });
   }
-    /**
+  /**
    * @returns {void}
    */
   componentDidMount() {
@@ -32,7 +34,7 @@ class Notifications extends React.Component {
       this.props.getNotifications();
     }
   }
-    /**
+  /**
    *
    * @returns {component} - renders a React component
    */

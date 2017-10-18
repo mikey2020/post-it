@@ -42,7 +42,7 @@ describe('Component', () => {
       expect(wrapper.find('form').exists()).toBe(false);
     });
 
-    it('should call onChange function when entering input', () => {
+    it('should call onChange function when user input changes', () => {
       const event = { target: { name: 'bat', value: 'man' } };
       const priorityEvent = { target: { priorityLevel: 5, value: 7 } };
       wrapper.find('.post-message').simulate('change', event);

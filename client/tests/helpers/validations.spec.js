@@ -1,10 +1,10 @@
 import should from 'should';
 import Validations from '../../Validations';
 
-describe('Test Input Validations Class', () => {
+describe('Input Validations Class', () => {
   describe('Sign Up Input validations', () => {
-    it(`should return 'Username is required' 
-    when there is no username provided`, (done) => {
+    it('should return `Username is required` when there is no username provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: '',
         password: 'pass',
@@ -16,8 +16,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it(`should return 'Password is required' 
-    when there is no password provided`, (done) => {
+    it('should return `Password is required` when there is no password provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
         password: '',
@@ -29,8 +29,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it(`should return 'Email is required' 
-      when there is no email provided`, (done) => {
+    it('should return `Email is required` when there is no email provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
         password: 'pass',
@@ -42,8 +42,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it(`should return 'Password do not match' 
-      when password and password confirmation are not the same`, (done) => {
+    it('should return `Password do not match` when password and password confirmation are not the same',
+    (done) => {
       const validate = new Validations();
       const mockData = { username: 'user',
         password: 'pass',
@@ -74,7 +74,7 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it('should return `username should not contain space` when username contins space',
+    it('should return `username should not contain space` when username contains space',
     (done) => {
       const validate = new Validations();
       const mockData = { username: 'sasuke uchiha',
@@ -111,7 +111,7 @@ describe('Test Input Validations Class', () => {
   });
 
   describe('Input validations', () => {
-    it('should return `This field is required` when input is not provided', 
+    it('should return `This field is required` when input is not provided',
     (done) => {
       const validate = new Validations();
       const mockData = { input: '' };
@@ -121,7 +121,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it('should return `Message is required` when message is not provided', (done) => {
+    it('should return `Message is required` when no message is not provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { message: '' };
       const { errors } = validate.input(mockData);
@@ -132,8 +133,8 @@ describe('Test Input Validations Class', () => {
   });
 
   describe('New password validations', () => {
-    it(`should return 'please enter verification code' 
-    when no verification code is provided `, (done) => {
+    it('should return `please enter verification code` when no verification code is provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { code: '' };
       const { errors } = validate.newPasswordInputs(mockData);
@@ -142,8 +143,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it(`should return 'New Password is required' 
-    when no new password is provided`, (done) => {
+    it('should return `New Password is required` when no new password is provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { newPassword: '' };
       const { errors } = validate.newPasswordInputs(mockData);
@@ -152,8 +153,8 @@ describe('Test Input Validations Class', () => {
       done();
     });
 
-    it(`should return 'Password Confirmation is required' 
-    when no new password confirmation is provided`, (done) => {
+    it('should return `Password Confirmation is required` when no new password confirmation is provided',
+    (done) => {
       const validate = new Validations();
       const mockData = { newPasswordConfirmation: '', newPassword: 'data' };
       const { errors } = validate.newPasswordInputs(mockData);

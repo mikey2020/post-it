@@ -2,49 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * @class
+ * @description - It renders flash message
+ *
+ * @param {Object} props
+ *
+ * @returns {void}
  */
-export class FlashMessage extends React.Component {
-  /**
-   * @constructor
-   *
-   * @returns {void}
-   *
-   * @param {Object} props - Props object
-   */
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
+const FlashMessage = (props) => {
+  const { id, text, type } = props.message;
+  const toastContent = text;
+  if (type === 'error') {
+    Materialize.toast(toastContent, 10000, 'red');
+    props.deleteFlashMessage(id);
+  } else {
+    Materialize.toast(toastContent, 3000, 'green');
+    props.deleteFlashMessage(id);
   }
-  /**
-   * @param {Object} event
-   *
-   * @returns {void}
-   *
-   * @description - A function that deletes a flash message
-   */
-  onClick(event) {
-    event.preventDefault();
-    this.props.deleteFlashMessage(this.props.message.id);
-  }
-  /**
-   * @returns {void}
-   */
-  render() {
-    const { id, text, type } = this.props.message;
-    const toastContent = text;
-    if (type === 'error') {
-      Materialize.toast(toastContent, 10000, 'red');
-      this.props.deleteFlashMessage(id);
-    } else {
-      Materialize.toast(toastContent, 3000, 'green');
-      this.props.deleteFlashMessage(id);
-    }
-    return (
-      <div />
-    );
-  }
-}
+  return (
+    <div />
+  );
+};
 
 
 FlashMessage.propTypes = {

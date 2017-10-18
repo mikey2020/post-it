@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import SigninForm from './signin/SigninForm.jsx';
 import { signOut } from '../actions/signinActions';
-import { getNotifications,
-  deleteNotification } from '../actions/notificationAction';
+import { deleteNotification } from '../actions/notificationAction';
 
 /**
  *  Header class component
@@ -28,6 +27,12 @@ export class Header extends React.Component {
 
     this.logout = this.logout.bind(this);
     this.clearNotifications = this.clearNotifications.bind(this);
+  }
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
+    $('.dropdown-button').dropdown();
   }
 
   /**
@@ -73,28 +78,11 @@ export class Header extends React.Component {
   render() {
     const { isAuthenticated } = this.props;
     const { showNotices } = this.state;
+    const showUserLinks = isAuthenticated ? '' : 'hide';
+    const showGuestLinks = isAuthenticated ? 'hide' : '';
+
     const userLinks = (
-      <div>
-        <ul id="dropdown1" className="dropdown-content">
-          <li>
-            <a
-              href=""
-              onClick={this.logout}
-              className="logout-button"
-              id="logout-button"
-            >Logout</a></li>
-          <li className="divider" />
-        </ul>
-        <ul id="mobile" className="dropdown-content">
-          <li>
-            <a
-              href=""
-              onClick={this.logout}
-              className=""
-              id="logout-button"
-            >Logout</a></li>
-          <li className="divider" />
-        </ul>
+      <div className={showUserLinks}>
         <nav>
           <div className="nav-wrapper light-blue">
             <a href="#!" className="brand-logo hide-on-med-and-down">PostIT</a>
@@ -115,10 +103,23 @@ export class Header extends React.Component {
                   className="dropdown-button"
                   href="#!"
                   data-activates="dropdown1"
+                  id="logout-button"
                 >
+
                   {this.props.username}
                   <i className="material-icons right">
-                  arrow_drop_down</i></a></li>
+                  arrow_drop_down</i></a>
+                <ul id="dropdown1" className="dropdown-content">
+                  <li>
+                    <a
+                      href=""
+                      onClick={this.logout}
+                      className="logout-button"
+                    >Logout</a></li>
+                  <li className="divider" />
+                </ul>
+              </li>
+
             </ul>
             <ul className="right hide-on-large-only show-on-small">
               <li>
@@ -133,9 +134,20 @@ export class Header extends React.Component {
                   className="dropdown-button"
                   href="#!"
                   data-activates="mobile"
+                  id="logout-button"
                 >{this.props.username}
                   <i className="material-icons right">
-                  arrow_drop_down</i></a></li>
+                  arrow_drop_down</i></a>
+                <ul id="mobile" className="dropdown-content">
+                  <li>
+                    <a
+                      href=""
+                      onClick={this.logout}
+                      className=""
+                    >Logout</a></li>
+                  <li className="divider" />
+                </ul>
+              </li>
             </ul>
           </div>
         </nav>
@@ -144,7 +156,7 @@ export class Header extends React.Component {
 
 
     const guestLinks = (
-      <nav>
+      <nav className={showGuestLinks}>
         <div className="nav-wrapper light-blue">
           <Link to="/" className="brand-logo">PostIT</Link>
           <ul className="right">
@@ -169,7 +181,8 @@ export class Header extends React.Component {
 
     return (
       <div className="row">
-        {isAuthenticated ? userLinks : guestLinks}
+        {guestLinks}
+        {userLinks}
         <SigninForm />
       </div>
     );
@@ -181,8 +194,7 @@ Header.propTypes = {
   username: PropTypes.string.isRequired,
   signOut: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.string).isRequired,
-  deleteNotification: PropTypes.func.isRequired,
-  getNotifications: PropTypes.func.isRequired
+  deleteNotification: PropTypes.func.isRequired
 };
 
 Header.contextTypes = {
@@ -196,4 +208,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
-{ signOut, deleteNotification, getNotifications })(Header);
+{ signOut, deleteNotification })(Header);

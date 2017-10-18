@@ -10,12 +10,12 @@
 
 
  const validate = new Validations();
- /**
- *  SigninForm class component
+/**
+ * SigninForm class component
  * @class
  */
  export class SigninForm extends React.Component {
-   /**
+  /**
    * @constructor
    *
    * @param {object} props -  inherit props from react class
@@ -34,7 +34,7 @@
      this.onBlur = this.onBlur.bind(this);
    }
 
-   /**
+  /**
    * @param {object} event - argument
    *
    * @returns {void}
@@ -42,7 +42,8 @@
    onChange(event) {
      this.setState({ [event.target.name]: event.target.value,
        invalid: false,
-       errors: {} });
+       errors: {}
+     });
    }
    /**
    * @param {object} event - argument
@@ -54,7 +55,7 @@
      if (this.isValid()) {
        this.setState({ errors: {}, isLoading: true });
        this.props.validateUser(this.state).then((res) => {
-         if (res.data.user.userToken) {
+         if (res.data.message && res.data.userToken) {
            this.context.router.push('/home');
            this.setState({ errors: {}, username: '', password: '' });
            $('#modal1').modal('close');
@@ -64,7 +65,8 @@
    }
    /**
     * @description - It calls a function,
-    *  that checks if user exists in the database
+    * that checks if user exists in the database
+    *
     * @param {Object} event
     *
     * @returns {void}
@@ -86,16 +88,16 @@
        });
      }
    }
-     /**
+  /**
+   * @description - It validates user's input
+   *
    * @returns {void}
    */
    isValid() {
      const { errors, isValid } = validate.signIn(this.state);
-
      if (!isValid) {
        this.setState({ errors });
      }
-
      return isValid;
    }
 
@@ -183,4 +185,5 @@
 
 
  export default connect(null, {
-   validateUser, addFlashMessage })(SigninForm);
+   validateUser, addFlashMessage
+ })(SigninForm);

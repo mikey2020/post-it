@@ -9,7 +9,8 @@ import { checkUserExists,
 
 const validate = new Validations();
 /**
- *  SignupForm class component
+ * ResetPassword component
+ *
  * @class
  */
 export class ResetPassword extends React.Component {
@@ -57,6 +58,7 @@ export class ResetPassword extends React.Component {
   }
   /**
    * @returns {void}
+   *
    * @param {Object} event - object
    */
   onBlur(event) {

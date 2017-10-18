@@ -22,7 +22,7 @@ describe('Component', () => {
       expect(wrapper.find('.group').exists()).toBe(true);
     });
 
-    it('should call onClick function when button with classname group is clicked', () => {
+    it('should call onClick function when button with classname `group` is clicked', () => {
       wrapper.find('.group').simulate('click',
       { preventDefault: () => {} });
       expect(wrapper.find('.group').props().onClick).toBeA('function');
