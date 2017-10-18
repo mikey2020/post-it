@@ -32,7 +32,7 @@ class GroupController {
   /**
    * @function createGroup
    *
-   * @description - it sends (username) created successfully
+   * @description - it creates a group
    *
    * @param {Object} request - request object sent to a route
    * @param {Object} response -  response object from the route
